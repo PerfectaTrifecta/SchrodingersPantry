@@ -1,6 +1,6 @@
 import React from 'react';
 import Search from './Search';
-const App = (): JSX.Element => {
+const App: React.FC = (): JSX.Element => {
   return (
     <div>
       {' '}
