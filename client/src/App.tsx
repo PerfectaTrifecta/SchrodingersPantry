@@ -1,9 +1,13 @@
 import React from 'react';
-
-const App = (): JSX.Element => {
+import Search from './Search';
+const App: React.FC = (): JSX.Element => {
   return (
-    <div> What up World </div>
-  )
+    <div>
+      {' '}
+      What up World
+      <Search />
+    </div>
+  );
 };
 
 export default App;
