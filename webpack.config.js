@@ -1,5 +1,8 @@
 const path = require('path');
+require('dotenv').config({ path: './.env' });
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, './client/index.tsx'),
@@ -13,6 +16,10 @@ module.exports = {
         exclude: /node_modules/,
          resolve: {
           extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+          fallback: {
+            "http": require.resolve("stream-http"),
+            "timers": require.resolve("timers-browserify"),
+          }
          },
       },
       { 
@@ -31,9 +38,14 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  
   plugins: [
     new HtmlWebpackPlugin({
         template: path.join(__dirname, "client/src/index.html"),
     }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
+    }),
+    new NodePolyfillPlugin(),
   ]
 };
