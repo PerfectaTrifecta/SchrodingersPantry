@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+interface SearchProps {
+  name: String; id: String; imgUrl: String
+}
 // import e from 'express';
 const Search = () => {
   const [ingredients, setIngredients] = useState([]);
   const [meals, setMeals] = useState<
-    Array<{ name: String; id: String; imgUrl: String }>
+    Array<SearchProps>
   >([]);
 
   const handleInput = (e) => {
@@ -17,11 +20,10 @@ const Search = () => {
 
   const searchRecipes = () => {
     axios
-      .get(`/routes/search/${ingredients}`)
-      .then((data<Array<{ name: String; id: String; imgUrl: String }>
-        >) => {
+      .get<AxiosResponse>(`/routes/search/${ingredients}`)
+      .then(({data}: AxiosResponse) => {
         console.log(data, 19);
-        setMeals(data);
+        setMeals(data: Array<SearchProps>);
       })
       .catch((err) => {
         console.error(err);
