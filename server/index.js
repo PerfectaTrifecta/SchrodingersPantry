@@ -6,6 +6,7 @@ const PORT = 4000;
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 const app = express();
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(DIST_DIR));
 

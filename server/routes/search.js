@@ -20,9 +20,9 @@ searchRouter.get('/:ingredients', (req, res) => {
   axios
     .request(options)
     .then((response) => {
-      console.log(response.data, 16);
+      console.log(response.data.meals, 16);
       res.status = 200;
-      res.send(res.data);
+      res.send(response.data.meals);
     })
     .catch((error) => {
       console.error(error);

@@ -6,6 +6,9 @@ import TextField from '@mui/material/TextField';
 // import e from 'express';
 const Search = () => {
   const [ingredients, setIngredients] = useState([]);
+  const [meals, setMeals] = useState<
+    Array<{ name: String; id: String; imgUrl: String }>
+  >([]);
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -15,8 +18,10 @@ const Search = () => {
   const searchRecipes = () => {
     axios
       .get(`/routes/search/${ingredients}`)
-      .then((data) => {
+      .then((data<Array<{ name: String; id: String; imgUrl: String }>
+        >) => {
         console.log(data, 19);
+        setMeals(data);
       })
       .catch((err) => {
         console.error(err);
@@ -42,6 +47,11 @@ const Search = () => {
           onChange={handleInput}
         />
       </Stack>
+      <div>
+        {meals.map((meal, i) => (
+          <div key={i}>{meal.strMeal} </div>
+        ))}
+      </div>
     </div>
   );
 };
