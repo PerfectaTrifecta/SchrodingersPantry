@@ -7,10 +7,8 @@ const App: React.FC = (): JSX.Element => {
   return (
    
     <div> 
-      <RSSFeed />
-    
-    What up World 
-  </div>
+      What up World 
+    </div>
   )
 };
 
