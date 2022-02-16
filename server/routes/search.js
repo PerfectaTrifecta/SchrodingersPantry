@@ -7,6 +7,9 @@ const searchRouter = Router();
 
 searchRouter.get('/:ingredients', (req, res) => {
   let { ingredients } = req.params;
+  //This is where we need to shape the input data to fit what the api expects.
+  ingredients = ingredients.replace(/[\s.;?%0-9]/g, '');
+  console.log(ingredients, 12);
   const options = {
     method: 'GET',
     url: 'https://themealdb.p.rapidapi.com/filter.php',

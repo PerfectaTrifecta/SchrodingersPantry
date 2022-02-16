@@ -3,12 +3,14 @@ import axios, { AxiosResponse } from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+
+//interface to handle the expected shape of data being returned from api.
 interface SearchProps {
   name: String; id: String; imgUrl: String
 }
 // import e from 'express';
 const Search = () => {
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredients, setIngredients] = useState<string>('');
   const [meals, setMeals] = useState<
     Array<SearchProps>
   >([]);
