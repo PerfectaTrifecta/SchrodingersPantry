@@ -7,7 +7,6 @@ const searchRouter = Router();
 
 searchRouter.get('/:ingredients', (req, res) => {
   let { ingredients } = req.params;
-  console.log(ingredients, 11);
   const options = {
     method: 'GET',
     url: 'https://themealdb.p.rapidapi.com/filter.php',
@@ -20,9 +19,8 @@ searchRouter.get('/:ingredients', (req, res) => {
   axios
     .request(options)
     .then((response) => {
-      console.log(response.data, 16);
       res.status = 200;
-      res.send(res.data);
+      res.send(response.data.meals);
     })
     .catch((error) => {
       console.error(error);
