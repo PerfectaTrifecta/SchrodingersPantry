@@ -41,7 +41,7 @@ interface CardProps {
 }
 
 //the search component should map over the results, creating a meal card for each recipe, 
-export default function MealCard({ recipe }: CardProps) {
+ const MealCard = ({ recipe }: CardProps) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
   //you only want to make an axios request for the meal that is selected, not for each meal card on the screen, wait until user clicks to assign, and use that recipes name to make the request by passing down the meal prop from state to the Search Youtube component
   const [meal, setMeal] = React.useState<string>('');//recipe.name
@@ -125,3 +125,4 @@ export default function MealCard({ recipe }: CardProps) {
      );
     }
 
+export default MealCard
