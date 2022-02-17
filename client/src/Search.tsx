@@ -20,7 +20,7 @@ const Search = () => {
     Array<SearchProps>
   >([]);
 
-  const handleInput = (e) => {
+  const handleInput = (e: any) => {
     e.preventDefault();
     setIngredients(e.target.value);
   };
@@ -37,7 +37,7 @@ const Search = () => {
       });
   };
 
-  const onSearch = (e) => {
+  const onSearch = (e: any) => {
     searchRecipes();
     e.target.reset;
   };
