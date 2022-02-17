@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { connectDB } = require('./db/index.ts');
 
 const app = express();
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
@@ -12,3 +13,4 @@ const PORT = 4000;
 
 router(app);
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+connectDB();
