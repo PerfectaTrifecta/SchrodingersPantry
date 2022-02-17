@@ -3,10 +3,15 @@ import axios, { AxiosResponse } from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import MealCard from './MealCard';
 
-//interface to handle the expected shape of data being returned from api.
 interface SearchProps {
-  name: String; id: String; imgUrl: String
+ meal: {
+  strMeal: String;
+  idMeal: String;
+  strMealThumb: String;
+  }
+
 }
 // import e from 'express';
 const Search = () => {
@@ -24,7 +29,7 @@ const Search = () => {
     axios
       .get<AxiosResponse>(`/routes/search/${ingredients}`)
       .then(({data}: AxiosResponse) => {
-        console.log(data, 19);
+        console.log(data, 32);
         setMeals(data: Array<SearchProps>);
       })
       .catch((err) => {
@@ -53,7 +58,8 @@ const Search = () => {
       </Stack>
       <div>
         {meals.map((meal, i) => (
-          <div key={i}>{meal.strMeal} </div>
+          <MealCard recipe={meal}/>
+          //<div key={i}>{meal.strMeal} </div>
         ))}
       </div>
     </div>
