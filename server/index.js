@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { connectDB } = require('./db/index.ts');
+const { connectDB } = require('./db/index.js');
 
 const app = express();
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
