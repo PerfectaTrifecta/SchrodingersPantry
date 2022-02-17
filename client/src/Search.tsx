@@ -6,19 +6,14 @@ import TextField from '@mui/material/TextField';
 import MealCard from './MealCard';
 
 interface SearchProps {
- meal: {
-  strMeal: String;
-  idMeal: String;
-  strMealThumb: String;
-  }
-
+  strMeal: string;
+  idMeal: string;
+  strMealThumb: string;
 }
 // import e from 'express';
 const Search = () => {
   const [ingredients, setIngredients] = useState<string>('');
-  const [meals, setMeals] = useState<
-    Array<SearchProps>
-  >([]);
+  const [meals, setMeals] = useState<Array<SearchProps>>([]);
 
   const handleInput = (e: any) => {
     e.preventDefault();
@@ -28,9 +23,8 @@ const Search = () => {
   const searchRecipes = () => {
     axios
       .get<AxiosResponse>(`/routes/search/${ingredients}`)
-      .then(({data}: AxiosResponse) => {
-        console.log(data, 32);
-        setMeals(data: Array<SearchProps>);
+      .then(({ data }: AxiosResponse) => {
+        setMeals(data);
       })
       .catch((err) => {
         console.error(err);
@@ -45,7 +39,7 @@ const Search = () => {
   return (
     <div>
       <h1>Search For A Recipe!</h1>
-      <Stack spacing={2} direction='row'>
+      <Stack spacing={2} direction='row' padding={2}>
         <Button variant='outlined' onClick={onSearch}>
           Search
         </Button>
@@ -58,8 +52,7 @@ const Search = () => {
       </Stack>
       <div>
         {meals.map((meal, i) => (
-          <MealCard recipe={meal}/>
-          //<div key={i}>{meal.strMeal} </div>
+          <MealCard recipe={meal} key={i} />
         ))}
       </div>
     </div>
