@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 const Search = () => {
   const [ingredients, setIngredients] = useState([]);
 
-  const handleInput = (e) => {
+  const handleInput = (e: any) => {
     e.preventDefault();
     setIngredients(e.target.value);
   };
@@ -23,7 +23,7 @@ const Search = () => {
       });
   };
 
-  const onSearch = (e) => {
+  const onSearch = (e: any) => {
     searchRecipes();
     e.target.reset;
   };

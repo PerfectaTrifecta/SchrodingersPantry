@@ -7,6 +7,7 @@ const App: React.FC = (): JSX.Element => {
   return (
    
     <div> 
+      <HomePage />
       What up World 
     </div>
   )

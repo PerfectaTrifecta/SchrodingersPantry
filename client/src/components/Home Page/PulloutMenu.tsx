@@ -39,7 +39,7 @@ const drawer = (
 return (
     <div>
       <CssBaseline />
-      <AppBar position="fixed" >
+      <AppBar position="static" >
         <Toolbar>
           <IconButton
             color="inherit"
