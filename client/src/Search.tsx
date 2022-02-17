@@ -1,29 +1,43 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import MealCard from './MealCard';
+
+interface SearchProps {
+ meal: {
+  strMeal: String;
+  idMeal: String;
+  strMealThumb: String;
+  }
+
+}
 // import e from 'express';
 const Search = () => {
   const [ingredients, setIngredients] = useState([]);
+  const [meals, setMeals] = useState<
+    Array<SearchProps>
+  >([]);
 
-  const handleInput = (e) => {
+  const handleInput = (e: any) => {
     e.preventDefault();
     setIngredients(e.target.value);
   };
 
   const searchRecipes = () => {
     axios
-      .get(`/routes/search/${ingredients}`)
-      .then((data) => {
-        console.log(data, 19);
+      .get<AxiosResponse>(`/routes/search/${ingredients}`)
+      .then(({data}: AxiosResponse) => {
+        console.log(data, 32);
+        setMeals(data: Array<SearchProps>);
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  const onSearch = (e) => {
+  const onSearch = (e: any) => {
     searchRecipes();
     e.target.reset;
   };
@@ -42,6 +56,12 @@ const Search = () => {
           onChange={handleInput}
         />
       </Stack>
+      <div>
+        {meals.map((meal, i) => (
+          <MealCard recipe={meal}/>
+          //<div key={i}>{meal.strMeal} </div>
+        ))}
+      </div>
     </div>
   );
 };
