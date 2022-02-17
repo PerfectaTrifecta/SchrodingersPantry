@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+
 const axios = require('axios');
 const router = require('./routes/index.js');
 require('dotenv').config();
@@ -9,6 +10,7 @@ const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(DIST_DIR));
+
 
 const PORT = 4000;
 

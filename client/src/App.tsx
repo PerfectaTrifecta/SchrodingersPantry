@@ -5,8 +5,9 @@ import RSSFeed from './components/rss/RSSFeedContainer';
 import Search from './Search';
 const App: React.FC = (): JSX.Element => {
   return (
-    <div>
+    <div> 
       What up World
+       <HomePage />
       <Search />
     </div>
   );
