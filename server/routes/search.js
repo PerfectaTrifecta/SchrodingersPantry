@@ -1,8 +1,6 @@
 const axios = require('axios').default;
 const { Router } = require('express');
 
-//options from rapid api example
-
 const searchRouter = Router();
 //This returns a list of meals by ingredients
 searchRouter.get('/:ingredients', (req, res) => {
@@ -57,6 +55,47 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
       ];
       res.status = 200;
       res.send(interfacedData);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+//This returns a list of meals depending on the time of day.
+const lunchCategories = ['chicken', 'pork', 'vegetarian', 'miscellaneous'];
+const dinnerCategories = ['beef', 'seafood', 'lamb', 'pasta'];
+let category;
+let currentTime = new Date();
+let hour = currentTime.getHours();
+if (hour > 5 && hour < 11) {
+  category = 'breakfast';
+} else if (hour > 11 && hour < 17) {
+  category =
+    lunchCategories[Math.floor(Math.random() * lunchCategories.length)];
+} else {
+  category =
+    dinnerCategories[Math.floor(Math.random() * dinnerCategories.length)];
+}
+
+searchRouter.get('/tod', (req, res) => {
+  console.log('its working', 82);
+
+  const options = {
+    method: 'GET',
+    url: 'https://themealdb.p.rapidapi.com/filter.php',
+    params: { c: category },
+    headers: {
+      'x-rapidapi-host': 'themealdb.p.rapidapi.com',
+      'x-rapidapi-key': '95d3a2e670msh83b8d187118d736p19835bjsn1790a24f2333',
+    },
+  };
+  axios
+    .request(options)
+    .then((response) => {
+      console.log(response.data.meals, 82);
+      res.status = 200;
+      res.send(response.data.meals);
     })
     .catch((error) => {
       console.error(error);

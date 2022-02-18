@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -11,9 +11,21 @@ interface SearchProps {
   strMealThumb: string;
 }
 // import e from 'express';
-const Search = () => {
+const Search: React.FC = () => {
   const [ingredients, setIngredients] = useState<string>('');
-  const [meals, setMeals] = useState<Array<SearchProps>>([]);
+  const [meals, setMeals] = useState<SearchProps[]>([]);
+
+  //get a mealcard rendered depending on the time of day on page load.
+  // useEffect(() => {
+  //   axios
+  //     .get<SearchProps[]>('/routes/search/tod')
+  //     .then(({ data }) => {
+  //       setMeals(data);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err, 99999999);
+  //     });
+  // }, []);
 
   const handleInput = (e: any) => {
     e.preventDefault();
