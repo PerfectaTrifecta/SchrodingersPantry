@@ -16,6 +16,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import VideoModal from './VideoModal';
 //import SearchYoutube from './SearchYoutube';
 
 
@@ -37,7 +38,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 //-----------------------------------------------------//
 
 interface CardProps {
-  recipe?: { strMeal: String, idMeal: String, strMealThumb: String}
+  recipe: { strMeal: String, idMeal: String, strMealThumb: String}
 }
 
 //the search component should map over the results, creating a meal card for each recipe, 
@@ -54,9 +55,12 @@ interface CardProps {
   // // set state of meal to the clicked cards title
   //   setMeal(event.target.value);
   // }
+  const handlePlayClick = () => {
+
+  }
 
   return (
-    <Card sx={{ maxWidth: 345 }} style={{
+    <Card sx={{ maxWidth: 575 }} style={{
       alignContent: "space around",
       justifyContent: "space-evenly",
     }} //{onClick={handleCardClick}}
@@ -77,7 +81,7 @@ interface CardProps {
       />
       <CardMedia
         component="img" 
-        height="194"
+        height="260"
         image={recipe ? `${recipe.strMealThumb}`:'' }
         alt={recipe ? `${recipe.strMeal}`:'' }
         // image for dish from api
@@ -97,10 +101,7 @@ interface CardProps {
           {/* allow users to send to friends */}
           <ShareIcon />
         </IconButton>
-        <IconButton aria-label="tutorial">
-          {/* allow users to play most relevant tutorial from youtube */}
-          <PlayCircleIcon />
-        </IconButton>
+        <VideoModal recipe={recipe}/>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -119,6 +120,7 @@ interface CardProps {
           </Typography>
 
           {/* <SearchYoutube meal={meal}/> */}
+          
         </CardContent>
       </Collapse>
     </Card>

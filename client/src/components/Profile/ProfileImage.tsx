@@ -3,7 +3,8 @@ import Box from '@mui/material/Box';
 
 const ProfileImage = () => {
   return (
-    <Box
+    
+   <Box 
       sx={{
         width: 300,
         height: 300,
@@ -15,7 +16,8 @@ const ProfileImage = () => {
       }}
     >
       Profile Image
-    </Box>
+    </Box> 
+    
   );
 };
 export default ProfileImage;
