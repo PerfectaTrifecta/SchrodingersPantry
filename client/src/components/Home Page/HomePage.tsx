@@ -8,7 +8,7 @@ const HomePage: React.FC = () => {
   return(
     <div>
       <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Schrodingers_cat.svg" width="200"/>
-      <PulloutMenu />
+      {/* <PulloutMenu /> */}
       {dummyData.map((recipeBox: any) => {
         let { title, user, image, recipe } = recipeBox;
         return (

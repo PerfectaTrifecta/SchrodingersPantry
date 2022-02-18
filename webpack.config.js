@@ -6,7 +6,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, './client/index.tsx'),
-  devtool: 'inline-source-map',
+  devtool: 'eval',
   mode: process.env.NODE_ENV || "development",
   module: {
     rules: [

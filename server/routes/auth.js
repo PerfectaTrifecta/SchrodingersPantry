@@ -4,4 +4,4 @@ const { GoogleStrategy } = require('../oauth/passport');
 
 const authRouter = Router();
 
-authRouter.get('/login/federated/google', passport.authenticate('google'));
+authRouter.get('/oauth2/redirect/google', passport.authenticate('google'));

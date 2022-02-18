@@ -9,6 +9,8 @@ passport.use(new GoogleStrategy({
   scope: ['profile']
 },
 (accessToken, refreshToken, profile, cb) => {
+
+  
   cb(err, profile);
 }));
 

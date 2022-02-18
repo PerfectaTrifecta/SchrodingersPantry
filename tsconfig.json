@@ -3,14 +3,17 @@
     "target": "es6",
     "jsx": "react" /* Specify what JSX code is generated. */,
     "module": "ES2015" /* Specify what module code is generated. */,
-    "rootDir": "./client" /* Specify the root folder within your source files. */,
+    // "rootDir": "./client" /* Specify the root folder within your source files. */,
     "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
     "sourceMap": true /* Create source map files for emitted JavaScript files. */,
     "outDir": "./dist" /* Specify an output folder for all emitted files. */,
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     "strict": true /* Enable all strict type-checking options. */,
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
+    "strictPropertyInitialization": false,             /* Check for class properties that are declared but not set in the constructor. */
+    "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the `checkJS` option to get errors from these files. */
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Projects */
@@ -23,12 +26,6 @@
 
     /* Language and Environment */
     // "lib": [],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
-<<<<<<< HEAD
-    "jsx": "react",                                /* Specify what JSX code is generated. */
-    "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
-=======
-    // "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
->>>>>>> bb2223edba752660f88041ed75451d136f3359e7
     // "emitDecoratorMetadata": true,                    /* Emit design-type metadata for decorated declarations in source files. */
     // "jsxFactory": "",                                 /* Specify the JSX factory function used when targeting React JSX emit, e.g. 'React.createElement' or 'h' */
     // "jsxFragmentFactory": "",                         /* Specify the JSX Fragment reference used for fragments when targeting React JSX emit e.g. 'React.Fragment' or 'Fragment'. */
@@ -38,12 +35,6 @@
     // "useDefineForClassFields": true,                  /* Emit ECMAScript-standard-compliant class fields. */
 
     /* Modules */
-<<<<<<< HEAD
-    "module": "ES2015",                                /* Specify what module code is generated. */
-    "rootDir": "./client",                                  /* Specify the root folder within your source files. */
-    "moduleResolution": "node",                       /* Specify how TypeScript looks up a file from a given module specifier. */
-=======
->>>>>>> bb2223edba752660f88041ed75451d136f3359e7
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     // "paths": {},                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
@@ -54,7 +45,6 @@
     // "noResolve": true,                                /* Disallow `import`s, `require`s or `<reference>`s from expanding the number of files TypeScript should add to a project. */
 
     /* JavaScript Support */
-    // "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the `checkJS` option to get errors from these files. */
     // "checkJs": true,                                  /* Enable error reporting in type-checked JavaScript files. */
     // "maxNodeModuleJsDepth": 1,                        /* Specify the maximum folder depth used for checking JavaScript files from `node_modules`. Only applicable with `allowJs`. */
 
@@ -91,7 +81,6 @@
     // "strictNullChecks": true,                         /* When type checking, take into account `null` and `undefined`. */
     // "strictFunctionTypes": true,                      /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
     // "strictBindCallApply": true,                      /* Check that the arguments for `bind`, `call`, and `apply` methods match the original function. */
-    "strictPropertyInitialization": false,             /* Check for class properties that are declared but not set in the constructor. */
     // "noImplicitThis": true,                           /* Enable error reporting when `this` is given the type `any`. */
     // "useUnknownInCatchVariables": true,               /* Type catch clause variables as 'unknown' instead of 'any'. */
     // "alwaysStrict": true,                             /* Ensure 'use strict' is always emitted. */
