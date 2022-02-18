@@ -11,17 +11,16 @@ const App: React.FC = (): JSX.Element => {
   const dummy = {
     username: 'Keith',
     aboutMe: 'Yeeeeeee Yeeeeee yeyeyeyeye',
-    creations: ["everyone", "wanted", 'to know', 'what i would do', 'if i DIDNT win'],
-    favorites: ['um', 'ig', 'well', 'nerver', 'know']
-
+    creations: ['um', 'ig', 'well', 'nerver', 'know'],
+    favorites: ["everyone", "wanted", 'to know', 'what i would do', 'if i DIDNT win']
   }
   return (
     <div> 
       <PulloutMenu />
        {/* <HomePage />
       <Search /> */}
-      <CreateRecipeForm />
-      {/* <ProfilePage user={dummy}/> */}
+      {/* <CreateRecipeForm /> */}
+      <ProfilePage user={dummy}/>
     </div>
   );
 };

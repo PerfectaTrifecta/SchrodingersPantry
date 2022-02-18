@@ -19,7 +19,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import Box from '@mui/material/Box';
 import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
-import Favorite from './Favorites';
+import Favorite from './Favorite';
 import Creation from './Creation';
 //import SearchYoutube from './SearchYoutube';
 

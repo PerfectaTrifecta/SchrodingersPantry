@@ -4,6 +4,8 @@
 //display a container with links to recipe view
 import  React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
+import { orange } from '@mui/material/colors';
+import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 
 
@@ -24,7 +26,11 @@ const Creation = ( { creation } : CreationProps) => {
         opacity: [0.9, 0.8, 0.7],
       },
     }}
-  >{creation}</Box>
+  >
+    <Avatar sx={{ bgcolor: orange[500], width: 28, height: 28 }} aria-label="recipe">
+  {creation.slice(0,1)}
+ </Avatar>
+    {creation}</Box>
       )
 
 }
