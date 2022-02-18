@@ -11,6 +11,7 @@ const User = sql.define('users', {
     allowNull: false,
     primaryKey: true
   },
+  name: DataTypes.STRING,
   preference: DataTypes.STRING
 });
 
@@ -154,7 +155,7 @@ const Recipe_Tag = sql.define('recipe_tags', {
   }
 });
 
-const images = sql.define('images', {
+const Image = sql.define('images', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -170,10 +171,20 @@ const images = sql.define('images', {
   img: DataTypes.STRING
 })
 
-sql.sync()
+sql.sync({ alter: true })
   .then(() => console.log('Models synced!'))
   .catch(err => console.error(err));
 
 module.exports = {
-  sql
+  sql,
+  User,
+  Recipe,
+  Bookmark,
+  User_Bookmark,
+  Favorite,
+  Comment,
+  Vote,
+  Tag,
+  Recipe_Tag,
+  Image
 }
