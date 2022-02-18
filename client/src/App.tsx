@@ -8,7 +8,6 @@ import ProfilePage from './components/Profile/ProfilePage';
 import VideoModal from './components/VideoModal';
 import { Route, Switch, Link } from 'react-router-dom';
 
-
 const App: React.FC = (): JSX.Element => {
   return (
     <div>
@@ -30,8 +29,8 @@ const App: React.FC = (): JSX.Element => {
           {/* <ProfilePage /> needs props before it works!*/}
         </Route>
       </Switch>
+
     </div>
   );
 };
-
 export default App;
