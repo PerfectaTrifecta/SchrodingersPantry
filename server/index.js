@@ -11,10 +11,9 @@ const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(DIST_DIR));
 
-
 const PORT = 4000;
 
 app.use(express.json());
 
-router(app);
+app.use(router);
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

@@ -1,6 +1,5 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -39,7 +38,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 //-----------------------------------------------------//
 
 interface CardProps {
-  recipe?: { strMeal: string; idMeal: string; strMealThumb: string };
+  recipe: { strMeal: string; idMeal: string; strMealThumb: string };
 }
 
 //interface for returned recipe
@@ -47,6 +46,8 @@ interface RecipeProps {
   strInstructions: string;
   id: string;
   strYoutube: string;
+  strCategory: string;
+  strArea: string;
 }
 
 //the search component should map over the results, creating a meal card for each recipe,
@@ -56,25 +57,14 @@ const MealCard = ({ recipe }: CardProps) => {
   meal card on the screen, wait until user clicks to assign, and use that recipes name to
    make the request by passing down the meal prop from state to the Search Youtube component*/
 
-  const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([
-    {
-      strInstructions: 'use a spatula dude',
-      id: '12345',
-      strYoutube: 'nope',
-    },
-  ]); //recipe
+  const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
 
   const getRecipeById = () => {
-    console.log(recipe?.idMeal, 60);
     const { idMeal } = recipe;
     axios
       .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
       .then(({ data }) => {
-        console.log(data, 66);
         setMealRecipe(data);
-      })
-      .then(() => {
-        console.log(mealRecipe, 70);
       })
       .catch((err) => {
         console.error(err);
@@ -82,24 +72,27 @@ const MealCard = ({ recipe }: CardProps) => {
   };
 
   const handleExpandClick = () => {
-    console.log(expanded);
     setExpanded(!expanded);
-    if (!expanded) {
-      getRecipeById();
-    }
   };
+
+  useEffect(() => {
+    getRecipeById();
+  }, []);
 
   // const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
   // // set state of meal to the clicked cards title
   //   setMeal(event.target.value);
   // }
 
-  return (
+  return !mealRecipe[0] ? null : (
     <Card
       sx={{ maxWidth: 345 }}
       style={{
         alignContent: 'space around',
         justifyContent: 'space-evenly',
+        margin: '16px',
+        maxWidth: '600px',
+        width: '90%',
       }} //{onClick={handleCardClick}}
     >
       <CardHeader
@@ -125,7 +118,7 @@ const MealCard = ({ recipe }: CardProps) => {
       />
       <CardContent>
         <Typography variant='body2' color='text.secondary'>
-          bloop
+          {mealRecipe[0].strArea} • {mealRecipe[0].strCategory}
           {/* recipe.description*/}
         </Typography>
       </CardContent>
@@ -151,7 +144,11 @@ const MealCard = ({ recipe }: CardProps) => {
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>
           <Typography paragraph>Instructions: </Typography>
-          <Typography paragraph>{mealRecipe[0].strInstructions}</Typography>
+          {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
+            <Typography paragraph key={p + i}>
+              {p}
+            </Typography>
+          ))}
 
           {/* <SearchYoutube meal={meal}/> */}
         </CardContent>
