@@ -19,8 +19,6 @@ npm run build
 ```
 Create a database with PostgreSQL named 'pantry'. The models in server/db/index will sync when the server starts.
 
-## Server Side
-
 ## Tech Stack
 
 1. Express Server (4.17.2)
