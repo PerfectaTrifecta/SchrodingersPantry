@@ -13,12 +13,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom'
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 
 }));
 const PulloutMenu: React.FC = () => {
-  const categories = ["Profile", "Find a Recipe", "The Feed", "Sign Out"]
+  const categories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/login"]
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -28,11 +29,17 @@ function handleDrawerToggle() {
 const drawer = (
     <div>
       <List>
-        {categories.map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        {categories.map((text, index) => {
+          if(index % 2 === 0){
+            return (
+            <Link to={categories[index + 1]}>
+            <ListItem button key={text}>
+              <ListItemText primary={text} />
+            </ListItem>
+            </Link>
+            )
+          }
+        })}
       </List>
     </div>
   );
