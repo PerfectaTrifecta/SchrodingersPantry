@@ -7,8 +7,7 @@ const sql = new Sequelize('pantry', 'postgres', 'pos$gres$', {
 
 const User = sql.define('users', {
   id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: DataTypes.STRING,
     primaryKey: true
   },
   name: DataTypes.STRING,
@@ -42,7 +41,7 @@ const User_Bookmark = sql.define('user_bookmark', {
     primaryKey: true
   },
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     references: {
       model: User,
       key: 'id'
@@ -64,7 +63,7 @@ const Favorite = sql.define('favorites', {
     primaryKey: true
   },
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     references: {
       model: User,
       key: 'id'
@@ -86,7 +85,7 @@ const Comment = sql.define('comments', {
     primaryKey: true
   },
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     references: {
       model: User,
       key: 'id'
@@ -109,7 +108,7 @@ const Vote = sql.define('votes', {
     primaryKey: true
   },
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     references: {
       model: User,
       key: 'id'
@@ -171,7 +170,7 @@ const Image = sql.define('images', {
   img: DataTypes.STRING
 })
 
-sql.sync({ alter: true })
+sql.sync({ alter: true }) //change back to alter before pushing
   .then(() => console.log('Models synced!'))
   .catch(err => console.error(err));
 

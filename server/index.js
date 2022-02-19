@@ -27,13 +27,13 @@ app.use(passport.session());
 app.use(passport.authenticate('session'));
 
 passport.serializeUser(function(user, cb) {
-  console.log('serialize?');
+  // console.log(user, 'serialize');
   cb(null, user);
 
 });
 
 passport.deserializeUser(function(user, cb) {
-  console.log('deserialize?');
+  // console.log(user, 'deserialize');
   cb(null, user);
  
 });

@@ -9,10 +9,10 @@ authRouter.get('/google', passport.authenticate('google', {scope: ['profile']}),
 });
 
 authRouter.get('/google/callback', passport.authenticate('google', { 
-  successRedirect: '/',
   failureRedirect: '/logout'
 }), (req, res) => {
-  console.log('/google/callback called')
+  console.log('/google/callback called', req.session);
+  res.redirect('/');
 });
 
 authRouter.post('/logout', (req, res) => {

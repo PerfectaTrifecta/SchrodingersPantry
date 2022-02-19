@@ -10,13 +10,16 @@ passport.use(new GoogleStrategy({
 },
 (accessToken, refreshToken, profile, cb) => {
   //find or create the user
-  // console.log(profile, 'passport 13');
-  // User.findOrCreate({
-  //   where: { id: profile.id}
-  // })
-  // .then((user) => {
+  console.log('passport 13');
+  User.findOrCreate({
+    where: { id: profile.id},
+    defaults: { name: profile.displayName}
+  })
+  .then((user) => {
+    console.log(user[0], '19?');
     cb(null, profile);
-  // })
+  })
+  .catch(err => console.log(err, 'passport 21'));
 }));
 
 module.exports = {
