@@ -38,14 +38,14 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 //-----------------------------------------------------//
 
 interface CardProps {
-  recipe: { strMeal: String, idMeal: String, strMealThumb: String}
+  recipe: { strMeal: string, idMeal: String, strMealThumb: String}
 }
 
 //the search component should map over the results, creating a meal card for each recipe, 
  const MealCard = ({ recipe }: CardProps) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
   //you only want to make an axios request for the meal that is selected, not for each meal card on the screen, wait until user clicks to assign, and use that recipes name to make the request by passing down the meal prop from state to the Search Youtube component
-  const [meal, setMeal] = React.useState<string>('');//recipe.name
+  const [meal, setMeal] = React.useState<string>(``);//recipe.name
   const handleExpandClick = () => {
     console.log(expanded);
     setExpanded(!expanded);
@@ -55,9 +55,7 @@ interface CardProps {
   // // set state of meal to the clicked cards title
   //   setMeal(event.target.value);
   // }
-  const handlePlayClick = () => {
-
-  }
+ 
 
   return (
     <Card sx={{ maxWidth: 575 }} style={{
@@ -101,7 +99,7 @@ interface CardProps {
           {/* allow users to send to friends */}
           <ShareIcon />
         </IconButton>
-        <VideoModal recipe={recipe}/>
+        <VideoModal mealName={recipe.strMeal} />
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

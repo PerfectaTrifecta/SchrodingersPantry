@@ -18,7 +18,7 @@ const App: React.FC = (): JSX.Element => {
   const bummy = "shtupid";
   return (
     <div> 
-      <PulloutMenu />
+      {/* <PulloutMenu /> */}
        {// <HomePage />
        }
       <Search  /> 
