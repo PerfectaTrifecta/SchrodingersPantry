@@ -38,8 +38,8 @@ passport.deserializeUser(function(user, cb) {
  
 });
 
-router(app);
 
+app.use(router);
 const PORT = 4000;
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(DIST_DIR, 'index.html'))

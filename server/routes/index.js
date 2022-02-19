@@ -3,7 +3,8 @@ const { authRouter } = require('./auth.js')
 
 /*This is where we organize the endpoints that we use to call functions in the
 associated route file.*/
-module.exports = (app) => {
-  app.use('/routes/search/', searchRouter),
-  app.use('/', authRouter)
-};
+
+const routes = Router();
+routes.use('/routes/search', searchRouter);
+routes.use('/', authRouter);
+module.exports = routes;

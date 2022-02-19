@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import PulloutMenu from './PulloutMenu';
-// import dummyData from "./DummyData.js";
+import dummyData from "./DummyData.js";
 import { imageListClasses } from '@mui/material';
 
 const HomePage: React.FC = () => {
   return (
     <div>
-      <img
-        src='https://upload.wikimedia.org/wikipedia/commons/9/91/Schrodingers_cat.svg'
-        width='200'
-      />
-      <PulloutMenu />
 
-      {/* {dummyData.map((recipeBox: any) => {
+      {dummyData.map((recipeBox: any) => {
         let { title, user, image, recipe } = recipeBox;
         return (
           <div>
@@ -26,7 +21,7 @@ const HomePage: React.FC = () => {
             </aside>
           </div>
         );
-      })} */}
+      })}
     </div>
   );
 };

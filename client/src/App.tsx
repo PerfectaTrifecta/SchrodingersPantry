@@ -7,33 +7,32 @@ import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import VideoModal from './components/VideoModal';
 import Login from './Login'
+import { Route, Switch, Link } from 'react-router-dom';
 
 const App: React.FC = (): JSX.Element => {
-  const dummy = {
-    username: 'Keith',
-    aboutMe: 'Yeeeeeee Yeeeeee yeyeyeyeye',
-    creations: ['um', 'ig', 'well', 'nerver', 'know'],
-    favorites: [
-      'everyone',
-      'wanted',
-      'to know',
-      'what i would do',
-      'if i DIDNT win',
-    ],
-  };
-  const bummy = 'shtupid';
   return (
     <div>
       <Login />
-      {/* <PulloutMenu /> */}
-      {
-        <HomePage />
-      }
-      {/* <Search /> */}
-      {/* <CreateRecipeForm /> */}
-      {/* <ProfilePage user={dummy}/> */}
+      <Link to={'/'}>
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg" width='200' />
+      </Link>
+      <PulloutMenu />
+      <Switch>
+        <Route exact path='/'>
+          <HomePage />
+        </Route>
+        <Route path="/recipe_finder">
+          <Search />
+        </Route>
+        <Route path='/rss'>
+          <RSSFeed />
+        </Route>
+        <Route path='/profile'>
+          {/* <ProfilePage /> needs props before it works!*/}
+        </Route>
+      </Switch>
+
     </div>
   );
 };
-
 export default App;
