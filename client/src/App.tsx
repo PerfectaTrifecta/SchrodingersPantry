@@ -27,9 +27,9 @@ const App: React.FC = (): JSX.Element => {
       <Login />
       {/* <PulloutMenu /> */}
       {
-        // <HomePage />
+        <HomePage />
       }
-      <Search />
+      {/* <Search /> */}
       {/* <CreateRecipeForm /> */}
       {/* <ProfilePage user={dummy}/> */}
     </div>

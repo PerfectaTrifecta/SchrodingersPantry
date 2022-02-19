@@ -72,14 +72,14 @@ return (
             {drawer}
           </Drawer>
         </Hidden>
-<Hidden xsDown implementation="css">
+{/* <Hidden xsDown implementation="css">
           <Drawer
             variant="permanent"
           >
             <div />
             {drawer}
           </Drawer>  
-        </Hidden>
+        </Hidden> */}
       </nav>
       <div>
         <div />
