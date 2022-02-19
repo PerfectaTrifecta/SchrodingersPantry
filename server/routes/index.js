@@ -1,5 +1,6 @@
 const { searchRouter } = require('./search.js');
-const { authRouter } = require('./auth.js')
+const { authRouter } = require('./auth.js');
+const { Router } = require('express');
 
 /*This is where we organize the endpoints that we use to call functions in the
 associated route file.*/
