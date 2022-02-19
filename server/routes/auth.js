@@ -12,7 +12,7 @@ authRouter.get('/login', (req, res) => {
 
 });
 
-authRouter.get('/login', (req, res) => {
+authRouter.get('/callback', (req, res) => {
 
 });
 
