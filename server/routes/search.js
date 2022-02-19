@@ -3,7 +3,7 @@ const { Router } = require('express');
 
 const searchRouter = Router();
 //This returns a list of meals by ingredients
-searchRouter.get('/:ingredients', (req, res) => {
+searchRouter.get('/ingredients/:ingredients', (req, res) => {
   let { ingredients } = req.params;
   //This is where we need to shape the input data to fit what the api expects, just in case the user puts in dumb stuff.
   ingredients = ingredients.replace(/[\s.;?%0-9]/g, '');
@@ -42,16 +42,14 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
   };
   axios
     .request(options)
-    .then((response) => {
-      const { meals } = response.data;
+    .then(({ data: { meals } }) => {
       /*Need to send what the front end expects, so we pull out the properties
       from the response that we need here and send it on it's merry way */
+      const { strInstructions, id, strYoutube, strCategory, strArea } =
+        meals[0];
+
       const interfacedData = [
-        {
-          strInstructions: meals[0].strInstructions,
-          id: meals[0].idMeal,
-          strYoutube: meals[0].strYoutube,
-        },
+        { strInstructions, id, strYoutube, strCategory, strArea },
       ];
       res.status = 200;
       res.send(interfacedData);
@@ -79,8 +77,6 @@ if (hour > 5 && hour < 11) {
 }
 
 searchRouter.get('/tod', (req, res) => {
-  console.log('its working', 82);
-
   const options = {
     method: 'GET',
     url: 'https://themealdb.p.rapidapi.com/filter.php',
@@ -93,7 +89,6 @@ searchRouter.get('/tod', (req, res) => {
   axios
     .request(options)
     .then((response) => {
-      console.log(response.data.meals, 82);
       res.status = 200;
       res.send(response.data.meals);
     })
