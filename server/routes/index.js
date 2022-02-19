@@ -5,5 +5,5 @@ const { authRouter } = require('./auth.js')
 associated route file.*/
 module.exports = (app) => {
   app.use('/routes/search/', searchRouter);
-  app.use('/routes/auth/', authRouter);
+  app.use('/auth/', authRouter);
 };

@@ -1,19 +1,18 @@
 const axios = require('axios').default;
 const { Router } = require('express');
-const dotenv = require('dotenv');
-dotenv.config()
-
-let spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
-let spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const passport = require('passport');
 
 const authRouter = Router();
 
-authRouter.get('/login', (req, res) => {
+authRouter.get('/spotify/login', passport.authenticate('spotify', {
+  scope: ['streaming', 'user-read-email', 'user-read-private']
+}));
 
-});
-
-authRouter.get('/callback', (req, res) => {
-
+authRouter.get('/spotify/callback', 
+  passport.authenticate('spotify', { failureRedirect: '/' }),
+function(req, res) {
+  // Successful authentication, redirect home.
+  console.log(res);;
 });
 
 module.exports = { authRouter };
