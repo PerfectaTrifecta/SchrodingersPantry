@@ -1,12 +1,14 @@
 const axios = require('axios').default;
 const { Router } = require('express');
 
+
 const UserRouter = Router();
+//require User Model, sequelize
 
 //on User post of image
 
 //const CLOUDINARY_API_KEY = process.env;
-UserRouter.post('/:userId', (req, res) => {
+UserRouter.post('/profile', (req, res) => {
   //take userID from req.params and file from req.body
   const { userId } = req.params, file = req.body;
   //make axios post request with file, get back secret to store in database
@@ -25,7 +27,7 @@ UserRouter.post('/:userId', (req, res) => {
 
 //on User's return to profile page
 
-UserRouter.get('/:userId', (req, res) => {
+UserRouter.get('/profile', (req, res) => {
   const { userId } = req.params;
   //search database for user with that id (SEQUELIZE POSTGRES syntax)
   //get the cloudinary secret ID for their image
@@ -34,6 +36,8 @@ UserRouter.get('/:userId', (req, res) => {
     .then((data) => {
       //take the file from data
       //send the file with a 200 status
+      res.status = 200;
+      res.send(data);
     })
     .catch((err) => {
       console.error(err);
@@ -42,3 +46,5 @@ UserRouter.get('/:userId', (req, res) => {
     })
 
 })
+
+module.exports = { UserRouter };

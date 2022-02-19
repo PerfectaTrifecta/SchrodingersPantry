@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './src/App';
 import * as _ from 'lodash';
 import { VideoContextProvider } from './src/VideoContext';
+import { UserContextProvider } from './src/UserContext';
 
 ReactDOM.render(
-<VideoContextProvider>
-  <App />
-</VideoContextProvider>, document.getElementById('app'));
+  <UserContextProvider>
+    <VideoContextProvider>
+      <App />
+    </VideoContextProvider>
+  </UserContextProvider>, document.getElementById('app'));
