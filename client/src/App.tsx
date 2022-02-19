@@ -6,13 +6,11 @@ import RSSFeed from './components/rss/RSSFeedContainer';
 import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import VideoModal from './components/VideoModal';
-import Login from './Login'
 import { Route, Switch, Link } from 'react-router-dom';
 
 const App: React.FC = (): JSX.Element => {
   return (
     <div>
-      <Login />
       <Link to={'/'}>
         <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg" width='200' />
       </Link>

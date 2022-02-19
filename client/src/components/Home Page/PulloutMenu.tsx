@@ -12,8 +12,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import Login from '../Login';
 import axios from 'axios';
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -29,7 +31,7 @@ const PulloutMenu: React.FC = () => {
   }
 
   const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/logout"];
-  const outCategories = ["Sign In", "/google", "Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
+  const outCategories = ["Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -65,18 +67,29 @@ const PulloutMenu: React.FC = () => {
           <List>
             {inCategories.map((text, index) => {
               if(index % 2 === 0){
-                return (
-                  <Link to={inCategories[index + 1]}>
-                    <ListItem button key={text}>
-                    <ListItemText primary={text} />
-                    </ListItem>
-                  </Link>
-                )
+                if(text === "Sign Out") {
+                  return (
+                    <Button onClick={logout} >
+                      <ListItem button key={text}>
+                      <ListItemText primary={text} />
+                      </ListItem>
+                    </Button>
+                  )     
+                } else {
+                  return (
+                    <Link to={inCategories[index + 1]}>
+                     <ListItem button key={text}>
+                     <ListItemText primary={text} />
+                     </ListItem>
+                    </Link>
+                  )       
+                }
               }
             })}
           </List>
         ) : (
           <List>
+            <Login />
             {outCategories.map((text, index) => {
               if(index % 2 === 0){
                 return (

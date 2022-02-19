@@ -1,4 +1,4 @@
-{ "include": ["client/**/**/*", "server/**/*"],
+{ "include": ["client/**/*", "server/**/*"],
   "compilerOptions": {
     "target": "es6",
     "jsx": "react" /* Specify what JSX code is generated. */,
