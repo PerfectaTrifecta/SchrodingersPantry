@@ -15,9 +15,10 @@ function(req, res) {
   // Successful authentication, redirect home.
   console.log(req.user, 17);
   accessToken = req.user;
+  res.cookie(accessToken);
   res.redirect('/');
 });
-console.log(accessToken, 20);
+// console.log(accessToken, 20);
 authRouter.get('/token', (req, res) => {
   console.log(accessToken, 21);
   res.json(

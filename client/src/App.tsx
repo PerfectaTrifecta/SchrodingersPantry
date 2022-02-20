@@ -1,29 +1,36 @@
 import React, { useState, useEffect} from 'react';
 import Search from './Search';
 import Login from './spotify/Login';
-// import WebPlayback from './spotify/WebPlayback';
+import WebPlayback from './spotify/WebPlayback';
+import axios from 'axios'
+
+interface TokenValue {
+  token: String
+}
 
 const App: React.FC = (): JSX.Element => {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(undefined);
+  
 
   useEffect(() => {
 
     async function getToken() {
-      const response = await fetch('/auth/token');
-      const json = await response.json();
-      setToken(json.access_token);
+      const response = axios.get('/auth/token').then(res => {
+        setToken(res.data.accessToken)
+      });
+      // setToken(json.access_token);
+
     }
 
     getToken();
-
   }, []);
+  
   return (
     <div>
       {' '}
       What up World
       {/* <Search /> */}
-      <Login/>
-        {/* { (token === '') ? <Login/> : <WebPlayback token={token} /> } */}
+         { token === undefined ? <Login/> : <WebPlayback token={token}/> }
 
     </div>
   );
