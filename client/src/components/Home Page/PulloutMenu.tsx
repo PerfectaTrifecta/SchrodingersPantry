@@ -21,40 +21,25 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 
 }));
-const PulloutMenu: React.FC = () => {
-  interface userProps {
+
+type Props = {
+  user: {
     createdAt: string;
     id: string;
     name: string;
     preference: string;
     updatedAt: string;
-  }
+  },
+  logout: () => void
+}
+
+const PulloutMenu: React.FC<Props> = ({ user, logout }) => {
 
   const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/logout"];
   const outCategories = ["Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [user, setUser] = useState<userProps | null>(null);
-
-  function getUser() {
-    if (!user) {
-      axios.get('/user')
-        .then(({ data }) => {
-          console.log(data[0], 'pullout 34');
-          setUser(data[0]);
-        })
-        .catch(err => console.error('error pullout 38', err))
-    }
-  }
-
-  function logout() {
-    axios.get('/logout')
-      .then(() => {
-        setUser(null);
-      })
-      .catch(err => console.error('error pullout 47', err));
-  }
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen)
@@ -129,7 +114,6 @@ const PulloutMenu: React.FC = () => {
       <nav>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
-          {getUser()}
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -161,9 +145,9 @@ const PulloutMenu: React.FC = () => {
     </div>
   );
 }
-PulloutMenu.propTypes = {
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  container: PropTypes.object,
-};
+// PulloutMenu.propTypes = {
+//   // Injected by the documentation to work in an iframe.
+//   // You won't need it on your project.
+//   container: PropTypes.object,
+// };
 export default PulloutMenu;

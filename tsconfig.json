@@ -14,6 +14,7 @@
     "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
     "strictPropertyInitialization": false,             /* Check for class properties that are declared but not set in the constructor. */
     "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the `checkJS` option to get errors from these files. */
+    "strictNullChecks": false,                         /* When type checking, take into account `null` and `undefined`. */
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Projects */
@@ -78,7 +79,6 @@
 
     /* Type Checking */
     // "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied `any` type.. */
-    // "strictNullChecks": true,                         /* When type checking, take into account `null` and `undefined`. */
     // "strictFunctionTypes": true,                      /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
     // "strictBindCallApply": true,                      /* Check that the arguments for `bind`, `call`, and `apply` methods match the original function. */
     // "noImplicitThis": true,                           /* Enable error reporting when `this` is given the type `any`. */

@@ -1,5 +1,7 @@
+require('dotenv').config()
+const { PSQL_PASSWORD } = process.env;
 const { Sequelize, DataTypes } = require('sequelize');
-const sql = new Sequelize('pantry', 'postgres', 'pos$gres$', {
+const sql = new Sequelize('pantry', 'postgres', PSQL_PASSWORD, {
   host: 'localhost',
   dialect: 'postgres',
   logging: false
@@ -19,6 +21,13 @@ const Recipe = sql.define('recipes', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true
+  },
+  user_id: {
+    type: DataTypes.STRING,
+    references: {
+      model: User,
+      key: 'id'
+    }
   },
   text: DataTypes.STRING,
   vote_count: DataTypes.INTEGER,
