@@ -2,48 +2,48 @@ import React, { useState, useEffect } from 'react';
 
 
 
-function WebPlayback(props) {
-  const [player, setPlayer] = useState(undefined);
-  useEffect(() => {
+// function WebPlayback(props) {
+//   const [player, setPlayer] = useState(undefined);
+//   useEffect(() => {
 
-    const script = document.createElement("script");
-    script.src = "https://sdk.scdn.co/spotify-player.js";
-    script.async = true;
+//     const script = document.createElement("script");
+//     script.src = "https://sdk.scdn.co/spotify-player.js";
+//     script.async = true;
 
-    document.body.appendChild(script);
+//     document.body.appendChild(script);
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
+//     window.onSpotifyWebPlaybackSDKReady = () => {
 
-        const player = new window.Spotify.Player({
-            name: 'Web Playback SDK',
-            getOAuthToken: cb => { cb(props.token); },
-            volume: 0.5
-        });
+//         const player = new window.Spotify.Player({
+//             name: 'Web Playback SDK',
+//             getOAuthToken: cb => { cb(props.token); },
+//             volume: 0.5
+//         });
 
-        setPlayer(player);
+//         setPlayer(player);
 
-        player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-        });
+//         player.addListener('ready', ({ device_id }) => {
+//             console.log('Ready with Device ID', device_id);
+//         });
 
-        player.addListener('not_ready', ({ device_id }) => {
-            console.log('Device ID has gone offline', device_id);
-        });
+//         player.addListener('not_ready', ({ device_id }) => {
+//             console.log('Device ID has gone offline', device_id);
+//         });
 
 
-        player.connect();
+//         player.connect();
 
-    };
-}, []);
-   return (
+//     };
+// }, []);
+//    return (
       
-        <div className="container">
-           <div className="main-wrapper">
+//         <div className="container">
+//            <div className="main-wrapper">
 
-            </div>
-        </div>
+//             </div>
+//         </div>
       
-    );
-}
+//     );
+// }
 
-export default WebPlayback
+// export default WebPlayback

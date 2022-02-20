@@ -19,9 +19,11 @@ module.exports = passport => {
         passport.serializeUser(function (user, done) {
           done(null, user);
         });
+        passport.deserializeUser(function (user, done) {
+          done(null, user);
+        });
       
        
-        console.log(accesToken, 24);
         process.nextTick(function () {
           // To keep the example simple, the user's spotify profile is returned to
           // represent the logged-in user. In a typical application, you would want
