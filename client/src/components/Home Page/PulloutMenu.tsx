@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,31 +12,103 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import Login from '../Login';
+import axios from 'axios';
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 
 }));
 const PulloutMenu: React.FC = () => {
-  const categories = ["Profile", "Find a Recipe", "The Feed", "Sign Out"]
+  interface userProps {
+    createdAt: string;
+    id: string;
+    name: string;
+    preference: string;
+    updatedAt: string;
+  }
+
+  const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/logout"];
+  const outCategories = ["Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-function handleDrawerToggle() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState<userProps | null>(null);
+
+  function getUser() {
+    if (!user) {
+      axios.get('/user')
+        .then(({ data }) => {
+          console.log(data[0], 'pullout 34');
+          setUser(data[0]);
+        })
+        .catch(err => console.error('error pullout 38', err))
+    }
+  }
+
+  function logout() {
+    axios.get('/logout')
+      .then(() => {
+        setUser(null);
+      })
+      .catch(err => console.error('error pullout 47', err));
+  }
+
+  function handleDrawerToggle() {
     setMobileOpen(!mobileOpen)
   }
-const drawer = (
+
+  const drawer = (
     <div>
-      <List>
-        {categories.map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      {
+        user ? (
+          <List>
+            {inCategories.map((text, index) => {
+              if(index % 2 === 0){
+                if(text === "Sign Out") {
+                  return (
+                    <Button onClick={logout} >
+                      <ListItem button key={text}>
+                      <ListItemText primary={text} />
+                      </ListItem>
+                    </Button>
+                  )     
+                } else {
+                  return (
+                    <Link to={inCategories[index + 1]}>
+                     <ListItem button key={text}>
+                     <ListItemText primary={text} />
+                     </ListItem>
+                    </Link>
+                  )       
+                }
+              }
+            })}
+          </List>
+        ) : (
+          <List>
+            <Login />
+            {outCategories.map((text, index) => {
+              if(index % 2 === 0){
+                return (
+                  <Link to={outCategories[index + 1]}>
+                    <ListItem button key={text}>
+                    <ListItemText primary={text} />
+                    </ListItem>
+                  </Link>
+                )
+              }
+            })}
+          </List>
+        )
+      }
+     
     </div>
   );
-return (
+
+  return (
     <div>
       <CssBaseline />
       <AppBar position="static" >
@@ -57,6 +129,7 @@ return (
       <nav>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
+          {getUser()}
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -72,14 +145,14 @@ return (
             {drawer}
           </Drawer>
         </Hidden>
-<Hidden xsDown implementation="css">
+        {/* <Hidden xsDown implementation="css">
           <Drawer
             variant="permanent"
           >
             <div />
             {drawer}
           </Drawer>  
-        </Hidden>
+        </Hidden> */}
       </nav>
       <div>
         <div />

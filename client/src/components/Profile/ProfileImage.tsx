@@ -9,7 +9,7 @@ const ProfileImage = () => {
       formData.append('file', file);
       formData.append('upload_preset', '')
 
-      const newPich
+      //const newPic
 
     }
   }

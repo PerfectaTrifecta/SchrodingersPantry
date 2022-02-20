@@ -24,7 +24,7 @@ const handleShow = () => setShow(true);
 // onClick={handleShow}
 useEffect(() => {
  setRecipeName(mealName);
- console.log(mealName)
+ //searchClick();
 })
 
 return (
@@ -35,7 +35,7 @@ return (
             //console.log(videoId, 53);
               //setMealName(recipeName);
               handleShow();
-              setRecipeName(mealName)
+              //setRecipeName(mealName)
               searchClick();
           }
            
@@ -46,7 +46,6 @@ return (
       <Modal.Header closeButton>
       </Modal.Header>
 <Modal.Body>
-  THIS should be the videos video Id, gotten from the axios request
   <iframe width="560" height="315" src={`https://www.youtube.com/embed/${videoId}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
   </Modal.Body>
       <Modal.Footer>
@@ -62,9 +61,9 @@ return (
 
 //   return (
 //     <div>
-//      
+//
 //     </div>
-  
+
 //   )
 // }
 

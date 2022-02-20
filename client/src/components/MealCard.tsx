@@ -1,7 +1,8 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios, { AxiosResponse } from 'axios';
 import { styled } from '@mui/material/styles';
-import  Card  from '@mui/material/Card';
+import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -18,7 +19,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import VideoModal from './VideoModal';
 //import SearchYoutube from './SearchYoutube';
-
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
@@ -39,63 +39,98 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 interface CardProps {
   recipe: { strMeal: string, idMeal: String, strMealThumb: String}
+  //recipe: { strMeal: string; idMeal: string; strMealThumb: string };
 }
 
-//the search component should map over the results, creating a meal card for each recipe, 
- const MealCard = ({ recipe }: CardProps) => {
+//interface for returned recipe
+interface RecipeProps {
+  strInstructions: string;
+  id: string;
+  strYoutube: string;
+  strCategory: string;
+  strArea: string;
+}
+
+//the search component should map over the results, creating a meal card for each recipe,
+const MealCard = ({ recipe }: CardProps) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
   //you only want to make an axios request for the meal that is selected, not for each meal card on the screen, wait until user clicks to assign, and use that recipes name to make the request by passing down the meal prop from state to the Search Youtube component
   const [meal, setMeal] = React.useState<string>(``);//recipe.name
+  /* you only want to make an axios request for the meal that is selected, not for each 
+  meal card on the screen, wait until user clicks to assign, and use that recipes name to
+   make the request by passing down the meal prop from state to the Search Youtube component*/
+
+  const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
+
+  const getRecipeById = () => {
+    const { idMeal } = recipe;
+    axios
+      .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
+      .then(({ data }) => {
+        setMealRecipe(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const handleExpandClick = () => {
-    console.log(expanded);
     setExpanded(!expanded);
   };
+
+  useEffect(() => {
+    getRecipeById();
+  }, []);
 
   // const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
   // // set state of meal to the clicked cards title
   //   setMeal(event.target.value);
   // }
- 
 
-  return (
-    <Card sx={{ maxWidth: 575 }} style={{
-      alignContent: "space around",
-      justifyContent: "space-evenly",
-    }} //{onClick={handleCardClick}}
+  return !mealRecipe[0] ? null : (
+    <Card
+      sx={{ maxWidth: 345 }}
+      style={{
+        alignContent: 'space around',
+        justifyContent: 'space-evenly',
+        margin: '16px',
+        maxWidth: '600px',
+        width: '90%',
+      }} //{onClick={handleCardClick}}
     >
       <CardHeader
         // avatar={
         //   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-        //     R 
+        //     R
         //     {/* this should be user profile's first letter */}
         //   </Avatar>
         // }
         action={
-          <IconButton aria-label="settings">
+          <IconButton aria-label='settings'>
             <MoreVertIcon />
           </IconButton>
         }
-        title={recipe ? `${recipe.strMeal}`:'' }//recipe.name
+        title={recipe ? `${recipe.strMeal}` : ''} //recipe.name
       />
       <CardMedia
-        component="img" 
-        height="260"
-        image={recipe ? `${recipe.strMealThumb}`:'' }
-        alt={recipe ? `${recipe.strMeal}`:'' }
+        component='img'
+        height='194'
+        image={recipe ? `${recipe.strMealThumb}` : ''}
+        alt={recipe ? `${recipe.strMeal}` : ''}
         // image for dish from api
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          bloop
+        <Typography variant='body2' color='text.secondary'>
+          {mealRecipe[0].strArea} • {mealRecipe[0].strCategory}
           {/* recipe.description*/}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label='add to favorites'>
           {/* send post request to that user's favorites on click */}
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label='share'>
           {/* allow users to send to friends */}
           <ShareIcon />
         </IconButton>
@@ -104,25 +139,25 @@ interface CardProps {
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
-          aria-label="show more"
+          aria-label='show more'
         >
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>
-          <Typography paragraph>Instructions:</Typography>
-          <Typography paragraph>
-            bleep
-            {/* recipe.instructions */}
-          </Typography>
+          <Typography paragraph>Instructions: </Typography>
+          {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
+            <Typography paragraph key={p + i}>
+              {p}
+            </Typography>
+          ))}
 
           {/* <SearchYoutube meal={meal}/> */}
-          
         </CardContent>
       </Collapse>
     </Card>
-     );
-    }
+  );
+};
 
-export default MealCard
+export default MealCard;

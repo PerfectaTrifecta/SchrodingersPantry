@@ -16,7 +16,7 @@ videoRouter.post('/youtube', (req, res) => {
   const { mealName } = req.body;
   //console.log(mealName);
   //console.log(YOUTUBE_KEY);
-   return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${mealName}&key=AIzaSyDMX3tBn2OkiuujPwav2RQqqEJal2mumj4`) 
+   return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=how to cook${mealName}&key=${YOUTUBE_KEY}`) 
       .then(( { data } ) => {
        
         
