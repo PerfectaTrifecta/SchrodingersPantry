@@ -35,8 +35,9 @@ const Search: React.FC = () => {
 
   const searchRecipes = () => {
     axios
-      .get<AxiosResponse>(`/routes/search/ingredients/${ingredients}`)
-      .then(({ data }: AxiosResponse) => {
+      .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
+      .then(({ data }) => {
+        console.log(data, 40);
         setMeals(data);
       })
       .catch((err) => {

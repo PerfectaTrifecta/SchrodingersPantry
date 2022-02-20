@@ -49,6 +49,7 @@ interface RecipeProps {
   strYoutube: string;
   strCategory: string;
   strArea: string;
+  ingredients: Array<[string, string]>;
 }
 
 //the search component should map over the results, creating a meal card for each recipe,
@@ -63,6 +64,7 @@ const MealCard = ({ recipe }: CardProps) => {
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
 
   const getRecipeById = () => {
+//     console.log('expanded');
     const { idMeal } = recipe;
     axios
       .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
@@ -76,12 +78,15 @@ const MealCard = ({ recipe }: CardProps) => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+    if (!expanded) {
+      getRecipeById();
+    }
   };
 
   useEffect(() => {
     getRecipeById();
   }, []);
-
+  // console.log(mealRecipe[0], 86);
   // const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
   // // set state of meal to the clicked cards title
   //   setMeal(event.target.value);
@@ -146,6 +151,12 @@ const MealCard = ({ recipe }: CardProps) => {
       </CardActions>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>
+          <Typography paragraph>Ingredients: </Typography>
+          <ul>
+            {mealRecipe[0].ingredients.map((tuple, i) => (
+              <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
+            ))}
+          </ul>
           <Typography paragraph>Instructions: </Typography>
           {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
             <Typography paragraph key={p + i}>
