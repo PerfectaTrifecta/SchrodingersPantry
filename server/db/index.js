@@ -1,178 +1,181 @@
+require('dotenv').config();
+const { PSQL_PASSWORD } = process.env;
 const { Sequelize, DataTypes } = require('sequelize');
-const sql = new Sequelize('pantry', 'postgres', 'pos$gres$', {
+const sql = new Sequelize('pantry', 'postgres', `${PSQL_PASSWORD}`, {
   host: 'localhost',
   dialect: 'postgres',
-  logging: false
+  logging: false,
 });
 
 const User = sql.define('users', {
   id: {
     type: DataTypes.STRING,
-    primaryKey: true
+    primaryKey: true,
   },
   name: DataTypes.STRING,
-  preference: DataTypes.STRING
+  preference: DataTypes.STRING,
 });
 
 const Recipe = sql.define('recipes', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   text: DataTypes.STRING,
   vote_count: DataTypes.INTEGER,
-  comment_count: DataTypes.INTEGER
+  comment_count: DataTypes.INTEGER,
 });
 
 const Bookmark = sql.define('bookmarks', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
-  url: DataTypes.STRING
+  url: DataTypes.STRING,
 });
 
 const User_Bookmark = sql.define('user_bookmark', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   user_id: {
     type: DataTypes.STRING,
     references: {
       model: User,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   bookmark_id: {
     type: DataTypes.INTEGER,
     references: {
       model: Bookmark,
-      key: 'id'
-    }
-  }
+      key: 'id',
+    },
+  },
 });
 
 const Favorite = sql.define('favorites', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   user_id: {
     type: DataTypes.STRING,
     references: {
       model: User,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   recipe_id: {
     type: DataTypes.INTEGER,
     references: {
       model: Recipe,
-      key: 'id'
-    }
-  }
+      key: 'id',
+    },
+  },
 });
 
 const Comment = sql.define('comments', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   user_id: {
     type: DataTypes.STRING,
     references: {
       model: User,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   recipe_id: {
     type: DataTypes.INTEGER,
     references: {
       model: Recipe,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
-  text: DataTypes.STRING
+  text: DataTypes.STRING,
 });
 
 const Vote = sql.define('votes', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   user_id: {
     type: DataTypes.STRING,
     references: {
       model: User,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   recipe_id: {
     type: DataTypes.INTEGER,
     references: {
       model: Recipe,
-      key: 'id'
-    }
-  }
+      key: 'id',
+    },
+  },
 });
 
 const Tag = sql.define('tags', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
-  text: DataTypes.STRING
+  text: DataTypes.STRING,
 });
 
 const Recipe_Tag = sql.define('recipe_tags', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   recipe_id: {
     type: DataTypes.INTEGER,
     references: {
       model: Recipe,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   tag_id: {
     type: DataTypes.INTEGER,
     references: {
       model: Tag,
-      key: 'id'
-    }
-  }
+      key: 'id',
+    },
+  },
 });
 
 const Image = sql.define('images', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   recipe_id: {
     type: DataTypes.INTEGER,
     references: {
       model: Recipe,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
-  img: DataTypes.STRING
-})
+  img: DataTypes.STRING,
+});
 
-sql.sync({ alter: true }) //change back to alter before pushing
+sql
+  .sync({ alter: true }) //change back to alter before pushing
   .then(() => console.log('Models synced!'))
-  .catch(err => console.error(err));
+  .catch((err) => console.error(err));
 
 module.exports = {
   sql,
@@ -185,5 +188,5 @@ module.exports = {
   Vote,
   Tag,
   Recipe_Tag,
-  Image
-}
+  Image,
+};
