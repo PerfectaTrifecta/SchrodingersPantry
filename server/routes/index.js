@@ -1,11 +1,13 @@
 const { searchRouter } = require('./search.js');
-const { authRouter } = require('./auth.js');
-const { Router } = require('express');
+const { videoRouter } = require('./videoRouter.js');
+const { UserRouter } = require('./user.js');
+const { authRouter } = require('./auth');
 
 /*This is where we organize the endpoints that we use to call functions in the
 associated route file.*/
-
-const routes = Router();
-routes.use('/routes/search', searchRouter);
-routes.use('/', authRouter);
-module.exports = routes;
+module.exports = (app) => {
+  app.use('/routes/search/', searchRouter);
+  app.use('/routes/videos/', videoRouter);
+  app.use('/routes/user/profile/', UserRouter);
+  app.use('/', authRouter);
+};

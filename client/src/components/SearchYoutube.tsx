@@ -11,15 +11,15 @@ interface SearchProps {
   meal: string
 }
 
+//pass meal string to video modal for axios
 interface VideoProps {
   video: {
     meal: String
-    videoId: String
   }
 }
 
 //take meal from props passed from a clicked recipe
-const SearchYoutube =  async ({ meal } : SearchProps) => {
+const SearchYoutube =  async ({ meal} : SearchProps) => {
     const [video, setVideo] = React.useState<VideoProps>();
   
     // search youtube api for that meal, displaying top result

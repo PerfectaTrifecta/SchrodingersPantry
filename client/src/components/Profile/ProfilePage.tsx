@@ -1,5 +1,5 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
-import * as React from 'react';
+import React, { useState} from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -40,19 +40,19 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 //-----------------------------------------------------//
 
-interface UserProps {
+  type Props = {
   user: {
-    username: string;
-    aboutMe: string;
-    creations: Array<string>;
-    favorites: Array<string>;
-    imageUrl?: string;
-  };
+    createdAt: string;
+    id: string;
+    name: string;
+    preference: string;
+    updatedAt: string;
+  }
 }
 
 //the search component should map over the results, creating a meal card for each recipe,
-const ProfilePage = ({ user }: UserProps) => {
-  const [expanded, setExpanded] = React.useState<boolean>(false);
+const ProfilePage: React.FC<Props> = ({ user }) => {
+  const [expanded, setExpanded] = useState<boolean>(false);
   // use user context and assign the values to corresponding state values and map thru
 
   //for now use dummy data
@@ -82,7 +82,7 @@ const ProfilePage = ({ user }: UserProps) => {
             sx={{ bgcolor: orange[500], width: 56, height: 56 }}
             aria-label='recipe'
           >
-            {user.username.slice(0, 1)}
+            {user.name.slice(0, 1)}
             {/* this should be user profile's first letter */}
           </Avatar>
         }
@@ -91,7 +91,7 @@ const ProfilePage = ({ user }: UserProps) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={user ? `${user.username.toUpperCase()}` : 'nope'} //user.name
+        title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
       />
       <ProfileImage />
       <CardContent>
@@ -113,15 +113,15 @@ const ProfilePage = ({ user }: UserProps) => {
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>
           <Typography paragraph>About Me</Typography>
-          <AboutMe aboutMe={user.aboutMe} />
+          {/* <AboutMe aboutMe={user.aboutMe} /> */}
           <Typography paragraph>Favorites</Typography>
-          {user.favorites.map((favorite: string) => {
+          {/* {user.favorites.map((favorite: string) => {
             return <Favorite favorite={favorite} />;
-          })}
+          })} */}
           <Typography paragraph>Creations</Typography>
-          {user.creations.map((creation: string) => {
+          {/* {user.creations.map((creation: string) => {
             return <Creation creation={creation} />;
-          })}
+          })} */}
         </CardContent>
       </Collapse>
     </Card>

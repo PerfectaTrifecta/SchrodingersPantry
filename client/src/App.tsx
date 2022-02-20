@@ -58,7 +58,7 @@ const App: React.FC = (): JSX.Element => {
           <RSSFeed />
         </Route>
         <Route path='/profile'>
-          {/* <ProfilePage /> needs props before it works!*/}
+          <ProfilePage user={user} /> 
         </Route>
       </Switch>
 
