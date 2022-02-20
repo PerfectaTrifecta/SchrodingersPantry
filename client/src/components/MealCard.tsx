@@ -61,7 +61,7 @@ const MealCard = ({ recipe }: CardProps) => {
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
 
   const getRecipeById = () => {
-    console.log('expanded');
+//     console.log('expanded');
     const { idMeal } = recipe;
     axios
       .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
