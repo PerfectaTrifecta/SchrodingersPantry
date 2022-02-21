@@ -1,8 +1,9 @@
 const axios = require('axios').default;
 const { Router } = require('express');
+const { ingredientParser, ingredientMap } = require('./ingredients.js');
 
 const searchRouter = Router();
-//This returns a list of meals by ingredients
+//This returns a list of meals by ingredients. It is ran on page load and on search.
 searchRouter.get('/ingredients/:ingredients', (req, res) => {
   let { ingredients } = req.params;
   //This is where we need to shape the input data to fit what the api expects, just in case the user puts in dumb stuff.
@@ -28,7 +29,7 @@ searchRouter.get('/ingredients/:ingredients', (req, res) => {
     });
 });
 
-//This function returns the actual recipe for a mealcard that a user clicks
+//This function returns the actual recipe for a mealcard.
 searchRouter.get('/getRecipe/:idMeal', (req, res) => {
   let { idMeal } = req.params;
   const options = {
@@ -44,12 +45,26 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
     .request(options)
     .then(({ data: { meals } }) => {
       /*Need to send what the front end expects, so we pull out the properties
-      from the response that we need here and send it on it's merry way */
-      const { strInstructions, id, strYoutube, strCategory, strArea } =
-        meals[0];
+      from the response that we need here and send it on it's merry way. */
+      //Parse the ingredients in the meal object before we send it to the front.
+      const formattedIngredients = ingredientParser(meals[0]);
+      // console.log(formattedIngredients, 50);
+
+      // const andAgain = ingredientMap(formattedIngredients);
+      // console.log(andAgain, 54);
+      meals[0].ingredients = formattedIngredients;
+
+      const {
+        strInstructions,
+        id,
+        strYoutube,
+        strCategory,
+        strArea,
+        ingredients,
+      } = meals[0];
 
       const interfacedData = [
-        { strInstructions, id, strYoutube, strCategory, strArea },
+        { strInstructions, id, strYoutube, strCategory, strArea, ingredients },
       ];
       res.status = 200;
       res.send(interfacedData);
