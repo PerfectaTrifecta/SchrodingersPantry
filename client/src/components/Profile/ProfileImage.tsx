@@ -15,22 +15,24 @@ const ProfileImage = () => {
   }
   return (
     <div>
-      <input type="file">
-        UPLOAD
-      </input>
-   <Box 
-      sx={{
-        width: 300,
-        height: 300,
-        backgroundColor: 'primary.dark',
-        '&:hover': {
-          backgroundColor: 'primary.main',
-          opacity: [0.9, 0.8, 0.7],
-        },
-      }}
-    >
-      Profile Image
-    </Box>
+      Change your profile pic?
+      <div> 
+        <input type="file" accept="image/*" multiple={false} />
+      </div>
+
+      <Box 
+        sx={{
+          width: 300,
+          height: 300,
+          backgroundColor: 'primary.dark',
+          '&:hover': {
+            backgroundColor: 'primary.main',
+            opacity: [0.9, 0.8, 0.7],
+          },
+        }}
+      >
+        Profile Image
+      </Box>
     </div>
     
   );

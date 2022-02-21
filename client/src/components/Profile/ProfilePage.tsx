@@ -1,5 +1,5 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
-import * as React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -20,12 +20,27 @@ import Box from '@mui/material/Box';
 import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
-import Creation from './Creation';
+import myRecipe from './myRecipe';
+import { UserContext } from '../../UserContext'
+import axios, { AxiosResponse } from 'axios';
+import CreateRecipeForm from './CreateRecipeForm';
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 //import SearchYoutube from './SearchYoutube';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
+}
+
+interface MyRecipeTypes {
+  id: number;
+  user_id: string;
+  title: string;
+  ingredients: string;
+  instructions: string;
+  vote_count: number;
+  comment_count: number;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -40,20 +55,34 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 //-----------------------------------------------------//
 
-interface UserProps {
-  user: {
-    username: string;
-    aboutMe: string;
-    creations: Array<string>;
-    favorites: Array<string>;
-    imageUrl?: string;
-  };
-}
 
 //the search component should map over the results, creating a meal card for each recipe,
-const ProfilePage = ({ user }: UserProps) => {
-  const [expanded, setExpanded] = React.useState<boolean>(false);
+const ProfilePage: React.FC = () => {
+
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
+  const [img, setImg] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [creations, setCreations] = useState<MyRecipeTypes[]>([])
   // use user context and assign the values to corresponding state values and map thru
+  const { user, setUser, getUser } = useContext(UserContext)
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: process.env.CLOUDINARY_NAME,
+    },
+  });
+  const profilePic = cld.image(img);
+  //checkout different url-gen actions to see how to style the image using profilePic.<action>
+
+  //when page loads, get user's recipes (& favorites & bookmarks) from db
+  useEffect(() => {
+    axios.get('/user/recipes')
+      .then(({ data }) => {
+        setCreations(data);
+      })
+      .catch(err => console.error('problem grabbing recipes', err));
+  })
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -68,63 +97,132 @@ const ProfilePage = ({ user }: UserProps) => {
   //   setMeal(event.target.value);
   // }
 
+  const handleForm = () => {
+    setShowForm(!showForm);
+  };
+
+  const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [file] = e.target.files;
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // console.log(reader.result, 'profile 76')
+        setSelectedImg(reader.result);
+      };
+    }
+  };
+
+  //CURRENTLY GIVING 404 ERROR W NO DESCRIPTION
+  const submitImg = () => {
+    console.log(selectedImg, 83);
+    axios.post('/upload/pic', selectedImg)
+      .then((id: AxiosResponse<string>) => {
+        // setImg(id);
+      })
+      .catch(err => console.log('problem uploading profile pic', err));
+  };
+
   return (
-    <Card
-      sx={{ maxWidth: 460 }}
-      style={{
-        alignContent: 'space around',
-        justifyContent: 'space-evenly',
-      }} //{onClick={handleCardClick}}
-    >
-      <CardHeader
-        avatar={
-          <Avatar
-            sx={{ bgcolor: orange[500], width: 56, height: 56 }}
-            aria-label='recipe'
-          >
-            {user.username.slice(0, 1)}
-            {/* this should be user profile's first letter */}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label='settings'>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={user ? `${user.username.toUpperCase()}` : 'nope'} //user.name
-      />
-      <ProfileImage />
-      <CardContent>
-        <Typography variant='body2' color='text.secondary'>
-          ACCOUNT DETAILS:
-          {/* user.description*/}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label='show more'
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout='auto' unmountOnExit>
+    <div>
+      <Card
+        sx={{ maxWidth: 345 }}
+        style={{
+          alignContent: 'space around',
+          justifyContent: 'space-evenly',
+          margin: '16px',
+          maxWidth: '600px',
+          width: '90%',
+        }} //{onClick={handleCardClick}}
+      >
+        {img ? (
+          <CardHeader
+            avatar={
+             <AdvancedImage cldImg={profilePic}/>
+            } 
+            action={
+              <IconButton aria-label='settings'>
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
+          />
+        ) : (
+          <CardHeader
+            avatar={
+              <Avatar
+                sx={{ bgcolor: orange[500], width: 56, height: 56 }}
+                aria-label='recipe'
+              >
+                {console.log(user.name, 'profile 99')}
+                {user.name.slice(0, 1)}
+                {/* this should be user profile's first letter */}
+              </Avatar>
+            } 
+            action={
+              <IconButton aria-label='settings'>
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
+          />
+        )}
+     
+        {/* <ProfileImage /> */}
         <CardContent>
-          <Typography paragraph>About Me</Typography>
-          <AboutMe aboutMe={user.aboutMe} />
-          <Typography paragraph>Favorites</Typography>
-          {user.favorites.map((favorite: string) => {
-            return <Favorite favorite={favorite} />;
-          })}
-          <Typography paragraph>Creations</Typography>
-          {user.creations.map((creation: string) => {
-            return <Creation creation={creation} />;
-          })}
+          <Typography variant='body2' color='text.secondary'>
+            About Me:
+            {/* <AboutMe aboutMe={user.aboutMe} /> */}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            Dietary Preference:
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            Food Allergies:
+          </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label='show more'
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout='auto' unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Edit About Me</Typography>
+            <Typography paragraph>Edit Food Allergies</Typography>
+            <Typography paragraph>Edit Profile Pic</Typography>
+              <input type="file" accept="image/*" onChange={handleImgUpload} multiple={false} />
+              <button onClick={submitImg}> Submit </button>
+          </CardContent>
+        </Collapse>
+      </Card>
+      <div>
+        MY RECIPES 
+        {/* {creations.map((recipe: MyRecipeTypes) => {
+          return <myRecipe creation={recipe} />;
+        })} */}
+        <button onClick={handleForm}> Create a New Recipe </button>
+        { showForm ? <CreateRecipeForm /> : null}
+      </div>
+      <div>
+        FAVORITE RECIPES 
+        {/* {user.favorites.map((favorite: string) => {
+          return <Favorite favorite={favorite} />;
+        })} */}
+      </div>
+      <div>
+        BOOKMARKS 
+        
+      </div>
+    </div>
+  
   );
 };
 

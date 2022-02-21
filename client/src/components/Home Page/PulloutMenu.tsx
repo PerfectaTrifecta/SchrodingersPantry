@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,47 +17,33 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
+import { UserContext } from '../../UserContext'
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 
 }));
+
+
 const PulloutMenu: React.FC = () => {
-  interface userProps {
-    createdAt: string;
-    id: string;
-    name: string;
-    preference: string;
-    updatedAt: string;
-  }
 
   const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/logout"];
   const outCategories = ["Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [user, setUser] = useState<userProps | null>(null);
+  const { user, setUser } = useContext(UserContext);
 
-  function getUser() {
-    if (!user) {
-      axios.get('/user')
-        .then(({ data }) => {
-          console.log(data[0], 'pullout 34');
-          setUser(data[0]);
-        })
-        .catch(err => console.error('error pullout 38', err))
-    }
+  function handleDrawerToggle() {
+    setMobileOpen(!mobileOpen)
   }
 
   function logout() {
     axios.get('/logout')
       .then(() => {
         setUser(null);
+        console.log('user set to null')
       })
       .catch(err => console.error('error pullout 47', err));
-  }
-
-  function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen)
   }
 
   const drawer = (
@@ -129,7 +115,6 @@ const PulloutMenu: React.FC = () => {
       <nav>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
-          {getUser()}
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -161,9 +146,9 @@ const PulloutMenu: React.FC = () => {
     </div>
   );
 }
-PulloutMenu.propTypes = {
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  container: PropTypes.object,
-};
+// PulloutMenu.propTypes = {
+//   // Injected by the documentation to work in an iframe.
+//   // You won't need it on your project.
+//   container: PropTypes.object,
+// };
 export default PulloutMenu;
