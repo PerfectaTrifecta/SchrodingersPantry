@@ -1,9 +1,7 @@
-require('dotenv').config();
+require('dotenv').config()
+const { DB_NAME, DB_USER, DB_PW} = process.env;
 const { Sequelize, DataTypes } = require('sequelize');
 
-require('dotenv').config();
-
-const { DB_NAME, DB_USER, DB_PW} = process.env;
 
 const sql = new Sequelize(DB_NAME, DB_USER, DB_PW, {
 
@@ -27,7 +25,16 @@ const Recipe = sql.define('recipes', {
     allowNull: false,
     primaryKey: true,
   },
-  text: DataTypes.STRING,
+  user_id: {
+    type: DataTypes.STRING,
+    references: {
+      model: User,
+      key: 'id'
+    }
+  },
+  title: DataTypes.STRING,
+  ingredients: DataTypes.STRING,
+  instructions: DataTypes.STRING,
   vote_count: DataTypes.INTEGER,
   comment_count: DataTypes.INTEGER,
 });
