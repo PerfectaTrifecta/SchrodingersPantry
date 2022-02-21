@@ -139,7 +139,7 @@ const MealCard = ({ recipe }: CardProps) => {
           {/* allow users to send to friends */}
           <ShareIcon />
         </IconButton>
-        <VideoModal mealName={recipe.strMeal} />
+        
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -163,6 +163,7 @@ const MealCard = ({ recipe }: CardProps) => {
               {p}
             </Typography>
           ))}
+          <VideoModal mealName={recipe.strMeal} />
 
           {/* <SearchYoutube meal={meal}/> */}
         </CardContent>
