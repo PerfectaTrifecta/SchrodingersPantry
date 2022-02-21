@@ -1,5 +1,5 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -31,6 +31,16 @@ interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
 
+interface MyRecipeTypes {
+  id: number;
+  user_id: string;
+  title: string;
+  ingredients: string;
+  instructions: string;
+  vote_count: number;
+  comment_count: number;
+}
+
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -51,8 +61,18 @@ const ProfilePage: React.FC = () => {
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [creations, setCreations] = useState<MyRecipeTypes[]>([])
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser, getUser } = useContext(UserContext)
+
+  //when page loads, get user's recipes (& favorites & bookmarks) from db
+  useEffect(() => {
+    axios.get('/user/recipes')
+      .then(({ data }) => {
+        setCreations(data);
+      })
+      .catch(err => console.error('problem grabbing recipes', err));
+  })
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -98,10 +118,13 @@ const ProfilePage: React.FC = () => {
   return (
     <div>
       <Card
-        sx={{ maxWidth: 460 }}
+        sx={{ maxWidth: 345 }}
         style={{
           alignContent: 'space around',
           justifyContent: 'space-evenly',
+          margin: '16px',
+          maxWidth: '600px',
+          width: '90%',
         }} //{onClick={handleCardClick}}
       >
         <CardHeader
@@ -161,8 +184,8 @@ const ProfilePage: React.FC = () => {
       </Card>
       <div>
         MY RECIPES 
-        {/* {user.creations.map((creation: string) => {
-          return <Creation creation={creation} />;
+        {/* {creations.map((recipe: MyRecipeTypes) => {
+          return <myRecipe creation={recipe} />;
         })} */}
         <button onClick={handleForm}> Create a New Recipe </button>
         { showForm ? <CreateRecipeForm /> : null}
