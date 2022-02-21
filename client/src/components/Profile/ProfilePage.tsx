@@ -20,9 +20,10 @@ import Box from '@mui/material/Box';
 import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
-import Creation from './Creation';
+import myRecipe from './myRecipe';
 import { UserContext } from '../../UserContext'
 import axios, { AxiosResponse } from 'axios';
+import CreateRecipeForm from './CreateRecipeForm';
 //import SearchYoutube from './SearchYoutube';
 
 //-----for card chevron expansion functionality-----/
@@ -49,6 +50,7 @@ const ProfilePage: React.FC = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState<boolean>(false);
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser, getUser } = useContext(UserContext)
 
@@ -64,6 +66,10 @@ const ProfilePage: React.FC = () => {
   // // set state of meal to the clicked cards title
   //   setMeal(event.target.value);
   // }
+
+  const handleForm = () => {
+    setShowForm(!showForm);
+  };
 
   const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [file] = e.target.files;
@@ -82,7 +88,7 @@ const ProfilePage: React.FC = () => {
   //CURRENTLY GIVING 404 ERROR W NO DESCRIPTION
   const submitImg = () => {
     console.log(selectedImg, 83);
-    axios.post('/upload', selectedImg)
+    axios.post('/upload/pic', selectedImg)
       .then((id: AxiosResponse<string>) => {
         // setImg(id);
       })
@@ -158,6 +164,8 @@ const ProfilePage: React.FC = () => {
         {/* {user.creations.map((creation: string) => {
           return <Creation creation={creation} />;
         })} */}
+        <button onClick={handleForm}> Create a New Recipe </button>
+        { showForm ? <CreateRecipeForm /> : null}
       </div>
       <div>
         FAVORITE RECIPES 

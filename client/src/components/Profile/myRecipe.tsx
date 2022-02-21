@@ -16,22 +16,23 @@ interface CreationProps {
 
 const Creation = ( { creation } : CreationProps) => {
   return (
-        <Box
-    sx={{
-      width: 300,
-      height: 100,
-      backgroundColor: 'primary.light',
-      '&:hover': {
-        backgroundColor: 'primary.main',
-        opacity: [0.9, 0.8, 0.7],
-      },
-    }}
-  >
+    <Box
+      sx={{
+        width: 300,
+        height: 100,
+        backgroundColor: 'primary.light',
+        '&:hover': {
+          backgroundColor: 'primary.main',
+          opacity: [0.9, 0.8, 0.7],
+        },
+      }}
+   >
     <Avatar sx={{ bgcolor: orange[500], width: 28, height: 28 }} aria-label="recipe">
-  {creation.slice(0,1)}
- </Avatar>
-    {creation}</Box>
-      )
+      {creation.slice(0,1)}
+    </Avatar>
+    {creation}
+    </Box>
+  )
 
 }
 

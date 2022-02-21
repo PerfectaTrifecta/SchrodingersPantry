@@ -32,7 +32,9 @@ const Recipe = sql.define('recipes', {
       key: 'id'
     }
   },
-  text: DataTypes.STRING,
+  title: DataTypes.STRING,
+  ingredients: DataTypes.STRING,
+  instructions: DataTypes.STRING,
   vote_count: DataTypes.INTEGER,
   comment_count: DataTypes.INTEGER,
 });
