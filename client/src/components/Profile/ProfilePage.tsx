@@ -24,6 +24,8 @@ import myRecipe from './myRecipe';
 import { UserContext } from '../../UserContext'
 import axios, { AxiosResponse } from 'axios';
 import CreateRecipeForm from './CreateRecipeForm';
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 //import SearchYoutube from './SearchYoutube';
 
 //-----for card chevron expansion functionality-----/
@@ -64,6 +66,14 @@ const ProfilePage: React.FC = () => {
   const [creations, setCreations] = useState<MyRecipeTypes[]>([])
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser, getUser } = useContext(UserContext)
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: process.env.CLOUDINARY_NAME,
+    },
+  });
+  const profilePic = cld.image(img);
+  //checkout different url-gen actions to see how to style the image using profilePic.<action>
 
   //when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
@@ -127,32 +137,39 @@ const ProfilePage: React.FC = () => {
           width: '90%',
         }} //{onClick={handleCardClick}}
       >
-        <CardHeader
-          // {
-          //  img ? (
-          //     // get img from cloudinary
-          //   ) : (
-          //     // place the avatar below right here
-          //   )
-            
-          // }
-          avatar={
-            <Avatar
-              sx={{ bgcolor: orange[500], width: 56, height: 56 }}
-              aria-label='recipe'
-            >
-              {console.log(user.name, 'profile 99')}
-              {user.name.slice(0, 1)}
-              {/* this should be user profile's first letter */}
-            </Avatar>
-          } 
-          action={
-            <IconButton aria-label='settings'>
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
-        />
+        {img ? (
+          <CardHeader
+            avatar={
+             <AdvancedImage cldImg={profilePic}/>
+            } 
+            action={
+              <IconButton aria-label='settings'>
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
+          />
+        ) : (
+          <CardHeader
+            avatar={
+              <Avatar
+                sx={{ bgcolor: orange[500], width: 56, height: 56 }}
+                aria-label='recipe'
+              >
+                {console.log(user.name, 'profile 99')}
+                {user.name.slice(0, 1)}
+                {/* this should be user profile's first letter */}
+              </Avatar>
+            } 
+            action={
+              <IconButton aria-label='settings'>
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
+          />
+        )}
+     
         {/* <ProfileImage /> */}
         <CardContent>
           <Typography variant='body2' color='text.secondary'>
