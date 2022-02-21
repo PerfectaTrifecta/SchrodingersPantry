@@ -93,7 +93,7 @@ const ProfilePage = ({ user }: UserProps) => {
         }
         title={user ? `${user.username.toUpperCase()}` : 'nope'} //user.name
       />
-      <ProfileImage />
+      {/* <ProfileImage /> */}
       <CardContent>
         <Typography variant='body2' color='text.secondary'>
           ACCOUNT DETAILS:

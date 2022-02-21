@@ -111,8 +111,8 @@ const PulloutMenu: React.FC = () => {
   return (
     <div>
       <CssBaseline />
-      <AppBar position="static" >
-        <Toolbar>
+      <AppBar position="static" style={{ background: "#4682b4" }}>
+        <Toolbar >
           <IconButton
             color="inherit"
             aria-label="Open drawer"

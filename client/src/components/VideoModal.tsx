@@ -22,10 +22,10 @@ const [show, setShow] = React.useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 // onClick={handleShow}
-useEffect(() => {
- setRecipeName(mealName);
- //searchClick();
-})
+// useEffect(() => {
+//  setRecipeName(mealName);
+//  //searchClick();
+// })
 
 return (
   <>
@@ -35,7 +35,7 @@ return (
             //console.log(videoId, 53);
               //setMealName(recipeName);
               handleShow();
-              //setRecipeName(mealName)
+              setRecipeName(mealName)
               searchClick();
           }
            
