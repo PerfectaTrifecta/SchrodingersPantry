@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import CreateRecipeForm from './components/Profile/CreateRecipeForm';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
@@ -8,37 +8,12 @@ import ProfilePage from './components/Profile/ProfilePage';
 import VideoModal from './components/VideoModal';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 
-//refactor user state to be userContext using react context
+
 const App: React.FC = (): JSX.Element => {
-  interface userProps {
-    createdAt: string;
-    id: string;
-    name: string;
-    preference: string;
-    updatedAt: string;
-  }
-
-  const [user, setUser] = useState<userProps | null>(null);
-
-  function getUser() {
-    if (!user) {
-      axios.get('/user')
-        .then(({ data }) => {
-          console.log(data[0], 'pullout 34');
-          setUser(data[0]);
-        })
-        .catch(err => console.error('error pullout 38', err))
-    }
-  }
-
-  function logout() {
-    axios.get('/logout')
-      .then(() => {
-        setUser(null);
-      })
-      .catch(err => console.error('error pullout 47', err));
-  }
+  
+  const { getUser } = useContext(UserContext)
 
   return (
     <div>
@@ -46,7 +21,7 @@ const App: React.FC = (): JSX.Element => {
       <Link to={'/'}>
         <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg" width='200' />
       </Link>
-      <PulloutMenu user={user} logout={logout}/>
+      <PulloutMenu />
       <Switch>
         <Route exact path='/'>
           <HomePage />
@@ -58,7 +33,7 @@ const App: React.FC = (): JSX.Element => {
           <RSSFeed />
         </Route>
         <Route path='/profile'>
-          <ProfilePage user={user} /> 
+          <ProfilePage /> 
         </Route>
       </Switch>
 

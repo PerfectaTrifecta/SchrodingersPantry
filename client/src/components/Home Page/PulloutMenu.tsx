@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,32 +17,33 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
+import { UserContext } from '../../UserContext'
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 
 }));
 
-type Props = {
-  user: {
-    createdAt: string;
-    id: string;
-    name: string;
-    preference: string;
-    updatedAt: string;
-  },
-  logout: () => void
-}
 
-const PulloutMenu: React.FC<Props> = ({ user, logout }) => {
+const PulloutMenu: React.FC = () => {
 
   const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/logout"];
   const outCategories = ["Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, setUser } = useContext(UserContext);
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen)
+  }
+
+  function logout() {
+    axios.get('/logout')
+      .then(() => {
+        setUser(null);
+        console.log('user set to null')
+      })
+      .catch(err => console.error('error pullout 47', err));
   }
 
   const drawer = (

@@ -4,6 +4,7 @@ const passport = require('passport');
 const { sql } = require('./db/index.js');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const cloudinary = require('cloudinary').v2;
 
 const router = require('./routes/index.js');
 
@@ -12,8 +13,8 @@ require('dotenv').config();
 const app = express();
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '100mb', extended: true }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use('/', express.static(DIST_DIR));
 
 app.use(cookieParser());
@@ -38,6 +39,12 @@ passport.deserializeUser(function(user, cb) {
  
 });
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
 
 router(app);
 const PORT = 4000;
@@ -50,5 +57,6 @@ sql.authenticate()
   .catch((err) => console.error(err));
 
 
+module.exports = cloudinary;
 
 

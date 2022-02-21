@@ -1,5 +1,5 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
-import React, { useState} from 'react';
+import React, { useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -21,6 +21,8 @@ import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import Creation from './Creation';
+import { UserContext } from '../../UserContext'
+import axios, { AxiosResponse } from 'axios';
 //import SearchYoutube from './SearchYoutube';
 
 //-----for card chevron expansion functionality-----/
@@ -40,20 +42,15 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 //-----------------------------------------------------//
 
-  type Props = {
-  user: {
-    createdAt: string;
-    id: string;
-    name: string;
-    preference: string;
-    updatedAt: string;
-  }
-}
 
 //the search component should map over the results, creating a meal card for each recipe,
-const ProfilePage: React.FC<Props> = ({ user }) => {
+const ProfilePage: React.FC = () => {
+
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
+  const [img, setImg] = useState<string | null>(null);
   // use user context and assign the values to corresponding state values and map thru
+  const { user, setUser, getUser } = useContext(UserContext)
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -68,63 +65,112 @@ const ProfilePage: React.FC<Props> = ({ user }) => {
   //   setMeal(event.target.value);
   // }
 
+  const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [file] = e.target.files;
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // console.log(reader.result, 'profile 76')
+        setSelectedImg(reader.result);
+      };
+    }
+  };
+
+  //CURRENTLY GIVING 404 ERROR W NO DESCRIPTION
+  const submitImg = () => {
+    console.log(selectedImg, 83);
+    axios.post('/upload', selectedImg)
+      .then((id: AxiosResponse<string>) => {
+        // setImg(id);
+      })
+      .catch(err => console.log('problem uploading profile pic', err));
+  };
+
   return (
-    <Card
-      sx={{ maxWidth: 460 }}
-      style={{
-        alignContent: 'space around',
-        justifyContent: 'space-evenly',
-      }} //{onClick={handleCardClick}}
-    >
-      <CardHeader
-        avatar={
-          <Avatar
-            sx={{ bgcolor: orange[500], width: 56, height: 56 }}
-            aria-label='recipe'
-          >
-            {user.name.slice(0, 1)}
-            {/* this should be user profile's first letter */}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label='settings'>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
-      />
-      <ProfileImage />
-      <CardContent>
-        <Typography variant='body2' color='text.secondary'>
-          ACCOUNT DETAILS:
-          {/* user.description*/}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label='show more'
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout='auto' unmountOnExit>
+    <div>
+      <Card
+        sx={{ maxWidth: 460 }}
+        style={{
+          alignContent: 'space around',
+          justifyContent: 'space-evenly',
+        }} //{onClick={handleCardClick}}
+      >
+        <CardHeader
+          // {
+          //  img ? (
+          //     // get img from cloudinary
+          //   ) : (
+          //     // place the avatar below right here
+          //   )
+            
+          // }
+          avatar={
+            <Avatar
+              sx={{ bgcolor: orange[500], width: 56, height: 56 }}
+              aria-label='recipe'
+            >
+              {console.log(user.name, 'profile 99')}
+              {user.name.slice(0, 1)}
+              {/* this should be user profile's first letter */}
+            </Avatar>
+          } 
+          action={
+            <IconButton aria-label='settings'>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
+        />
+        {/* <ProfileImage /> */}
         <CardContent>
-          <Typography paragraph>About Me</Typography>
-          {/* <AboutMe aboutMe={user.aboutMe} /> */}
-          <Typography paragraph>Favorites</Typography>
-          {/* {user.favorites.map((favorite: string) => {
-            return <Favorite favorite={favorite} />;
-          })} */}
-          <Typography paragraph>Creations</Typography>
-          {/* {user.creations.map((creation: string) => {
-            return <Creation creation={creation} />;
-          })} */}
+          <Typography variant='body2' color='text.secondary'>
+            About Me:
+            {/* <AboutMe aboutMe={user.aboutMe} /> */}
+            Dietary Preference:
+            Food Allergies:
+          </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label='show more'
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout='auto' unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Edit About Me</Typography>
+            <Typography paragraph>Edit Food Allergies</Typography>
+            <Typography paragraph>Edit Profile Pic</Typography>
+              <input type="file" accept="image/*" onChange={handleImgUpload} multiple={false} />
+              <button onClick={submitImg}> Submit </button>
+          </CardContent>
+        </Collapse>
+      </Card>
+      <div>
+        MY RECIPES 
+        {/* {user.creations.map((creation: string) => {
+          return <Creation creation={creation} />;
+        })} */}
+      </div>
+      <div>
+        FAVORITE RECIPES 
+        {/* {user.favorites.map((favorite: string) => {
+          return <Favorite favorite={favorite} />;
+        })} */}
+      </div>
+      <div>
+        BOOKMARKS 
+        
+      </div>
+    </div>
+  
   );
 };
 

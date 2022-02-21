@@ -1,28 +1,22 @@
-const axios = require('axios').default;
 const { Router } = require('express');
-
-
 const UserRouter = Router();
+const cloudinary = require('../index')
 //require User Model, sequelize
 
 //on User post of image
 
 //const CLOUDINARY_API_KEY = process.env;
-UserRouter.post('/profile', (req, res) => {
-  //take userID from req.params and file from req.body
-  const { userId } = req.params, file = req.body;
-  //make axios post request with file, get back secret to store in database
-  axios.post('cloudinaryAPI')
-    .then((data) => {
-      //save cloudinary secret to user in database
-      //send back file and 201 
-      res.status = 201;
-      res.send(file)
-    })
-    .catch((err) => {
-      console.err(`could not upload: ${err}`);
-      res.sendStatus(500);
-    })
+UserRouter.post('/upload', async (req, res) => {
+  console.log(req.body, 'userRoute 10');
+  try {
+    // const pic = req.body.selectedImg;
+    // const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'Schrodinger\'s Pantry'})
+
+    // res.sendStatus(201).send(uploadedRes.public_id);
+  } catch (error) {
+    console.error(error, 'user route 13');
+  }
+
 })
 
 //on User's return to profile page
