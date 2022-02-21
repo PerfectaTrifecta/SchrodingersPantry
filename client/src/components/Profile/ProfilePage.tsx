@@ -175,7 +175,11 @@ const ProfilePage: React.FC = () => {
           <Typography variant='body2' color='text.secondary'>
             About Me:
             {/* <AboutMe aboutMe={user.aboutMe} /> */}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
             Dietary Preference:
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
             Food Allergies:
           </Typography>
         </CardContent>
