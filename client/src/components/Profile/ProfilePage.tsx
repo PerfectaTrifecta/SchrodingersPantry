@@ -1,5 +1,5 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, SetStateAction } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -20,7 +20,7 @@ import Box from '@mui/material/Box';
 import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
-import myRecipe from './myRecipe';
+import MyRecipe from './MyRecipe';
 import { UserContext } from '../../UserContext'
 import axios, { AxiosResponse } from 'axios';
 import CreateRecipeForm from './CreateRecipeForm';
@@ -77,7 +77,7 @@ const ProfilePage: React.FC = () => {
 
   //when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
-    axios.get('/user/recipes')
+    axios.get('/recipes')
       .then(({ data }) => {
         setCreations(data);
       })
@@ -109,18 +109,20 @@ const ProfilePage: React.FC = () => {
 
       reader.readAsDataURL(file);
       reader.onload = () => {
-        // console.log(reader.result, 'profile 76')
+        console.log(typeof reader.result);
         setSelectedImg(reader.result);
+        console.log(selectedImg, 'profile 76')
       };
     }
   };
 
   //CURRENTLY GIVING 404 ERROR W NO DESCRIPTION
   const submitImg = () => {
-    console.log(selectedImg, 83);
+    // console.log(selectedImg, 83);
     axios.post('/upload/pic', selectedImg)
-      .then((id: AxiosResponse<string>) => {
-        // setImg(id);
+      .then((id) => {
+        //BUG TO REVISTS
+        // setImg(id);      
       })
       .catch(err => console.log('problem uploading profile pic', err));
   };
@@ -205,8 +207,9 @@ const ProfilePage: React.FC = () => {
       </Card>
       <div>
         MY RECIPES 
-        {/* {creations.map((recipe: MyRecipeTypes) => {
-          return <myRecipe creation={recipe} />;
+        {/* BUG TO REVISIT*/}
+        {/* {creations.map((creation) => {
+          return <MyRecipe creation={creation} />;
         })} */}
         <button onClick={handleForm}> Create a New Recipe </button>
         { showForm ? <CreateRecipeForm /> : null}

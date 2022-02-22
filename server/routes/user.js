@@ -1,17 +1,25 @@
 const { Router } = require('express');
 const UserRouter = Router();
-const cloudinary = require('../index')
-const { Recipe } = require('../db/index')
+const { Recipe } = require('../db/index');
+const cloudinary = require('cloudinary').v2;
 //require User Model, sequelize
 
-//on User post of image
-UserRouter.post('/upload/pic', async (req, res) => {
-  console.log(req.body, 'userRoute 10');
-  try {
-    // const pic = req.body.selectedImg;
-    // const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'Schrodinger\'s Pantry'})
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 
-    // res.status(201).send(uploadedRes.public_id);
+//on User post of image
+UserRouter.post('/pic', async (req, res) => {
+  // console.log(req.body, 'userRoute 10');
+  try {
+    const pic = req.body;
+    console.log(pic, 'user 18');
+    const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'sPantry'})
+
+    console.log(public.id, 'user 14');
+    res.status(201).send(uploadedRes.public_id);
   } catch (error) {
     console.error(error, 'user route 13');
   }
@@ -19,7 +27,7 @@ UserRouter.post('/upload/pic', async (req, res) => {
 })
 
 //on User submission of recipe
-UserRouter.post('/upload/recipe', (req, res) => {
+UserRouter.post('/recipes', (req, res) => {
   console.log(req.body, 'userRoute 23')
   const { title, ingredients, instructions, userId} = req.body;
 

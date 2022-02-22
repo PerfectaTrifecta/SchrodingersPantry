@@ -24,6 +24,7 @@ const Recipe = sql.define('recipes', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   user_id: {
     type: DataTypes.STRING,
@@ -44,6 +45,7 @@ const Bookmark = sql.define('bookmarks', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   url: DataTypes.STRING,
 });
@@ -53,6 +55,7 @@ const User_Bookmark = sql.define('user_bookmark', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   user_id: {
     type: DataTypes.STRING,
@@ -75,6 +78,7 @@ const Favorite = sql.define('favorites', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   user_id: {
     type: DataTypes.STRING,
@@ -97,6 +101,7 @@ const Comment = sql.define('comments', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   user_id: {
     type: DataTypes.STRING,
@@ -120,6 +125,7 @@ const Vote = sql.define('votes', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   user_id: {
     type: DataTypes.STRING,
@@ -142,6 +148,7 @@ const Tag = sql.define('tags', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   text: DataTypes.STRING,
 });
@@ -151,6 +158,7 @@ const Recipe_Tag = sql.define('recipe_tags', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   recipe_id: {
     type: DataTypes.INTEGER,
@@ -173,6 +181,7 @@ const Image = sql.define('images', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   recipe_id: {
     type: DataTypes.INTEGER,
