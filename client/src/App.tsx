@@ -18,9 +18,7 @@ const App: React.FC = (): JSX.Element => {
   return (
     <div>
       {getUser()}
-      <Link to={'/'}>
-        <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg" width='200' />
-      </Link>
+      
       <PulloutMenu />
       <Switch>
         <Route exact path='/'>
