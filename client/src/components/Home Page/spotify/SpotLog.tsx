@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Login() {
+function SpotLog() {
     return (
         <div className="App">
             <header className="App-header">
@@ -12,4 +12,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SpotLog;

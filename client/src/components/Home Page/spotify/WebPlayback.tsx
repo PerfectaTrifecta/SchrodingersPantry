@@ -24,7 +24,7 @@ const track = {
 }
 
 const WebPlayback: React.FC<WebProps> = (props) : JSX.Element => {
-  const [player, setPlayer] = useState(undefined);
+  const [player, setPlayer] = useState();
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
@@ -95,7 +95,7 @@ const WebPlayback: React.FC<WebProps> = (props) : JSX.Element => {
                     <button className="btn-spotify" onClick={() => { player.togglePlay() }} >
                         { is_paused ? "PLAY" : "PAUSE" }
                     </button>
-
+                    
                 <button className="btn-spotify" onClick={() => { player.nextTrack() }} >
                     &gt;&gt;
                 </button>

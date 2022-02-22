@@ -1,39 +1,76 @@
-import React, { useState, useEffect} from 'react';
-import Search from './Search';
-import Login from './spotify/Login';
-import WebPlayback from './spotify/WebPlayback';
-import axios from 'axios'
+// import React, { useState, useEffect} from 'react';
+// import Search from './Search';
+// import Login from './spotify/Login';
+// import WebPlayback from './spotify/WebPlayback';
+// import axios from 'axios'
 
-interface TokenValue {
-  token: String
-}
+// interface TokenValue {
+//   token: String
+// }
+
+// const App: React.FC = (): JSX.Element => {
+//   const [token, setToken] = useState(undefined);
+  
+
+//   useEffect(() => {
+
+//     async function getToken() {
+//       const response = axios.get('/auth/token').then(res => {
+//         setToken(res.data.accessToken)
+//       });
+//       // setToken(json.access_token);
+
+//     }
+
+//     getToken();
+//   }, []);
+  
+//   return (
+//     <div>
+//       {' '}
+//       What up World
+//       {/* <Search /> */}
+//          { token === undefined ? <Login/> : <WebPlayback token={token}/> }
+import React, { useState, useContext } from 'react';
+import CreateRecipeForm from './components/Profile/CreateRecipeForm';
+import HomePage from './components/Home Page/HomePage';
+import PulloutMenu from './components/Home Page/PulloutMenu';
+import RSSFeed from './components/rss/RSSFeedContainer';
+import Search from './components/Search';
+import ProfilePage from './components/Profile/ProfilePage';
+import VideoModal from './components/VideoModal';
+import { Route, Switch, Link } from 'react-router-dom';
+import axios from 'axios';
+import { UserContext } from './UserContext';
+
 
 const App: React.FC = (): JSX.Element => {
-  const [token, setToken] = useState(undefined);
   
+  const { getUser } = useContext(UserContext)
 
-  useEffect(() => {
-
-    async function getToken() {
-      const response = axios.get('/auth/token').then(res => {
-        setToken(res.data.accessToken)
-      });
-      // setToken(json.access_token);
-
-    }
-
-    getToken();
-  }, []);
-  
   return (
     <div>
-      {' '}
-      What up World
-      {/* <Search /> */}
-         { token === undefined ? <Login/> : <WebPlayback token={token}/> }
+      {getUser()}
+      <Link to={'/'}>
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg" width='200' />
+      </Link>
+      <PulloutMenu />
+      <Switch>
+        <Route exact path='/'>
+          <HomePage />
+        </Route>
+        <Route path="/recipe_finder">
+          <Search />
+        </Route>
+        <Route path='/rss'>
+          <RSSFeed />
+        </Route>
+        <Route path='/profile'>
+          <ProfilePage /> 
+        </Route>
+      </Switch>
 
     </div>
   );
 };
-
 export default App;
