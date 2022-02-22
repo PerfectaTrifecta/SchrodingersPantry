@@ -17,106 +17,109 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../UserContext';
 const drawerWidth = 240;
-const useStyles = makeStyles(theme => ({
-
-}));
-
+const useStyles = makeStyles((theme) => ({}));
 
 const PulloutMenu: React.FC = () => {
-
-  const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/logout"];
-  const outCategories = ["Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
+  const inCategories = [
+    'Profile',
+    '/profile',
+    'Find a Recipe',
+    '/recipe_finder',
+    'The Feed',
+    '/rss',
+    'Sign Out',
+    '/logout',
+  ];
+  const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
 
   function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen)
+    setMobileOpen(!mobileOpen);
   }
 
   function logout() {
-    axios.get('/logout')
+    axios
+      .get('/logout')
       .then(() => {
         setUser(null);
-        console.log('user set to null')
+        console.log('user set to null');
       })
-      .catch(err => console.error('error pullout 47', err));
+      .catch((err) => console.error('error pullout 47', err));
   }
 
   const drawer = (
     <div>
-      {
-        user ? (
-          <List>
-            {inCategories.map((text, index) => {
-              if(index % 2 === 0){
-                if(text === "Sign Out") {
-                  return (
-                    <Button onClick={logout} >
-                      <ListItem button key={text}>
-                      <ListItemText primary={text} />
-                      </ListItem>
-                    </Button>
-                  )     
-                } else {
-                  return (
-                    <Link to={inCategories[index + 1]}>
-                     <ListItem button key={text}>
-                     <ListItemText primary={text} />
-                     </ListItem>
-                    </Link>
-                  )       
-                }
-              }
-            })}
-          </List>
-        ) : (
-          <List>
-            <Login />
-            {outCategories.map((text, index) => {
-              if(index % 2 === 0){
+      {user ? (
+        <List>
+          {inCategories.map((text, index) => {
+            if (index % 2 === 0) {
+              if (text === 'Sign Out') {
                 return (
-                  <Link to={outCategories[index + 1]}>
+                  <Button onClick={logout}>
                     <ListItem button key={text}>
-                    <ListItemText primary={text} />
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  </Button>
+                );
+              } else {
+                return (
+                  <Link to={inCategories[index + 1]}>
+                    <ListItem button key={text}>
+                      <ListItemText primary={text} />
                     </ListItem>
                   </Link>
-                )
+                );
               }
-            })}
-          </List>
-        )
-      }
-     
+            }
+          })}
+        </List>
+      ) : (
+        <List>
+          <Login />
+          {outCategories.map((text, index) => {
+            if (index % 2 === 0) {
+              return (
+                <Link to={outCategories[index + 1]}>
+                  <ListItem button key={text}>
+                    <ListItemText primary={text} />
+                  </ListItem>
+                </Link>
+              );
+            }
+          })}
+        </List>
+      )}
     </div>
   );
 
   return (
     <div>
       <CssBaseline />
-      <AppBar position="static" >
+      <AppBar position='static'>
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            edge="start"
+            color='inherit'
+            aria-label='Open drawer'
+            edge='start'
             onClick={handleDrawerToggle}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant='h6' noWrap>
             Schroedinger's Pantry
           </Typography>
         </Toolbar>
       </AppBar>
       <nav>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
+        <Hidden smUp implementation='css'>
           <Drawer
-            variant="temporary"
+            variant='temporary'
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
@@ -124,8 +127,8 @@ const PulloutMenu: React.FC = () => {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <IconButton onClick={handleDrawerToggle} >
-              <CloseIcon/>
+            <IconButton onClick={handleDrawerToggle}>
+              <CloseIcon />
             </IconButton>
             {drawer}
           </Drawer>
@@ -141,11 +144,10 @@ const PulloutMenu: React.FC = () => {
       </nav>
       <div>
         <div />
-        
       </div>
     </div>
   );
-}
+};
 // PulloutMenu.propTypes = {
 //   // Injected by the documentation to work in an iframe.
 //   // You won't need it on your project.

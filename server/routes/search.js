@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 const { Router } = require('express');
-const { ingredientParser, ingredientMap } = require('./ingredients.js');
+const { ingredientParser } = require('../utils/ingredients.js');
 
 const searchRouter = Router();
 //This returns a list of meals by ingredients. It is ran on page load and on search.
@@ -48,10 +48,6 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
       from the response that we need here and send it on it's merry way. */
       //Parse the ingredients in the meal object before we send it to the front.
       const formattedIngredients = ingredientParser(meals[0]);
-      // console.log(formattedIngredients, 50);
-
-      // const andAgain = ingredientMap(formattedIngredients);
-      // console.log(andAgain, 54);
       meals[0].ingredients = formattedIngredients;
 
       const {
