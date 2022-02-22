@@ -17,12 +17,16 @@ const App: React.FC = (): JSX.Element => {
   return (
     <div>
       {getUser()}
+<<<<<<< HEAD
       <Link to={'/'}>
         <img
           src='https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg'
           width='200'
         />
       </Link>
+=======
+      
+>>>>>>> 39b541690f90d951719dd006d15c7d045e2f0e72
       <PulloutMenu />
       <Switch>
         <Route exact path='/'>

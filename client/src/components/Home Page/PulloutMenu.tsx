@@ -54,6 +54,7 @@ const PulloutMenu: React.FC = () => {
 
   const drawer = (
     <div>
+<<<<<<< HEAD
       {user ? (
         <List>
           {inCategories.map((text, index) => {
@@ -62,6 +63,20 @@ const PulloutMenu: React.FC = () => {
                 return (
                   <Button onClick={logout}>
                     <ListItem button key={text}>
+=======
+      <Link to={'/'}>
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg" width='200' />
+      </Link>
+      {
+        user ? (
+          <List>
+            {inCategories.map((text, index) => {
+              if(index % 2 === 0){
+                if(text === "Sign Out") {
+                  return (
+                    <Button onClick={logout} >
+                      <ListItem button key={text}>
+>>>>>>> 39b541690f90d951719dd006d15c7d045e2f0e72
                       <ListItemText primary={text} />
                     </ListItem>
                   </Button>
