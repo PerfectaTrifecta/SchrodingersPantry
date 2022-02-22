@@ -2,14 +2,14 @@ const express = require('express');
 const session = require('express-session')
 const passport = require('passport');
 const path = require('path');
-const { sql } = require('./db/index.js');
+const { sql } = require('./db/index');
 const cookieParser = require('cookie-parser');
 const cloudinary = require('cloudinary').v2;
 const cors = require('cors');
 
 
 const router = require('./routes/index.js');
-require('./auth/passport-config')(passport);
+require('./auth/passport-config.js')(passport);
 
 
 require('dotenv').config();

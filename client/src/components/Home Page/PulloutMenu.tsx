@@ -22,7 +22,7 @@ import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
 
 interface TokenValue {
-  token: String
+  token: string
 }
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -38,7 +38,7 @@ const PulloutMenu: React.FC = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
-  const [token, setToken] = useState(undefined);
+  const [token, setToken] = useState("");
 
     useEffect(() => {
 
