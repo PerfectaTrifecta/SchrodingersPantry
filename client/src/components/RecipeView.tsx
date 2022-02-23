@@ -2,34 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import VideoModal from './VideoModal';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-
-//From MUI components
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -46,7 +29,8 @@ interface RecipeProps {
 
 const RecipeView: React.FC = () => {
   //Use the useLocation hook to get idMeal passed through the search route.
-  const location = useLocation();
+  const location = useLocation<{ idMeal: string }>();
+  console.log(location, 50);
   const { idMeal } = location.state;
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
 
@@ -72,9 +56,7 @@ const RecipeView: React.FC = () => {
     <Card
       sx={{ maxWidth: 345 }}
       style={{
-        alignContent: 'center',
-        justifyContent: 'space-evenly',
-        margin: '16px',
+        margin: '16px auto',
         maxWidth: '600px',
         width: '90%',
       }}
@@ -101,11 +83,9 @@ const RecipeView: React.FC = () => {
         <Typography paragraph>
           <strong>Directions:</strong>
         </Typography>
-        <Typography paragraph>
-          {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
-            <p key={p + i}>{p}</p>
-          ))}
-        </Typography>
+        {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
+          <Typography key={p + i}>{p}</Typography>
+        ))}
         <VideoModal mealName={mealRecipe[0].strMeal} />
       </CardContent>
       <CardActions disableSpacing>
@@ -118,14 +98,13 @@ const RecipeView: React.FC = () => {
         <IconButton>
           <ShoppingBagIcon />
         </IconButton>
-        <ExpandMore
-          expand={expanded}
+        <IconButton
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label='show more'
         >
           See Reviews!
-        </ExpandMore>
+        </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>

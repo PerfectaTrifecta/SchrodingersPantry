@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,13 +12,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';
-const drawerWidth = 240;
-const useStyles = makeStyles((theme) => ({}));
 
 const PulloutMenu: React.FC = () => {
   const inCategories = [
@@ -33,7 +30,6 @@ const PulloutMenu: React.FC = () => {
     '/logout',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
-  const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
@@ -66,16 +62,16 @@ const PulloutMenu: React.FC = () => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button onClick={logout}>
-                    <ListItem button key={text}>
+                  <Button onClick={logout} key={text}>
+                    <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
                   </Button>
                 );
               } else {
                 return (
-                  <Link to={inCategories[index + 1]}>
-                    <ListItem button key={text}>
+                  <Link to={inCategories[index + 1]} key={text}>
+                    <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
                   </Link>
@@ -90,8 +86,8 @@ const PulloutMenu: React.FC = () => {
           {outCategories.map((text, index) => {
             if (index % 2 === 0) {
               return (
-                <Link to={outCategories[index + 1]}>
-                  <ListItem button key={text}>
+                <Link to={outCategories[index + 1]} key={text}>
+                  <ListItem button>
                     <ListItemText primary={text} />
                   </ListItem>
                 </Link>
@@ -154,9 +150,5 @@ const PulloutMenu: React.FC = () => {
     </div>
   );
 };
-// PulloutMenu.propTypes = {
-//   // Injected by the documentation to work in an iframe.
-//   // You won't need it on your project.
-//   container: PropTypes.object,
-// };
+
 export default PulloutMenu;

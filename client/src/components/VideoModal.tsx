@@ -1,9 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { Modal } from 'react-bootstrap';
 import Button from '@mui/material/Button';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import axios from 'axios';
 import { VideoContext } from '../VideoContext';
 
 interface VideoProps {
@@ -11,33 +10,27 @@ interface VideoProps {
 }
 
 const VideoModal = ({ mealName }: VideoProps) => {
-  const { searchClick, videoId, recipeName, setRecipeName } =
-    useContext(VideoContext);
-  console.log(videoId, 'string');
+  const { searchClick, videoId, setRecipeName } = useContext(VideoContext);
   const [show, setShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // onClick={handleShow}
   useEffect(() => {
     setRecipeName(mealName);
-    //searchClick();
   });
 
   return (
     <>
-      <IconButton aria-label='tutorial'>
+      <IconButton
+        aria-label='tutorial'
+        onClick={() => {
+          handleShow();
+          searchClick();
+        }}
+      >
         {' '}
         Youtube Tutorial
         {/* allow users to play most relevant tutorial from youtube */}
-        <PlayCircleIcon
-          onClick={() => {
-            //console.log(videoId, 53);
-            //setMealName(recipeName);
-            handleShow();
-            //setRecipeName(mealName)
-            searchClick();
-          }}
-        />
+        <PlayCircleIcon />
       </IconButton>
 
       <Modal show={show} onHide={handleClose}>
@@ -62,13 +55,5 @@ const VideoModal = ({ mealName }: VideoProps) => {
     </>
   );
 };
-
-//   return (
-//     <div>
-//
-//     </div>
-
-//   )
-// }
 
 export default VideoModal;
