@@ -13,34 +13,25 @@ const RSSFeed: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [stories, setStories] = useState<any[]>([]);
 
-  type CustomFeed = {foo: string};
-  type CustomItem = {bar: number};
-  const [parsedDoc, setParsedDoc] = useState();
+  
 
-  const parser: Parser<CustomFeed, CustomItem> = new Parser({
-    customFields: {
-      feed: ['foo'],
-      item: ['bar']
-    }
-  });
-
-  //unique RSS feeds for each outlet
-  const feedUrls = [
-    '6206a68b6d822c4afd308fd26206a71a2631ca7ba8088fc2.xml',
-    '6206a68b6d822c4afd308fd26206a7d932a48d18dd49a782.xml',
-    '6206a68b6d822c4afd308fd26206a88b6bb15b6f04753492.xml'
-  ]
   const getFeed = (selectedTab: number) => {
-    (async () => {
-      const feed = await parser.parseURL(`http://fetchrss.com/rss/${feedUrls[selectedTab]}`);
-      setStories(feed.items);
-    })();
-  };
+    axios.get(`/routes/rss/populate/${selectedTab}`)
+      .then((data) => {
+        setStories(data);
+      })
+      .catch((err) => {
+        throw err;
+      })
+
+   
+};
 
 
-  useEffect(() => {
-    getFeed(0);
-  }, [])
+useEffect(() => {
+  getFeed(0);
+}, [])
+
 
   const tabs = ["Eater", "NYT Food", "Delish"];
 
