@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React, { useState, useContext } from 'react';
+=======
+import React, { useState, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
+>>>>>>> 6eb88e675818521e51e399683d0a479dab935618
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,7 +21,22 @@ import { useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
+<<<<<<< HEAD
 import { UserContext } from '../../UserContext';
+=======
+import { UserContext } from '../../UserContext'
+import SpotLog from './spotify/SpotLog';
+import WebPlayback from './spotify/WebPlayback';
+
+interface TokenValue {
+  token: string
+}
+const drawerWidth = 240;
+const useStyles = makeStyles(theme => ({
+
+}));
+
+>>>>>>> 6eb88e675818521e51e399683d0a479dab935618
 
 const PulloutMenu: React.FC = () => {
   const inCategories = [
@@ -33,15 +53,36 @@ const PulloutMenu: React.FC = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [token, setToken] = useState("");
+
+    useEffect(() => {
+
+    async function getToken() {
+      const response = axios.get('/auth/token').then(res => {
+        setToken(res.data.accessToken)
+      });
+      // setToken(json.access_token);
+
+    }
+
+    getToken();
+  }, []);
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
 
+
   function logout() {
+<<<<<<< HEAD
     axios
       .get('/logout')
       .then(() => {
+=======
+    axios.get('/auth/logout')
+      .then((res) => {
+        
+>>>>>>> 6eb88e675818521e51e399683d0a479dab935618
         setUser(null);
         console.log('user set to null');
       })
@@ -65,10 +106,36 @@ const PulloutMenu: React.FC = () => {
                   <Button onClick={logout} key={text}>
                     <ListItem button>
                       <ListItemText primary={text} />
+<<<<<<< HEAD
                     </ListItem>
                   </Button>
                 );
               } else {
+=======
+                      </ListItem>
+                    </Button>
+                    
+                  )     
+                } else {
+                  return (
+                    <Link to={inCategories[index + 1]}>
+                     <ListItem button key={text}>
+                     <ListItemText primary={text} />
+                     </ListItem>
+                    </Link>
+
+                  )       
+                }
+              }
+            })}
+            { token === undefined ? <SpotLog key={1}/> : <WebPlayback token={token} key ={token}/> }
+          </List>
+        ) : (
+          <List>
+            <Login />
+            {outCategories.map((text, index) => {
+              if(index % 2 === 0){
+>>>>>>> 6eb88e675818521e51e399683d0a479dab935618
                 return (
                   <Link to={inCategories[index + 1]} key={text}>
                     <ListItem button>
