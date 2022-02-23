@@ -2,8 +2,6 @@ import React, { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { Tabs, Tab, AppBar } from "@material-ui/core";
 import { values } from "lodash";
 import axios from "axios";
-import Parser from 'rss-parser';
-
 
 
 
@@ -15,26 +13,22 @@ const RSSFeed: React.FC = () => {
 
   type CustomFeed = {foo: string};
   type CustomItem = {bar: number};
-  const [parsedDoc, setParsedDoc] = useState();
 
-  const parser: Parser<CustomFeed, CustomItem> = new Parser({
-    customFields: {
-      feed: ['foo'],
-      item: ['bar']
-    }
-  });
+  interface RSSData {
+    feed: string,
+    item: number,
+  }
 
-  //unique RSS feeds for each outlet
-  const feedUrls = [
-    '6206a68b6d822c4afd308fd26206a71a2631ca7ba8088fc2.xml',
-    '6206a68b6d822c4afd308fd26206a7d932a48d18dd49a782.xml',
-    '6206a68b6d822c4afd308fd26206a88b6bb15b6f04753492.xml'
-  ]
+  
+  
   const getFeed = (selectedTab: number) => {
-    (async () => {
-      const feed = await parser.parseURL(`http://fetchrss.com/rss/${feedUrls[selectedTab]}`);
-      setStories(feed.items);
-    })();
+      axios.get<RSSData[]>(`/routes/rss/populate/${selectedTab}`)
+        .then(({ data }) => {
+          setStories(data);
+        })
+        .catch((err) => {
+          throw err;
+        })
   };
 
 
@@ -57,7 +51,7 @@ const RSSFeed: React.FC = () => {
       </AppBar>
       {/* <RenderFeed selectedTab={selectedTab} /> */}
       {stories.map((story, i) => {
-        let {creator, title, pubDate, link} = story;
+        let { creator, title, pubDate, link } = story;
         return(
           <div>
             <h5>{title}</h5>

@@ -19,7 +19,7 @@ interface VideoProps {
 }
 
 //take meal from props passed from a clicked recipe
-const SearchYoutube =  async ({ meal} : SearchProps) => {
+const SearchYoutube =  async ({ meal } : SearchProps) => {
     const [video, setVideo] = React.useState<VideoProps>();
   
     // search youtube api for that meal, displaying top result
