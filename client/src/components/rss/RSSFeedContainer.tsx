@@ -23,19 +23,18 @@ const RSSFeed: React.FC = () => {
   
   const getFeed = (selectedTab: number) => {
       axios.get<RSSData[]>(`/routes/rss/populate/${selectedTab}`)
-        .then((data) => {
+        .then(({ data }) => {
+          console.log(data);
           setStories(data);
         })
         .catch((err) => {
           throw err;
         })
-
-     
   };
 
 
   useEffect(() => {
-    data && getFeed(0);
+    getFeed(0);
   }, [])
 
   const tabs = ["Eater", "NYT Food", "Delish"];
