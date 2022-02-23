@@ -11,6 +11,5 @@ module.exports = (app) => {
   app.use('/auth/', authRouter);
   app.use('/routes/videos/', videoRouter);
   app.use('/routes/user/profile/', UserRouter);
-  app.use('/', authRouter);
   app.use('/routes/rss/populate', rssGet);
 };
