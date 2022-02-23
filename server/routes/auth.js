@@ -1,9 +1,33 @@
+const axios = require('axios').default;
 const { Router } = require('express');
 const passport = require('passport');
-const { GoogleStrategy } = require('../oauth/passport');
 const { User } = require('../db/index');
 
+
 const authRouter = Router();
+let accessToken;
+
+authRouter.get('/spotify/login', passport.authenticate('spotify', { 
+  scope: ['streaming', 'user-read-email', 'user-read-private'] 
+}));
+
+authRouter.get('/spotify/callback', 
+  passport.authenticate('spotify', { failureRedirect: '/' }),
+function(req, res) {
+  // Successful authentication, redirect home.
+  accessToken = req.user;
+  // res.cookie('spotify', accessToken);
+  res.redirect('/');
+});
+// console.log(accessToken, 20);
+authRouter.get('/token', (req, res) => {
+  res.json(
+    {
+      accessToken: accessToken
+    }
+  )
+})
+
 
 authRouter.get(
   '/google',
@@ -26,7 +50,7 @@ authRouter.get(
 );
 
 authRouter.get('/user', (req, res) => {
-  // console.log(req.cookies, 'auth 20');
+  console.log(req.cookies, 'auth 20');
   if (req.cookies.googleId) {
     User.findAll({
       where: {
@@ -42,9 +66,11 @@ authRouter.get('/user', (req, res) => {
 });
 
 authRouter.get('/logout', (req, res) => {
+  console.log('yep')
   res.clearCookie('googleId');
+  res.clearCookie('connect.sid');
   res.status(200);
   res.redirect('/');
 });
 
-module.exports = { authRouter };
+module.exports = { authRouter, accessToken };
