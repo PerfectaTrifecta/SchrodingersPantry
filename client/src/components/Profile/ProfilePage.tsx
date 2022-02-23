@@ -96,21 +96,21 @@ const ProfilePage: React.FC = () => {
 
   //when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
-    axios.get('/user/recipes')
+    axios.get('/routes/user/profile/recipes')
       .then(({ data }) => {
         // console.log(data, 'user recipes, profile 96')
         setCreations(data);
       })
       .catch(err => console.error('problem getting recipes, profile 98', err));
 
-    axios.get('user/favorites')
+    axios.get('routes/user/profile/favorites')
       .then(({ data }) => {
         // console.log(data, 'user faves, profile 103');
         setFavorites(data)
       })
       .catch(err => console.error('problem getting faves, profile 108'));
 
-    axios.get('user/bookmarks')
+    axios.get('/routes/user/profile/bookmarks')
       .then(({ data }) => {
         // console.log(data, 'user bookmarks, profile 112');
         setBookmarks(data);
@@ -153,7 +153,7 @@ const ProfilePage: React.FC = () => {
 
   const submitImg = () => {
     // console.log(selectedImg, 83);
-    axios.post('/user/upload/pic', selectedImg)
+    axios.post('/routes/user/profile/upload/pic', selectedImg)
     .then((id) => {
       //BUG TO REVISTS
       // setImg(id);      

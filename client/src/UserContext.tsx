@@ -27,7 +27,7 @@ function UserContextProvider({ children } : Props) {
 
   const getUser = () => {
     if (!user) {
-      axios.get('/user')
+      axios.get('/auth/user')
         .then(({ data }) => {
           console.log(data[0], 'context 31');
           setUser(data[0]);

@@ -1,15 +1,22 @@
 const express = require('express');
-const path = require('path');
+const session = require('express-session')
 const passport = require('passport');
-const { sql } = require('./db/index.js');
-const session = require('express-session');
+const path = require('path');
+const { sql } = require('./db/index');
 const cookieParser = require('cookie-parser');
+const cloudinary = require('cloudinary').v2;
+const cors = require('cors');
+
 
 const router = require('./routes/index.js');
+require('./auth/passport-config.js')(passport);
+
 
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
+
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 
 app.use(express.json({ limit: '100mb', extended: true }));
@@ -38,6 +45,17 @@ passport.deserializeUser(function(user, cb) {
  
 });
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+app.use(session({
+  secret: 'SECRET',
+  resave: false,
+  saveUninitialized: true,
+})); // 
 
 router(app);
 const PORT = 4000;
