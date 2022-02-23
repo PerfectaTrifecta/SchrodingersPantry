@@ -30,15 +30,17 @@ const ProfileImage =  (files) => {
   return (
  <div>
    <Image 
-        style={{ width: 600, height: 322, borderRadius: 10}}
+        style={{ width: 520, height: 356, borderRadius: 10}}
         cloudName="schrodinger-s-pantry"
         publicId={`${shownImage}`} />
+   <br />
    <br />
   <label 
       htmlFor="upload-photo" 
       onChange={(event) => {
       setImageSelected(event.target.files[0]);
-    }}>
+    }}
+    style={{ justifyContent: "space-evenly"}}>
     <input
     style={{ display: "none"}}
     id="upload-photo"
@@ -55,15 +57,16 @@ const ProfileImage =  (files) => {
     component="span"
     aria-label="add"
     variant="extended"
+    
   >
-    <AddIcon /> CHOOSE FILE
+    CHOOSE FILE
   </Fab>
   
 
 </label>
 
 
-<label onClick={uploadImage}>
+<label onClick={uploadImage} >
 
   <Fab
     color="primary"
@@ -71,6 +74,8 @@ const ProfileImage =  (files) => {
     component="span"
     aria-label="add"
     variant="extended"
+    justifycontent="space-around"
+    
   >
     <AddIcon /> UPLOAD IMAGE
   </Fab>
