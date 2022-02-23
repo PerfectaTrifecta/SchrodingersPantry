@@ -5,7 +5,7 @@ const { User } = require('../db/index');
 
 
 const authRouter = Router();
-var accessToken;
+let accessToken;
 
 authRouter.get('/spotify/login', passport.authenticate('spotify', { 
   scope: ['streaming', 'user-read-email', 'user-read-private'] 

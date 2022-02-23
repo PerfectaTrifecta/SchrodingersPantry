@@ -19,7 +19,7 @@ const track = {
 }
 
 const WebPlayback: React.FC<WebProps> = (props): JSX.Element => {
-    const [player, setPlayer] = useState<Spotify.Player | null>(null);
+    const [player, setPlayer] = useState<Spotify.Player>(undefined);
     const [is_paused, setPaused] = useState(false);
     const [is_active, setActive] = useState(false);
     const [current_track, setTrack] = useState(track);
