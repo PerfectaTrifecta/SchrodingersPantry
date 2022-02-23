@@ -34,9 +34,9 @@ const CreateRecipeForm = () => {
 
   //on submit should send
   const create = () => {
-    axios.post('/upload/recipe', { title, ingredients, instructions, userId: user.id})
-      .then(() => {})
-      .catch(err => console.error(err, 'createRecipe 39'));
+    axios.post('/user/upload/recipe', { title, ingredients, instructions, userId: user.id})
+      .then(() => console.log('recipe created 38'))
+      .catch(err => console.error(err, 'createRecipe failed 39'));
   };
 
   return (

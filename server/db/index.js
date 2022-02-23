@@ -9,6 +9,7 @@ const sql = new Sequelize(DB_NAME, DB_USER, DB_PW, {
   dialect: 'postgres',
   logging: false,
 });
+//IF YOU NEED TO UPDATE THE DB, insert {alter: true} into .sync() on line 198
 
 const User = sql.define('users', {
   id: {
@@ -194,7 +195,7 @@ const Image = sql.define('images', {
 });
 
 sql
-  .sync({ alter: true }) //change back to alter before pushing
+  .sync() //insert {alter: true} if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 

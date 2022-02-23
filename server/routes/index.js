@@ -8,6 +8,6 @@ associated route file.*/
 module.exports = (app) => {
   app.use('/routes/search/', searchRouter);
   app.use('/routes/videos/', videoRouter);
-  app.use('/upload/', UserRouter);
+  app.use('/user/', UserRouter);
   app.use('/', authRouter);
 };

@@ -30,6 +30,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 //import SearchYoutube from './SearchYoutube';
 
 //-----for card chevron expansion functionality-----/
@@ -67,15 +70,17 @@ const ProfilePage: React.FC = () => {
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [creations, setCreations] = useState<MyRecipeTypes[]>([])
+  const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
+  const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
 
-  const [aboutMeDisplay, setAboutMeDisplay] = useState<string>();
+  const [aboutMeDisplay, setAboutMeDisplay] = useState<string>('');
   const [aboutMe, setAboutMe] = useState<string>('');
   const [editBio, setEditBio] = useState<boolean>(false);
-  const [dietDisplay, setDietDisplay] = useState<string>()
+  const [dietDisplay, setDietDisplay] = useState<string>('None')
   const [diet, setDiet] = useState<string>('');
   const [editDiet, setEditDiet] = useState<boolean>(false);
-  const [allergyDisplay, setAllergyDisplay] = useState<string>();
+  const [allergyDisplay, setAllergyDisplay] = useState<string>('None');
   const [allergies, setAllergies] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
   // use user context and assign the values to corresponding state values and map thru
@@ -91,11 +96,26 @@ const ProfilePage: React.FC = () => {
 
   //when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
-    axios.get('/recipes')
+    axios.get('/user/recipes')
       .then(({ data }) => {
+        // console.log(data, 'user recipes, profile 96')
         setCreations(data);
       })
-      .catch(err => console.error('problem grabbing recipes', err));
+      .catch(err => console.error('problem getting recipes, profile 98', err));
+
+    axios.get('user/favorites')
+      .then(({ data }) => {
+        // console.log(data, 'user faves, profile 103');
+        setFavorites(data)
+      })
+      .catch(err => console.error('problem getting faves, profile 108'));
+
+    axios.get('user/bookmarks')
+      .then(({ data }) => {
+        // console.log(data, 'user bookmarks, profile 112');
+        setBookmarks(data);
+      })
+      .catch(err => console.error('problem getting bookmarks, profile 115'));
   })
 
   //for now use dummy data
@@ -133,7 +153,7 @@ const ProfilePage: React.FC = () => {
 
   const submitImg = () => {
     // console.log(selectedImg, 83);
-    axios.post('/upload/pic', selectedImg)
+    axios.post('/user/upload/pic', selectedImg)
     .then((id) => {
       //BUG TO REVISTS
       // setImg(id);      
@@ -169,7 +189,15 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Card
         sx={{ maxWidth: 345 }}
         style={{
@@ -199,7 +227,7 @@ const ProfilePage: React.FC = () => {
                 sx={{ bgcolor: orange[500], width: 56, height: 56 }}
                 aria-label='recipe'
               >
-                {console.log(user.name, 'profile 99')}
+                {/* {console.log(user.name, 'profile 99')} */}
                 {user.name.slice(0, 1)}
                 {/* this should be user profile's first letter */}
               </Avatar>
@@ -304,28 +332,41 @@ const ProfilePage: React.FC = () => {
               </IconButton>
             </Typography>
               <input type="file" accept="image/*" onChange={handleImgUpload} multiple={false} />
-              <button onClick={submitImg}> Submit </button>
+              <Button onClick={submitImg}> Submit </Button>
           </CardContent>
         </Collapse>
       </Card>
-      <div>
+      { showForm ? <CreateRecipeForm /> : null}
+      <div 
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         MY RECIPES 
+        <Button size='small' onClick={handleForm}> Create a New Recipe </Button>
         {/* BUG TO REVISIT*/}
         {/* {creations.map((creation) => {
-          return <MyRecipe creation={creation} />;
+          //should return a recipe preview like the search page 
         })} */}
-        <button onClick={handleForm}> Create a New Recipe </button>
-        { showForm ? <CreateRecipeForm /> : null}
       </div>
       <div>
         FAVORITE RECIPES 
-        {/* {user.favorites.map((favorite: string) => {
-          return <Favorite favorite={favorite} />;
+        {/* {favorites.map((favorite) => {
+          //should return a recipe preview like the search page
         })} */}
       </div>
       <div>
         BOOKMARKS 
-        
+        <List>
+          {/* {bookmarks.map(mark => {
+            <ListItem>
+              <ListItemText primary={mark} />
+            </ListItem>
+          })} */}
+        </List>
       </div>
     </div>
   
