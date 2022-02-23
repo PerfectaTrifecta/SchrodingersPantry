@@ -48,6 +48,9 @@ const PulloutMenu: React.FC = () => {
 
   const drawer = (
     <div>
+      <Link to={'/'}>
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg" width='200' />
+      </Link>
       {
         user ? (
           <List>
