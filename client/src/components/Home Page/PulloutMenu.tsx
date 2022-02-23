@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,6 +18,12 @@ import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
 import { UserContext } from '../../UserContext'
+import SpotLog from './spotify/SpotLog';
+import WebPlayback from './spotify/WebPlayback';
+
+interface TokenValue {
+  token: string
+}
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 
@@ -32,14 +38,30 @@ const PulloutMenu: React.FC = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [token, setToken] = useState("");
+
+    useEffect(() => {
+
+    async function getToken() {
+      const response = axios.get('/auth/token').then(res => {
+        setToken(res.data.accessToken)
+      });
+      // setToken(json.access_token);
+
+    }
+
+    getToken();
+  }, []);
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen)
   }
 
+
   function logout() {
-    axios.get('/logout')
-      .then(() => {
+    axios.get('/auth/logout')
+      .then((res) => {
+        
         setUser(null);
         console.log('user set to null')
       })
@@ -63,6 +85,7 @@ const PulloutMenu: React.FC = () => {
                       <ListItemText primary={text} />
                       </ListItem>
                     </Button>
+                    
                   )     
                 } else {
                   return (
@@ -71,10 +94,12 @@ const PulloutMenu: React.FC = () => {
                      <ListItemText primary={text} />
                      </ListItem>
                     </Link>
+
                   )       
                 }
               }
             })}
+            { token === undefined ? <SpotLog key={1}/> : <WebPlayback token={token} key ={token}/> }
           </List>
         ) : (
           <List>

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserRouter = Router();
-const cloudinary = require('../index')
+// const cloudinary = require('../index')
 const { Recipe } = require('../db/index')
 //require User Model, sequelize
 
