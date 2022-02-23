@@ -24,7 +24,6 @@ const RSSFeed: React.FC = () => {
   const getFeed = (selectedTab: number) => {
       axios.get<RSSData[]>(`/routes/rss/populate/${selectedTab}`)
         .then(({ data }) => {
-          console.log(data);
           setStories(data);
         })
         .catch((err) => {

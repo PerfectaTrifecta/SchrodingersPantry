@@ -12,7 +12,7 @@ const Parser =require('rss-parser')
 
 rssGet.get('/:selectedTab', (req, res) => {
   const { selectedTab } = req.params;
-  console.log(selectedTab);
+
   //unique RSS feeds for each outlet
   const feedUrls = [
     '6206a68b6d822c4afd308fd26206a71a2631ca7ba8088fc2.xml',
