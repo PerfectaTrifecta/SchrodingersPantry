@@ -27,13 +27,6 @@ const Recipe = sql.define('recipes', {
     primaryKey: true,
     autoIncrement: true
   },
-  user_id: {
-    type: DataTypes.STRING,
-    references: {
-      model: User,
-      key: 'id'
-    }
-  },
   title: DataTypes.STRING,
   ingredients: DataTypes.STRING,
   instructions: DataTypes.STRING,
@@ -51,26 +44,12 @@ const Bookmark = sql.define('bookmarks', {
   url: DataTypes.STRING,
 });
 
-const User_Bookmark = sql.define('user_bookmark', {
+const User_Bookmark = sql.define('user_bookmarks', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
-  },
-  user_id: {
-    type: DataTypes.STRING,
-    references: {
-      model: User,
-      key: 'id',
-    },
-  },
-  bookmark_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Bookmark,
-      key: 'id',
-    },
   },
 });
 
@@ -81,20 +60,6 @@ const Favorite = sql.define('favorites', {
     primaryKey: true,
     autoIncrement: true
   },
-  user_id: {
-    type: DataTypes.STRING,
-    references: {
-      model: User,
-      key: 'id',
-    },
-  },
-  recipe_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Recipe,
-      key: 'id',
-    },
-  },
 });
 
 const Comment = sql.define('comments', {
@@ -103,20 +68,6 @@ const Comment = sql.define('comments', {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
-  },
-  user_id: {
-    type: DataTypes.STRING,
-    references: {
-      model: User,
-      key: 'id',
-    },
-  },
-  recipe_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Recipe,
-      key: 'id',
-    },
   },
   text: DataTypes.STRING,
 });
@@ -127,21 +78,7 @@ const Vote = sql.define('votes', {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
-  },
-  user_id: {
-    type: DataTypes.STRING,
-    references: {
-      model: User,
-      key: 'id',
-    },
-  },
-  recipe_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Recipe,
-      key: 'id',
-    },
-  },
+  }
 });
 
 const Tag = sql.define('tags', {
@@ -193,6 +130,24 @@ const Image = sql.define('images', {
   },
   img: DataTypes.STRING,
 });
+
+//DEFINE MODEL RELATIONSHIPS HERE
+User.belongsToMany(Bookmark, { through: 'user_bookmarks'});
+Bookmark.belongsToMany(User, { through: 'user_bookmarks'});
+
+User.hasMany(Recipe);
+Recipe.belongsTo(User);
+
+User.belongsToMany(Recipe, { through: 'favorites'});
+Recipe.belongsToMany(User, { through: 'favorites' });
+
+User.belongsToMany(Recipe, { through: 'votes'});
+Recipe.belongsToMany(User, { through: 'votes'});
+
+User.belongsToMany(Recipe, { through: 'comments'});
+Recipe.belongsToMany(User, { through: 'comments'});
+
+
 
 sql
   .sync() //insert {alter: true} if you need to change the db structure

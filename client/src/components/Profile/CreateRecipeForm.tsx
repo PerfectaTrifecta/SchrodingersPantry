@@ -9,7 +9,11 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';
 
-const CreateRecipeForm = () => {
+interface Props {
+  handleForm: () => void;
+}
+
+const CreateRecipeForm = ({ handleForm }: Props) => {
 
   const [title, setTitle] = useState<string>('');
   const [ingredients, setIngredients] = useState<string>('');
@@ -34,8 +38,15 @@ const CreateRecipeForm = () => {
 
   //on submit should send
   const create = () => {
+    console.log('listening? 41');
     axios.post('/routes/user/profile/upload/recipe', { title, ingredients, instructions, userId: user.id})
-      .then(() => console.log('recipe created 38'))
+      .then(() => {
+        setTitle('');
+        setIngredients('');
+        setInstructions('');
+        handleForm();
+        console.log('recipe created 38');
+      })
       .catch(err => console.error(err, 'createRecipe failed 39'));
   };
 

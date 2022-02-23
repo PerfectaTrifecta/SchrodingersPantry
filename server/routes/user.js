@@ -31,7 +31,7 @@ UserRouter.post('/upload/recipe', (req, res) => {
   console.log(req.body, 'userRoute 23')
   const { title, ingredients, instructions, userId} = req.body;
 
-  Recipe.create({ user_id: userId, title, ingredients, instructions})
+  Recipe.create({ userId, title, ingredients, instructions})
     .then(() => {
       res.sendStatus(201);
     })
@@ -42,7 +42,7 @@ UserRouter.post('/upload/recipe', (req, res) => {
 UserRouter.get('/recipes', (req, res) => {
   Recipe.findAll({
     where: {
-      user_id: req.cookies.googleId
+      userId: req.cookies.googleId
     }
   })
   .then(recipes => {
@@ -53,31 +53,41 @@ UserRouter.get('/recipes', (req, res) => {
 });
 
 UserRouter.get('/favorites', (req, res) => {
-  Favorite.findAll({
-    where: {
-      user_id: req.cookies.googleId
-    }
+  // find all recipes included in the favorites table where the user id is our signed in user
+  Recipe.findAll({
+   include: {
+     model: Favorite,
+     where: {
+       userId: req.cookies.googleId
+     }
+   }
   })
   .then(faves => {
-    // console.log(faves, 'userRoute 62');
-    //for each of the favorites, find all recipes where the id matches recipe_id
-    //send an array of recipe objects to the front
-    res.send(200);
+    //console.log(faves, 'userRoute 67');
+    //Uncomment This ^^ and check that data structure,
+    //You should be sending back an array of Recipe objects 
+    res.status(200). send(faves);
   })
   .catch(err => console.error(err, 'userRoute 67'));
 });
 
 UserRouter.get('/bookmarks', (req, res) => {
-  User_Bookmark.findAll({
-    where: {
-      user_id: req.cookies.googleId
-    }
+  //find all bookmarks included in user_bookmarks where the userId in out signed in user
+  Bookmark.findAll({
+   include: {
+     model: User_Bookmark,
+     where: {
+       userId: req.cookies.googleId
+     }
+   }
   })
-  .then(userMarks => {
-    //console.log(userMarks, 'userRoute 77');
-    //for each userMark, find all bookmarks where the id matches bookmark_id
-    //send an array of urls to the front
-    res.send(200);
+  .then(urls => {
+    // console.log(urls, 'userRoute 77');
+    //Uncomment this ^^ and check the data structure
+    //You should send and array of urls to the front
+    //Maybe an array of objects with urls and titles?
+    //If so, be sure to change the expectation on ProfilePage line 75
+    res.status(200).send(urls);
   })
   .catch(err => console.error(err, 'userRoute 82'))
 })

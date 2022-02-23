@@ -94,7 +94,7 @@ const ProfilePage: React.FC = () => {
   const profilePic = cld.image(img);
   //checkout different url-gen actions to see how to style the image using profilePic.<action>
 
-  //when page loads, get user's recipes (& favorites & bookmarks) from db
+  // when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
     axios.get('/routes/user/profile/recipes')
       .then(({ data }) => {
@@ -103,7 +103,7 @@ const ProfilePage: React.FC = () => {
       })
       .catch(err => console.error('problem getting recipes, profile 98', err));
 
-    axios.get('routes/user/profile/favorites')
+    axios.get('/routes/user/profile/favorites')
       .then(({ data }) => {
         // console.log(data, 'user faves, profile 103');
         setFavorites(data)
@@ -336,7 +336,7 @@ const ProfilePage: React.FC = () => {
           </CardContent>
         </Collapse>
       </Card>
-      { showForm ? <CreateRecipeForm /> : null}
+      { showForm ? <CreateRecipeForm handleForm={handleForm} /> : null}
       <div 
         style={{
           display: 'flex',
