@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,23 +12,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../UserContext';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
 
 interface TokenValue {
-  token: string
+  token: string;
 }
 const drawerWidth = 240;
-const useStyles = makeStyles(theme => ({
-
-}));
-
-
+const useStyles = makeStyles((theme) => ({}));
+console.log('changes here?');
 const PulloutMenu: React.FC = () => {
   const inCategories = [
     'Profile',
@@ -44,16 +41,14 @@ const PulloutMenu: React.FC = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
 
-    useEffect(() => {
-
+  useEffect(() => {
     async function getToken() {
-      const response = axios.get('/auth/token').then(res => {
-        setToken(res.data.accessToken)
+      const response = axios.get('/auth/token').then((res) => {
+        setToken(res.data.accessToken);
       });
       // setToken(json.access_token);
-
     }
 
     getToken();
@@ -63,11 +58,10 @@ const PulloutMenu: React.FC = () => {
     setMobileOpen(!mobileOpen);
   }
 
-
   function logout() {
-    axios.get('/auth/logout')
+    axios
+      .get('/auth/logout')
       .then((res) => {
-        
         setUser(null);
         console.log('user set to null');
       })
@@ -91,32 +85,13 @@ const PulloutMenu: React.FC = () => {
                   <Button onClick={logout} key={text}>
                     <ListItem button>
                       <ListItemText primary={text} />
-                      </ListItem>
-                    </Button>
-                    
-                  )     
-                } else {
-                  return (
-                    <Link to={inCategories[index + 1]}>
-                     <ListItem button key={text}>
-                     <ListItemText primary={text} />
-                     </ListItem>
-                    </Link>
-
-                  )       
-                }
-              }
-            })}
-            { token === undefined ? <SpotLog key={1}/> : <WebPlayback token={token} key ={token}/> }
-          </List>
-        ) : (
-          <List>
-            <Login />
-            {outCategories.map((text, index) => {
-              if(index % 2 === 0){
+                    </ListItem>
+                  </Button>
+                );
+              } else {
                 return (
-                  <Link to={inCategories[index + 1]} key={text}>
-                    <ListItem button>
+                  <Link to={inCategories[index + 1]}>
+                    <ListItem button key={text}>
                       <ListItemText primary={text} />
                     </ListItem>
                   </Link>
@@ -124,6 +99,11 @@ const PulloutMenu: React.FC = () => {
               }
             }
           })}
+          {token === undefined ? (
+            <SpotLog key={1} />
+          ) : (
+            <WebPlayback token={token} key={token} />
+          )}
         </List>
       ) : (
         <List>
@@ -131,7 +111,7 @@ const PulloutMenu: React.FC = () => {
           {outCategories.map((text, index) => {
             if (index % 2 === 0) {
               return (
-                <Link to={outCategories[index + 1]} key={text}>
+                <Link to={inCategories[index + 1]} key={text}>
                   <ListItem button>
                     <ListItemText primary={text} />
                   </ListItem>
