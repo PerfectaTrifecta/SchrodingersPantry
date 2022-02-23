@@ -49,8 +49,9 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
       //Parse the ingredients in the meal object before we send it to the front.
       const formattedIngredients = ingredientParser(meals[0]);
       meals[0].ingredients = formattedIngredients;
-
       const {
+        strMeal,
+        strMealThumb,
         strInstructions,
         id,
         strYoutube,
@@ -60,7 +61,16 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
       } = meals[0];
 
       const interfacedData = [
-        { strInstructions, id, strYoutube, strCategory, strArea, ingredients },
+        {
+          strMeal,
+          strMealThumb,
+          strInstructions,
+          id,
+          strYoutube,
+          strCategory,
+          strArea,
+          ingredients,
+        },
       ];
       res.status = 200;
       res.send(interfacedData);
