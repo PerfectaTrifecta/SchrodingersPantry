@@ -54,10 +54,10 @@ const RSSFeed: React.FC = () => {
         let { creator, title, pubDate, link } = story;
         return(
           <div>
-            <h5>{title}</h5>
+           <h4><a href={link}>{title}</a></h4> 
             <h5>{creator}</h5>
             <h6>{pubDate}</h6>
-            <a href="url">{link}</a>
+            
           </div>
         )
       })}
