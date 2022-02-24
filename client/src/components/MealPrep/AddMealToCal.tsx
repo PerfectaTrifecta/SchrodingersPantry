@@ -1,8 +1,9 @@
 import TimeOfDayMenu from "./TimeOfDayMenu";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { TextField, Button } from '@material-ui/core';
 import { gapi } from 'gapi-script';
+
 
 const SCOPES = 'https://www.googleapis.com/auth/calendar.events';
 const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
@@ -17,7 +18,7 @@ const MealPrep: React.FC = () => {
 
   
   const addMealToCalendar = () => {
-    
+      console.log(process.env.CALENDAR_API, "HERE");
       if(timeOfDay === 'Breakfast') {
         setTimeToEatStart('2022-' + dateArr[0] + '-' + dateArr[1]+'8:00:00.000');
         setTimeToEatEnd('2022-' + dateArr[0] + '-' + dateArr[1]+'8:30:00.000');
