@@ -68,6 +68,6 @@ sql.authenticate()
   .catch((err) => console.error(err));
 
 
-module.exports = cloudinary;
+
 
 

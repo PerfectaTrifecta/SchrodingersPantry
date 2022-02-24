@@ -8,7 +8,6 @@ const SCOPES = 'https://www.googleapis.com/auth/calendar.events';
 const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
 
 const MealPrep: React.FC = () => {
-  const [dayOfWeek, setDayOfWeek] = useState<string>('Monday');
   const [nameOfRecipe, setNameOfRecipe] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [timeOfDay, setTimeOfDay] = useState<string>('Breakfast');

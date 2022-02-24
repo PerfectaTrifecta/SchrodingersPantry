@@ -48,7 +48,7 @@ type CreationProps = {
   comment_count: number;
 }
 
-const myRecipe: React.FC<CreationProps> = (creation) => {
+const MyRecipe: React.FC<CreationProps> = (creation) => {
 
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
@@ -116,4 +116,5 @@ const myRecipe: React.FC<CreationProps> = (creation) => {
 
 }
 
-export default myRecipe;
+export default MyRecipe;
+
