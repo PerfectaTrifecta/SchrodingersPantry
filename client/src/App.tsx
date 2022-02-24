@@ -11,6 +11,7 @@ import VideoModal from './components/VideoModal';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+import Map from './components/marketLocator/map'
 
 const App: React.FC = (): JSX.Element => {
   const { getUser } = useContext(UserContext);
@@ -37,6 +38,7 @@ const App: React.FC = (): JSX.Element => {
           <RecipeView />
         </Route>
       </Switch>
+
     </div>
   );
 };
