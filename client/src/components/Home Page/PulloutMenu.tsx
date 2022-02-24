@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 const PulloutMenu: React.FC = () => {
 
-  const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Sign Out", "/logout"];
+  const inCategories = ["Profile", "/profile", "Find a Recipe", "/recipe_finder", "The Feed", "/rss", "Meal Prep", "/meal_prep", "Sign Out", "/logout"];
   const outCategories = ["Find a Recipe", "/recipe_finder", "The Feed", "/rss"];
   const classes = useStyles();
   const theme = useTheme();
