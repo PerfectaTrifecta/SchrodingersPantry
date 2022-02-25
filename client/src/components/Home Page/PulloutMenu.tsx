@@ -61,7 +61,7 @@ const PulloutMenu: React.FC = () => {
   function logout() {
     axios
       .get('/auth/logout')
-      .then((res) => {
+      .then(() => {
         setUser(null);
         console.log('user set to null');
       })

@@ -1,17 +1,13 @@
 
-import React, { useState, useContext } from 'react';
-import CreateRecipeForm from './components/Profile/CreateRecipeForm';
+import React, { useContext } from 'react';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
 import RSSFeed from './components/rss/RSSFeedContainer';
 import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
-import VideoModal from './components/VideoModal';
-import { Route, Switch, Link } from 'react-router-dom';
-import axios from 'axios';
+import { Route, Switch } from 'react-router-dom';
 import { UserContext } from './UserContext';
-import Map from './components/marketLocator/map'
 
 const App: React.FC = (): JSX.Element => {
   const { getUser } = useContext(UserContext);
@@ -38,7 +34,6 @@ const App: React.FC = (): JSX.Element => {
           <RecipeView />
         </Route>
       </Switch>
-
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import dummyData from './DummyData.js';
+import Map from '../marketLocator/map'
 
 interface RecipeBox {
   title: string;
@@ -53,6 +54,7 @@ const HomePage: React.FC = () => {
           </div>
         );
       })}
+      <Map/>
     </div>
   );
 };
