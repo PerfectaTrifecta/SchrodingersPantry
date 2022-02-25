@@ -34,6 +34,8 @@ const PulloutMenu: React.FC = () => {
     '/recipe_finder',
     'The Feed',
     '/rss',
+    'Market Locator',
+    '/market_finder',
     'Sign Out',
     '/logout',
   ];

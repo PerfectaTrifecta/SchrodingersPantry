@@ -8,6 +8,7 @@ import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
 import { Route, Switch } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import Map from './components/marketLocator/map'
 
 const App: React.FC = (): JSX.Element => {
   const { getUser } = useContext(UserContext);
@@ -32,6 +33,9 @@ const App: React.FC = (): JSX.Element => {
         </Route>
         <Route path='/recipe_view'>
           <RecipeView />
+        </Route>
+        <Route path='/market_finder'>
+          <Map />
         </Route>
       </Switch>
     </div>
