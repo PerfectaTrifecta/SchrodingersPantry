@@ -19,6 +19,7 @@ import axios from 'axios';
 import { UserContext } from '../../UserContext';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
+import Timer from '../Timer/Timer'
 
 interface TokenValue {
   token: string;
@@ -34,6 +35,8 @@ const PulloutMenu: React.FC = () => {
     '/recipe_finder',
     'The Feed',
     '/rss',
+    // 'Meal Prep',
+    // '/meal_prep',
     'Sign Out',
     '/logout',
   ];
@@ -121,6 +124,7 @@ const PulloutMenu: React.FC = () => {
           })}
         </List>
       )}
+      <Timer />
     </div>
   );
 
