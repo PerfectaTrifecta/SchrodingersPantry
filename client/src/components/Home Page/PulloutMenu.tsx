@@ -35,8 +35,8 @@ const PulloutMenu: React.FC = () => {
     '/recipe_finder',
     'The Feed',
     '/rss',
-    'Meal Prep',
-    '/meal_prep',
+    // 'Meal Prep',
+    // '/meal_prep',
     'Sign Out',
     '/logout',
   ];
