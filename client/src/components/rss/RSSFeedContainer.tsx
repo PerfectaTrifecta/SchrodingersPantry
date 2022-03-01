@@ -31,10 +31,10 @@ const RSSFeed: React.FC = () => {
         })
   };
 
+useEffect(() => {
+  getFeed(0);
+}, [])
 
-  useEffect(() => {
-    getFeed(0);
-  }, [])
 
   const tabs = ["Eater", "NYT Food", "Delish"];
 

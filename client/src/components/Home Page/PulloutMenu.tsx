@@ -21,6 +21,7 @@ import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
 import { PaletteOptions } from "@mui/material";
 import Slider from "@mui/material/Slider"
+import Timer from '../Timer/Timer'
 
 interface TokenValue {
   token: string;
@@ -44,6 +45,8 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     '/recipe_finder',
     'The Feed',
     '/rss',
+    // 'Meal Prep',
+    // '/meal_prep',
     'Sign Out',
     '/logout',
   ];
@@ -143,6 +146,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           })}
         </List>
       )}
+      <Timer />
     </div>
   );
 
