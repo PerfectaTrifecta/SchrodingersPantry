@@ -11,15 +11,23 @@ import VideoModal from './components/VideoModal';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+import { ThemeProvider } from "@mui/material/styles";
+import { PaletteOptions } from "@mui/material";
+import { light, dark, veggie, meat } from "./Theme";
+
+interface ThemeOptions {
+  palette?: PaletteOptions
+}
 
 const App: React.FC = (): JSX.Element => {
   const { getUser } = useContext(UserContext);
+  const [theme, setTheme] = useState<ThemeOptions>(dark);
 
   return (
-    <div>
+    <ThemeProvider theme={ theme }>
       {getUser()}
 
-      <PulloutMenu />
+      <PulloutMenu changeTheme={setTheme}/>
       <Switch>
         <Route exact path='/'>
           <HomePage />
@@ -37,7 +45,8 @@ const App: React.FC = (): JSX.Element => {
           <RecipeView />
         </Route>
       </Switch>
-    </div>
+    </ThemeProvider>
+
   );
 };
 export default App;

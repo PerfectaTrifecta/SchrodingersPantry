@@ -1,6 +1,7 @@
 import { createTheme } from "@mui/material/styles";
-import { purple } from "@mui/material/colors";
+import { blue, lightBlue, green, red } from "@mui/material/colors";
 import { PaletteOptions } from "@mui/material";
+
 
 declare module "@mui/material/styles" {
 
@@ -10,12 +11,44 @@ declare module "@mui/material/styles" {
 
 }
 
-const theme = createTheme({
+const light = {
     palette: {
         primary: {
-            main: purple[500]
+            main: blue[100]
         }
     }
-});
+}
 
-export default theme;
+const dark = {
+    palette: {
+        primary: {
+            main: blue[500]
+        }
+    }
+}
+
+const veggie = {
+    palette: {
+        primary: {
+            main: green[400]
+        }
+    }
+}
+
+const meat = {
+    palette: {
+        primary: {
+            main: red[200]
+        }
+    }
+}
+
+// const theme = createTheme({
+//     palette: {
+//         primary: {
+//             main: purple[500]
+//         }
+//     }
+// });
+
+export { light, dark, veggie, meat };

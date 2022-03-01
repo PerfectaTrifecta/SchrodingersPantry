@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, SetStateAction, Dispatch } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,21 +12,31 @@ import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import Login from '../Login';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
+import { PaletteOptions } from "@mui/material";
+import Slider from "@mui/material/Slider"
 
 interface TokenValue {
   token: string;
 }
+
+interface ThemeOptions {
+  palette?: PaletteOptions
+}
+
+interface Props {
+  changeTheme: Dispatch<SetStateAction<ThemeOptions>>
+}
+
 const drawerWidth = 240;
-const useStyles = makeStyles((theme) => ({}));
 console.log('changes here?');
-const PulloutMenu: React.FC = () => {
+const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const inCategories = [
     'Profile',
     '/profile',
@@ -66,6 +76,18 @@ const PulloutMenu: React.FC = () => {
         console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
+  }
+
+  const valueText = (value: number) => {
+    if (value === 1) {
+      return "light";
+    } else if (value === 2) {
+      return "veggie";
+    } else if (value === 3) {
+      return "meat";
+    } else if (value === 4) {
+      return "dark"
+    }
   }
 
   const drawer = (
@@ -127,7 +149,7 @@ const PulloutMenu: React.FC = () => {
   return (
     <div>
       <CssBaseline />
-      <AppBar position='static'>
+      <AppBar position='static' style={{background: theme.palette.primary.main}}>
         <Toolbar>
           <IconButton
             color='inherit'
@@ -140,6 +162,16 @@ const PulloutMenu: React.FC = () => {
           <Typography variant='h6' noWrap>
             Schroedinger's Pantry
           </Typography>
+          <Slider
+            aria-label="Themes"
+            defaultValue={1}
+            valueLabelDisplay="auto"
+            getAriaValueText={valueText}
+            marks
+            step={1}
+            min={1}
+            max={4}
+          />
         </Toolbar>
       </AppBar>
       <nav>
@@ -147,7 +179,7 @@ const PulloutMenu: React.FC = () => {
         <Hidden smUp implementation='css'>
           <Drawer
             variant='temporary'
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor='left'
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
