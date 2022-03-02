@@ -61,11 +61,20 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const [token, setToken] = useState('');
 
   //Theme Checkbox States
-  const [lightChecked, setLightChecked] = useState(true);
+  const [checked, setChecked] = useState({
+    light: true,
+    veggie: false,
+    meat: false,
+    dark: false
+  });
+  const {light, veggie, meat, dark} = checked;
 
   //Theme Checkbox Changes
-  const handleLightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLightChecked(e.target.checked);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked({
+      ...checked,
+      [e.target.name]: e.target.checked
+    });
   }
 
   useEffect(() => {
@@ -172,8 +181,29 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             <FormControlLabel 
               value="light"
               disabled={false}
-              control={<Checkbox checked={lightChecked} onChange={handleLightChange}/>}
+              control={<Checkbox checked={light} onChange={handleChange}/>}
               label="Light"
+              labelPlacement="bottom"
+            />
+            <FormControlLabel 
+              value="veggie"
+              disabled={false}
+              control={<Checkbox checked={veggie} onChange={handleChange}/>}
+              label="Veggie"
+              labelPlacement="bottom"
+            />
+            <FormControlLabel 
+              value="meat"
+              disabled={false}
+              control={<Checkbox checked={meat} onChange={handleChange}/>}
+              label="Meat"
+              labelPlacement="bottom"
+            />
+            <FormControlLabel 
+              value="dark"
+              disabled={false}
+              control={<Checkbox checked={dark} onChange={handleChange}/>}
+              label="Dark"
               labelPlacement="bottom"
             />
           </FormGroup>
