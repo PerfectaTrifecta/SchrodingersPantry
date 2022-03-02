@@ -20,7 +20,11 @@ import { UserContext } from '../../UserContext';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
 import { PaletteOptions } from "@mui/material";
-import Slider from "@mui/material/Slider"
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import Timer from '../Timer/Timer'
 
 interface TokenValue {
@@ -56,6 +60,14 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const { user, setUser } = useContext(UserContext);
   const [token, setToken] = useState('');
 
+  //Theme Checkbox States
+  const [lightChecked, setLightChecked] = useState(true);
+
+  //Theme Checkbox Changes
+  const handleLightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLightChecked(e.target.checked);
+  }
+
   useEffect(() => {
     async function getToken() {
       const response = axios.get('/auth/token').then((res) => {
@@ -79,18 +91,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
-  }
-
-  const valueText = (value: number) => {
-    if (value === 1) {
-      return "light";
-    } else if (value === 2) {
-      return "veggie";
-    } else if (value === 3) {
-      return "meat";
-    } else if (value === 4) {
-      return "dark"
-    }
   }
 
   const drawer = (
@@ -166,16 +166,19 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           <Typography variant='h6' noWrap>
             Schroedinger's Pantry
           </Typography>
-          <Slider
-            aria-label="Themes"
-            defaultValue={1}
-            valueLabelDisplay="auto"
-            getAriaValueText={valueText}
-            marks
-            step={1}
-            min={1}
-            max={4}
-          />
+          <FormControl component="fieldset">
+          {/* <FormLabel component="legend">Themes</FormLabel> */}
+          <FormGroup>
+            <FormControlLabel 
+              value="light"
+              disabled={false}
+              control={<Checkbox checked={lightChecked} onChange={handleLightChange}/>}
+              label="Light"
+              labelPlacement="bottom"
+            />
+          </FormGroup>
+          </FormControl>
+
         </Toolbar>
       </AppBar>
       <nav>
