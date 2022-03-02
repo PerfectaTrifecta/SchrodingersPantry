@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import Favorite from './Favorite';
+import Icon from '@mui/material/Icon';
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -89,9 +91,7 @@ const RecipeView: React.FC = () => {
         <VideoModal mealName={mealRecipe[0].strMeal} />
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>
-          <FavoriteIcon />
-        </IconButton>
+        <Favorite />
         <IconButton aria-label='share'>
           <CommentIcon />
         </IconButton>
@@ -105,6 +105,7 @@ const RecipeView: React.FC = () => {
         >
           See Reviews!
         </IconButton>
+        <IconButton />
       </CardActions>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>

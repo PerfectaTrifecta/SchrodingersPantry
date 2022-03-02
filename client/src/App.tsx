@@ -11,13 +11,14 @@ import VideoModal from './components/VideoModal';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+import Favorite from './components/Favorite';
 
 const App: React.FC = (): JSX.Element => {
-  const { getUser } = useContext(UserContext);
+  // const { getUser } = useContext(UserContext);
 
   return (
     <div>
-      {getUser()}
+      {/* {getUser()} */}
 
       <PulloutMenu />
       <Switch>
@@ -30,9 +31,9 @@ const App: React.FC = (): JSX.Element => {
         <Route path='/rss'>
           <RSSFeed />
         </Route>
-        <Route path='/profile'>
+        {/* <Route path='/profile'>
           <ProfilePage />
-        </Route>
+        </Route> */}
         <Route path='/recipe_view'>
           <RecipeView />
         </Route>
