@@ -98,23 +98,25 @@ UserRouter.get('/bookmarks', (req, res) => {
 
 //import helpers
 UserRouter.post('/favorites', (req, res) => {
-  const newFav = {
-    recipe_id: req.body,
-    user_id: req.cookies.googleId
-  }
+  const { recipeId, userId } = req.body;
+  //const userId = req.cookies.googleId;
+  console.log(`{${recipeId} : ${userId}}`)
 
-  console.log(newFav);
-  Favorite.create(newFav)
-    .then(() => {
-      Favorite.findAll({
-        where: {
-          userId: req.cookies.googleId
-        }
-     })
-    })
-   .then((favs) => {
-      console.log('PATCHED SUCCESSFULLY TO FAVORITES');
-      res.status(201).send(favs);
+  //console.log(newFav);
+  Favorite.create({ 
+    recipeId, userId })
+    // .then(() => {
+    //   Favorite.findAll({
+    //     where: {
+    //       userId
+    //     }
+    //  })
+    // })
+   .then(() => {
+      console.log('Added SUCCESSFULLY TO FAVORITES');
+      res.sendStatus(201)
+      //.send(favs);
+      //.send(favs);
     })
     .catch((err) => {
       console.error(err);

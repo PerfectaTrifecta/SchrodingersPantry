@@ -60,6 +60,16 @@ const Favorite = sql.define('favorites', {
     primaryKey: true,
     autoIncrement: true
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  recipeId: {
+   type: DataTypes.INTEGER,
+   allowNull: false
+  }
+
+
 });
 
 const Comment = sql.define('comments', {
@@ -150,7 +160,7 @@ Recipe.belongsToMany(User, { through: 'comments'});
 
 
 sql
-  .sync() //insert {alter: true} if you need to change the db structure
+  .sync({alter: true}) //insert {alter: true} if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 

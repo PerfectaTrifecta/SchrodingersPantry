@@ -5,9 +5,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { UserContext } from '../UserContext';
 import { jsx } from '@emotion/react';
 
+interface FavProps {
+ recipeId: string 
+}
 
-
-const Favorite = (recipeId : {}) : JSX.Element => {
+const Favorite = (recipeId : FavProps) : JSX.Element => {
   //SHOULD ALL COME FROM USER CONTEXT
 
    const [favorites, setFavorites] = React.useState<Array<{}> | any>([]);

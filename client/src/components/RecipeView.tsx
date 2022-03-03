@@ -91,7 +91,7 @@ const RecipeView: React.FC = () => {
         <VideoModal mealName={mealRecipe[0].strMeal} />
       </CardContent>
       <CardActions disableSpacing>
-        <Favorite />
+        <Favorite recipeId={idMeal} />
         <IconButton aria-label='share'>
           <CommentIcon />
         </IconButton>

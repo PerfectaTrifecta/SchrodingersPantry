@@ -1,3 +1,9 @@
 {
+<<<<<<< HEAD
   "typescript.tsdk": "node_modules/typescript/lib"
+=======
+  "cSpell.words": [
+    "gapi"
+  ]
+>>>>>>> 7cf7d25b5beec0adc0c92788c58b7d931d7a8820
 }
