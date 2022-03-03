@@ -25,7 +25,6 @@ interface TokenValue {
 }
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({}));
-console.log('changes here?');
 const PulloutMenu: React.FC = () => {
   const inCategories = [
     'Profile',
