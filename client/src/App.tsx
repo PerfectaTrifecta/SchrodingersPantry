@@ -7,6 +7,7 @@ import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
 import VideoModal from './components/VideoModal';
+import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import io from 'socket.io-client';
@@ -73,6 +74,10 @@ const App: React.FC = (): JSX.Element => {
         <Route path='/recipe_view'>
           <RecipeView />
         </Route>
+        <Route path='/meal_prep'>
+          <MealPrep />
+        </Route>
+
       </Switch>
     </div>
   );
