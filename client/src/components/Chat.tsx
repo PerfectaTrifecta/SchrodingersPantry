@@ -25,7 +25,6 @@ const Chat: React.FC = ({ socket, username, room }) => {
 
   useEffect(() => {
     socket.on('receive_message', (data) => {
-      console.log(data, 24);
       setMessageList((list) => [...list, data]);
     });
   }, [socket]);

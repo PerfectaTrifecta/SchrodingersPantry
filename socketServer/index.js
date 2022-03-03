@@ -23,7 +23,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('send_message', (data) => {
-    console.log(data); //Show messageData object sent from front end.
     socket.to(data.room).emit('receive_message', data); //emit data to room where it originated.
   });
 
