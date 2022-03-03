@@ -16,15 +16,16 @@ import Chat from './components/Chat';
 const socket = io.connect('http://localhost:3001');
 
 const App: React.FC = (): JSX.Element => {
-  const { getUser } = useContext(UserContext);
-
+  const { getUser, user } = useContext(UserContext);
+  console.log(user, 21);
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
 
   const joinRoom = () => {
-    if (username !== '' && room !== '') {
+    if (room !== '') {
       socket.emit('join_room', room);
+      setUsername(user.name);
       setShowChat(true);
     }
   };
@@ -36,15 +37,15 @@ const App: React.FC = (): JSX.Element => {
       <PulloutMenu />
       <div>
         {!showChat ? (
-          <div className='enterChatContainer'>
-            <h2>Enter Chatroom</h2>
-            <input
+          <div className='joinChatContainer'>
+            <h2>Enter Chat</h2>
+            {/* <input
               type='text'
               placeholder='Username'
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
-            ></input>
+            ></input> */}
             <input
               type='text'
               placeholder='Room ID...'
@@ -77,7 +78,6 @@ const App: React.FC = (): JSX.Element => {
         <Route path='/meal_prep'>
           <MealPrep />
         </Route>
-
       </Switch>
     </div>
   );
