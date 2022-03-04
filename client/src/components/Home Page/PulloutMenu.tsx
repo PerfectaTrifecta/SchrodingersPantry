@@ -19,14 +19,13 @@ import axios from 'axios';
 import { UserContext } from '../../UserContext';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
-import Timer from '../Timer/Timer'
+import Timer from '../Timer/Timer';
 
 interface TokenValue {
   token: string;
 }
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({}));
-console.log('changes here?');
 const PulloutMenu: React.FC = () => {
   const inCategories = [
     'Profile',
@@ -47,21 +46,21 @@ const PulloutMenu: React.FC = () => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    async function getToken() {
+    const getToken = async () => {
       const response = axios.get('/auth/token').then((res) => {
         setToken(res.data.accessToken);
       });
       // setToken(json.access_token);
-    }
+    };
 
     getToken();
   }, []);
 
-  function handleDrawerToggle() {
+  const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  }
+  };
 
-  function logout() {
+  const logout = () => {
     axios
       .get('/auth/logout')
       .then((res) => {
@@ -69,7 +68,7 @@ const PulloutMenu: React.FC = () => {
         console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
-  }
+  };
 
   const drawer = (
     <div>

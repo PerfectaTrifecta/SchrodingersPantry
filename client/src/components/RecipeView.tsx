@@ -31,7 +31,6 @@ interface RecipeProps {
 const RecipeView: React.FC = () => {
   //Use the useLocation hook to get idMeal passed through the search route.
   const location = useLocation<{ idMeal: string }>();
-  console.log(location, 50);
   const { idMeal } = location.state;
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
   const [instructions, setInstructions] = useState<string[]>([]);
@@ -99,9 +98,6 @@ const RecipeView: React.FC = () => {
         </IconButton>
         <IconButton aria-label='share'>
           <CommentIcon />
-        </IconButton>
-        <IconButton>
-          <ShoppingBagIcon />
         </IconButton>
         <IconButton
           onClick={handleExpandClick}
