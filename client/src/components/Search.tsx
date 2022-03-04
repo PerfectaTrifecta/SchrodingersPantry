@@ -46,7 +46,7 @@ const Search: React.FC = () => {
 
   const onSearch = (e: any) => {
     searchRecipes();
-    e.target.reset;
+    setIngredients('');
   };
 
   return (

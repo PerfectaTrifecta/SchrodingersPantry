@@ -15,6 +15,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import Favorite from './Favorite';
 import Icon from '@mui/material/Icon';
+import TextToSpeech from '../components/TextToSpeech'
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -32,16 +33,18 @@ interface RecipeProps {
 const RecipeView: React.FC = () => {
   //Use the useLocation hook to get idMeal passed through the search route.
   const location = useLocation<{ idMeal: string }>();
-  console.log(location, 50);
   const { idMeal } = location.state;
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
+  const [instructions, setInstructions] = useState<string[]>([]);
 
   //Prints the recipe to the screen on page load
   useEffect(() => {
     axios
       .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
       .then(({ data }) => {
-        data && setMealRecipe(data);
+        console.log(data);
+        data && setMealRecipe(data) 
+        setInstructions(data[0].strInstructions.split('\r\n'));
       })
       .catch((err) => {
         console.error(err);
@@ -56,12 +59,12 @@ const RecipeView: React.FC = () => {
   //Conditionally renders based on meal data availability
   return !mealRecipe[0] ? null : (
     <Card
-      sx={{ maxWidth: 345 }}
-      style={{
-        margin: '16px auto',
-        maxWidth: '600px',
-        width: '90%',
-      }}
+    sx={{ maxWidth: 345 }}
+    style={{
+      margin: '16px auto',
+      maxWidth: '600px',
+      width: '90%',
+    }}
     >
       <CardHeader
         title={mealRecipe[0].strMeal}
@@ -80,23 +83,21 @@ const RecipeView: React.FC = () => {
         <ul>
           {mealRecipe[0].ingredients.map((tuple, i) => (
             <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
-          ))}
+            ))}
         </ul>
         <Typography paragraph>
           <strong>Directions:</strong>
         </Typography>
         {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
           <Typography key={p + i}>{p}</Typography>
-        ))}
+          ))}
+          <TextToSpeech instructions={instructions} />
         <VideoModal mealName={mealRecipe[0].strMeal} />
       </CardContent>
       <CardActions disableSpacing>
         <Favorite recipeId={idMeal} />
         <IconButton aria-label='share'>
           <CommentIcon />
-        </IconButton>
-        <IconButton>
-          <ShoppingBagIcon />
         </IconButton>
         <IconButton
           onClick={handleExpandClick}
