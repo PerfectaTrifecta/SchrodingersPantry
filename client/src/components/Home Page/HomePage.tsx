@@ -1,10 +1,6 @@
 import React from 'react';
 import dummyData from './DummyData.js';
-<<<<<<< HEAD
 import { useTheme } from '@mui/material/styles';
-=======
-// import TextToSpeech from '../TextToSpeech.tsx';
->>>>>>> 6297fed6a754460f4ce26459975121af609f4c18
 
 interface RecipeBox {
   title: string;
