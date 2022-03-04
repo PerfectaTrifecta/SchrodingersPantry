@@ -19,13 +19,9 @@ import axios from 'axios';
 import { UserContext } from '../../UserContext';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
-import { PaletteOptions } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import Timer from '../Timer/Timer'
+import { PaletteOptions, FormControl, FormLabel, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import Timer from '../Timer/Timer';
+import { light, dark, veggie, meat } from "../../Theme";
 
 interface TokenValue {
   token: string;
@@ -61,20 +57,21 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const [token, setToken] = useState('');
 
   //Theme Checkbox States
-  const [checked, setChecked] = useState({
-    light: true,
-    veggie: false,
-    meat: false,
-    dark: false
-  });
-  const {light, veggie, meat, dark} = checked;
+  const [radioVal, setRadioVal] = useState('light');
+
+  if (radioVal === 'light') {
+    changeTheme(light);
+  } else if (radioVal === 'dark') {
+    changeTheme(dark);
+  } else if (radioVal === 'veggie') {
+    changeTheme(veggie) 
+  } else if (radioVal === 'meat') {
+    changeTheme(meat)
+  }
 
   //Theme Checkbox Changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked({
-      ...checked,
-      [e.target.name]: e.target.checked
-    });
+    setRadioVal(e.target.value);
   }
 
   useEffect(() => {
@@ -176,37 +173,38 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             Schroedinger's Pantry
           </Typography>
           <FormControl component="fieldset">
-          {/* <FormLabel component="legend">Themes</FormLabel> */}
-          <FormGroup>
+          <FormLabel component="legend">Themes</FormLabel>
+          <RadioGroup 
+            aria-label="position" 
+            row
+            value={radioVal}
+            onChange={handleChange}
+          >
             <FormControlLabel 
               value="light"
-              disabled={false}
-              control={<Checkbox checked={light} onChange={handleChange}/>}
+              control={<Radio />}
               label="Light"
               labelPlacement="bottom"
             />
             <FormControlLabel 
               value="veggie"
-              disabled={false}
-              control={<Checkbox checked={veggie} onChange={handleChange}/>}
+              control={<Radio />}
               label="Veggie"
               labelPlacement="bottom"
             />
             <FormControlLabel 
               value="meat"
-              disabled={false}
-              control={<Checkbox checked={meat} onChange={handleChange}/>}
+              control={<Radio />}
               label="Meat"
               labelPlacement="bottom"
             />
             <FormControlLabel 
               value="dark"
-              disabled={false}
-              control={<Checkbox checked={dark} onChange={handleChange}/>}
+              control={<Radio />}
               label="Dark"
               labelPlacement="bottom"
             />
-          </FormGroup>
+          </RadioGroup>
           </FormControl>
 
         </Toolbar>

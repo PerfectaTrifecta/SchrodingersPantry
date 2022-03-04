@@ -15,6 +15,9 @@ const light = {
     palette: {
         primary: {
             main: blue[100]
+        },
+        secondary: {
+            main: blue[500]
         }
     }
 }
@@ -23,6 +26,9 @@ const dark = {
     palette: {
         primary: {
             main: blue[500]
+        },
+        secondary: {
+            main: blue[600]
         }
     }
 }
@@ -31,6 +37,9 @@ const veggie = {
     palette: {
         primary: {
             main: green[400]
+        },
+        secondary: {
+            main: green[600]
         }
     }
 }
@@ -39,6 +48,9 @@ const meat = {
     palette: {
         primary: {
             main: red[200]
+        },
+        secondary: {
+            main: red[500]
         }
     }
 }

@@ -12,7 +12,7 @@ import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from './UserContext';
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteOptions } from "@mui/material";
 import { light, dark, veggie, meat } from "./Theme";
 
@@ -22,10 +22,12 @@ interface ThemeOptions {
 
 const App: React.FC = (): JSX.Element => {
   const { getUser } = useContext(UserContext);
-  const [theme, setTheme] = useState<ThemeOptions>(dark);
+  const [theme, setTheme] = useState<ThemeOptions>(light);
+
+  const chosenTheme = createTheme(theme);
 
   return (
-    <ThemeProvider theme={ theme }>
+    <ThemeProvider theme={ chosenTheme }>
       {getUser()}
 
       <PulloutMenu changeTheme={setTheme}/>
