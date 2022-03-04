@@ -75,21 +75,21 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   }
 
   useEffect(() => {
-    async function getToken() {
+    const getToken = async () => {
       const response = axios.get('/auth/token').then((res) => {
         setToken(res.data.accessToken);
       });
       // setToken(json.access_token);
-    }
+    };
 
     getToken();
   }, []);
 
-  function handleDrawerToggle() {
+  const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  }
+  };
 
-  function logout() {
+  const logout = () => {
     axios
       .get('/auth/logout')
       .then((res) => {
@@ -97,7 +97,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
-  }
+  };
 
   const drawer = (
     <div>

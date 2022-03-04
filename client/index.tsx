@@ -13,4 +13,6 @@ ReactDOM.render(
         <App />
       </Router>
     </VideoContextProvider>
-  </UserContextProvider>, document.getElementById('app'));
+  </UserContextProvider>,
+  document.getElementById('app')
+);
