@@ -12,7 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -30,7 +29,6 @@ interface RecipeProps {
 const RecipeView: React.FC = () => {
   //Use the useLocation hook to get idMeal passed through the search route.
   const location = useLocation<{ idMeal: string }>();
-  console.log(location, 50);
   const { idMeal } = location.state;
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
 
@@ -94,9 +92,6 @@ const RecipeView: React.FC = () => {
         </IconButton>
         <IconButton aria-label='share'>
           <CommentIcon />
-        </IconButton>
-        <IconButton>
-          <ShoppingBagIcon />
         </IconButton>
         <IconButton
           onClick={handleExpandClick}

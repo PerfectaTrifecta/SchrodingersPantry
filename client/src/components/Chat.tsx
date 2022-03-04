@@ -47,8 +47,8 @@ const Chat: React.FC = ({ socket, username, room }) => {
                     <p>{messageContent.message}</p>
                   </div>
                   <div className='message-meta'>
-                    <p>{messageContent.time}</p>
                     <p>{messageContent.author}</p>
+                    <p>{messageContent.time}</p>
                   </div>
                 </div>
               </div>

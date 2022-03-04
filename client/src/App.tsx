@@ -12,12 +12,11 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import io from 'socket.io-client';
 import Chat from './components/Chat';
-
+import '../../dist/App.css';
 const socket = io.connect('http://localhost:3001');
 
 const App: React.FC = (): JSX.Element => {
   const { getUser, user } = useContext(UserContext);
-  console.log(user, 21);
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
@@ -38,14 +37,7 @@ const App: React.FC = (): JSX.Element => {
       <div>
         {!showChat ? (
           <div className='joinChatContainer'>
-            <h2>Enter Chat</h2>
-            {/* <input
-              type='text'
-              placeholder='Username'
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-            ></input> */}
+            <h3>Enter Chat</h3>
             <input
               type='text'
               placeholder='Room ID...'
