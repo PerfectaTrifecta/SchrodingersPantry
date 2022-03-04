@@ -1,5 +1,6 @@
 import React from 'react';
 import dummyData from './DummyData.js';
+// import TextToSpeech from '../TextToSpeech.tsx';
 
 interface RecipeBox {
   title: string;
@@ -11,6 +12,8 @@ interface RecipeBox {
 const HomePage: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'center' }}>
+      {/* <TextToSpeech /> */}
+
       {dummyData.map(({ title, user, image, recipe }: RecipeBox) => {
         return (
           <div
