@@ -12,7 +12,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import io from 'socket.io-client';
 import Chat from './components/Chat';
-import '../../dist/App.css';
+import './App.css';
 const socket = io.connect('http://localhost:3001');
 
 const App: React.FC = (): JSX.Element => {
