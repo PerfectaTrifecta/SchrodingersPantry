@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserRouter = Router();
-const { Recipe, Favorite, User_Bookmark, Bookmark } = require('../db/index');
+const { Recipe, Favorite, User_Bookmark, Bookmark, Comment } = require('../db/index');
 // const cloudinary = require('cloudinary').v2;
 // //require User Model, sequelize
 
@@ -37,6 +37,18 @@ UserRouter.post('/upload/recipe', (req, res) => {
     })
     .catch(err => console.error(err, 'userRoute 38'))
 
+});
+
+//On user post of comment
+UserRouter.post('/comment', (req, res) => {
+  const { mealId, userId, text } = req.body; 
+  //create a row in the Comment table
+  //where text comes from req.body, userId, & recipeId
+  Comment.create({mealId, userId, text})
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(err => console.error(err, 'userRoute 51'))
 });
 
 UserRouter.get('/recipes', (req, res) => {

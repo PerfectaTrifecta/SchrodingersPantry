@@ -69,6 +69,7 @@ const Comment = sql.define('comments', {
     primaryKey: true,
     autoIncrement: true
   },
+  mealId: DataTypes.STRING,
   text: DataTypes.STRING,
 });
 
@@ -144,8 +145,10 @@ Recipe.belongsToMany(User, { through: 'favorites' });
 User.belongsToMany(Recipe, { through: 'votes'});
 Recipe.belongsToMany(User, { through: 'votes'});
 
-User.belongsToMany(Recipe, { through: 'comments'});
-Recipe.belongsToMany(User, { through: 'comments'});
+User.hasMany(Comment);
+Comment.belongsTo(User);
+Recipe.hasMany(Comment);
+Comment.belongsTo(Recipe);
 
 
 
