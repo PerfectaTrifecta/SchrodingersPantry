@@ -12,6 +12,7 @@ import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+// import TextToSpeech from './components/TextToSpeech';
 
 const App: React.FC = (): JSX.Element => {
   const { getUser } = useContext(UserContext);
