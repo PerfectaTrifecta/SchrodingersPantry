@@ -10,16 +10,28 @@ import VideoModal from './components/VideoModal';
 import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { PaletteOptions } from "@mui/material";
+import { light, dark, veggie, meat } from "./Theme";
 import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
-const socket = io.connect('http://localhost:3001');
+
+interface ThemeOptions {
+  palette?: PaletteOptions
+}
+
 
 const App: React.FC = (): JSX.Element => {
   const { getUser, user } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
+  const socket = io.connect('http://localhost:3001');
+
+  const [theme, setTheme] = useState<ThemeOptions>(light);
+
+  const chosenTheme = createTheme(theme);
 
   const joinRoom = () => {
     if (room !== '') {
@@ -30,10 +42,10 @@ const App: React.FC = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <ThemeProvider theme={ chosenTheme }>
       {getUser()}
 
-      <PulloutMenu />
+      <PulloutMenu changeTheme={setTheme}/>
       <div>
         {!showChat ? (
           <div className='joinChatContainer'>
@@ -71,7 +83,8 @@ const App: React.FC = (): JSX.Element => {
           <MealPrep />
         </Route>
       </Switch>
-    </div>
+    </ThemeProvider>
+
   );
 };
 export default App;
