@@ -31,7 +31,6 @@ const UserContextProvider = ({ children }: Props) => {
         .then(({ data }) => {
           console.log(data[0], 'context 31');
           setUser(data[0]);
-          console.log('user set on state');
         })
         .catch((err) => console.error('error context 34', err));
     }
