@@ -15,7 +15,7 @@ import { PaletteOptions } from '@mui/material';
 import { light, dark, veggie, meat } from './Theme';
 import io from 'socket.io-client';
 import Chat from './components/Chat';
-import '../../dist/App.css';
+import './App.css';
 
 interface ThemeOptions {
   palette?: PaletteOptions;
