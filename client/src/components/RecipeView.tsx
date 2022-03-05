@@ -16,6 +16,7 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import TextToSpeech from '../components/TextToSpeech';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import { UserContext } from '../UserContext';
 
 /*Recipe View is where the user can see details about a recipe that they
@@ -31,6 +32,12 @@ interface RecipeProps {
   ingredients: Array<[string, string]>;
 }
 
+interface CommentDisplay {
+  name: string;
+  text: string;
+  postedAt: string;
+}
+
 const RecipeView: React.FC = () => {
   const { user } = useContext(UserContext);
 
@@ -41,15 +48,18 @@ const RecipeView: React.FC = () => {
   const [instructions, setInstructions] = useState<string[]>([]);
 
   //Comments settings
-  const [comment, setComment] = useState('');
+  const [rawComment, setRawComment] = useState('');
+  const [featComments, setFeatComments] = useState<CommentDisplay[]>([]);
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
+    setRawComment(e.target.value);
   }
 
   const submitComment = () => {
-    axios.post('routes/user/profile/comment', { text: comment, userId: user.id, mealId: idMeal})
-      .then(() => console.log('Comment Posted, please erase me now: recipeView 52'))
+    axios.post('routes/user/profile/comment', { text: rawComment, userId: user.id, userName: user.name, mealId: idMeal})
+      .then(() => {
+        setRawComment('');
+      })
       .catch(err => console.error(err, 'recipeView 53'))
   };
 
@@ -58,7 +68,7 @@ const RecipeView: React.FC = () => {
     axios
       .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
       .then(({ data }) => {
-        console.log(data, 'recipeView 61');
+        // console.log(data, 'recipeView 61');
         data && setMealRecipe(data) 
         setInstructions(data[0].strInstructions.split('\r\n'));
       })
@@ -71,7 +81,15 @@ const RecipeView: React.FC = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+
+    axios.get('routes/user/profile/comment', { params: { mealId: idMeal } })
+      .then(({ data }) => {
+        // console.log(data, 'recipeView 96')
+        setFeatComments(data);
+      })
+      .catch(err => console.error(err, 'recipeView 77'))
   };
+
   //Conditionally renders based on meal data availability
   return !mealRecipe[0] ? null : (
     <Card
@@ -134,7 +152,7 @@ const RecipeView: React.FC = () => {
             multiline
             maxRows={4}
             inputProps={{maxLength: 120}}
-            value={comment}
+            value={rawComment}
             onChange={handleCommentChange}
           />
           <Button
@@ -144,6 +162,20 @@ const RecipeView: React.FC = () => {
           > 
             Submit 
           </Button>
+          {featComments.map(comment => (
+            <Box
+              sx={{
+                border: '1px solid lightGrey',
+                width: '450px',
+                marginTop: '5px',
+                padding: '5px 5px 10px 5px',
+              }}
+            >
+              <Typography>{comment.name}</Typography>
+              <Typography>{comment.text}</Typography>
+              <Typography>{comment.postedAt}</Typography>
+            </Box>
+          ))}
         </CardContent>
       </Collapse>
     </Card>

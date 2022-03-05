@@ -70,6 +70,7 @@ const Comment = sql.define('comments', {
     autoIncrement: true
   },
   mealId: DataTypes.STRING,
+  userName: DataTypes.STRING,
   text: DataTypes.STRING,
 });
 
@@ -153,7 +154,7 @@ Comment.belongsTo(Recipe);
 
 
 sql
-  .sync({force: true}) //insert {alter: true} if you need to change the db structure
+  .sync() //insert {force: true} if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 

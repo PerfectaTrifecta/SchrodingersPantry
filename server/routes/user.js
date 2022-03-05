@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserRouter = Router();
-const { Recipe, Favorite, User_Bookmark, Bookmark, Comment } = require('../db/index');
+const { Recipe, Favorite, User_Bookmark, Bookmark, Comment, User } = require('../db/index');
 // const cloudinary = require('cloudinary').v2;
 // //require User Model, sequelize
 
@@ -41,15 +41,46 @@ UserRouter.post('/upload/recipe', (req, res) => {
 
 //On user post of comment
 UserRouter.post('/comment', (req, res) => {
-  const { mealId, userId, text } = req.body; 
+  const { mealId, userId, text, userName } = req.body; 
   //create a row in the Comment table
   //where text comes from req.body, userId, & recipeId
-  Comment.create({mealId, userId, text})
+  Comment.create({mealId, userId, userName, text})
     .then(() => {
       res.sendStatus(201);
     })
     .catch(err => console.error(err, 'userRoute 51'))
 });
+
+UserRouter.get('/comment', (req, res) => {
+  // console.log(req.query, 'userRoute 55');
+  const { mealId } = req.query;
+  //find all comments where the mealId matches the mealId in req.params
+  Comment.findAll({
+    where: {
+      mealId
+    }
+  })
+  .then(comments => {
+    // console.log(comments, 'userRoute 64');
+    // let name;
+
+    const polishedComments = comments.map(comment => {
+      // console.log(comment.userId, 'userRoute 66')
+      const { userName, text, createdAt } = comment;
+
+     return ({
+        name: userName,
+        text,
+        postedAt: createdAt
+      })
+
+    });
+
+    // console.log(polishedComments, 'userRoute 85');
+    res.status(200).send(polishedComments);
+  })
+  .catch(err => console.error(err, 'userRoute 67'))
+})
 
 UserRouter.get('/recipes', (req, res) => {
   Recipe.findAll({
