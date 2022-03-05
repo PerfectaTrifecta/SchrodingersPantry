@@ -61,13 +61,18 @@ const Favorite = sql.define('favorites', {
     autoIncrement: true
   },
   userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+    type: DataTypes.STRING,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    }
   },
   recipeId: {
    type: DataTypes.INTEGER,
    allowNull: false
   }
+  
 
 
 });
@@ -141,6 +146,39 @@ const Image = sql.define('images', {
   img: DataTypes.STRING,
 });
 
+const User_Image = sql.define('user_images', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  userId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    }
+  },
+  //eg. 'profile pic' or 'recipe pic"
+  description: DataTypes.STRING,
+
+  url: DataTypes.STRING,
+
+  recipe_id: {
+    type: DataTypes.INTEGER,
+
+    references: {
+      model: Recipe,
+      key: 'id',
+    },
+    allowNull: true
+
+  }, 
+
+})
+
 //DEFINE MODEL RELATIONSHIPS HERE
 User.belongsToMany(Bookmark, { through: 'user_bookmarks'});
 Bookmark.belongsToMany(User, { through: 'user_bookmarks'});
@@ -157,7 +195,8 @@ Recipe.belongsToMany(User, { through: 'votes'});
 User.belongsToMany(Recipe, { through: 'comments'});
 Recipe.belongsToMany(User, { through: 'comments'});
 
-
+User.hasMany(User_Image);
+User_Image.belongsTo(User);
 
 sql
   .sync({alter: true}) //insert {alter: true} if you need to change the db structure
@@ -176,4 +215,5 @@ module.exports = {
   Tag,
   Recipe_Tag,
   Image,
+  User_Image
 };

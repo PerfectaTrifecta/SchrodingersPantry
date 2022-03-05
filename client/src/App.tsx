@@ -18,8 +18,24 @@ import './App.css';
 //import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 
 
-// const [loading, setLoading] = useState(false);
+
+//const socket = io.connect('http://localhost:3001');
+
+const App: React.FC = (): JSX.Element => {
+  const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
+  const [username, setUsername] = useState('');
+  const [room, setRoom] = useState('');
+  const [showChat, setShowChat] = useState(false);
+  // const [loading, setLoading] = useState(false);
 // let [color, setColor] = useState("#1682B2");
+  //const { userAccount, loggedIn } = useContext(UserContext);
+  
+  useEffect(() => {
+ 
+      userAccount();
+
+     
+  }, [loggedIn]);
 
 // useEffect(() => {
 //   setLoading(true);
@@ -28,25 +44,23 @@ import './App.css';
 //   }, 8000)
 // }, [])
 
-const socket = io.connect('http://localhost:3001');
 
-const App: React.FC = (): JSX.Element => {
-  const { getUser, user } = useContext(UserContext);
-  const [username, setUsername] = useState('');
-  const [room, setRoom] = useState('');
-  const [showChat, setShowChat] = useState(false);
+  // const joinRoom = () => {
+  //   if (room !== '') {
+  //     socket.emit('join_room', room);
+  //     setUsername(user.name);
+  //     setShowChat(true);
+  //   }
 
-  const joinRoom = () => {
-    if (room !== '') {
-      socket.emit('join_room', room);
-      setUsername(user.name);
-      setShowChat(true);
-    }
-  };
+ 
+  // };
+ 
 
   return (
     <div>
-      {/* {getUser()} */}
+     
+      {getUser()}
+      
     {/* {loading ? 
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
     <ClimbingBoxLoader color={color} loading={loading}  size={30} />
@@ -54,10 +68,10 @@ const App: React.FC = (): JSX.Element => {
 
       : */}
 
-
+          
   <div>
       <PulloutMenu />
-      <div>
+      {/* <div>
         {!showChat ? (
           <div className='joinChatContainer'>
             <h3>Enter Chat</h3>
@@ -73,7 +87,7 @@ const App: React.FC = (): JSX.Element => {
         ) : (
           <Chat socket={socket} username={username} room={room} />
         )}
-      </div>
+      </div> */}
       <Switch>
         <Route exact path='/'>
           <HomePage />
@@ -87,9 +101,9 @@ const App: React.FC = (): JSX.Element => {
         {/* <Route path='/profile'>
           <ProfilePage />
         </Route> */}
-        {/* <Route path='/recipe_view'>
+        <Route path='/recipe_view'>
           <RecipeView />
-        </Route> */}
+        </Route>
         <Route path='/meal_prep'>
           <MealPrep />
         </Route>

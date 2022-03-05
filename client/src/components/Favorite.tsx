@@ -34,7 +34,7 @@ const Favorite = (recipeId : FavProps) : JSX.Element => {
           setFavorites(response);
       })
       .catch((err) => {
-        console.error("helooooooo,",err);
+        console.error("response from favs on backend,",err);
       })
   }
 

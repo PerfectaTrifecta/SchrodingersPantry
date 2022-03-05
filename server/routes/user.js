@@ -100,7 +100,7 @@ UserRouter.get('/bookmarks', (req, res) => {
 UserRouter.post('/favorites', (req, res) => {
   const { recipeId, userId } = req.body;
   //const userId = req.cookies.googleId;
-  console.log(`{${recipeId} : ${userId}}`)
+  console.log(`{${recipeId} : ${userId}}`, 1900000000089)
 
   //console.log(newFav);
   Favorite.create({ 
@@ -114,12 +114,12 @@ UserRouter.post('/favorites', (req, res) => {
     // })
    .then(() => {
       console.log('Added SUCCESSFULLY TO FAVORITES');
-      res.sendStatus(201)
-      //.send(favs);
+      res.status(201)
+     .send(favs);
       //.send(favs);
     })
     .catch((err) => {
-      console.error(err);
+      console.error('error with post request to favorites', err);
       res.sendStatus(500);
     });
 });
