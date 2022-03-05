@@ -10,25 +10,24 @@ import VideoModal from './components/VideoModal';
 import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { PaletteOptions } from "@mui/material";
-import { light, dark, veggie, meat } from "./Theme";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { PaletteOptions } from '@mui/material';
+import { light, dark, veggie, meat } from './Theme';
 import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
 
 interface ThemeOptions {
-  palette?: PaletteOptions
+  palette?: PaletteOptions;
 }
-
 
 const App: React.FC = (): JSX.Element => {
   const { getUser, user } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
-  const socket = io.connect('http://localhost:3001');
 
+  const socket = io.connect('http://localhost:443');
   const [theme, setTheme] = useState<ThemeOptions>(light);
 
   const chosenTheme = createTheme(theme);
@@ -42,14 +41,14 @@ const App: React.FC = (): JSX.Element => {
   };
 
   return (
-    <ThemeProvider theme={ chosenTheme }>
+    <ThemeProvider theme={chosenTheme}>
       {getUser()}
 
-      <PulloutMenu changeTheme={setTheme}/>
-      <div>
+      <PulloutMenu changeTheme={setTheme} />
+      <div className='chatContainer'>
         {!showChat ? (
           <div className='joinChatContainer'>
-            <h3>Enter Chat</h3>
+            <h3>Live Chat</h3>
             <input
               type='text'
               placeholder='Room ID...'
@@ -84,7 +83,6 @@ const App: React.FC = (): JSX.Element => {
         </Route>
       </Switch>
     </ThemeProvider>
-
   );
 };
 export default App;

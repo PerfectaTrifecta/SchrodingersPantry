@@ -13,17 +13,20 @@ body {
 }
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 
+.chatContainer {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 .joinChatContainer {
   display: flex;
   flex-direction: column;
   text-align: center;
-  justify-content: 'center';
-  align-items: 'center';
-  display: 'flex';
 }
 
 .joinChatContainer h3 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
 }
 .joinChatContainer input {
@@ -34,14 +37,14 @@ body {
   border-radius: 5px;
   padding: 5px;
   font-size: 16px;
-  display: 'flex';
-  /* flex-flow: 'column'; */
-  align-items: 'center';
-  justify-content: 'center';
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .joinChatContainer button {
-  width: 225px;
+  width: 210px;
   height: 50px;
   margin: 7px;
   border: none;
@@ -51,10 +54,10 @@ body {
   background: #3f51b5;
   color: #fff;
   cursor: pointer;
-  display: 'flex';
-  /* flex-flow: 'column'; */
-  align-items: 'center';
-  justify-content: 'center';
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .joinChatContainer button:hover {
@@ -63,14 +66,14 @@ body {
 
 .chat-window {
   width: 300px;
-  height: 350px;
+  height: 270px;
 }
 
 .chat-window p {
   margin: 0;
 }
 .chat-window .chat-header {
-  height: 45px;
+  height: 35px;
   border-radius: 6px;
   background: #3f51b5;
   position: relative;
@@ -85,7 +88,7 @@ body {
 }
 
 .chat-window .chat-body {
-  height: calc(450px - (45px + 70px));
+  height: calc(315px - (45px + 70px));
   border: 1px solid #263238;
   background: #fff;
 
@@ -110,7 +113,7 @@ body {
 .chat-window .chat-body .message .message-content {
   width: auto;
   height: auto;
-  min-height: 40px;
+  min-height: 30px;
   max-width: 120px;
   background-color: #43a047;
   border-radius: 5px;
@@ -150,6 +153,7 @@ body {
 #other .message-meta {
   justify-content: flex-end;
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 .message-meta #author {
