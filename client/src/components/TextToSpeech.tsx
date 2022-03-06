@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import VoiceCommands from './VoiceRecognition';
 
 type instProps = {
   instructions: string[];
@@ -57,6 +58,7 @@ const [step, setStep] = useState({ index: 0 });
     <button onClick={() => {
       stopAndCancel();
     }}>Stop</button>
+    <VoiceCommands readAloud={readAloud} temporarilyPause={temporarilyPause} stopAndCancel={stopAndCancel}/>
   </div>
   )
 }

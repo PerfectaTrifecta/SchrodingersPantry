@@ -1,6 +1,6 @@
 import React from 'react';
 import dummyData from './DummyData.js';
-// import TextToSpeech from '../TextToSpeech.tsx';
+import { useTheme } from '@mui/material/styles';
 
 interface RecipeBox {
   title: string;
@@ -10,6 +10,8 @@ interface RecipeBox {
 }
 
 const HomePage: React.FC = () => {
+  const theme = useTheme();
+
   return (
     <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'center' }}>
       {/* <TextToSpeech /> */}
@@ -24,7 +26,7 @@ const HomePage: React.FC = () => {
               padding: '1rem',
               margin: '1rem 0',
               boxShadow:
-                '-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem rgba(175, 175, 175, 0.25)',
+                `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
 
               display: 'flex',
               flexFlow: 'column',

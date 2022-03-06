@@ -47,6 +47,8 @@ const UserContextProvider = ({ children }: Props) => {
   };
 
 
+
+  //this function sends a user with properties from user table in db, then receives a new user object with favs and pics
   const userAccount = () => {
     
     if (user !== null ) {

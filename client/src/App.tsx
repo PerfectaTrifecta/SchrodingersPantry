@@ -10,16 +10,16 @@ import VideoModal from './components/VideoModal';
 import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
-import Favorite from './components/Favorite';
-// import io from 'socket.io-client';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { PaletteOptions } from '@mui/material';
+import { light, dark, veggie, meat } from './Theme';
+import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
 
-//import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
-
-
-
-//const socket = io.connect('http://localhost:3001');
+interface ThemeOptions {
+  palette?: PaletteOptions;
+}
 
 const App: React.FC = (): JSX.Element => {
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
@@ -45,20 +45,21 @@ const App: React.FC = (): JSX.Element => {
 // }, [])
 
 
-  // const joinRoom = () => {
-  //   if (room !== '') {
-  //     socket.emit('join_room', room);
-  //     setUsername(user.name);
-  //     setShowChat(true);
-  //   }
+  const socket = io.connect('http://localhost:443');
+  const [theme, setTheme] = useState<ThemeOptions>(light);
 
- 
-  // };
- 
+  const chosenTheme = createTheme(theme);
+
+  const joinRoom = () => {
+    if (room !== '') {
+      socket.emit('join_room', room);
+      setUsername(user.name);
+      setShowChat(true);
+    }
+  };
 
   return (
-    <div>
-     
+    <ThemeProvider theme={chosenTheme}>
       {getUser()}
       
     {/* {loading ? 
@@ -68,13 +69,11 @@ const App: React.FC = (): JSX.Element => {
 
       : */}
 
-          
-  <div>
-      <PulloutMenu />
-      {/* <div>
+      <PulloutMenu changeTheme={setTheme} />
+      <div className='chatContainer'>
         {!showChat ? (
           <div className='joinChatContainer'>
-            <h3>Enter Chat</h3>
+            <h3>Live Chat</h3>
             <input
               type='text'
               placeholder='Room ID...'
@@ -108,9 +107,7 @@ const App: React.FC = (): JSX.Element => {
           <MealPrep />
         </Route>
       </Switch>
-    </div>
-      {/* } */}
-      </div>
+    </ThemeProvider>
   );
 };
 export default App;
