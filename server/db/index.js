@@ -1,10 +1,8 @@
-require('dotenv').config()
-const { DB_NAME, DB_USER, DB_PW} = process.env;
+require('dotenv').config();
+const { DB_NAME, DB_USER, DB_PW } = process.env;
 const { Sequelize, DataTypes } = require('sequelize');
 
-
 const sql = new Sequelize(DB_NAME, DB_USER, DB_PW, {
-
   host: 'localhost',
   dialect: 'postgres',
   logging: false,
@@ -25,7 +23,7 @@ const Recipe = sql.define('recipes', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   title: DataTypes.STRING,
   ingredients: DataTypes.STRING,
@@ -39,7 +37,7 @@ const Bookmark = sql.define('bookmarks', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   url: DataTypes.STRING,
 });
@@ -49,7 +47,7 @@ const User_Bookmark = sql.define('user_bookmarks', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
 });
 
@@ -58,7 +56,7 @@ const Favorite = sql.define('favorites', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
 });
 
@@ -67,8 +65,10 @@ const Comment = sql.define('comments', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
+  mealId: DataTypes.STRING,
+  userName: DataTypes.STRING,
   text: DataTypes.STRING,
 });
 
@@ -77,8 +77,8 @@ const Vote = sql.define('votes', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
-  }
+    autoIncrement: true,
+  },
 });
 
 const Tag = sql.define('tags', {
@@ -86,7 +86,7 @@ const Tag = sql.define('tags', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   text: DataTypes.STRING,
 });
@@ -96,7 +96,7 @@ const Recipe_Tag = sql.define('recipe_tags', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   recipe_id: {
     type: DataTypes.INTEGER,
@@ -119,7 +119,7 @@ const Image = sql.define('images', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   recipe_id: {
     type: DataTypes.INTEGER,
@@ -132,25 +132,25 @@ const Image = sql.define('images', {
 });
 
 //DEFINE MODEL RELATIONSHIPS HERE
-User.belongsToMany(Bookmark, { through: 'user_bookmarks'});
-Bookmark.belongsToMany(User, { through: 'user_bookmarks'});
+User.belongsToMany(Bookmark, { through: 'user_bookmarks' });
+Bookmark.belongsToMany(User, { through: 'user_bookmarks' });
 
 User.hasMany(Recipe);
 Recipe.belongsTo(User);
 
-User.belongsToMany(Recipe, { through: 'favorites'});
+User.belongsToMany(Recipe, { through: 'favorites' });
 Recipe.belongsToMany(User, { through: 'favorites' });
 
-User.belongsToMany(Recipe, { through: 'votes'});
-Recipe.belongsToMany(User, { through: 'votes'});
+User.belongsToMany(Recipe, { through: 'votes' });
+Recipe.belongsToMany(User, { through: 'votes' });
 
-User.belongsToMany(Recipe, { through: 'comments'});
-Recipe.belongsToMany(User, { through: 'comments'});
-
-
+User.hasMany(Comment);
+Comment.belongsTo(User);
+Recipe.hasMany(Comment);
+Comment.belongsTo(Recipe);
 
 sql
-  .sync() //insert {alter: true} if you need to change the db structure
+  .sync() //insert {force: true} if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 
