@@ -98,8 +98,8 @@ UserRouter.get('/bookmarks', (req, res) => {
 
 //import helpers
 UserRouter.post('/favorites', (req, res) => {
-  const { recipeId, userId } = req.body;
-  //const userId = req.cookies.googleId;
+  const { recipeId } = req.body;
+  const userId = req.cookies.googleId;
   console.log(`{${recipeId} : ${userId}}`, 1900000000089)
 
   //console.log(newFav);

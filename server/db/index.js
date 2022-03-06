@@ -69,7 +69,7 @@ const Favorite = sql.define('favorites', {
     }
   },
   recipeId: {
-   type: DataTypes.INTEGER,
+   type: DataTypes.STRING,
    allowNull: false
   }
   
