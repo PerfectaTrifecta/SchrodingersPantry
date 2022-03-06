@@ -57,9 +57,7 @@ const Favorite = sql.define('favorites', {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
-  },
-  
-
+  }
 
 });
 
