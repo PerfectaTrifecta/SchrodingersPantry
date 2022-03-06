@@ -139,7 +139,7 @@ UserRouter.get('/bookmarks', (req, res) => {
 //updating favorites
 
 
-//import helpers
+
 UserRouter.post('/favorites', (req, res) => {
   const { recipeId } = req.body;
   const userId = req.cookies.googleId;

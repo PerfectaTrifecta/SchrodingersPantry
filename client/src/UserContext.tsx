@@ -53,17 +53,17 @@ const UserContextProvider = ({ children }: Props) => {
     
     if (user !== null ) {
       //console.log(user);
-    return axios.post(`/auth/account`, user)
+     axios.post(`/auth/account`, user)
         .then(({ data }) => {
-           const acct = {
-      id: user.id,
-      userName: data.userName,
-      favorites: data.favorites,
-      pics: data.pics
+    //        const acct = {
+    //   id: user.id,
+    //   userName: data.userName,
+    //   favorites: data.favorites,
+    //   pics: data.pics
       
-    };
-      //console.log(data);
-      setUser(acct);
+    // };
+      console.log(data);
+      setUser(data);
       
         })
         .catch((err) => {

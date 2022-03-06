@@ -25,7 +25,7 @@ const Favorite = (recipeId : FavProps) : JSX.Element => {
     //send recipe to be added to favorites
    
     setToggled(!toggled);
-    return axios.post(`/routes/user/favorites`, recipeId)
+    return axios.post(`/routes/user/profile/favorites`, recipeId)
       .then((response) => {
         //should recieve an array to update the state
         //save updated favorites list to user context to be used elsewhere
