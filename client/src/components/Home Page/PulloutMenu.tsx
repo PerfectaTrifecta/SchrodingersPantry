@@ -130,11 +130,11 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
               }
             }
           })}
-          {token === undefined ? (
+          {/* {token === undefined ? (
             <SpotLog key={1} />
           ) : (
             <WebPlayback token={token} key={token} />
-          )}
+          )} */}
         </List>
       ) : (
         <List>

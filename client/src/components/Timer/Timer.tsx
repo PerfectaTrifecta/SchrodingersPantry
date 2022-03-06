@@ -36,24 +36,26 @@ const Timer = () => {
       <div>
         <form onSubmit={handleSubmit}>
         <label>
-          minutes:
+          minutes :
           <input
             type="text"
             value={minutes}
+            size='10'
             onChange={e => setMins(Number(e.target.value))}
           />
-        </label>
+        </label><br />
         <label>
           seconds:
           <input
             type="text"
+            size='10'
             value={seconds}
             onChange={e => setSecs(Number(e.target.value))}
-          />
-        </label>
-        <input type="submit" value="Submit" />
+          ></input>
+        </label><br />
+        <input type="submit" value="Start Timer"></input>
       </form>
-      <h1>Time Remaining: {minutesRemaining}:{secondsRemaining}</h1>
+      <h3>Time Remaining: {minutesRemaining}:{secondsRemaining}</h3>
       </div>
     )
 }
