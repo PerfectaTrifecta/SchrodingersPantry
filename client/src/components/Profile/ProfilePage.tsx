@@ -34,6 +34,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 //import SearchYoutube from './SearchYoutube';
+import RecipePreview from './RecipePreview';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
@@ -42,12 +43,13 @@ interface ExpandMoreProps extends IconButtonProps {
 
 interface MyRecipeTypes {
   id: number;
-  user_id: string;
+  userId: string;
   title: string;
   ingredients: string;
   instructions: string;
   vote_count: number;
   comment_count: number;
+  createdAt: string;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -95,28 +97,28 @@ const ProfilePage: React.FC = () => {
   //checkout different url-gen actions to see how to style the image using profilePic.<action>
 
   // when page loads, get user's recipes (& favorites & bookmarks) from db
-  // useEffect(() => {
-  //   axios.get('/routes/user/profile/recipes')
-  //     .then(({ data }) => {
-  //       // console.log(data, 'user recipes, profile 96')
-  //       setCreations(data);
-  //     })
-  //     .catch(err => console.error('problem getting recipes, profile 98', err));
+  useEffect(() => {
+    axios.get('/routes/user/profile/recipes')
+      .then(({ data }) => {
+        // console.log(data, 'user recipes, profile 96')
+        setCreations(data);
+      })
+      .catch(err => console.error('problem getting recipes, profile 98', err));
 
-  //   axios.get('/routes/user/profile/favorites')
-  //     .then(({ data }) => {
-  //       // console.log(data, 'user faves, profile 103');
-  //       setFavorites(data)
-  //     })
-  //     .catch(err => console.error('problem getting faves, profile 108'));
+    // axios.get('/routes/user/profile/favorites')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user faves, profile 103');
+    //     setFavorites(data)
+    //   })
+    //   .catch(err => console.error('problem getting faves, profile 108'));
 
-  //   axios.get('/routes/user/profile/bookmarks')
-  //     .then(({ data }) => {
-  //       // console.log(data, 'user bookmarks, profile 112');
-  //       setBookmarks(data);
-  //     })
-  //     .catch(err => console.error('problem getting bookmarks, profile 115'));
-  // })
+    // axios.get('/routes/user/profile/bookmarks')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user bookmarks, profile 112');
+    //     setBookmarks(data);
+    //   })
+    //   .catch(err => console.error('problem getting bookmarks, profile 115'));
+  })
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -348,9 +350,7 @@ const ProfilePage: React.FC = () => {
         MY RECIPES 
         <Button size='small' onClick={handleForm}> Create a New Recipe </Button>
         {/* BUG TO REVISIT*/}
-        {/* {creations.map((creation) => {
-          //should return a recipe preview like the search page 
-        })} */}
+        {creations.map(creation => <RecipePreview id={creation.id} title={creation.title} />)}
       </div>
       <div>
         FAVORITE RECIPES 
