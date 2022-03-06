@@ -8,30 +8,30 @@
 import * as React from "react";
 import { render } from "react-dom";
 import "./style.css";
-import { CloudinaryImage } from "@cloudinary/base/assets/CloudinaryImage";
-import {
-	AdvancedImage,
-} from "@cloudinary/react";
+// import { CloudinaryImage } from "@cloudinary/base/assets/CloudinaryImage";
+// import {
+// 	AdvancedImage,
+// } from "@cloudinary/react";
 
 ////////////--------------------TS-----------------------------------------//////////
 
 
-const cloudinaryImage = new CloudinaryImage("sample", { cloudName: "demo" });
+// const cloudinaryImage = new CloudinaryImage("sample", { cloudName: "demo" });
 
-const Upload = () => {
+// const Upload = () => {
 
 
-  return (
-    <div>
-    <h2>render a cloudinary image</h2>
-    <AdvancedImage cldImg={cloudinaryImage} />
+//   return (
+//     <div>
+//     <h2>render a cloudinary image</h2>
+//     <AdvancedImage cldImg={cloudinaryImage} />
     
 
-  </div>
-  )
-}
+//   </div>
+//   )
+// }
 
-export default Upload
+// export default Upload
 
 
 
