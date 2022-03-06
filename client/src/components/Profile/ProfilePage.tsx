@@ -95,28 +95,28 @@ const ProfilePage: React.FC = () => {
   //checkout different url-gen actions to see how to style the image using profilePic.<action>
 
   // when page loads, get user's recipes (& favorites & bookmarks) from db
-  useEffect(() => {
-    axios.get('/routes/user/profile/recipes')
-      .then(({ data }) => {
-        // console.log(data, 'user recipes, profile 96')
-        setCreations(data);
-      })
-      .catch(err => console.error('problem getting recipes, profile 98', err));
+  // useEffect(() => {
+  //   axios.get('/routes/user/profile/recipes')
+  //     .then(({ data }) => {
+  //       // console.log(data, 'user recipes, profile 96')
+  //       setCreations(data);
+  //     })
+  //     .catch(err => console.error('problem getting recipes, profile 98', err));
 
-    axios.get('/routes/user/profile/favorites')
-      .then(({ data }) => {
-        // console.log(data, 'user faves, profile 103');
-        setFavorites(data)
-      })
-      .catch(err => console.error('problem getting faves, profile 108'));
+  //   axios.get('/routes/user/profile/favorites')
+  //     .then(({ data }) => {
+  //       // console.log(data, 'user faves, profile 103');
+  //       setFavorites(data)
+  //     })
+  //     .catch(err => console.error('problem getting faves, profile 108'));
 
-    axios.get('/routes/user/profile/bookmarks')
-      .then(({ data }) => {
-        // console.log(data, 'user bookmarks, profile 112');
-        setBookmarks(data);
-      })
-      .catch(err => console.error('problem getting bookmarks, profile 115'));
-  })
+  //   axios.get('/routes/user/profile/bookmarks')
+  //     .then(({ data }) => {
+  //       // console.log(data, 'user bookmarks, profile 112');
+  //       setBookmarks(data);
+  //     })
+  //     .catch(err => console.error('problem getting bookmarks, profile 115'));
+  // })
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
