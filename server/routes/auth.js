@@ -77,7 +77,7 @@ authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
   let userDetails = {};
-  //console.log(user, 12);
+  console.log(user, 12);
 
   User.findOrCreate({
     where: {
@@ -112,7 +112,7 @@ authRouter.post('/account', (req, res) => {
           } else{
             userDetails.pics = [];
           }
-          //console.log(userDetails);
+          console.log(userDetails, 1700000000);
           res.status(200);
           res.send(userDetails);
         })

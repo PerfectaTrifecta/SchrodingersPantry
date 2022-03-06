@@ -11,7 +11,7 @@ import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import Favorite from './components/Favorite';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
 
