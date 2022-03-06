@@ -147,7 +147,10 @@ UserRouter.post('/favorites', (req, res) => {
 
   //console.log(newFav);
   Favorite.create({ 
-    recipeId, userId })
+    recipeId, userId }, {
+      include: [Recipe, User]
+    }
+    )
     // .then(() => {
     //   Favorite.findAll({
     //     where: {

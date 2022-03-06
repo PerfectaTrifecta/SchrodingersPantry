@@ -58,18 +58,6 @@ const Favorite = sql.define('favorites', {
     primaryKey: true,
     autoIncrement: true,
   },
-  userId: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    references: {
-      model: User,
-      key: 'id'
-    }
-  },
-  recipeId: {
-   type: DataTypes.STRING,
-   allowNull: false
-  }
   
 
 

@@ -100,9 +100,9 @@ const App: React.FC = (): JSX.Element => {
         <Route path='/rss'>
           <RSSFeed />
         </Route>
-        {/* <Route path='/profile'>
+        <Route path='/profile'>
           <ProfilePage />
-        </Route> */}
+        </Route>
         <Route path='/recipe_view'>
           <RecipeView />
         </Route>
