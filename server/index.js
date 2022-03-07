@@ -71,6 +71,7 @@ sql
   .catch((err) => console.error(err));
 
 ///////////////////Socket Server/////////////////////
+// const socketPort = 443;
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:4000',
@@ -95,6 +96,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(443, () => {
+server.listen(80, () => {
   console.log('socket server listening');
 });

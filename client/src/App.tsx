@@ -28,7 +28,7 @@ const App: React.FC = (): JSX.Element => {
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
   // socket is what we call the actual connection to the socket server
-  const socket = io.connect('ws://localhost:443');
+  const socket = io.connect('ws://localhost:80');
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
