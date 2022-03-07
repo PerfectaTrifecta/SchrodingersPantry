@@ -1,7 +1,21 @@
-import { useEffect, useState } from 'react';
-import ScrollToBottom from 'react-scroll-to-bottom';
+import React, { useEffect, useState } from 'react';
+import ScrollToBottom from 'react-scroll-to-bottom'; /*<-- Researched 
+this and there does not appear to be a fix. It doesn't break anything*/
 
-const Chat: React.FC = ({ socket, username, room }) => {
+type Props = {
+  socket: Socket;
+  username: string;
+  room: string;
+};
+
+interface SocketData {
+  author: string;
+  room: string;
+  message: string;
+  time: Date;
+}
+
+const Chat: React.FC<Props> = ({ socket, username, room }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
 
@@ -24,7 +38,7 @@ const Chat: React.FC = ({ socket, username, room }) => {
   };
 
   useEffect(() => {
-    socket.on('receive_message', (data) => {
+    socket.on('receive_message', (data: SocketData) => {
       setMessageList((list) => [...list, data]);
     });
   }, [socket]);
@@ -35,10 +49,11 @@ const Chat: React.FC = ({ socket, username, room }) => {
         <p>Live Chat</p>
       </div>
       <div className='chat-body'>
-        <ScrollToBottom>
-          {messageList.map((messageContent) => {
+        <ScrollToBottom className='chat-body'>
+          {messageList.map((messageContent, i) => {
             return (
               <div
+                key={i}
                 className='message'
                 id={username === messageContent.author ? 'you' : 'other'}
               >

@@ -27,28 +27,26 @@ const App: React.FC = (): JSX.Element => {
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
+  // socket is what we call the actual connection to the socket server
+  const socket = io.connect('ws://localhost:443');
+
   const [loading, setLoading] = useState(false);
-  let [color, setColor] = useState("#1682B2");
+  const [color, setColor] = useState('#1682B2');
   // const { userAccount, loggedIn } = useContext(UserContext);
-  
+
   useEffect(() => {
- 
-      userAccount();
-    
-     
+    userAccount();
   }, [loggedIn]);
 
-  console.log(user, 'app tsx 41');
+  // console.log(user, 'app tsx 41');
 
   useEffect(() => {
-  setLoading(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 3000)
-}, [])
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
-
-  const socket = io.connect('http://localhost:443');
   const [theme, setTheme] = useState<ThemeOptions>(light);
 
   const chosenTheme = createTheme(theme);
@@ -56,7 +54,7 @@ const App: React.FC = (): JSX.Element => {
   const joinRoom = () => {
     if (room !== '') {
       socket.emit('join_room', room);
-      setUsername(user.name);
+      setUsername(user.userName);
       setShowChat(true);
     }
   };
@@ -64,58 +62,62 @@ const App: React.FC = (): JSX.Element => {
   return (
     <ThemeProvider theme={chosenTheme}>
       {getUser()}
-      
-    {loading ? 
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-    <ClimbingBoxLoader color={color} loading={loading}  size={30} />
-      </div>
 
-      :
-      <div>
-      <PulloutMenu changeTheme={setTheme} />
-      <div className='chatContainer'>
-        {!showChat ? (
-          <div className='joinChatContainer'>
-            <h3>Live Chat</h3>
-            <input
-              type='text'
-              placeholder='Room ID...'
-              onChange={(e) => {
-                setRoom(e.target.value);
-              }}
-            />
-            <button onClick={joinRoom}>Join A Room</button>
+      {loading ? (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <ClimbingBoxLoader color={color} loading={loading} size={30} />
+        </div>
+      ) : (
+        <div>
+          <PulloutMenu changeTheme={setTheme} />
+          <div className='chatContainer'>
+            {!showChat ? (
+              <div className='joinChatContainer'>
+                <h3>Live Chat</h3>
+                <input
+                  type='text'
+                  placeholder='Room ID...'
+                  onChange={(e) => {
+                    setRoom(e.target.value);
+                  }}
+                />
+                <button onClick={joinRoom}>Join A Room</button>
+              </div>
+            ) : (
+              <Chat socket={socket} username={username} room={room} />
+            )}
           </div>
-        ) : (
-          <Chat socket={socket} username={username} room={room} />
-        )}
-      </div> 
-      <Switch>
-        <Route exact path='/'>
-          <HomePage />
-        </Route>
-        <Route path='/recipe_finder'>
-          <Search />
-        </Route>
-        <Route path='/rss'>
-          <RSSFeed />
-        </Route>
-        <Route path='/profile'>
-          <ProfilePage />
-        </Route>
-        <Route path='/recipe_view'>
-          <RecipeView />
-        </Route>
-        <Route path='/meal_prep'>
-          <MealPrep />
-        </Route>
-      </Switch>
-      </div>
-}
+          <Switch>
+            <Route exact path='/'>
+              <HomePage />
+            </Route>
+            <Route path='/recipe_finder'>
+              <Search />
+            </Route>
+            <Route path='/rss'>
+              <RSSFeed />
+            </Route>
+            <Route path='/profile'>
+              <ProfilePage />
+            </Route>
+            <Route path='/recipe_view'>
+              <RecipeView />
+            </Route>
+            <Route path='/meal_prep'>
+              <MealPrep />
+            </Route>
+          </Switch>
+        </div>
+      )}
     </ThemeProvider>
-    
   );
 };
-
 
 export default App;
