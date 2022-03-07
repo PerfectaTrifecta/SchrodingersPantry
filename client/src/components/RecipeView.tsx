@@ -18,6 +18,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { UserContext } from '../UserContext';
+import Favorite from './Favorite';
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -129,10 +130,11 @@ const RecipeView: React.FC = () => {
         <VideoModal mealName={mealRecipe[0].strMeal} />
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>
-          <FavoriteIcon />
+        <Favorite recipeId={idMeal} />
+        <IconButton aria-label='share'>
+          <CommentIcon />
         </IconButton>
-        <IconButton 
+        <IconButton
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label='show more'
@@ -142,6 +144,7 @@ const RecipeView: React.FC = () => {
         <IconButton>
           See Reviews!
         </IconButton>
+        <IconButton />
       </CardActions>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>
