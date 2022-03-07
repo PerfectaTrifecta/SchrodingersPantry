@@ -26,8 +26,8 @@ const App: React.FC = (): JSX.Element => {
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
-
-  const socket = io.connect('http://localhost:443');
+  // socket is what we call the actual connection to the socket server
+  const socket = io.connect('ws://localhost:443');
   const [theme, setTheme] = useState<ThemeOptions>(light);
 
   const chosenTheme = createTheme(theme);
