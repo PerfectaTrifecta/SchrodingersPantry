@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const { Router } = require('express');
 const UserRouter = Router();
 const { Recipe, Favorite, User_Bookmark, Bookmark, Comment, User } = require('../db/index');
@@ -134,5 +135,66 @@ UserRouter.get('/bookmarks', (req, res) => {
   })
   .catch(err => console.error(err, 'userRoute 82'))
 })
+
+//updating favorites
+
+
+
+UserRouter.post('/favorites', (req, res) => {
+  const { recipeId } = req.body;
+  const userId = req.cookies.googleId;
+  console.log(`{${recipeId} : ${userId}}`, 1900000000089)
+
+  //console.log(newFav);
+  Favorite.create({ 
+    recipeId, userId }, {
+      include: [Recipe, User]
+    }
+    )
+    // .then(() => {
+    //   Favorite.findAll({
+    //     where: {
+    //       userId
+    //     }
+    //  })
+    // })
+   .then(() => {
+      console.log('Added SUCCESSFULLY TO FAVORITES');
+      res.status(201)
+     .send(favs);
+      //.send(favs);
+    })
+    .catch((err) => {
+      console.error('error with post request to favorites', err);
+      res.sendStatus(500);
+    });
+});
+
+// UserRouter.patch('/favorites/delete/:favId', (req, res) => {
+//   const { googleId, favId } = req.body;
+//   console.log(req.body);
+//   findAndDeleteFavorites(googleId, favId)
+//     .then((user) => {
+//       console.log('REMOVED SUCCESSFULLY FROM FAVORITES', favId);
+//       res.status(201).send(user);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.sendStatus(500);
+//     });
+// });
+
+
+UserRouter.post('/upload/recipe-image/:recipeId', (req, res) => {
+  //upload to cloudinary, save response url string,
+  const image = req.body;
+  axios.post('cloudinaryApi', image)
+    .then((response) => {
+      res.status(201).send(response);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+});
 
 module.exports = { UserRouter };

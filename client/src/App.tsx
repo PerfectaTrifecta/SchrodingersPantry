@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CreateRecipeForm from './components/Profile/CreateRecipeForm';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
@@ -16,16 +16,37 @@ import { light, dark, veggie, meat } from './Theme';
 import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
+import { ClimbingBoxLoader } from 'react-spinners';
 
 interface ThemeOptions {
   palette?: PaletteOptions;
 }
 
 const App: React.FC = (): JSX.Element => {
-  const { getUser, user } = useContext(UserContext);
+  const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
+  const [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#1682B2");
+  // const { userAccount, loggedIn } = useContext(UserContext);
+  
+  useEffect(() => {
+ 
+      userAccount();
+    
+     
+  }, [loggedIn]);
+
+  console.log(user, 'app tsx 41');
+
+  useEffect(() => {
+  setLoading(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 3000)
+}, [])
+
 
   const socket = io.connect('http://localhost:443');
   const [theme, setTheme] = useState<ThemeOptions>(light);
@@ -43,7 +64,14 @@ const App: React.FC = (): JSX.Element => {
   return (
     <ThemeProvider theme={chosenTheme}>
       {getUser()}
+      
+    {loading ? 
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+    <ClimbingBoxLoader color={color} loading={loading}  size={30} />
+      </div>
 
+      :
+      <div>
       <PulloutMenu changeTheme={setTheme} />
       <div className='chatContainer'>
         {!showChat ? (
@@ -61,7 +89,7 @@ const App: React.FC = (): JSX.Element => {
         ) : (
           <Chat socket={socket} username={username} room={room} />
         )}
-      </div>
+      </div> 
       <Switch>
         <Route exact path='/'>
           <HomePage />
@@ -82,7 +110,12 @@ const App: React.FC = (): JSX.Element => {
           <MealPrep />
         </Route>
       </Switch>
+      </div>
+}
     </ThemeProvider>
+    
   );
 };
+
+
 export default App;
