@@ -57,7 +57,7 @@ const RecipeView: React.FC = () => {
   const location = useLocation<{ idMeal: string | null, idUserMeal: number | null }>();
   const { idMeal, idUserMeal } = location.state;
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] = useState<UserRecipeProps | null>(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] = useState<UserRecipeProps[] | null>(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
 
@@ -105,8 +105,8 @@ const RecipeView: React.FC = () => {
           setMealUserRecipe(data);
         })
         .then(() => {
-          console.log(mealUserRecipe, 'recipeView 101');
-          // setUserIngredients(mealUserRecipe.ingredients.split(' '));
+          // console.log(mealUserRecipe, 'recipeView 101');
+          setUserIngredients(mealUserRecipe[0].ingredients.split(','));
         })
         .catch(err => console.error(err, 'recipeView 98'))
     })
@@ -228,7 +228,7 @@ const RecipeView: React.FC = () => {
       }}
       >
         <CardHeader
-          title={mealUserRecipe.title}
+          title={mealUserRecipe[0].title}
           // subheader={`${mealRecipe[0].strArea}  |  ${mealRecipe[0].strCategory}`}
         />
         {/* <CardMedia
@@ -249,11 +249,12 @@ const RecipeView: React.FC = () => {
           <Typography paragraph>
             <strong>Directions:</strong>
           </Typography>
-          {mealUserRecipe.instructions.split('\n').map((p, i) => (
+          {/* {console.log(mealUserRecipe, 'recipeView 252')} */}
+          {mealUserRecipe[0].instructions.split('\n').map((p: string, i: number) => (
             <Typography key={p + i}>{p}</Typography>
           ))}
           <TextToSpeech instructions={instructions} />
-          <VideoModal mealName={mealUserRecipe.title} />
+          <VideoModal mealName={mealUserRecipe[0].title} />
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label='add to favorites'>

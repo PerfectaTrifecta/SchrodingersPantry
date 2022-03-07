@@ -62,7 +62,7 @@ const UserContextProvider = ({ children }: Props) => {
     //   pics: data.pics
       
     // };
-      console.log(data);
+      console.log(data, 'userContext 65');
       setUser(data);
       
         })
