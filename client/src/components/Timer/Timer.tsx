@@ -15,7 +15,7 @@ const Timer = () => {
       seconds,
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         // e.preventDefault();
          let milliseconds = test.asMilliseconds();
          const timeKeeper = setInterval(() => {
@@ -40,7 +40,7 @@ const Timer = () => {
           <input
             type="text"
             value={minutes}
-            size='10'
+            size={10}
             onChange={e => setMins(Number(e.target.value))}
           />
         </label><br />
@@ -48,7 +48,7 @@ const Timer = () => {
           seconds:
           <input
             type="text"
-            size='10'
+            size={10}
             value={seconds}
             onChange={e => setSecs(Number(e.target.value))}
           ></input>

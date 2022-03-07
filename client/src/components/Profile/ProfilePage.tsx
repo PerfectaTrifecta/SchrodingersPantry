@@ -34,6 +34,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 //import SearchYoutube from './SearchYoutube';
+import RecipePreview from './RecipePreview';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
@@ -42,12 +43,13 @@ interface ExpandMoreProps extends IconButtonProps {
 
 interface MyRecipeTypes {
   id: number;
-  user_id: string;
+  userId: string;
   title: string;
   ingredients: string;
   instructions: string;
   vote_count: number;
   comment_count: number;
+  createdAt: string;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -68,9 +70,9 @@ const ProfilePage: React.FC = () => {
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
-  const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
-  const [bookmarks, setBookmarks] = useState<string[]>([]);
+  // const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
+  // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
+  // const [bookmarks, setBookmarks] = useState<string[]>([]);
 
   const [aboutMeDisplay, setAboutMeDisplay] = useState<string>('');
   const [aboutMe, setAboutMe] = useState<string>('');
@@ -82,7 +84,8 @@ const ProfilePage: React.FC = () => {
   const [allergies, setAllergies] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
   // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser, getUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { recipes, bookmarks, favorites } = user;
 
   const cld = new Cloudinary({
     cloud: {
@@ -94,32 +97,30 @@ const ProfilePage: React.FC = () => {
 
   // when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
-    axios
-      .get('/routes/user/profile/recipes')
-      .then(({ data }) => {
-        // console.log(data, 'user recipes, profile 96')
-        setCreations(data);
-      })
-      .catch((err) =>
-        console.error('problem getting recipes, profile 98', err)
-      );
+    // axios
+    //   .get('/routes/user/profile/recipes')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user recipes, profile 96')
+    //     setCreations(data);
+    //   })
+    //   .catch((err) =>
+    //     console.error('problem getting recipes, profile 98', err)
+    //   );
 
-    axios
-      .get('/routes/user/profile/favorites')
-      .then(({ data }) => {
-        // console.log(data, 'user faves, profile 103');
-        setFavorites(data);
-      })
-      .catch((err) => console.error('problem getting faves, profile 108'));
+    // axios.get('/routes/user/profile/favorites')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user faves, profile 103');
+    //     setFavorites(data)
+    //   })
+    //   .catch(err => console.error('problem getting faves, profile 108'));
 
-    axios
-      .get('/routes/user/profile/bookmarks')
-      .then(({ data }) => {
-        // console.log(data, 'user bookmarks, profile 112');
-        setBookmarks(data);
-      })
-      .catch((err) => console.error('problem getting bookmarks, profile 115'));
-  });
+    // axios.get('/routes/user/profile/bookmarks')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user bookmarks, profile 112');
+    //     setBookmarks(data);
+    //   })
+    //   .catch(err => console.error('problem getting bookmarks, profile 115'));
+  })
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -360,30 +361,22 @@ const ProfilePage: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        MY RECIPES
-        <Button size='small' onClick={handleForm}>
-          {' '}
-          Create a New Recipe{' '}
-        </Button>
-        {/* BUG TO REVISIT*/}
-        {/* {creations.map((creation) => {
-          //should return a recipe preview like the search page 
-        })} */}
+        MY RECIPES 
+        <Button size='small' onClick={handleForm}> Create a New Recipe </Button>
+        {recipes.map(recipe => <RecipePreview id={recipe.id} title={recipe.title} />)}
       </div>
       <div>
         FAVORITE RECIPES
-        {/* {favorites.map((favorite) => {
-          //should return a recipe preview like the search page
-        })} */}
+        {favorites.map(favorite => <RecipePreview id={favorite.id} title={favorite.title} />)}
       </div>
       <div>
         BOOKMARKS
         <List>
-          {/* {bookmarks.map(mark => {
+          {bookmarks.map(mark => {
             <ListItem>
-              <ListItemText primary={mark} />
+              <ListItemText primary={mark.url} />
             </ListItem>
-          })} */}
+          })}
         </List>
       </div>
     </div>
