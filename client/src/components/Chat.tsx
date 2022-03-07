@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import ScrollToBottom from 'react-scroll-to-bottom';
+import React, { useEffect, useState } from 'react';
+import ScrollToBottom from 'react-scroll-to-bottom'; /*<-- Researched 
+this and there does not appear to be a fix. It doesn't break anything*/
 
 type Props = {
   socket: Socket;

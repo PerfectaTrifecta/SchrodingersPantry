@@ -29,6 +29,7 @@ const App: React.FC = (): JSX.Element => {
   const [showChat, setShowChat] = useState(false);
   // socket is what we call the actual connection to the socket server
   const socket = io.connect('ws://localhost:443');
+
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
   // const { userAccount, loggedIn } = useContext(UserContext);
@@ -37,7 +38,7 @@ const App: React.FC = (): JSX.Element => {
     userAccount();
   }, [loggedIn]);
 
-  console.log(user, 'app tsx 41');
+  // console.log(user, 'app tsx 41');
 
   useEffect(() => {
     setLoading(true);
@@ -53,7 +54,7 @@ const App: React.FC = (): JSX.Element => {
   const joinRoom = () => {
     if (room !== '') {
       socket.emit('join_room', room);
-      setUsername(user.name);
+      setUsername(user.userName);
       setShowChat(true);
     }
   };

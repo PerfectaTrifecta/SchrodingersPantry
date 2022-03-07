@@ -54,7 +54,6 @@ authRouter.get('/user', (req, res) => {
   // console.log(req.cookies, 'auth 20');
   //should search all models and send back a user object
 
-  
   if (req.cookies.googleId) {
     User.findAll({
       where: {
@@ -65,15 +64,14 @@ authRouter.get('/user', (req, res) => {
         res.status(200);
         res.send(user);
       })
-  
-     .catch((err) => console.error('auth 28', err));
+
+      .catch((err) => console.error('auth 28', err));
   } else {
     res.sendStatus(404);
   }
 });
 
 authRouter.post('/account', (req, res) => {
-
   //const { id } = req.params;
   const user = req.body;
   let userDetails = {};
@@ -84,50 +82,47 @@ authRouter.post('/account', (req, res) => {
       id: user.id,
     },
   })
-  .then((data) => {
+    .then((data) => {
       userDetails.userName = user.name;
       userDetails.id = data[0].id;
-       Favorite.findAll({
+      Favorite.findAll({
+        where: {
+          userId: user.id,
+        },
+      }).then((favs) => {
+        if (favs) {
+          userDetails.favorites = favs;
+          //console.log(favs, 50000000);
+        } else {
+          userDetails.favorites = [];
+        }
+        //IMAGES
+        User_Image.findAll({
           where: {
-            userId: user.id
+            userId: user.id,
           },
         })
-        .then((favs) => {
-          
-          
-          if(favs){
-            userDetails.favorites = favs;
-            //console.log(favs, 50000000);
-          } else {
-            userDetails.favorites = [];
-          }
-          //IMAGES
-          User_Image.findAll({
-            where: {
-              userId: user.id
-            },
-          }) .then((images) => {
-          if(images){
-            userDetails.pics = images;
-          } else{
-            userDetails.pics = [];
-          }
-          console.log(userDetails, 1700000000);
-          res.status(200);
-          res.send(userDetails);
-        })
-        .catch((err) => {
-          console.error(err);
-          res.sendStatus(404);
-        })
-        })
-       
-    })      
-        .catch((err) => {
-          console.error('auth user lookup error:', err);
-          res.sendStatus(500);
-        })
-      })
+          .then((images) => {
+            if (images) {
+              userDetails.pics = images;
+            } else {
+              userDetails.pics = [];
+            }
+            // console.log(userDetails, 1700000000);
+            res.status(200);
+            res.send(userDetails);
+          })
+          .catch((err) => {
+            console.error(err);
+            res.sendStatus(404);
+          });
+      });
+    })
+    .catch((err) => {
+      console.error('auth user lookup error:', err);
+      res.sendStatus(500);
+    });
+});
 
 authRouter.get('/logout', (req, res) => {
   console.log('yep');
