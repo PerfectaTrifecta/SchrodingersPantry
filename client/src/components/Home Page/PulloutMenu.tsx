@@ -57,8 +57,8 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     '/recipe_finder',
     'The Feed',
     '/rss',
-    // 'Meal Prep',
-    // '/meal_prep',
+    'Market Locator',
+    '/market_finder',
     'Sign Out',
     '/logout',
   ];
@@ -104,7 +104,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const logout = () => {
     axios
       .get('/auth/logout')
-      .then((res) => {
+      .then(() => {
         setUser(null);
         console.log('user set to null');
       })
