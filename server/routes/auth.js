@@ -1,4 +1,3 @@
-const axios = require('axios').default;
 const { Router } = require('express');
 const passport = require('passport');
 const { User, Favorite, User_Image } = require('../db/index');
@@ -33,7 +32,7 @@ authRouter.get('/token', (req, res) => {
 authRouter.get(
   '/google',
   passport.authenticate('google', { scope: ['profile'] }),
-  (res, req) => {
+  () => {
     console.log('/google successful');
   }
 );

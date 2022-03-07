@@ -6,6 +6,7 @@ import RSSFeed from './components/rss/RSSFeedContainer';
 import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
+import Map from './components/marketLocator/map'
 import VideoModal from './components/VideoModal';
 import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch, Link } from 'react-router-dom';
@@ -112,6 +113,9 @@ const App: React.FC = (): JSX.Element => {
             </Route>
             <Route path='/meal_prep'>
               <MealPrep />
+            </Route>
+            <Route path='/market_finder'>
+            <Map />
             </Route>
           </Switch>
         </div>
