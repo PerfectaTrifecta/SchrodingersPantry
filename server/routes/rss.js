@@ -12,12 +12,11 @@ const Parser =require('rss-parser')
 
 rssGet.get('/:selectedTab', (req, res) => {
   const { selectedTab } = req.params;
-
   //unique RSS feeds for each outlet
   const feedUrls = [
-    '6206a68b6d822c4afd308fd26206a71a2631ca7ba8088fc2.xml',
-    '6206a68b6d822c4afd308fd26206a7d932a48d18dd49a782.xml',
-    '6206a68b6d822c4afd308fd26206a88b6bb15b6f04753492.xml'
+    '6224f0ec7f158e227c74e3526224f1448394e80ad70ed0d2.xml',
+    '6224f0ec7f158e227c74e3526224f1d0b51b1b2a253956b2.xml',
+    '6224f0ec7f158e227c74e3526224f21e06897562407ecf82.xml'
   ]
   axios.get((async () => {
     const feed = await parser.parseURL(`http://fetchrss.com/rss/${feedUrls[selectedTab]}`)

@@ -8,21 +8,21 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 const Map = () => {
   const [zip, setZip] = useState<string>('');
-  const [zoom, setZoom] = React.useState(15); 
+  // const [zoom, setZoom] = React.useState(15); 
 
   // let map: google.maps.Map
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0,
   });
-  const ref = React.useRef<HTMLDivElement>(null);
-  const [map, setMap] = React.useState<google.maps.Map>();
+  // const ref = React.useRef<HTMLDivElement>(null);
+  // const [map, setMap] = React.useState<google.maps.Map>();
 
-  React.useEffect(() => {
-    if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
-    }
-  }, [ref, map]);
+  // React.useEffect(() => {
+  //   if (ref.current && !map) {
+  //     setMap(new window.google.maps.Map(ref.current, {}));
+  //   }
+  // }, [ref, map]);
 
   const loader = new Loader({
     apiKey: process.env.GOOGLE_MAPS_API_KEY,
@@ -31,7 +31,7 @@ const Map = () => {
 
   loader.load().then(() => {
     function initMap(): void {
-      map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      let map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
         center,
         zoom: 5
       });
@@ -49,14 +49,11 @@ const Map = () => {
 
         for (let i = 0; i < top3.length; i++) {
 
-          return axios.get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`).then(response => {
-            // do something with response
-
-            addresses.push(response.data.marketdetails.Address);
+          return axios.get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`)
+            .then(response => {
+              addresses.push(response.data.marketdetails.Address);
           })
-        }
-      
-      )
+        })
       .then(res => {
         return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addresses[0]}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
 
@@ -64,7 +61,7 @@ const Map = () => {
       }).then(res => {
         console.log(res.data.results[0].geometry)
         setCenter(res.data.results[0].geometry.location);
-        setZoom(8);
+        // setZoom(8);
       })
       .catch((err) => {
         console.error(err);
@@ -88,30 +85,30 @@ const Map = () => {
 
   ///////////////////////////////////
 
-  const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
-    const [marker, setMarker] = React.useState<google.maps.Marker>();
+  // const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
+  //   const [marker, setMarker] = React.useState<google.maps.Marker>();
 
-    React.useEffect(() => {
-      if (!marker) {
-        setMarker(new google.maps.Marker());
-      }
+  //   React.useEffect(() => {
+  //     if (!marker) {
+  //       setMarker(new google.maps.Marker());
+  //     }
 
-      // remove marker from map on unmount
-      return () => {
-        if (marker) {
-          marker.setMap(null);
-        }
-      };
-    }, [marker]);
+  //     // remove marker from map on unmount
+  //     return () => {
+  //       if (marker) {
+  //         marker.setMap(null);
+  //       }
+  //     };
+  //   }, [marker]);
 
-    React.useEffect(() => {
-      if (marker) {
-        marker.setOptions(options);
-      }
-    }, [marker, options]);
+  //   React.useEffect(() => {
+  //     if (marker) {
+  //       marker.setOptions(options);
+  //     }
+  //   }, [marker, options]);
 
-    return null;
-  };
+  //   return null;
+  // };
   return (
 
     <div>
