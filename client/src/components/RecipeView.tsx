@@ -54,14 +54,20 @@ const RecipeView: React.FC = () => {
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRawComment(e.target.value);
-  }
+  };
 
   const submitComment = () => {
-    axios.post('routes/user/profile/comment', { text: rawComment, userId: user.id, userName: user.name, mealId: idMeal})
+    axios
+      .post('routes/user/profile/comment', {
+        text: rawComment,
+        userId: user.id,
+        userName: user.userName,
+        mealId: idMeal,
+      })
       .then(() => {
         setRawComment('');
       })
-      .catch(err => console.error(err, 'recipeView 53'))
+      .catch((err) => console.error(err, 'recipeView 53'));
   };
 
   //Prints the recipe to the screen on page load
@@ -70,7 +76,7 @@ const RecipeView: React.FC = () => {
       .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
       .then(({ data }) => {
         // console.log(data, 'recipeView 61');
-        data && setMealRecipe(data) 
+        data && setMealRecipe(data);
         setInstructions(data[0].strInstructions.split('\r\n'));
       })
       .catch((err) => {
@@ -83,23 +89,24 @@ const RecipeView: React.FC = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
 
-    axios.get('routes/user/profile/comment', { params: { mealId: idMeal } })
+    axios
+      .get('routes/user/profile/comment', { params: { mealId: idMeal } })
       .then(({ data }) => {
         // console.log(data, 'recipeView 96')
         setFeatComments(data);
       })
-      .catch(err => console.error(err, 'recipeView 77'))
+      .catch((err) => console.error(err, 'recipeView 77'));
   };
 
   //Conditionally renders based on meal data availability
   return !mealRecipe[0] ? null : (
     <Card
-    sx={{ maxWidth: 345 }}
-    style={{
-      margin: '16px auto',
-      maxWidth: '600px',
-      width: '90%',
-    }}
+      sx={{ maxWidth: 345 }}
+      style={{
+        margin: '16px auto',
+        maxWidth: '600px',
+        width: '90%',
+      }}
     >
       <CardHeader
         title={mealRecipe[0].strMeal}
@@ -118,15 +125,15 @@ const RecipeView: React.FC = () => {
         <ul>
           {mealRecipe[0].ingredients.map((tuple, i) => (
             <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
-            ))}
+          ))}
         </ul>
         <Typography paragraph>
           <strong>Directions:</strong>
         </Typography>
         {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
           <Typography key={p + i}>{p}</Typography>
-          ))}
-          <TextToSpeech instructions={instructions} />
+        ))}
+        <TextToSpeech instructions={instructions} />
         <VideoModal mealName={mealRecipe[0].strMeal} />
       </CardContent>
       <CardActions disableSpacing>
@@ -141,31 +148,25 @@ const RecipeView: React.FC = () => {
         >
           <CommentIcon />
         </IconButton>
-        <IconButton>
-          See Reviews!
-        </IconButton>
+        <IconButton>See Reviews!</IconButton>
         <IconButton />
       </CardActions>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>
           <TextField
-            id="outlined-multiline-flexible"
+            id='outlined-multiline-flexible'
             label='Your Comment'
-            placeholder="Tasted this dish before?"
+            placeholder='Tasted this dish before?'
             multiline
             maxRows={4}
-            inputProps={{maxLength: 120}}
+            inputProps={{ maxLength: 120 }}
             value={rawComment}
             onChange={handleCommentChange}
           />
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={submitComment}
-          > 
-            Submit 
+          <Button variant='outlined' size='small' onClick={submitComment}>
+            Submit
           </Button>
-          {featComments.map(comment => (
+          {featComments.map((comment) => (
             <Box
               sx={{
                 border: '1px solid lightGrey',
