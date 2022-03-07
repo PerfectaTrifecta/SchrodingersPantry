@@ -27,6 +27,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.16.7",
     "@types/google.maps": "^3.48.0",
+    "@types/jquery": "^3.5.14",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "babel-loader": "^8.2.3",
@@ -48,6 +49,7 @@
     "@emotion/styled": "^11.6.0",
     "@googleapis/calendar": "^1.0.2",
     "@googlemaps/js-api-loader": "^1.13.7",
+    "@googlemaps/react-wrapper": "^1.1.26",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.4.2",
@@ -69,6 +71,7 @@
     "express-session": "^1.17.2",
     "husky": "^7.0.4",
     "image-webpack-loader": "^8.1.0",
+    "jQuery": "^1.7.4",
     "moment": "^2.29.1",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
