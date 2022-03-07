@@ -52,6 +52,16 @@ UserRouter.post('/comment', (req, res) => {
     .catch(err => console.error(err, 'userRoute 51'))
 });
 
+UserRouter.post('/userComment', (req, res) => {
+  const { recipeId, userId, text, userName } = req.body;
+
+  Comment.create({ recipeId, userId, text, userName })
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(err => console.error(err, 'userRouter 62'));
+})
+
 UserRouter.get('/comment', (req, res) => {
   // console.log(req.query, 'userRoute 55');
   const { mealId } = req.query;
@@ -80,7 +90,38 @@ UserRouter.get('/comment', (req, res) => {
     // console.log(polishedComments, 'userRoute 85');
     res.status(200).send(polishedComments);
   })
-  .catch(err => console.error(err, 'userRoute 67'))
+  .catch(err => console.error(err, 'userRoute 93'))
+})
+
+UserRouter.get('/userComment', (req, res) => {
+  // console.log(req.query, 'userRoute 55');
+  const { recipeId } = req.query;
+  //find all comments where the mealId matches the mealId in req.params
+  Comment.findAll({
+    where: {
+      recipeId
+    }
+  })
+  .then(comments => {
+    // console.log(comments, 'userRoute 64');
+    // let name;
+
+    const polishedComments = comments.map(comment => {
+      // console.log(comment.userId, 'userRoute 66')
+      const { userName, text, createdAt } = comment;
+
+     return ({
+        name: userName,
+        text,
+        postedAt: createdAt
+      })
+
+    });
+
+    // console.log(polishedComments, 'userRoute 85');
+    res.status(200).send(polishedComments);
+  })
+  .catch(err => console.error(err, 'userRoute 124'))
 })
 
 UserRouter.get('/recipes', (req, res) => {
