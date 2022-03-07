@@ -23,12 +23,12 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
             }}
         >
             <CardActionArea>
-                <CardMedia
+                {/* <CardMedia
                     component='img'
                     height='250'
                     // image={/add images to recipe creation, render recipe thumbnails here}
                     alt='green iguana'
-                /> 
+                />  */}
                 <CardContent>
                     <Typography gutterBottom variant='h5' component='div'>
                         { title }
@@ -37,7 +37,7 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
             </CardActionArea>
             <CardActions>
                 <Link
-                    to={{ pathname: '/recipe_view', state: { idMeal: id } }}
+                    to={{ pathname: '/recipe_view', state: { idUserMeal: id } }}
                 >
                     <Button size='small' color='primary'>
                         Go To Recipe

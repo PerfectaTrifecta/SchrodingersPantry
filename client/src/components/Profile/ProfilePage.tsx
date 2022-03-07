@@ -349,7 +349,6 @@ const ProfilePage: React.FC = () => {
       >
         MY RECIPES 
         <Button size='small' onClick={handleForm}> Create a New Recipe </Button>
-        {/* BUG TO REVISIT*/}
         {creations.map(creation => <RecipePreview id={creation.id} title={creation.title} />)}
       </div>
       <div>
