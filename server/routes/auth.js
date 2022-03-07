@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const passport = require('passport');
-const { User, Favorite, User_Image } = require('../db/index');
+const { User, Favorite, User_Image, Recipe, Bookmark, User_Bookmark } = require('../db/index');
 
 const authRouter = Router();
 let accessToken;
@@ -84,10 +84,15 @@ authRouter.post('/account', (req, res) => {
     .then((data) => {
       userDetails.userName = user.name;
       userDetails.id = data[0].id;
-      Favorite.findAll({
-        where: {
-          userId: user.id,
-        },
+      //FAVORITES
+      User.findAll({
+        include: {
+          model: Recipe,
+          through: Favorite,
+          where: {
+            userId: user.id
+          }
+        }
       }).then((favs) => {
         if (favs) {
           userDetails.favorites = favs;
@@ -108,14 +113,59 @@ authRouter.post('/account', (req, res) => {
               userDetails.pics = [];
             }
             // console.log(userDetails, 1700000000);
-            res.status(200);
-            res.send(userDetails);
+            
+            //RECIPES
+            Recipe.findAll({
+              where: {
+                userId: user.id
+              }
+            })
+            .then(recipes => {
+              if (recipes) {
+                userDetails.recipes = recipes;
+              } else {
+                userDetails.recipes = [];
+              }
+
+              //BOOKMARKS
+              Bookmark.findAll({
+                include: {
+                  model: User,
+                  through: User_Bookmark,
+                  where: {
+                    id: user.id
+                  }
+                }
+              })
+              .then(bookmarks => {
+                if (bookmarks) {
+                  userDetails.bookmarks = bookmarks;
+                } else {
+                  userDetails.bookmarks = [];
+                }
+
+                res.status(200).send(userDetails);
+              })
+              .catch(err => {
+                console.error(err);
+                res.sendStatus(404);
+              });
+
+            })
+            .catch(err => {
+              console.error(err);
+              res.sendStatus(404);
+            })
           })
           .catch((err) => {
             console.error(err);
             res.sendStatus(404);
           });
-      });
+      })
+      .catch(err => {
+        console.error(err);
+        res.sendStatus(404);
+      })
     })
     .catch((err) => {
       console.error('auth user lookup error:', err);
