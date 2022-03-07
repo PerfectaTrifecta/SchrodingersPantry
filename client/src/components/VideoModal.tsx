@@ -14,6 +14,8 @@ const VideoModal = ({ mealName }: VideoProps) => {
   const [show, setShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  
   useEffect(() => {
     setRecipeName(mealName);
   });

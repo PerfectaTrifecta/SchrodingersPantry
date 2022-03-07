@@ -21,7 +21,7 @@ import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../UserContext';
 import axios, { AxiosResponse } from 'axios';
 import CreateRecipeForm from './CreateRecipeForm';
 import { AdvancedImage } from '@cloudinary/react';
@@ -64,10 +64,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 //-----------------------------------------------------//
 
-
 //the search component should map over the results, creating a meal card for each recipe,
 const ProfilePage: React.FC = () => {
-
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
@@ -79,14 +77,14 @@ const ProfilePage: React.FC = () => {
   const [aboutMeDisplay, setAboutMeDisplay] = useState<string>('');
   const [aboutMe, setAboutMe] = useState<string>('');
   const [editBio, setEditBio] = useState<boolean>(false);
-  const [dietDisplay, setDietDisplay] = useState<string>('None')
+  const [dietDisplay, setDietDisplay] = useState<string>('None');
   const [diet, setDiet] = useState<string>('');
   const [editDiet, setEditDiet] = useState<boolean>(false);
   const [allergyDisplay, setAllergyDisplay] = useState<string>('None');
   const [allergies, setAllergies] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
   // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser, getUser } = useContext(UserContext)
+  const { user, setUser, getUser } = useContext(UserContext);
 
   const cld = new Cloudinary({
     cloud: {
@@ -98,12 +96,15 @@ const ProfilePage: React.FC = () => {
 
   // when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
-    axios.get('/routes/user/profile/recipes')
+    axios
+      .get('/routes/user/profile/recipes')
       .then(({ data }) => {
         // console.log(data, 'user recipes, profile 96')
         setCreations(data);
       })
-      .catch(err => console.error('problem getting recipes, profile 98', err));
+      .catch((err) =>
+        console.error('problem getting recipes, profile 98', err)
+      );
 
     // axios.get('/routes/user/profile/favorites')
     //   .then(({ data }) => {
@@ -123,7 +124,6 @@ const ProfilePage: React.FC = () => {
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
   // const [favorites, setFavorites] = React.useState<Array<String>>(["everyone", "wanted", 'to know', 'what i would do', 'if i DIDNT win']);
-  
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -148,21 +148,22 @@ const ProfilePage: React.FC = () => {
       reader.onload = () => {
         console.log(typeof reader.result);
         setSelectedImg(reader.result);
-        console.log(selectedImg, 'profile 76')
+        console.log(selectedImg, 'profile 76');
       };
     }
   };
 
   const submitImg = () => {
     // console.log(selectedImg, 83);
-    axios.post('/routes/user/profile/upload/pic', selectedImg)
-    .then((id) => {
-      //BUG TO REVISTS
-      // setImg(id);      
-    })
-    .catch(err => console.log('problem uploading profile pic', err));
+    axios
+      .post('/routes/user/profile/upload/pic', selectedImg)
+      .then((id) => {
+        //BUG TO REVISTS
+        // setImg(id);
+      })
+      .catch((err) => console.log('problem uploading profile pic', err));
   };
-  
+
   const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAboutMe(e.target.value);
   };
@@ -212,15 +213,13 @@ const ProfilePage: React.FC = () => {
       >
         {img ? (
           <CardHeader
-            avatar={
-             <AdvancedImage cldImg={profilePic}/>
-            } 
+            avatar={<AdvancedImage cldImg={profilePic} />}
             action={
               <IconButton aria-label='settings'>
                 <MoreVertIcon />
               </IconButton>
             }
-            title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
+            title={user ? `${user.userName.toUpperCase()}` : 'nope'} //user.name
           />
         ) : (
           <CardHeader
@@ -230,33 +229,27 @@ const ProfilePage: React.FC = () => {
                 aria-label='recipe'
               >
                 {/* {console.log(user.name, 'profile 99')} */}
-                {user.name.slice(0, 1)}
+                {user.userName.slice(0, 1)}
                 {/* this should be user profile's first letter */}
               </Avatar>
-            } 
+            }
             action={
               <IconButton aria-label='settings'>
                 <MoreVertIcon />
               </IconButton>
             }
-            title={user ? `${user.name.toUpperCase()}` : 'nope'} //user.name
+            title={user ? `${user.userName.toUpperCase()}` : 'nope'} //user.name
           />
         )}
-     
+
         {/* <ProfileImage /> */}
         <CardContent>
           <Typography variant='subtitle1'>About Me: </Typography>
-          <Typography variant='body2'>
-            {aboutMeDisplay}
-          </Typography>
+          <Typography variant='body2'>{aboutMeDisplay}</Typography>
           <Typography variant='subtitle1'>Dietary Preference: </Typography>
-          <Typography variant='body2'>
-            {dietDisplay}
-          </Typography>
+          <Typography variant='body2'>{dietDisplay}</Typography>
           <Typography variant='subtitle1'>Food Allergies: </Typography>
-          <Typography variant='body2'>
-            {allergyDisplay}
-          </Typography>
+          <Typography variant='body2'>{allergyDisplay}</Typography>
         </CardContent>
         <CardActions disableSpacing>
           <ExpandMore
@@ -272,74 +265,94 @@ const ProfilePage: React.FC = () => {
           <CardContent>
             <Typography variant='subtitle1' color='text.secondary'>
               Edit About Me
-              <IconButton aria-label='edit' onClick={() => setEditBio(!editBio)}>
+              <IconButton
+                aria-label='edit'
+                onClick={() => setEditBio(!editBio)}
+              >
                 <EditIcon />
               </IconButton>
             </Typography>
-            { editBio ? (
+            {editBio ? (
               <>
-              <TextField
-                id="outlined-multiline-static"
-                label="Write about yourself"
-                multiline
-                rows={5}
-                defaultValue={aboutMe}
-                 onChange={handleBioChange}
-              />
-              <Button size='small' color='primary' onClick={submitBio}>Update</Button>
+                <TextField
+                  id='outlined-multiline-static'
+                  label='Write about yourself'
+                  multiline
+                  rows={5}
+                  defaultValue={aboutMe}
+                  onChange={handleBioChange}
+                />
+                <Button size='small' color='primary' onClick={submitBio}>
+                  Update
+                </Button>
               </>
-            ) : null }
+            ) : null}
             <Typography variant='subtitle1' color='text.secondary'>
               Edit Dietary Preference
-              <IconButton aria-label='edit' onClick={() => setEditDiet(!editDiet)}>
+              <IconButton
+                aria-label='edit'
+                onClick={() => setEditDiet(!editDiet)}
+              >
                 <EditIcon />
               </IconButton>
             </Typography>
-            { editDiet ? (
+            {editDiet ? (
               <>
-              <TextField
-                id="outlined-multiline-static"
-                label="Set your preference"
-                multiline
-                rows={1}
-                defaultValue={diet}
-                 onChange={handleDietChange}
-              />
-              <Button size='small' color='primary' onClick={submitDiet}>Update</Button>
+                <TextField
+                  id='outlined-multiline-static'
+                  label='Set your preference'
+                  multiline
+                  rows={1}
+                  defaultValue={diet}
+                  onChange={handleDietChange}
+                />
+                <Button size='small' color='primary' onClick={submitDiet}>
+                  Update
+                </Button>
               </>
-            ) : null }
+            ) : null}
             <Typography variant='subtitle1' color='text.secondary'>
               Edit Food Allergies
-              <IconButton aria-label='edit' onClick={() => setEditAllergies(!editAllergies)}>
+              <IconButton
+                aria-label='edit'
+                onClick={() => setEditAllergies(!editAllergies)}
+              >
                 <EditIcon />
               </IconButton>
             </Typography>
-            { editAllergies ? (
+            {editAllergies ? (
               <>
-              <TextField
-                id="outlined-multiline-static"
-                label="Any food allergies?"
-                multiline
-                rows={3}
-                defaultValue={allergies}
-                 onChange={handleAllergyChange}
-              />
-              <Button size='small' color='primary' onClick={submitAllergies}>Update</Button>
+                <TextField
+                  id='outlined-multiline-static'
+                  label='Any food allergies?'
+                  multiline
+                  rows={3}
+                  defaultValue={allergies}
+                  onChange={handleAllergyChange}
+                />
+                <Button size='small' color='primary' onClick={submitAllergies}>
+                  Update
+                </Button>
               </>
-            ) : null }
+            ) : null}
             <Typography variant='subtitle1' color='text.secondary'>
               Edit Profile Pic
               <IconButton aria-label='edit'>
                 <FaceRetouchingNaturalIcon />
               </IconButton>
             </Typography>
-              <input type="file" accept="image/*" onChange={handleImgUpload} multiple={false} />
-              <Button onClick={submitImg}> Submit </Button>
+            <input
+              type='file'
+              accept='image/*'
+              onChange={handleImgUpload}
+              multiple={false}
+            />
+            <Button onClick={submitImg}> Submit </Button>
           </CardContent>
         </Collapse>
       </Card>
-      { showForm ? <CreateRecipeForm handleForm={handleForm} /> : null}
-      <div 
+      {showForm ? <CreateRecipeForm handleForm={handleForm} /> : null}
+      <div
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -352,13 +365,13 @@ const ProfilePage: React.FC = () => {
         {creations.map(creation => <RecipePreview id={creation.id} title={creation.title} />)}
       </div>
       <div>
-        FAVORITE RECIPES 
+        FAVORITE RECIPES
         {/* {favorites.map((favorite) => {
           //should return a recipe preview like the search page
         })} */}
       </div>
       <div>
-        BOOKMARKS 
+        BOOKMARKS
         <List>
           {/* {bookmarks.map(mark => {
             <ListItem>
@@ -368,7 +381,6 @@ const ProfilePage: React.FC = () => {
         </List>
       </div>
     </div>
-  
   );
 };
 

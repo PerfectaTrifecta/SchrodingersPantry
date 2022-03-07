@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, SetStateAction, Dispatch } from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  SetStateAction,
+  Dispatch,
+} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -19,24 +25,30 @@ import axios from 'axios';
 import { UserContext } from '../../UserContext';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
-import { PaletteOptions, FormControl, FormLabel, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import {
+  PaletteOptions,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import Timer from '../Timer/Timer';
-import { light, dark, veggie, meat } from "../../Theme";
+import { light, dark, veggie, meat } from '../../Theme';
 
 interface TokenValue {
   token: string;
 }
 
 interface ThemeOptions {
-  palette?: PaletteOptions
+  palette?: PaletteOptions;
 }
 
 interface Props {
-  changeTheme: Dispatch<SetStateAction<ThemeOptions>>
+  changeTheme: Dispatch<SetStateAction<ThemeOptions>>;
 }
 
 const drawerWidth = 240;
-console.log('changes here?');
 const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const inCategories = [
     'Profile',
@@ -64,15 +76,15 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   } else if (radioVal === 'dark') {
     changeTheme(dark);
   } else if (radioVal === 'veggie') {
-    changeTheme(veggie) 
+    changeTheme(veggie);
   } else if (radioVal === 'meat') {
-    changeTheme(meat)
+    changeTheme(meat);
   }
 
   //Theme Checkbox Changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadioVal(e.target.value);
-  }
+  };
 
   useEffect(() => {
     const getToken = async () => {
@@ -159,7 +171,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   return (
     <div>
       <CssBaseline />
-      <AppBar position='static' style={{background: theme.palette.primary.main}}>
+      <AppBar
+        position='static'
+        style={{ background: theme.palette.primary.main }}
+      >
         <Toolbar>
           <IconButton
             color='inherit'
@@ -172,41 +187,40 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           <Typography variant='h6' noWrap>
             Schroedinger's Pantry
           </Typography>
-          <FormControl component="fieldset">
-          <FormLabel component="legend">Themes</FormLabel>
-          <RadioGroup 
-            aria-label="position" 
-            row
-            value={radioVal}
-            onChange={handleChange}
-          >
-            <FormControlLabel 
-              value="light"
-              control={<Radio />}
-              label="Light"
-              labelPlacement="bottom"
-            />
-            <FormControlLabel 
-              value="veggie"
-              control={<Radio />}
-              label="Veggie"
-              labelPlacement="bottom"
-            />
-            <FormControlLabel 
-              value="meat"
-              control={<Radio />}
-              label="Meat"
-              labelPlacement="bottom"
-            />
-            <FormControlLabel 
-              value="dark"
-              control={<Radio />}
-              label="Dark"
-              labelPlacement="bottom"
-            />
-          </RadioGroup>
+          <FormControl component='fieldset'>
+            <FormLabel component='legend'>Themes</FormLabel>
+            <RadioGroup
+              aria-label='position'
+              row
+              value={radioVal}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value='light'
+                control={<Radio />}
+                label='Light'
+                labelPlacement='bottom'
+              />
+              <FormControlLabel
+                value='veggie'
+                control={<Radio />}
+                label='Veggie'
+                labelPlacement='bottom'
+              />
+              <FormControlLabel
+                value='meat'
+                control={<Radio />}
+                label='Meat'
+                labelPlacement='bottom'
+              />
+              <FormControlLabel
+                value='dark'
+                control={<Radio />}
+                label='Dark'
+                labelPlacement='bottom'
+              />
+            </RadioGroup>
           </FormControl>
-
         </Toolbar>
       </AppBar>
       <nav>

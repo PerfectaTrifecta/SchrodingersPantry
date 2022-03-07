@@ -18,6 +18,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { UserContext } from '../UserContext';
+import Favorite from './Favorite';
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -66,14 +67,20 @@ const RecipeView: React.FC = () => {
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRawComment(e.target.value);
-  }
+  };
 
   const submitComment = () => {
-    axios.post('routes/user/profile/comment', { text: rawComment, userId: user.id, userName: user.name, mealId: idMeal})
+    axios
+      .post('routes/user/profile/comment', {
+        text: rawComment,
+        userId: user.id,
+        userName: user.userName,
+        mealId: idMeal,
+      })
       .then(() => {
         setRawComment('');
       })
-      .catch(err => console.error(err, 'recipeView 53'))
+      .catch((err) => console.error(err, 'recipeView 53'));
   };
 
   //Prints the recipe to the screen on page load
@@ -111,12 +118,13 @@ const RecipeView: React.FC = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
 
-    axios.get('routes/user/profile/comment', { params: { mealId: idMeal } })
+    axios
+      .get('routes/user/profile/comment', { params: { mealId: idMeal } })
       .then(({ data }) => {
         // console.log(data, 'recipeView 96')
         setFeatComments(data);
       })
-      .catch(err => console.error(err, 'recipeView 77'))
+      .catch((err) => console.error(err, 'recipeView 77'));
   };
 
 

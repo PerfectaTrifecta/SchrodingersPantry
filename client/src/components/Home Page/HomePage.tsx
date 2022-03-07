@@ -25,8 +25,7 @@ const HomePage: React.FC = () => {
               width: '90%',
               padding: '1rem',
               margin: '1rem 0',
-              boxShadow:
-                `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+              boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
 
               display: 'flex',
               flexFlow: 'column',

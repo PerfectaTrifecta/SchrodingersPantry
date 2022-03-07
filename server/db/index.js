@@ -57,7 +57,8 @@ const Favorite = sql.define('favorites', {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
-  },
+  }
+
 });
 
 const Comment = sql.define('comments', {
@@ -131,6 +132,39 @@ const Image = sql.define('images', {
   img: DataTypes.STRING,
 });
 
+const User_Image = sql.define('user_images', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  userId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    }
+  },
+  //eg. 'profile pic' or 'recipe pic"
+  description: DataTypes.STRING,
+
+  url: DataTypes.STRING,
+
+  recipe_id: {
+    type: DataTypes.INTEGER,
+
+    references: {
+      model: Recipe,
+      key: 'id',
+    },
+    allowNull: true
+
+  }, 
+
+})
+
 //DEFINE MODEL RELATIONSHIPS HERE
 User.belongsToMany(Bookmark, { through: 'user_bookmarks' });
 Bookmark.belongsToMany(User, { through: 'user_bookmarks' });
@@ -141,16 +175,17 @@ Recipe.belongsTo(User);
 User.belongsToMany(Recipe, { through: 'favorites' });
 Recipe.belongsToMany(User, { through: 'favorites' });
 
-User.belongsToMany(Recipe, { through: 'votes' });
-Recipe.belongsToMany(User, { through: 'votes' });
+User.belongsToMany(Recipe, { through: 'votes'});
+Recipe.belongsToMany(User, { through: 'votes'});
 
-User.hasMany(Comment);
-Comment.belongsTo(User);
-Recipe.hasMany(Comment);
-Comment.belongsTo(Recipe);
+User.belongsToMany(Recipe, { through: 'comments'});
+Recipe.belongsToMany(User, { through: 'comments'});
+
+User.hasMany(User_Image);
+User_Image.belongsTo(User);
 
 sql
-  .sync() //insert {force: true} if you need to change the db structure
+  .sync({alter: true}) //insert {alter: true} if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 
@@ -166,4 +201,5 @@ module.exports = {
   Tag,
   Recipe_Tag,
   Image,
+  User_Image
 };
