@@ -70,7 +70,8 @@ const RecipeView: React.FC = () => {
   };
 
   const submitComment = () => {
-    axios
+    if (idMeal) {
+      axios
       .post('routes/user/profile/comment', {
         text: rawComment,
         userId: user.id,
@@ -80,7 +81,21 @@ const RecipeView: React.FC = () => {
       .then(() => {
         setRawComment('');
       })
-      .catch((err) => console.error(err, 'recipeView 53'));
+      .catch((err) => console.error(err, 'recipeView 84'));
+    } else if (idUserMeal) {
+      axios
+      .post('routes/user/profile/userComment', {
+        text: rawComment,
+        userId: user.id,
+        userName: user.userName,
+        recipeId: idUserMeal
+      })
+      .then(() => {
+        setRawComment('');
+      })
+      .catch(err => console.error(err, 'recipeView 96'))
+    }
+
   };
 
   //Prints the recipe to the screen on page load
@@ -96,6 +111,15 @@ const RecipeView: React.FC = () => {
         .catch((err) => {
           console.error(err);
         });
+
+      axios
+        .get('routes/user/profile/comment', { params: { mealId: idMeal } })
+        .then(({ data }) => {
+          // console.log(data, 'recipeView 96')
+          setFeatComments(data);
+        })
+        .catch((err) => console.error(err, 'recipeView 143'));  
+      
     }, []);
   } else if (idUserMeal) {
     useEffect(() => {
@@ -108,7 +132,14 @@ const RecipeView: React.FC = () => {
           // console.log(mealUserRecipe, 'recipeView 101');
           setUserIngredients(mealUserRecipe[0].ingredients.split(','));
         })
-        .catch(err => console.error(err, 'recipeView 98'))
+        .catch(err => console.error(err, 'recipeView 135'));
+
+      axios
+        .get('routes/user/profile/userComment', { params: { recipeId: idUserMeal }})
+        .then(({ data }) => {
+          setFeatComments(data);
+        })
+        .catch(err => console.error(err, 'recipeView 142'));
     })
   }
 
@@ -117,14 +148,6 @@ const RecipeView: React.FC = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
-
-    axios
-      .get('routes/user/profile/comment', { params: { mealId: idMeal } })
-      .then(({ data }) => {
-        // console.log(data, 'recipeView 96')
-        setFeatComments(data);
-      })
-      .catch((err) => console.error(err, 'recipeView 77'));
   };
 
 
