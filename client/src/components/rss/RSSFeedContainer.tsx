@@ -1,7 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState, useEffect } from "react";
-import { Tabs, Tab, AppBar } from "@material-ui/core";
-import { values } from "lodash";
 import axios from "axios";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import AppBar from '@mui/material/AppBar';
+import { values } from "lodash";
 
 
 

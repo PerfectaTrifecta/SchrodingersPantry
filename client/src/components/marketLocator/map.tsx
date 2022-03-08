@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { Loader } from "@googlemaps/js-api-loader";
 import { env } from 'process';
-import { Button, TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 const Map = () => {

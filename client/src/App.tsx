@@ -9,13 +9,14 @@ import Map from './components/marketLocator/map';
 import MealPrep from './components/MealPrep/AddMealToCal';
 import { Route, Switch } from 'react-router-dom';
 import { UserContext } from './UserContext';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import createTheme from '@mui/material/styles/createTheme';
 import { PaletteOptions } from '@mui/material';
 import { light, dark, veggie, meat } from './Theme';
 import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
-import { ClimbingBoxLoader } from 'react-spinners';
+import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 
 const socket = io.connect('ws://localhost:3001');
 interface ThemeOptions {

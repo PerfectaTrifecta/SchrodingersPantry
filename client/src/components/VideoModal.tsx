@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Button, IconButton }from '@mui/material';
+import Modal from 'react-bootstrap/Modal';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { VideoContext } from '../VideoContext';
 
