@@ -1,40 +1,36 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
 import React, { useState, useContext, useEffect, SetStateAction } from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { orange } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import Box from '@mui/material/Box';
+import axios, { AxiosResponse } from 'axios';
+import { UserContext } from '../../UserContext';
+import CreateRecipeForm from './CreateRecipeForm';
 import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
-import { UserContext } from '../../UserContext';
-import axios, { AxiosResponse } from 'axios';
-import CreateRecipeForm from './CreateRecipeForm';
-import { AdvancedImage } from '@cloudinary/react';
-import { Cloudinary } from '@cloudinary/url-gen';
+import RecipePreview from './RecipePreview';
+import { styled } from '@mui/material/styles';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import { orange } from '@mui/material/colors';
+import { 
+  Card, 
+  CardHeader, 
+  CardContent, 
+  CardActions, 
+  Collapse, 
+  Avatar, 
+  Typography, 
+  TextField, 
+  Button, 
+  List, 
+  ListItem, 
+  ListItemText 
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-//import SearchYoutube from './SearchYoutube';
-import RecipePreview from './RecipePreview';
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {

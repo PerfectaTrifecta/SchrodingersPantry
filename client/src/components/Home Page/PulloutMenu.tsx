@@ -5,26 +5,14 @@ import React, {
   SetStateAction,
   Dispatch,
 } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
-import CloseIcon from '@material-ui/icons/Close';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { useTheme } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
-import Login from '../Login';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';
+import { light, dark, veggie, meat } from '../../Theme';
+import Login from '../Login';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
+import Timer from '../Timer/Timer';
+import { useTheme } from '@mui/material/styles';
 import {
   PaletteOptions,
   FormControl,
@@ -32,9 +20,21 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  AppBar,
+  CssBaseline,
+  Drawer,
+  Hidden,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Button
 } from '@mui/material';
-import Timer from '../Timer/Timer';
-import { light, dark, veggie, meat } from '../../Theme';
+import MenuIcon from '@mui/icons-material/Menu'
+import CloseIcon from '@mui/icons-material/Close';
+import { Link } from 'react-router-dom';
 
 interface TokenValue {
   token: string;
