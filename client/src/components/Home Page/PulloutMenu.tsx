@@ -48,7 +48,6 @@ interface Props {
   changeTheme: Dispatch<SetStateAction<ThemeOptions>>;
 }
 
-const drawerWidth = 240;
 const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const inCategories = [
     'Profile',
@@ -154,7 +153,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           {outCategories.map((text, index) => {
             if (index % 2 === 0) {
               return (
-                <Link to={inCategories[index + 1]} key={text}>
+                <Link to={outCategories[index + 1]} key={text}>
                   <ListItem button>
                     <ListItemText primary={text} />
                   </ListItem>
@@ -184,8 +183,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap>
+          <Typography variant='h6'  noWrap>
+          <Link text-decoration="none" to={'/'}>
             Schroedinger's Pantry
+          </Link>
           </Typography>
           <FormControl component='fieldset'>
             <FormLabel component='legend'>Themes</FormLabel>
