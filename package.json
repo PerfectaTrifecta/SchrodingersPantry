@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start-socket": "nodemon ./socketServer/index.js",
-    "start": "nodemon ./server/index.js",
+    "start": "nodemon --max-old-space-size=8192 ./server/index.js",
     "build": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"

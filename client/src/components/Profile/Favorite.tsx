@@ -1,7 +1,6 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import { blue } from '@mui/material/colors';
+import { Box, Avatar } from '@mui/material';
 
 interface FavProps {
   favorite : String

@@ -5,9 +5,31 @@ interface userTypes {
   id: string;
   userName: string;
   preference?: string;
-  favorites: Array<{} | null>;
+  favorites: Array<{
+    id: number;
+    userId: string;
+    title: string;
+    ingredients: string;
+    instructions: string;
+    vote_count: number;
+    comment_count: number;
+    createdAt: string;
+  } | null>;
   pics: Array<{} | null>;
-
+  recipes: Array<{
+    id: number;
+    userId: string;
+    title: string;
+    ingredients: string;
+    instructions: string;
+    vote_count: number;
+    comment_count: number;
+    createdAt: string;
+  } | null>;
+  bookmarks: Array<{
+    id: number;
+    url: string;
+  } | null>;
 }
 
 
@@ -55,15 +77,9 @@ const UserContextProvider = ({ children }: Props) => {
       //console.log(user);
      axios.post(`/auth/account`, user)
         .then(({ data }) => {
-    //        const acct = {
-    //   id: user.id,
-    //   userName: data.userName,
-    //   favorites: data.favorites,
-    //   pics: data.pics
-      
-    // };
-      console.log(data);
-      setUser(data);
+
+          // console.log(data, 'userContext 65');
+          setUser(data);
       
         })
         .catch((err) => {

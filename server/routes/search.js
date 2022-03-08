@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 const { Router } = require('express');
 const { ingredientParser } = require('../utils/ingredients.js');
+const { Recipe } = require('../db/index');
 
 const searchRouter = Router();
 //This returns a list of meals by ingredients. It is ran on page load and on search.
@@ -118,5 +119,23 @@ searchRouter.get('/tod', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+searchRouter.get('/getUserRecipe', (req, res) => {
+  // console.log(req.query, 'searchRouter 124');
+  const { id } = req.query;
+
+  Recipe.findAll({
+    where: {
+      id
+    }
+  })
+  .then(recipe => {
+    // console.log(recipe, 'searchRouter 132');
+    res.status(200).send(recipe);
+  })
+  .catch(err => console.error(err, 'searchRouter 135'));
+
+
+})
 
 module.exports = { searchRouter };

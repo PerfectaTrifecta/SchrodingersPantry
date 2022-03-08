@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import CreateRecipeForm from './components/Profile/CreateRecipeForm';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
 import RSSFeed from './components/rss/RSSFeedContainer';
 import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
-import Map from './components/marketLocator/map'
-import VideoModal from './components/VideoModal';
+import Map from './components/marketLocator/map';
 import MealPrep from './components/MealPrep/AddMealToCal';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { PaletteOptions } from '@mui/material';
@@ -19,6 +17,7 @@ import Chat from './components/Chat';
 import './App.css';
 import { ClimbingBoxLoader } from 'react-spinners';
 
+const socket = io.connect('ws://localhost:3001');
 interface ThemeOptions {
   palette?: PaletteOptions;
 }
@@ -29,7 +28,6 @@ const App: React.FC = (): JSX.Element => {
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
   // socket is what we call the actual connection to the socket server
-  const socket = io.connect('ws://localhost:443');
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
@@ -53,9 +51,8 @@ const App: React.FC = (): JSX.Element => {
   const chosenTheme = createTheme(theme);
 
   const joinRoom = () => {
-    if (room !== '') {
+    if (username !== '' && room !== '') {
       socket.emit('join_room', room);
-      setUsername(user.userName);
       setShowChat(true);
     }
   };
@@ -89,6 +86,13 @@ const App: React.FC = (): JSX.Element => {
                     setRoom(e.target.value);
                   }}
                 />
+                <input
+                  type='text'
+                  placeholder='Username'
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                />
                 <button onClick={joinRoom}>Join A Room</button>
               </div>
             ) : (
@@ -115,7 +119,7 @@ const App: React.FC = (): JSX.Element => {
               <MealPrep />
             </Route>
             <Route path='/market_finder'>
-            <Map />
+              <Map />
             </Route>
           </Switch>
         </div>

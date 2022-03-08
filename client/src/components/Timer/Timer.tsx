@@ -14,8 +14,11 @@ const Timer = () => {
       seconds,
     });
 
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
+
+   
          let milliseconds = test.asMilliseconds();
          const timeKeeper = setInterval(() => {
             milliseconds = milliseconds - 1000;
