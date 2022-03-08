@@ -22,10 +22,7 @@ const Map: React.FC<MapProps> = ({
 }) => {
   
 
-  // const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
-  //   lat: 0,
-  //   lng: 0,
-  // });
+
   const ref = React.useRef<HTMLDivElement>(null);
   const [map, setMap] = React.useState<google.maps.Map>();
 
@@ -35,12 +32,7 @@ const Map: React.FC<MapProps> = ({
     }
   }, [ref, map]);
 
-  // const useDeepCompareEffectForMaps = (() => {
-  //   if (map) {
-  //     map.setOptions(options);
-  //   }
-  // }, [map, options]);
-  
+
 
   React.useEffect(() => {
     if (map) {
@@ -57,22 +49,7 @@ const Map: React.FC<MapProps> = ({
       }
     }
   }, [map, onClick, onIdle]);
-  // const loader = new Loader({
-  //   apiKey: process.env.GOOGLE_MAPS_API_KEY,
-  //   version: "weekly",
-  // });
 
-  // loader.load().then(() => {
-  //   function initMap(): void {
-  //     let map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-  //       center,
-  //       zoom: 5
-  //     });
-
-  //   }
-  //   initMap()
-
-  // });
 
   /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -148,22 +125,7 @@ const Map: React.FC<MapProps> = ({
   // };
   return (
 
-    <div ref={ref} style={{ 'height': 500, 'width': 500 }}>
-      {/* {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          // set the map prop on the child component
-          return React.cloneElement(child, { map });
-        }
-      })} */}
-      {/* <div>
-        <TextField id="outlined-basic" onChange={handleInput} value={zip} />
-        <Button onClick={onSearch}>Zip Code</Button>
-      </div>
-      <div id="map" style={{ 'height': 500, 'width': 500 }}>
-      </div> */}
-
-
-
+    <div ref={ref} style={style}>
     </div>
 
   )

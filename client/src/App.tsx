@@ -149,7 +149,7 @@ const App: React.FC = (): JSX.Element => {
               onClick={onClick}
               onIdle={onIdle}
               zoom={zoom}
-              style={{flexGrow: '1', height: '100%', width: '500'}}
+              style={{flexGrow: '1', height: '100%', width: '100%'}}
              >
              </Map>
             </Wrapper>
