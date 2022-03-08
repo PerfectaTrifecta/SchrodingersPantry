@@ -1,15 +1,13 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';
-import { 
-  Box, 
-  TextField, 
-  Card, 
-  CardContent, 
-  Button, 
-  CardActionArea, 
-  CardActions 
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
 
 interface Props {
   handleForm: () => void;

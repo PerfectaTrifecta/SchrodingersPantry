@@ -8,23 +8,21 @@ import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
 import RecipePreview from './RecipePreview';
-import { styled } from '@mui/material/styles';
+import styled from '@mui/material/styles/styled';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { orange } from '@mui/material/colors';
-import { 
-  Card, 
-  CardHeader, 
-  CardContent, 
-  CardActions, 
-  Collapse, 
-  Avatar, 
-  Typography, 
-  TextField, 
-  Button, 
-  List, 
-  ListItem, 
-  ListItemText 
-} from '@mui/material';
+import orange from '@mui/material/colors/orange';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText  from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
