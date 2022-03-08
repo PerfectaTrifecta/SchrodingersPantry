@@ -2,23 +2,25 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import VideoModal from './VideoModal';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Favorite from './Favorite';
+import TextToSpeech from '../components/TextToSpeech';
+import { UserContext } from '../UserContext';
+import { 
+  Card, 
+  CardHeader, 
+  CardMedia, 
+  CardContent, 
+  CardActions, 
+  Collapse, 
+  IconButton, 
+  Typography, 
+  TextField, 
+  Button, 
+  Box 
+} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import TextToSpeech from '../components/TextToSpeech';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import { UserContext } from '../UserContext';
-import Favorite from './Favorite';
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/

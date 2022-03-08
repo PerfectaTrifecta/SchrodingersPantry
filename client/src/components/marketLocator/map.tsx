@@ -1,9 +1,8 @@
-import { Loader } from "@googlemaps/js-api-loader";
-import { env } from 'process';
-import TextField from '@material-ui/core/Input';
-import { Button } from "@material-ui/core";
 import React, { useState } from "react";
 import axios from 'axios';
+import { Loader } from "@googlemaps/js-api-loader";
+import { env } from 'process';
+import { Button, TextField } from "@mui/material";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 const Map = () => {
@@ -39,7 +38,7 @@ const Map = () => {
     }
     initMap();
   });
-  const searchMarkets = (zip) => {
+  const searchMarkets = (zip: string) => {
     const addresses = []
     axios
       .get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`)
@@ -53,7 +52,8 @@ const Map = () => {
             .then(response => {
               addresses.push(response.data.marketdetails.Address);
           })
-        })
+        }
+      })
       .then(res => {
         return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addresses[0]}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
 

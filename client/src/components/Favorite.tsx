@@ -3,7 +3,7 @@ import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { UserContext } from '../UserContext';
-import { jsx } from '@emotion/react';
+import { jsx } from '@emotion/react'; // If this doesn't get used, please delete
 
 interface FavProps {
  recipeId: string 
