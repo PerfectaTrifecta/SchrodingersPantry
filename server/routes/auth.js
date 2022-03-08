@@ -74,7 +74,7 @@ authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
   let userDetails = {};
-  console.log(user, 12);
+  // console.log(user, 12);
 
   User.findOrCreate({
     where: {
