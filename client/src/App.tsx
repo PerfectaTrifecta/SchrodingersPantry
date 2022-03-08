@@ -18,12 +18,40 @@ import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
 import { ClimbingBoxLoader } from 'react-spinners';
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
+
+const render = (status: Status) => {
+  return <h1>{status}</h1>;
+};
 interface ThemeOptions {
   palette?: PaletteOptions;
 }
 
 const App: React.FC = (): JSX.Element => {
+  const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
+  const [zoom, setZoom] = React.useState(10); // initial zoom
+  const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
+    lat: 100,
+    lng: 100,
+  });
+
+  const onClick = (e: google.maps.MapMouseEvent) => {
+    // avoid directly mutating state
+    setClicks([...clicks, e.latLng!]);
+  };
+
+  const onIdle = (m: google.maps.Map) => {
+    console.log("onIdle");
+    // setZoom(m.getZoom()!);
+    // setCenter(m.getCenter()!.toJSON());
+  };
+
+
+
+
+
+  
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
@@ -115,7 +143,16 @@ const App: React.FC = (): JSX.Element => {
               <MealPrep />
             </Route>
             <Route path='/market_finder'>
-            <Map />
+            <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY} render={render}>
+             <Map
+              center={center}
+              onClick={onClick}
+              onIdle={onIdle}
+              zoom={zoom}
+              style={{flexGrow: '1', height: '100%', width: '500'}}
+             >
+             </Map>
+            </Wrapper>
             </Route>
           </Switch>
         </div>

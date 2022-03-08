@@ -4,15 +4,17 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
+
 module.exports = {
   entry: path.resolve(__dirname, './client/index.tsx'),
-  devtool: 'eval',
+  devtool: 'eval-source-map',
   mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
       {
         test: /\.(ts|tsx|js|jsx)$/,
-        use: 'ts-loader',
+        enforce: 'pre',
+        use: ['ts-loader', 'source-map-loader'],
         exclude: /node_modules/,
         resolve: {
           extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -43,5 +45,10 @@ module.exports = {
       'process.env': JSON.stringify(process.env),
     }),
     new NodePolyfillPlugin(),
+
+    new webpack.SourceMapDevToolPlugin({
+      filename: 'map.tsx'
+    }),
   ],
+    
 };
