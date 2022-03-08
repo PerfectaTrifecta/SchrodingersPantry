@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import CreateRecipeForm from './components/Profile/CreateRecipeForm';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
 import RSSFeed from './components/rss/RSSFeedContainer';
@@ -7,9 +6,8 @@ import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
 import Map from './components/marketLocator/map';
-import VideoModal from './components/VideoModal';
 import MealPrep from './components/MealPrep/AddMealToCal';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { PaletteOptions } from '@mui/material';
