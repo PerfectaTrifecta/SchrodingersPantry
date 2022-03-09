@@ -3,14 +3,13 @@ import axios, { AxiosResponse } from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import MealCard from './MealCard';
+import NewCard from './MealCard';
 
 interface SearchProps {
   strMeal: string;
   idMeal: string;
   strMealThumb: string;
 }
-// import e from 'express';
 const Search: React.FC = () => {
   const [ingredients, setIngredients] = useState<string>('');
   const [meals, setMeals] = useState<SearchProps[]>([]);
@@ -37,7 +36,6 @@ const Search: React.FC = () => {
     axios
       .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
       .then(({ data }) => {
-        console.log(data, 40);
         setMeals(data);
       })
       .catch((err) => {
@@ -47,7 +45,7 @@ const Search: React.FC = () => {
 
   const onSearch = (e: any) => {
     searchRecipes();
-    e.target.reset;
+    setIngredients('');
   };
 
   return (
@@ -76,7 +74,7 @@ const Search: React.FC = () => {
         }}
       >
         {meals.map((meal, i) => (
-          <MealCard recipe={meal} key={i} />
+          <NewCard recipe={meal} key={i} />
         ))}
       </div>
     </div>

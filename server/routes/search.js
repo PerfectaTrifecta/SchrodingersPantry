@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 const { Router } = require('express');
-const { ingredientParser, ingredientMap } = require('./ingredients.js');
+const { ingredientParser } = require('../utils/ingredients.js');
+const { Recipe } = require('../db/index');
 
 const searchRouter = Router();
 //This returns a list of meals by ingredients. It is ran on page load and on search.
@@ -48,13 +49,10 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
       from the response that we need here and send it on it's merry way. */
       //Parse the ingredients in the meal object before we send it to the front.
       const formattedIngredients = ingredientParser(meals[0]);
-      // console.log(formattedIngredients, 50);
-
-      // const andAgain = ingredientMap(formattedIngredients);
-      // console.log(andAgain, 54);
       meals[0].ingredients = formattedIngredients;
-
       const {
+        strMeal,
+        strMealThumb,
         strInstructions,
         id,
         strYoutube,
@@ -64,7 +62,16 @@ searchRouter.get('/getRecipe/:idMeal', (req, res) => {
       } = meals[0];
 
       const interfacedData = [
-        { strInstructions, id, strYoutube, strCategory, strArea, ingredients },
+        {
+          strMeal,
+          strMealThumb,
+          strInstructions,
+          id,
+          strYoutube,
+          strCategory,
+          strArea,
+          ingredients,
+        },
       ];
       res.status = 200;
       res.send(interfacedData);
@@ -112,5 +119,23 @@ searchRouter.get('/tod', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+searchRouter.get('/getUserRecipe', (req, res) => {
+  // console.log(req.query, 'searchRouter 124');
+  const { id } = req.query;
+
+  Recipe.findAll({
+    where: {
+      id
+    }
+  })
+  .then(recipe => {
+    // console.log(recipe, 'searchRouter 132');
+    res.status(200).send(recipe);
+  })
+  .catch(err => console.error(err, 'searchRouter 135'));
+
+
+})
 
 module.exports = { searchRouter };
