@@ -7,6 +7,7 @@ import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
 import Map from './components/marketLocator/map';
 import MealPrep from './components/MealPrep/AddMealToCal';
+import CreateRecipeForm from './components/Profile/CreateRecipeForm';
 import { Route, Switch } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
@@ -121,6 +122,9 @@ const App: React.FC = (): JSX.Element => {
             </Route>
             <Route path='/market_finder'>
               <Map />
+            </Route>
+            <Route path='/create_recipe'>
+              <CreateRecipeForm />
             </Route>
           </Switch>
         </div>

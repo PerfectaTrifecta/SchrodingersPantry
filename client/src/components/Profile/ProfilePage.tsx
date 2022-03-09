@@ -29,6 +29,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
+import { Link } from 'react-router-dom';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
@@ -143,7 +144,7 @@ const ProfilePage: React.FC = () => {
       reader.onload = () => {
         console.log(typeof reader.result);
         setSelectedImg(reader.result);
-        console.log(selectedImg, 'profile 76');
+        console.log(reader.result, 'profile 76');
       };
     }
   };
@@ -346,7 +347,6 @@ const ProfilePage: React.FC = () => {
           </CardContent>
         </Collapse>
       </Card>
-      {showForm ? <CreateRecipeForm handleForm={handleForm} /> : null}
       <div
         style={{
           display: 'flex',
@@ -356,7 +356,9 @@ const ProfilePage: React.FC = () => {
         }}
       >
         MY RECIPES 
-        <Button size='small' onClick={handleForm}> Create a New Recipe </Button>
+        <Link to={'/create_recipe'} style={{textDecoration: 'none'}}>
+          <Button size='small'> Create a New Recipe </Button>
+        </Link>
         {recipes.map(recipe => <RecipePreview id={recipe.id} title={recipe.title} />)}
       </div>
       <div>

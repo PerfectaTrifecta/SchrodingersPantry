@@ -8,12 +8,12 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
+import { Typography } from '@mui/material';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { WidgetLoader, Widget } from 'react-cloudinary-upload-widget'
 
-interface Props {
-  handleForm: () => void;
-}
 
-const CreateRecipeForm = ({ handleForm }: Props) => {
+const CreateRecipeForm = () => {
 
   const [title, setTitle] = useState<string>('');
   const [ingredients, setIngredients] = useState<string>('');
@@ -36,6 +36,7 @@ const CreateRecipeForm = ({ handleForm }: Props) => {
     setInstructions(e.target.value);
   }
 
+
   //on submit should send
   const create = () => {
     console.log('listening? 41');
@@ -44,56 +45,109 @@ const CreateRecipeForm = ({ handleForm }: Props) => {
         setTitle('');
         setIngredients('');
         setInstructions('');
-        handleForm();
         console.log('recipe created 38');
       })
       .catch(err => console.error(err, 'createRecipe failed 39'));
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-    <CardActionArea>
-    
-      <CardContent>
-      <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-      >
-      <TextField 
-        id="standard-basic" 
-        label="Recipe Name" 
-        variant="standard" 
-        onChange={handleTitleChange}
-      />
-      <TextField
-        id="outlined-multiline-static"
-        label="Ingredients"
-        multiline
-        rows={4}
-        defaultValue=""
-        onChange={handleIngredientChange}
-      />
-      <TextField
-        id="outlined-multiline-static"
-        label="Directions"
-        multiline
-        rows={4}
-        defaultValue=""
-        onChange={handleInstructionChange}
-      />
-    </Box>
-      </CardContent>
-    </CardActionArea>
-    <CardActions>
-      <Button onClick={create} size="small" color="primary">
-        CREATE
-      </Button>
-    </CardActions>
-  </Card>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <Card sx={{ 
+      height: 750, 
+      width: 625,
+      display: 'flex',
+      flexDirection: 'column',
+      // justifyContent: 'center',
+      alignItems: 'center'
+      }}>
+      <h2>Add Your Own Recipe</h2>
+      <CardActionArea style={{
+        height: 600
+      }}>
+        <CardContent>
+          <Box
+            component="form"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+            noValidate
+            autoComplete="off"
+          >
+          <TextField 
+            id="standard-basic" 
+            label="Recipe Name" 
+            variant="standard" 
+            onChange={handleTitleChange}
+            style={{
+              width: 300,
+              height: '12vh',
+              // margin: '30px'
+            }}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="Ingredients"
+            multiline
+            rows={4}
+            defaultValue=""
+            onChange={handleIngredientChange}
+            style={{
+              width: 300,
+              height: '20vh',
+              // margin: '30px'
+            }}
+          />  
+          <TextField
+            id="outlined-multiline-static"
+            label="Directions"
+            multiline
+            rows={4}
+            defaultValue=""
+            onChange={handleInstructionChange}
+            style={{
+              width: 300,
+              height: '20vh',
+              // margin: '30px'
+            }}
+          />
+          <WidgetLoader />
+          <Widget 
+            cloudname={process.env.CLOUDINARY_NAME}
+            uploadPreset={'sPantry'}
+            resourceType={'image'}
+            buttonText={'Open'}
+            style={{
+              color: 'white',
+              border: 'none',
+              width: '120px',
+              backgroundColor: 'green',
+              borderRadius: '4px',
+              height: '25px'
+            }}
+            folder={'sPantry'}
+          />
+          {/* <Button 
+            onClick={create} 
+            size="small" 
+            color="primary"
+            sx={{
+              paddingBottom: '10px'
+            }}
+          >
+            CREATE
+          </Button> */}
+          </Box>
+        </CardContent>
+      </CardActionArea>
+      </Card>
+    </div>
     
   );
 }
