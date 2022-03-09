@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 const ProfileImage =  (files) => {
 
   const [imageSelected, setImageSelected] = React.useState("");
-  const [shownImage, setShownImage] = React.useState(''); //url string from axios response
+  const [shownImage, setShownImage] = React.useState('https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1646857808/qfyvxnnzi6are14myzqi.png'); //url string from axios response
 
  
 
@@ -20,7 +20,7 @@ const ProfileImage =  (files) => {
       formData.append('file', imageSelected),
       formData.append('upload_preset', "ivfzsgyx" ),
       
-      axios.post('https://cloudinary.com/v1_1/schrodinger-s-pantry/image/upload', formData)
+      axios.post('https://api.cloudinary.com/v1_1/schrodinger-s-pantry/image/upload', formData)
         .then((response) => {
           setShownImage(response.data.url);
         });
@@ -35,100 +35,45 @@ const ProfileImage =  (files) => {
         publicId={`${shownImage}`} />
    <br />
    <br />
-  <label 
-      htmlFor="upload-photo" 
-      onChange={(event) => {
-      setImageSelected(event.target.files[0]);
-    }}
-    style={{ justifyContent: "space-evenly"}}>
-    <input
-    style={{ display: "none"}}
-    id="upload-photo"
-    name="upload-photo"
-    type="file"
-    onChange={(event) => {
-      setImageSelected(event.target.files[0]);
-    }}
-  />
-
-  <Fab
-    color="primary"
-    size="small"
-    component="span"
-    aria-label="add"
-    variant="extended"
-    
-  >
-    CHOOSE FILE
-  </Fab>
-  
-
-</label>
-
-
-<label onClick={uploadImage} >
-
-  <Fab
-    color="primary"
-    size="small"
-    component="span"
-    aria-label="add"
-    variant="extended"
-    justifycontent="space-around"
-    
-  >
-    <AddIcon /> UPLOAD IMAGE
-  </Fab>
-  
-
-</label>
-
-
-
-
-    {/* <div>
-      <Image 
-        style={{width: 600, height: 450}}
-        cloudName="schrodinger-s-pantry"
-        publicId={`${shownImage}`} />
-        </div>
-      
-      <label htmlFor="upload-photo">
-      <input 
-        style={{ display: 'none' }}
+    <div>
+       <label 
+        htmlFor="upload-photo" 
+        onChange={(event) => {
+        setImageSelected(event.target.files[0]);
+        }}>
+        <input
+        style={{ display: "none"}}
+        id="upload-photo"
+        name="upload-photo"
         type="file"
         onChange={(event) => {
         setImageSelected(event.target.files[0]);
-      }}/>
-       <br />
-        <Fab
-          color="secondary"
-          size="small"
-          component="span"
-          aria-label="add"
-          variant="extended"
-        >
-        <AddIcon onClick={uploadImage}/> Upload photo
-  </Fab>
- 
-        
-        </label>; */}
-
-   {/* <Box 
-      sx={{
-        width: 300,
-        height: 300,
-        backgroundColor: 'primary.dark',
-        '&:hover': {
-          backgroundColor: 'primary.main',
-          opacity: [0.9, 0.8, 0.7],
-        },
-      }}
-    >
-      Profile Image
-    </Box> */}
-    
-    </div>
+        }}
+        />
+          <Fab
+            color="inherit"
+            size="small"
+            component="span"
+            aria-label="add"
+            variant="extended"
+          >
+          CHOOSE FILE
+          </Fab>
+        </label>
+        <label onClick={uploadImage} >
+          <Fab
+            color="inherit"
+            size="small"
+            component="span"
+            aria-label="add"
+            variant="extended"
+            justifycontent="space-around"
+            >
+           <AddIcon /> UPLOAD
+          </Fab>
+        </label>
+  </div>    
+</div>
   );
 };
 export default ProfileImage;
