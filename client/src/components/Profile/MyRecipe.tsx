@@ -4,18 +4,16 @@
 //display a container with links to recipe view
 import  React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { styled } from '@mui/material/styles';
-import { orange } from '@mui/material/colors';
+import styled from '@mui/material/styles/styled';
+import orange from '@mui/material/colors/orange';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { 
-  Card, 
-  CardHeader, 
-  CardMedia, 
-  CardContent, 
-  CardActions, 
-  Collapse, 
-  Typography 
-} from '@mui/material';
+import Card from '@mui/material/Card'; 
+import CardHeader from '@mui/material/CardHeader'; 
+import CardMedia from '@mui/material/CardMedia'; 
+import CardContent from '@mui/material/CardContent'; 
+import CardActions from '@mui/material/CardActions'; 
+import Collapse from '@mui/material/Collapse'; 
+import Typography from '@mui/material/Typography'; 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
