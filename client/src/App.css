@@ -204,3 +204,65 @@ body {
 .hide {
   opacity: 0 !important;
 }
+
+#story {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
+  box-shadow: 2px 2px rgb(144, 144, 144);
+}
+
+#rssImg {
+float: left;
+padding-left: 4%;
+padding-top: 4%;
+}
+#rssImg img {
+  display: block;
+}
+
+#rssStoryDiv {
+  margin-left: 200px;
+}
+
+#headline {
+  text-decoration: none;
+}
+
+#timerDiv {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  box-shadow: 2px 2px rgb(144, 144, 144);
+}
+
+#timerButton {
+  margin-left: 27px;
+}
+
+#timer {
+  margin-left: 62px;
+}
+
+#timerForm {
+  margin-left: 53px;
+}
+
+#timeRemaining {
+  margin-left: 25px;
+}
+
+#timerCountdown {
+  margin-left: 72px;
+  margin-top: -15px;
+}
