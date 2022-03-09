@@ -141,6 +141,8 @@ const App: React.FC = (): JSX.Element => {
             <Route path='/market_finder'>
             <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY} render={render}>
              <Map
+              setCenter={setCenter}
+              setZoom={setZoom}
               center={center}
               onIdle={onIdle}
               zoom={zoom}

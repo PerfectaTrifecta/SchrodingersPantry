@@ -5,12 +5,18 @@ import axios from 'axios';
 
 
 interface MapProps extends google.maps.MapOptions {
+
   style: { [key: string]: string };
   onIdle?: (map: google.maps.Map) => void;
+  setCenter?:(map: google.maps.LatLngLiteral) =>void;
+  setZoom?: (number: number)=> void;
+
 }
 
 const Map: React.FC<MapProps> = ({
   onIdle,
+  setCenter,
+  setZoom,
   children,
   style,
   ...options
@@ -20,6 +26,7 @@ const Map: React.FC<MapProps> = ({
 
   const ref = React.useRef<HTMLDivElement>(null);
   const [map, setMap] = React.useState<google.maps.Map>();
+  const [zip, setZip] = React.useState<string>('');
   
   console.log(map, 24);
 
@@ -73,8 +80,8 @@ const Map: React.FC<MapProps> = ({
 
       }).then(res => {
         console.log(res.data.results[0].geometry)
-        // setCenter(res.data.results[0].geometry.location);
-        // setZoom(8);
+        setCenter(res.data.results[0].geometry.location);
+        setZoom(20);
       })
       .catch((err) => {
         console.error(err);
@@ -87,11 +94,11 @@ const Map: React.FC<MapProps> = ({
 
   const handleInput = (e: any) => {
     e.preventDefault();
-    // setZip(e.target.value);
+    setZip(e.target.value);
 
   };
   const onSearch = (e: any) => {
-    // searchMarkets(zip);
+    searchMarkets(zip);
     e.target.reset;
   };
 
@@ -125,7 +132,7 @@ const Map: React.FC<MapProps> = ({
   return (
     <div>
       <div>
-        <TextField id="outlined-basic" onChange={handleInput} />
+        <TextField id="outlined-basic" onChange={handleInput} value={zip}/>
         <Button onClick={onSearch}>Zip Code</Button>
       </div>
       <div ref={ref} style={style}/>
