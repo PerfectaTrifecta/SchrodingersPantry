@@ -1,20 +1,15 @@
-import { Loader } from "@googlemaps/js-api-loader";
-import { env } from 'process';
 import TextField from '@material-ui/core/Input';
 import { Button } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import axios from 'axios';
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 
 interface MapProps extends google.maps.MapOptions {
   style: { [key: string]: string };
-  onClick?: (e: google.maps.MapMouseEvent) => void;
   onIdle?: (map: google.maps.Map) => void;
 }
 
 const Map: React.FC<MapProps> = ({
-  onClick,
   onIdle,
   children,
   style,
@@ -25,31 +20,35 @@ const Map: React.FC<MapProps> = ({
 
   const ref = React.useRef<HTMLDivElement>(null);
   const [map, setMap] = React.useState<google.maps.Map>();
+  
+  console.log(map, 24);
 
   React.useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
-    }
+      setMap(new window.google.maps.Map(ref.current, {}),);
+
+    }  
+
+    
   }, [ref, map]);
 
-
-
+  
   React.useEffect(() => {
+      
     if (map) {
-      ["click", "idle"].forEach((eventName) =>
-        google.maps.event.clearListeners(map, eventName)
-      );
-  
-      if (onClick) {
-        map.addListener("click", onClick);
-      }
-  
-      if (onIdle) {
-        map.addListener("idle", () => onIdle(map));
-      }
-    }
-  }, [map, onClick, onIdle]);
+       map.setOptions(options);
+      ["idle"].forEach((eventName) =>
+        google.maps.event.clearListeners(map, eventName),
+      
 
+      );
+
+  
+      
+    }
+  }, [map, onIdle]);
+
+  
 
   /////////////////////////////////////////////////////////////////////////////////////////
 

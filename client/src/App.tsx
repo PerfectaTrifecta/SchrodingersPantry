@@ -29,17 +29,13 @@ interface ThemeOptions {
 }
 
 const App: React.FC = (): JSX.Element => {
-  const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
   const [zoom, setZoom] = React.useState(10); // initial zoom
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
-    lat: 100,
-    lng: 100,
+    lat: 29.951065,
+    lng: -90.071533,
   });
 
-  const onClick = (e: google.maps.MapMouseEvent) => {
-    // avoid directly mutating state
-    setClicks([...clicks, e.latLng!]);
-  };
+  
 
   const onIdle = (m: google.maps.Map) => {
     console.log("onIdle");
@@ -146,10 +142,9 @@ const App: React.FC = (): JSX.Element => {
             <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY} render={render}>
              <Map
               center={center}
-              onClick={onClick}
               onIdle={onIdle}
               zoom={zoom}
-              style={{flexGrow: '1', height: '100%', width: '100%'}}
+              style={{flexGrow: '1', height: '500px', width: '500px'}}
              >
              </Map>
             </Wrapper>
