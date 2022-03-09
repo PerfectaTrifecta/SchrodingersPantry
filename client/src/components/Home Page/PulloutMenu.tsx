@@ -33,7 +33,6 @@ import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
-
 interface TokenValue {
   token: string;
 }
@@ -113,7 +112,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     <div>
       <Link to={'/'}>
         <img
-          src='https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg'
+          src='https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1645401949/nd9dvcyporr7qocqlctm.png'
           width='200'
         />
       </Link>
@@ -123,7 +122,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button onClick={logout} key={text}>
+                  <Button onClick={logout} key={text} >
                     <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -131,7 +130,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                 );
               } else {
                 return (
-                  <Link to={inCategories[index + 1]}>
+                  <Link to={inCategories[index + 1]} style={{ textDecoration: 'none'}}>
                     <ListItem button key={text}>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -152,7 +151,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           {outCategories.map((text, index) => {
             if (index % 2 === 0) {
               return (
-                <Link to={inCategories[index + 1]} key={text}>
+                <Link to={inCategories[index + 1]} key={text} style={{ textDecoration: 'none'}}>
                   <ListItem button>
                     <ListItemText primary={text} />
                   </ListItem>
