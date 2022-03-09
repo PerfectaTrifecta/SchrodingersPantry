@@ -52,48 +52,48 @@ const Map: React.FC<MapProps> = ({
 
   /////////////////////////////////////////////////////////////////////////////////////////
 
-  // const searchMarkets = (zip) => {
-  //   const addresses = []
-  //   axios
-  //     .get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`)
-  //     .then(({ data }) => {
-  //       console.log(data.results);
-  //       const top3 = data.results.slice(0, 3)
+  const searchMarkets = (zip) => {
+    const addresses = []
+    axios
+      .get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`)
+      .then(({ data }) => {
+        console.log(data.results);
+        const top3 = data.results.slice(0, 3)
 
-  //       for (let i = 0; i < top3.length; i++) {
+        for (let i = 0; i < top3.length; i++) {
 
-  //         return axios.get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`)
-  //           .then(response => {
-  //             addresses.push(response.data.marketdetails.Address);
-  //         })
-  //       })
-  //     .then(res => {
-  //       return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addresses[0]}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
-
-
-  //     }).then(res => {
-  //       console.log(res.data.results[0].geometry)
-  //       setCenter(res.data.results[0].geometry.location);
-  //       // setZoom(8);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
+          return axios.get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`)
+            .then(response => {
+              addresses.push(response.data.marketdetails.Address);
+          })
+        })
+      .then(res => {
+        return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addresses[0]}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
 
 
+      }).then(res => {
+        console.log(res.data.results[0].geometry)
+        // setCenter(res.data.results[0].geometry.location);
+        // setZoom(8);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
 
-  // };
 
-  // const handleInput = (e: any) => {
-  //   e.preventDefault();
-  //   setZip(e.target.value);
 
-  // };
-  // const onSearch = (e: any) => {
-  //   searchMarkets(zip);
-  //   e.target.reset;
-  // };
+  };
+
+  const handleInput = (e: any) => {
+    e.preventDefault();
+    // setZip(e.target.value);
+
+  };
+  const onSearch = (e: any) => {
+    // searchMarkets(zip);
+    e.target.reset;
+  };
 
 
   ///////////////////////////////////
@@ -123,10 +123,15 @@ const Map: React.FC<MapProps> = ({
   //   return null;
   // };
   return (
+    <div>
+      <div>
+        <TextField id="outlined-basic" onChange={handleInput} />
+        <Button onClick={onSearch}>Zip Code</Button>
+      </div>
+      <div ref={ref} style={style}/>
 
-    <div ref={ref} style={style}>
     </div>
-
+    
   )
 
 }
