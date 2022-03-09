@@ -1,5 +1,6 @@
 import React, {useState}  from 'react';
 import moment from 'moment';
+import { Button } from '@material-ui/core';
  
 const Timer = () => {
 
@@ -38,29 +39,39 @@ const Timer = () => {
     }
 
     return (
-      <div>
+      <div id="timerDiv">
         <form onSubmit={handleSubmit}>
-        <label>
-          minutes :
+        <label id="timer">
+          MM/SS </label>
+        <br />
+        <div id="timerForm">
           <input
             type="text"
             value={minutes}
-            size={10}
+            size={3}
             onChange={e => setMins(Number(e.target.value))}
           />
-        </label><br />
-        <label>
-          seconds:
+       
+        <label>:</label>
           <input
             type="text"
-            size={10}
+            size={3}
             value={seconds}
             onChange={e => setSecs(Number(e.target.value))}
           ></input>
-        </label><br />
-        <input type="submit" value="Start Timer"></input>
+        </div>
+          
+        <br />
+        <Button id ="timerButton" variant="contained" onClick={handleSubmit}>Start Timer</Button>
+      <h4 id="timeRemaining">Time Remaining:</h4>
+      <div id="timerCountdown">
+        {/* //displays zeroes before numbers less than 10 */}
+        {(minutesRemaining < 10 && secondsRemaining < 10) ? (<div>0{minutesRemaining}:0{secondsRemaining}</div>) 
+        : (minutesRemaining < 10) ? (<div>0{minutesRemaining}:{secondsRemaining}</div>) 
+        : (<div>{minutesRemaining}:{secondsRemaining}</div>) }
+      </div>
       </form>
-      <h3>Time Remaining: {minutesRemaining}:{secondsRemaining}</h3>
+      
       </div>
     )
 }
