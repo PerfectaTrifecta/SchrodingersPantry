@@ -13,14 +13,14 @@ const ProfileImage =  (files) => {
 
  
 
-  const uploadImage = (files) => {
+  const uploadImage = () => {
     // (files && console.log(files[0]));
     const formData = new FormData();
   
       formData.append('file', imageSelected),
       formData.append('upload_preset', "ivfzsgyx" ),
       
-      axios.post('routes/profile-image/upload', formData)
+      axios.post('https://cloudinary.com/v1_1/schrodinger-s-pantry/image/upload', formData)
         .then((response) => {
           setShownImage(response.data.url);
         });
