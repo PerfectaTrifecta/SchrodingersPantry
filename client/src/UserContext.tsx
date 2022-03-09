@@ -4,7 +4,9 @@ import axios from 'axios';
 interface userTypes {
   id: string;
   userName: string;
-  preference?: string;
+  diet?: string;
+  allergies?: string;
+  bio?: string;
   favorites: Array<{
     id: number;
     userId: string;

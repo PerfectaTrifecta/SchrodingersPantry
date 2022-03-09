@@ -44,7 +44,7 @@ module.exports = passport => {
     // console.log('passport 13');
     User.findOrCreate({
       where: { id: profile.id},
-      defaults: { name: profile.displayName}
+      defaults: { userName: profile.displayName}
     })
     .then((user) => {
       // console.log(user[0], '19?');

@@ -73,7 +73,7 @@ authRouter.get('/user', (req, res) => {
 authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
-  let userDetails = {};
+  let userDetails = user;
   // console.log(user, 12);
 
   User.findOrCreate({
@@ -82,8 +82,6 @@ authRouter.post('/account', (req, res) => {
     },
   })
     .then((data) => {
-      userDetails.userName = user.name;
-      userDetails.id = data[0].id;
       //FAVORITES
       User.findAll({
         include: {

@@ -29,7 +29,7 @@ UserRouter.post('/upload/pic', async (req, res) => {
 
 //on User submission of recipe
 UserRouter.post('/upload/recipe', (req, res) => {
-  console.log(req.body, 'userRoute 23')
+  // console.log(req.body, 'userRoute 23')
   const { title, ingredients, instructions, userId} = req.body;
 
   Recipe.create({ userId, title, ingredients, instructions})
@@ -38,6 +38,50 @@ UserRouter.post('/upload/recipe', (req, res) => {
     })
     .catch(err => console.error(err, 'userRoute 38'))
 
+});
+
+//Profile Info Updates//
+UserRouter.post('/update/bio', (req, res) => {
+  console.log(req.body, 'userRoute 45');
+  const { bio } = req.body;
+
+  User.update({ bio }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 56'));
+});
+
+UserRouter.post('/update/diet', (req, res) => {
+  const { diet } = req.body;
+
+  User.update({ diet }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 70'));
+});
+
+UserRouter.post('/update/allergies', (req, res) => {
+  const { allergies } = req.body;
+
+  User.update({ allergies }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 84'));
 });
 
 //On user post of comment
@@ -49,7 +93,7 @@ UserRouter.post('/comment', (req, res) => {
     .then(() => {
       res.sendStatus(201);
     })
-    .catch(err => console.error(err, 'userRoute 51'))
+    .catch(err => console.error(err, 'userRoute 68'));
 });
 
 UserRouter.post('/userComment', (req, res) => {

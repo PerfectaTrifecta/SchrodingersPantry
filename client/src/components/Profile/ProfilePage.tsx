@@ -61,6 +61,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 //the search component should map over the results, creating a meal card for each recipe,
 const ProfilePage: React.FC = () => {
+  // use user context and assign the values to corresponding state values and map thru
+  const { user, setUser } = useContext(UserContext);
+  const { userName, recipes, bookmarks, favorites, diet, allergies, bio } = user;
+
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
@@ -69,18 +73,15 @@ const ProfilePage: React.FC = () => {
   // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
   // const [bookmarks, setBookmarks] = useState<string[]>([]);
 
-  const [aboutMeDisplay, setAboutMeDisplay] = useState<string>('');
-  const [aboutMe, setAboutMe] = useState<string>('');
+  const [aboutMeDisplay, setAboutMeDisplay] = useState<string>(bio);
+  const [aboutMeField, setAboutMeField] = useState<string>('');
   const [editBio, setEditBio] = useState<boolean>(false);
-  const [dietDisplay, setDietDisplay] = useState<string>('None');
-  const [diet, setDiet] = useState<string>('');
+  const [dietDisplay, setDietDisplay] = useState<string>(diet);
+  const [dietField, setDietField] = useState<string>('');
   const [editDiet, setEditDiet] = useState<boolean>(false);
-  const [allergyDisplay, setAllergyDisplay] = useState<string>('None');
-  const [allergies, setAllergies] = useState<string>('');
+  const [allergyDisplay, setAllergyDisplay] = useState<string>(allergies);
+  const [allergyField, setAllergyField] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
-  // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser } = useContext(UserContext);
-  const { recipes, bookmarks, favorites } = user;
 
   const cld = new Cloudinary({
     cloud: {
@@ -161,30 +162,48 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAboutMe(e.target.value);
+    setAboutMeField(e.target.value);
   };
 
   const submitBio = () => {
-    setAboutMeDisplay(aboutMe);
-    setEditBio(false);
+    setAboutMeDisplay(aboutMeField);
+
+    axios.post('/routes/user/profile/update/bio', { bio: aboutMeField })
+      .then(() => {
+        setAboutMeField('');
+        setEditBio(false);
+      })
+      .catch(err => console.error(err, 'profile 176'));
   };
 
   const handleDietChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDiet(e.target.value);
+    setDietField(e.target.value);
   };
 
   const submitDiet = () => {
-    setDietDisplay(diet);
-    setEditDiet(false);
+    setDietDisplay(dietField);
+
+    axios.post('routes/user/profile/update/diet', { diet: dietField })
+      .then(() => {
+        setDietField('');
+        setEditDiet(false);
+      })
+      .catch(err => console.error(err, 'profile 191'));
   };
 
   const handleAllergyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAllergies(e.target.value);
+    setAllergyField(e.target.value);
   };
 
   const submitAllergies = () => {
-    setAllergyDisplay(allergies);
-    setEditAllergies(false);
+    setAllergyDisplay(allergyField);
+
+    axios.post('routes.user/profile/update/allergies', { allergies: allergyField })
+      .then(() => {
+        setAllergyField('');
+        setEditAllergies(false);
+      })
+      .catch(err => console.error(err, 'profile 206'));
   };
 
   return (
@@ -225,7 +244,7 @@ const ProfilePage: React.FC = () => {
                 aria-label='recipe'
               >
                 {/* {console.log(user.name, 'profile 99')} */}
-                {user.userName.slice(0, 1)}
+                {userName.slice(0, 1)}
                 {/* this should be user profile's first letter */}
               </Avatar>
             }
@@ -275,7 +294,7 @@ const ProfilePage: React.FC = () => {
                   label='Write about yourself'
                   multiline
                   rows={5}
-                  defaultValue={aboutMe}
+                  defaultValue={aboutMeField}
                   onChange={handleBioChange}
                 />
                 <Button size='small' color='primary' onClick={submitBio}>
@@ -299,7 +318,7 @@ const ProfilePage: React.FC = () => {
                   label='Set your preference'
                   multiline
                   rows={1}
-                  defaultValue={diet}
+                  defaultValue={dietField}
                   onChange={handleDietChange}
                 />
                 <Button size='small' color='primary' onClick={submitDiet}>
@@ -323,7 +342,7 @@ const ProfilePage: React.FC = () => {
                   label='Any food allergies?'
                   multiline
                   rows={3}
-                  defaultValue={allergies}
+                  defaultValue={allergyField}
                   onChange={handleAllergyChange}
                 />
                 <Button size='small' color='primary' onClick={submitAllergies}>
