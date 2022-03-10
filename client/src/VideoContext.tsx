@@ -21,15 +21,12 @@ function VideoContextProvider({ children }: Props) {
   //data.items[0].id.videoId
 
   const searchClick = () => {
-    console.log(recipeName);
     // search youtube api for that meal, displaying top result
-    console.log('string');
     return axios
       .post('routes/videos/youtube', {
         mealName: recipeName,
       })
       .then(({ data }: any): any => {
-        console.log(data);
         setVideoId(data);
       })
       .catch((err) => {

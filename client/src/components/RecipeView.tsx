@@ -188,18 +188,19 @@ const RecipeView: React.FC = () => {
             <Typography key={p + i}>{p}</Typography>
             ))}
             <TextToSpeech instructions={instructions} />
-          <VideoModal mealName={mealRecipe[0].strMeal} />
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label='add to favorites'>
-            <FavoriteIcon />
-          </IconButton>
+          <Favorite recipeId={idMeal}/>
           <IconButton 
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label='show more'
           >
             <CommentIcon />
+          </IconButton>
+          <VideoModal mealName={mealRecipe[0].strMeal} />
+          <IconButton size='small'>
+            Reviews
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
@@ -274,7 +275,7 @@ const RecipeView: React.FC = () => {
             <Typography key={p + i}>{p}</Typography>
           ))}
           <TextToSpeech instructions={instructions} />
-          <VideoModal mealName={mealUserRecipe[0].title} />
+          
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label='add to favorites'>
