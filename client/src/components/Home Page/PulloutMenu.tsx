@@ -32,6 +32,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { Link } from 'react-router-dom';
 
 interface TokenValue {
@@ -172,7 +173,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         position='static'
         style={{ background: theme.palette.primary.main }}
       >
-        <Toolbar>
+        <Toolbar style={{
+          display: 'flex',
+          flexDirection: 'row'
+        }}>
           <IconButton
             color='inherit'
             aria-label='Open drawer'
@@ -186,8 +190,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             Schroedinger's Pantry
           </Link>
           </Typography>
-          <FormControl component='fieldset'>
-            <FormLabel component='legend'>Themes</FormLabel>
+          <FormControl component='fieldset' style={{ marginLeft: 'auto'}}>
             <RadioGroup
               aria-label='position'
               row
@@ -195,26 +198,26 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
               onChange={handleChange}
             >
               <FormControlLabel
-                value='light'
-                control={<Radio />}
+                value='light' 
+                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
                 label='Light'
                 labelPlacement='bottom'
               />
               <FormControlLabel
                 value='veggie'
-                control={<Radio />}
+                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
                 label='Veggie'
                 labelPlacement='bottom'
               />
               <FormControlLabel
                 value='meat'
-                control={<Radio />}
+                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
                 label='Meat'
                 labelPlacement='bottom'
               />
               <FormControlLabel
                 value='dark'
-                control={<Radio />}
+                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
                 label='Dark'
                 labelPlacement='bottom'
               />
@@ -240,14 +243,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             {drawer}
           </Drawer>
         </Hidden>
-        {/* <Hidden xsDown implementation="css">
-          <Drawer
-            variant="permanent"
-          >
-            <div />
-            {drawer}
-          </Drawer>  
-        </Hidden> */}
       </nav>
       <div>
         <div />

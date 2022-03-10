@@ -1,6 +1,6 @@
 import React, {useState}  from 'react';
 import moment from 'moment';
-import { Button } from '@material-ui/core';
+import Button from '@mui/material/Button';
  
 const Timer = () => {
 

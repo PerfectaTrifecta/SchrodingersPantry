@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, Tab, AppBar } from "@material-ui/core";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import AppBar from "@mui/material/AppBar";
 import axios from "axios";
 import moment from 'moment';
 
