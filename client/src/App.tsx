@@ -26,7 +26,6 @@ const App: React.FC = (): JSX.Element => {
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
-  const { userAccount, loggedIn } = useContext(UserContext);
 
   useEffect(() => {
     userAccount();
