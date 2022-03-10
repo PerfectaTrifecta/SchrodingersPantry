@@ -19,6 +19,7 @@ import Chat from './components/Chat';
 import './App.css';
 import { ClimbingBoxLoader } from 'react-spinners';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import Marker from './components/marketLocator/marker';
 
 
 const render = (status: Status) => {
@@ -148,6 +149,7 @@ const App: React.FC = (): JSX.Element => {
               zoom={zoom}
               style={{flexGrow: '1', height: '500px', width: '500px'}}
              >
+              {/* <Marker/> */}
              </Map>
             </Wrapper>
             </Route>

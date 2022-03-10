@@ -2,6 +2,7 @@ import TextField from '@material-ui/core/Input';
 import { Button } from "@material-ui/core";
 import React from "react";
 import axios from 'axios';
+import Marker from './marker';
 
 
 interface MapProps extends google.maps.MapOptions {
@@ -27,16 +28,13 @@ const Map: React.FC<MapProps> = ({
   const ref = React.useRef<HTMLDivElement>(null);
   const [map, setMap] = React.useState<google.maps.Map>();
   const [zip, setZip] = React.useState<string>('');
+
   
-  console.log(map, 24);
 
   React.useEffect(() => {
     if (ref.current && !map) {
       setMap(new window.google.maps.Map(ref.current, {}),);
-
     }  
-
-    
   }, [ref, map]);
 
   
@@ -46,12 +44,7 @@ const Map: React.FC<MapProps> = ({
        map.setOptions(options);
       ["idle"].forEach((eventName) =>
         google.maps.event.clearListeners(map, eventName),
-      
-
-      );
-
-  
-      
+      );      
     }
   }, [map, onIdle]);
 
@@ -59,7 +52,7 @@ const Map: React.FC<MapProps> = ({
 
   /////////////////////////////////////////////////////////////////////////////////////////
 
-  const searchMarkets = (zip) => {
+  const searchMarkets = (zip: string) => {
     const addresses = []
     axios
       .get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`)
@@ -79,9 +72,15 @@ const Map: React.FC<MapProps> = ({
 
 
       }).then(res => {
-        console.log(res.data.results[0].geometry)
+        const latLng = new google.maps.LatLng(res.data.results[0].geometry.location);
+
+        new google.maps.Marker({
+          position: latLng,
+          map: map,
+        });
+        console.log(res.data.results[0]);
         setCenter(res.data.results[0].geometry.location);
-        setZoom(20);
+        setZoom(15);
       })
       .catch((err) => {
         console.error(err);
@@ -105,30 +104,7 @@ const Map: React.FC<MapProps> = ({
 
   ///////////////////////////////////
 
-  // const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
-  //   const [marker, setMarker] = React.useState<google.maps.Marker>();
-
-  //   React.useEffect(() => {
-  //     if (!marker) {
-  //       setMarker(new google.maps.Marker());
-  //     }
-
-  //     // remove marker from map on unmount
-  //     return () => {
-  //       if (marker) {
-  //         marker.setMap(null);
-  //       }
-  //     };
-  //   }, [marker]);
-
-  //   React.useEffect(() => {
-  //     if (marker) {
-  //       marker.setOptions(options);
-  //     }
-  //   }, [marker, options]);
-
-  //   return null;
-  // };
+  
   return (
     <div>
       <div>
@@ -136,7 +112,12 @@ const Map: React.FC<MapProps> = ({
         <Button onClick={onSearch}>Zip Code</Button>
       </div>
       <div ref={ref} style={style}/>
-
+      {React.Children.map(children, (child) => {
+      if (React.isValidElement(child)) {
+        // set the map prop on the child component
+        return React.cloneElement(child, { map });
+      }
+    })}
     </div>
     
   )
