@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
+import Button  from '@mui/material/Button';
+import MicIcon from '@mui/icons-material/Mic';
+
 
 declare const SpeechRecognition: () => void;
 declare const SpeechGrammarList: any;
@@ -39,7 +43,7 @@ const VoiceCommands: React.FC<Props> = ({ readAloud, temporarilyPause, stopAndCa
     console.log('Ready to receive a command.');
   }
   
-  recognition.onresult = (event) => {
+  recognition.onresult = (event: any) => {
     if(event.results[0][0].transcript ===  'start' || event.results[0][0].transcript === 'continue' || event.results[0][0].transcript ==='read' || event.results[0][0].transcript === 'speak') {
       readAloud();
     } else if (event.results[0][0].transcript === 'pause') {
@@ -55,15 +59,15 @@ const VoiceCommands: React.FC<Props> = ({ readAloud, temporarilyPause, stopAndCa
     diagnostic.textContent = "I didn't recognize that command.";
   }
   
-  recognition.onerror = (event) => {
+  recognition.onerror = (event: any) => {
     diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
   }
 
   return (
 
-      <button onClick={() => {
+      <Button id="VRecButton" variant="outlined" startIcon={<MicIcon />}onClick={() => {
         startListen();
-      }} >Voice Command</button>
+      }} >Voice Command</Button>
 
   )
 }

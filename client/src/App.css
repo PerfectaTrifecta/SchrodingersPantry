@@ -238,7 +238,7 @@ padding-top: 4%;
   border-style: solid;
   border-width: 1px;
   border-color: gray;
-  border-radius: 25px;
+  border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 10px;
@@ -248,6 +248,8 @@ padding-top: 4%;
 
 #timerButton {
   margin-left: 27px;
+  background-color: green;
+  color: white;
 }
 
 #timer {
@@ -265,4 +267,35 @@ padding-top: 4%;
 #timerCountdown {
   margin-left: 72px;
   margin-top: -15px;
+}
+
+#alarmStop {
+  background-color: red;
+  color: white;
+  margin-bottom: 5px;
+  margin-left: 27px;
+
+}
+#TTSButtons:hover {
+  margin: 30px 20px 30px 20px;
+  transform: scale(2.0);
+  color: #22f00b;
+}
+
+#TTSButtons {
+  margin: 30px 20px 30px 20px;
+
+  transform: scale(2.0);
+  color: #2f42d3;
+}
+
+#TTSDiv {
+  margin-left: 175px;
+}
+
+#VRecButton {
+  margin-left: 24px;
+  margin-bottom: 10px;
+  background-color: red;
+  color: white;
 }
