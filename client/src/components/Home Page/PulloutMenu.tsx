@@ -33,6 +33,8 @@ import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
+import logo from '../../img/logo.png';
+
 interface TokenValue {
   token: string;
 }
@@ -111,8 +113,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     <div>
       <Link to={'/'}>
         <img
-          src='https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1645401949/nd9dvcyporr7qocqlctm.png'
-          width='200'
+          src={logo}
         />
       </Link>
       {user ? (
