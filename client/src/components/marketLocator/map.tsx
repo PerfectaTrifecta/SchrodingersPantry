@@ -63,7 +63,7 @@ const Map: React.FC<MapProps> = ({
   /////////////////////////////////////////////////////////////////////////////////////////
 
   const searchMarkets = (zip: string) => {
-    const addresses = []
+    const markets : any = []
     axios
       .get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`)
       .then(({ data }) => {
@@ -73,15 +73,16 @@ const Map: React.FC<MapProps> = ({
 
           return axios.get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`)
             .then(response => {
-              addresses.push(response.data.marketdetails);
+              markets.push(response.data.marketdetails);
           })
         })
       .then(res => {
-        return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addresses[0].Address}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
+        return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${markets[0].Address}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
 
 
       }).then(res => {
-        const contentString = `${addresses[0].Address} ${addresses[0].Schedule}`;
+        const contentString = `${markets[0].Address}
+            ${markets[0].Schedule}`;
     
 
         setInfoWindow(new google.maps.InfoWindow({
