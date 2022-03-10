@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import VoiceCommands from './VoiceRecognition';
-
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
 type instProps = {
   instructions: string[];
 }
@@ -48,16 +50,16 @@ const [step, setStep] = useState({ index: 0 });
   }
 
   return (
-  <div>
-    <button onClick={()=> {
+  <div id="TTSDiv">
+    <PlayCircleFilledIcon id="TTSButtons" fontSize="large" onClick={()=> {
       readAloud();
-    }}>Start</button>
-    <button onClick={() => {
+    }} />
+    <PauseCircleFilledIcon id="TTSButtons" fontSize="large" onClick={() => {
       temporarilyPause();
-    }}>Pause</button>
-    <button onClick={() => {
+    }} />
+    <StopCircleIcon id="TTSButtons" fontSize="large" onClick={() => {
       stopAndCancel();
-    }}>Stop</button>
+    }} /><br />
     <VoiceCommands readAloud={readAloud} temporarilyPause={temporarilyPause} stopAndCancel={stopAndCancel}/>
   </div>
   )
