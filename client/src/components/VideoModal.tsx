@@ -31,7 +31,7 @@ const VideoModal = ({ mealName }: VideoProps) => {
         }}
         size='small'
       >
-        <PlayCircleIcon />
+        <PlayCircleIcon fontSize="large" />
         Youtube Tutorial
         {/* allow users to play most relevant tutorial from youtube */}
         

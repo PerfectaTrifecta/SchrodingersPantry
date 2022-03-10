@@ -36,6 +36,7 @@ const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     userAccount();
+
   }, [loggedIn]);
 
   // console.log(user, 'app tsx 41');
@@ -75,6 +76,7 @@ const App: React.FC = (): JSX.Element => {
         </div>
       ) : (
         <div>
+          
           <PulloutMenu changeTheme={setTheme} />
           <div className='chatContainer'>
             {!showChat ? (

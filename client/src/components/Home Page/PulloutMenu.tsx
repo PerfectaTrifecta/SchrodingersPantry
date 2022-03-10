@@ -114,16 +114,26 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       <Link to={'/'}>
         <img
           src={logo}
-          width='200'
+          width='100'
         />
-      </Link>
+      </Link >
       {user ? (
-        <List>
+        <List style={{
+          display: 'flex',
+	        flexDirection: 'column',
+	        flexWrap: 'nowrap',
+	        justifyContent: 'space-between',
+	        alignItems: 'stretch',
+	        alignContent: 'stretch',
+       }}>
           {inCategories.map((text, index) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button onClick={logout} key={text}  >
+                  <Button 
+                  onClick={logout} 
+                  key={text} 
+                 >
                     <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -131,7 +141,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                 );
               } else {
                 return (
-                  <Link to={inCategories[index + 1]} style={{ textDecoration: 'none'}}>
+                  <Link to={inCategories[index + 1]} style={{ textDecoration: 'none'}} >
                     <ListItem button key={text}>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -174,7 +184,13 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         style={{ background: theme.palette.primary.main }}
       >
         <Toolbar>
-          <IconButton
+        <Link to={'/'}>
+        <img
+          src={logo}
+          width='110'
+          height="80"
+        />
+         <IconButton
             color='inherit'
             aria-label='Open drawer'
             edge='start'
@@ -182,6 +198,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           >
             <MenuIcon />
           </IconButton>
+          </Link >
           <Typography variant='h6'  noWrap>
           <Link text-decoration="none" to={'/'}>
             Schroedinger's Pantry
