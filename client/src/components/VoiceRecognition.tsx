@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { Button } from '@material-ui/core';
+import Button  from '@mui/material/Button';
 import MicIcon from '@mui/icons-material/Mic';
 
 
