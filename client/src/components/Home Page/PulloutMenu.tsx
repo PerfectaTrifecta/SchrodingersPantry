@@ -59,6 +59,8 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     '/market_finder',
     'Sign Out',
     '/logout',
+    'Live Chat',
+    '/live_chat',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   const theme = useTheme();
@@ -112,10 +114,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const drawer = (
     <div>
       <Link to={'/'}>
-        <img
-          src={logo}
-          width='200'
-        />
+        <img src={logo} width='200' />
       </Link>
       {user ? (
         <List>
@@ -123,7 +122,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button onClick={logout} key={text}  >
+                  <Button onClick={logout} key={text}>
                     <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -131,7 +130,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                 );
               } else {
                 return (
-                  <Link to={inCategories[index + 1]} style={{ textDecoration: 'none'}}>
+                  <Link
+                    to={inCategories[index + 1]}
+                    style={{ textDecoration: 'none' }}
+                  >
                     <ListItem button key={text}>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -152,7 +154,11 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           {outCategories.map((text, index) => {
             if (index % 2 === 0) {
               return (
-                <Link to={inCategories[index + 1]} key={text} style={{ textDecoration: 'none'}}>
+                <Link
+                  to={inCategories[index + 1]}
+                  key={text}
+                  style={{ textDecoration: 'none' }}
+                >
                   <ListItem button>
                     <ListItemText primary={text} />
                   </ListItem>
