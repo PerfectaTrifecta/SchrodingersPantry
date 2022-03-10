@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start-socket": "nodemon ./socketServer/index.js",
-    "start": "nodemon --max-old-space-size=8192 ./server/index.js",
-    "build": "webpack --watch",
+    "start": "node ./server/index.js",
+    "start-dev": "nodemon server",
+    "dev": "webpack --watch",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
@@ -53,6 +55,7 @@
     "@material-ui/core": "^4.12.3",
     "@mui/icons-material": "^5.4.2",
     "@mui/material": "^5.4.4",
+    "@socket.io/admin-ui": "^0.2.0",
     "@types/lodash": "^4.14.178",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
