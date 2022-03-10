@@ -25,7 +25,11 @@ interface MyRecipeTypes {
 }
 
 const CreateRecipeForm = () => {
-  const location = useLocation<{ recipeList: MyRecipeTypes[], setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>}>();
+  const location =
+    useLocation<{
+      recipeList: MyRecipeTypes[];
+      setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
+    }>();
   const { recipeList, setRecipeList } = location.state;
 
   const [title, setTitle] = useState<string>('');
@@ -47,91 +51,104 @@ const CreateRecipeForm = () => {
   const handleInstructionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setInstructions(e.target.value);
-  }
-
+  };
 
   //on submit should send
   const create = () => {
-    setRecipeList(recipeList.concat([{ title, ingredients, instructions, userId: user.id }]))
+    setRecipeList(
+      recipeList.concat([{ title, ingredients, instructions, userId: user.id }])
+    );
 
-    axios.post('/routes/user/profile/upload/recipe', { title, ingredients, instructions, userId: user.id })
+    axios
+      .post('/routes/user/profile/upload/recipe', {
+        title,
+        ingredients,
+        instructions,
+        userId: user.id,
+      })
       .then(() => {
         setTitle('');
         setIngredients('');
         setInstructions('');
         console.log('recipe created 38');
       })
-      .catch(err => console.error(err, 'createRecipe failed 39'));
+      .catch((err) => console.error(err, 'createRecipe failed 39'));
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <Card sx={{ 
-      height: 750, 
-      width: 625,
-      display: 'flex',
-      flexDirection: 'column',
-      // justifyContent: 'center',
-      alignItems: 'center'
-      }}>
-      <h2>Add Your Own Recipe</h2>
-      <CardActionArea style={{
-        height: 600
-      }}>
-        <CardContent>
-          <Box
-            component="form"
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-            noValidate
-            autoComplete="off"
-          >
-          <TextField 
-            id="standard-basic" 
-            label="Recipe Name" 
-            variant="standard" 
-            onChange={handleTitleChange}
-            style={{
-              width: 300,
-              height: '12vh',
-              // margin: '30px'
-            }}
-          />
-          <TextField
-            id="outlined-multiline-static"
-            label="Ingredients"
-            multiline
-            rows={4}
-            defaultValue=""
-            onChange={handleIngredientChange}
-            style={{
-              width: 300,
-              height: '20vh',
-              // margin: '30px'
-            }}
-          />  
-          <TextField
-            id="outlined-multiline-static"
-            label="Directions"
-            multiline
-            rows={4}
-            defaultValue=""
-            onChange={handleInstructionChange}
-            style={{
-              width: 300,
-              height: '20vh',
-              // margin: '30px'
-            }}
-          />
-          {/* <WidgetLoader />
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Card
+        sx={{
+          height: 750,
+          width: 625,
+          display: 'flex',
+          flexDirection: 'column',
+          // justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <h2>Add Your Own Recipe</h2>
+        <CardActionArea
+          style={{
+            height: 600,
+          }}
+        >
+          <CardContent>
+            <Box
+              component='form'
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              noValidate
+              autoComplete='off'
+            >
+              <TextField
+                id='standard-basic'
+                label='Recipe Name'
+                variant='standard'
+                onChange={handleTitleChange}
+                style={{
+                  width: 300,
+                  height: '12vh',
+                  // margin: '30px'
+                }}
+              />
+              <TextField
+                id='outlined-multiline-static'
+                label='Ingredients'
+                multiline
+                rows={4}
+                defaultValue=''
+                onChange={handleIngredientChange}
+                style={{
+                  width: 300,
+                  height: '20vh',
+                  // margin: '30px'
+                }}
+              />
+              <TextField
+                id='outlined-multiline-static'
+                label='Directions'
+                multiline
+                rows={4}
+                defaultValue=''
+                onChange={handleInstructionChange}
+                style={{
+                  width: 300,
+                  height: '20vh',
+                  // margin: '30px'
+                }}
+              />
+              {/* <WidgetLoader />
           <Widget 
             cloudname={process.env.CLOUDINARY_NAME}
             uploadPreset={'sPantry'}
@@ -147,24 +164,23 @@ const CreateRecipeForm = () => {
             }}
             folder={'sPantry'}
           /> */}
-          <Link to={'/profile'} style={{textDecoration: 'none'}}>
-          <Button 
-            onClick={create} 
-            size="small" 
-            color="primary"
-            sx={{
-              paddingBottom: '10px'
-            }}
-          >
-            CREATE
-          </Button>
-          </Link>
-          </Box>
-        </CardContent>
-      </CardActionArea>
+              <Link to={'/profile'} style={{ textDecoration: 'none' }}>
+                <Button
+                  onClick={create}
+                  size='small'
+                  color='primary'
+                  sx={{
+                    paddingBottom: '10px',
+                  }}
+                >
+                  CREATE
+                </Button>
+              </Link>
+            </Box>
+          </CardContent>
+        </CardActionArea>
       </Card>
     </div>
-    
   );
-}
+};
 export default CreateRecipeForm;

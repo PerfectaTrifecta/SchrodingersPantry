@@ -22,7 +22,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemText  from '@mui/material/ListItemText';
+import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -63,7 +63,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 const ProfilePage: React.FC = () => {
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser } = useContext(UserContext);
-  const { userName, recipes, bookmarks, favorites, diet, allergies, bio } = user;
+  const { userName, recipes, bookmarks, favorites, diet, allergies, bio } =
+    user;
 
   const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
 
@@ -104,21 +105,19 @@ const ProfilePage: React.FC = () => {
     //   .catch((err) =>
     //     console.error('problem getting recipes, profile 98', err)
     //   );
-
     // axios.get('/routes/user/profile/favorites')
     //   .then(({ data }) => {
     //     // console.log(data, 'user faves, profile 103');
     //     setFavorites(data)
     //   })
     //   .catch(err => console.error('problem getting faves, profile 108'));
-
     // axios.get('/routes/user/profile/bookmarks')
     //   .then(({ data }) => {
     //     // console.log(data, 'user bookmarks, profile 112');
     //     setBookmarks(data);
     //   })
     //   .catch(err => console.error('problem getting bookmarks, profile 115'));
-  })
+  });
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -170,12 +169,13 @@ const ProfilePage: React.FC = () => {
   const submitBio = () => {
     setAboutMeDisplay(aboutMeField);
 
-    axios.post('/routes/user/profile/update/bio', { bio: aboutMeField })
+    axios
+      .post('/routes/user/profile/update/bio', { bio: aboutMeField })
       .then(() => {
         setAboutMeField('');
         setEditBio(false);
       })
-      .catch(err => console.error(err, 'profile 176'));
+      .catch((err) => console.error(err, 'profile 176'));
   };
 
   const handleDietChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,12 +185,13 @@ const ProfilePage: React.FC = () => {
   const submitDiet = () => {
     setDietDisplay(dietField);
 
-    axios.post('routes/user/profile/update/diet', { diet: dietField })
+    axios
+      .post('routes/user/profile/update/diet', { diet: dietField })
       .then(() => {
         setDietField('');
         setEditDiet(false);
       })
-      .catch(err => console.error(err, 'profile 191'));
+      .catch((err) => console.error(err, 'profile 191'));
   };
 
   const handleAllergyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -200,22 +201,24 @@ const ProfilePage: React.FC = () => {
   const submitAllergies = () => {
     setAllergyDisplay(allergyField);
 
-    axios.post('routes.user/profile/update/allergies', { allergies: allergyField })
+    axios
+      .post('routes.user/profile/update/allergies', { allergies: allergyField })
       .then(() => {
         setAllergyField('');
         setEditAllergies(false);
       })
-      .catch(err => console.error(err, 'profile 206'));
+      .catch((err) => console.error(err, 'profile 206'));
   };
 
   return (
     <div
       style={{
         display: 'flex',
-        flexDirection: 'column',
+        flexFlow: 'row wrap',
         width: '100%',
+        height: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        // alignItems: 'center',
       }}
     >
       <Card
@@ -374,31 +377,44 @@ const ProfilePage: React.FC = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          width: '100%',
         }}
       >
-        MY RECIPES 
-        <Link 
-          to={{ 
-            pathname: '/create_recipe', 
-            state: { recipeList, setRecipeList }
-          }} 
-          style={{textDecoration: 'none'}} 
+        MY RECIPES
+        <Link
+          to={{
+            pathname: '/create_recipe',
+            state: { recipeList, setRecipeList },
+          }}
+          style={{ textDecoration: 'none' }}
         >
           <Button size='small'> Create a New Recipe </Button>
         </Link>
-        {recipeList.map(recipe => <RecipePreview id={recipe.id} title={recipe.title} />)}
+        {recipeList.map((recipe) => (
+          <RecipePreview id={recipe.id} title={recipe.title} />
+        ))}
       </div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+        }}
+      >
         FAVORITE RECIPES
-        {favorites.map(favorite => <RecipePreview id={favorite.id} title={favorite.title} />)}
+        {favorites.map((favorite) => (
+          <RecipePreview id={favorite.id} title={favorite.title} />
+        ))}
       </div>
       <div>
         BOOKMARKS
         <List>
-          {bookmarks.map(mark => {
+          {bookmarks.map((mark) => {
             <ListItem>
               <ListItemText primary={mark.url} />
-            </ListItem>
+            </ListItem>;
           })}
         </List>
       </div>
