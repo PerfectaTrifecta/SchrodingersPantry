@@ -114,6 +114,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       <Link to={'/'}>
         <img
           src={logo}
+          width='200'
         />
       </Link>
       {user ? (
@@ -122,7 +123,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button onClick={logout} key={text} >
+                  <Button onClick={logout} key={text}  >
                     <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
