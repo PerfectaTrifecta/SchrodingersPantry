@@ -30,7 +30,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import MenuIcon from '@mui/icons-material/Menu'
+import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 
@@ -181,10 +181,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6'  noWrap>
-          <Link text-decoration="none" to={'/'}>
-            Schroedinger's Pantry
-          </Link>
+          <Typography variant='h6' noWrap>
+            <Link text-decoration='none' to={'/'}>
+              Schrödinger's Pantry
+            </Link>
           </Typography>
           <FormControl component='fieldset'>
             <FormLabel component='legend'>Themes</FormLabel>

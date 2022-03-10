@@ -18,7 +18,7 @@ import Chat from './components/Chat';
 import './App.css';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 
-const socket = io.connect('ws://localhost:3001');
+const socket = io.connect('http://localhost:3001', { path: '/socket.io' });
 interface ThemeOptions {
   palette?: PaletteOptions;
 }

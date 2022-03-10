@@ -79,6 +79,7 @@ const io = new Server(server, {
     method: ['GET', 'POST'], //methods to allow. maybe add more.
   },
 });
+io.path('/socket.io');
 //Socket io acts by listening to events.
 io.on('connection', (socket) => {
   console.log(`USER CONNECTED ${socket.id}`);
