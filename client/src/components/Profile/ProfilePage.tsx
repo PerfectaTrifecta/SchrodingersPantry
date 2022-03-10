@@ -65,6 +65,8 @@ const ProfilePage: React.FC = () => {
   const { user, setUser } = useContext(UserContext);
   const { userName, recipes, bookmarks, favorites, diet, allergies, bio } = user;
 
+  const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
+
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
@@ -375,10 +377,16 @@ const ProfilePage: React.FC = () => {
         }}
       >
         MY RECIPES 
-        <Link to={'/create_recipe'} style={{textDecoration: 'none'}}>
+        <Link 
+          to={{ 
+            pathname: '/create_recipe', 
+            state: { recipeList, setRecipeList }
+          }} 
+          style={{textDecoration: 'none'}} 
+        >
           <Button size='small'> Create a New Recipe </Button>
         </Link>
-        {recipes.map(recipe => <RecipePreview id={recipe.id} title={recipe.title} />)}
+        {recipeList.map(recipe => <RecipePreview id={recipe.id} title={recipe.title} />)}
       </div>
       <div>
         FAVORITE RECIPES

@@ -10,10 +10,23 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import { Typography } from '@mui/material';
 import { Cloudinary } from '@cloudinary/url-gen';
-import { WidgetLoader, Widget } from 'react-cloudinary-upload-widget'
+// import { WidgetLoader, Widget } from 'react-cloudinary-upload-widget'
+import { Link, useLocation } from 'react-router-dom';
 
+interface MyRecipeTypes {
+  id?: number;
+  userId?: string;
+  title?: string;
+  ingredients?: string;
+  instructions?: string;
+  vote_count?: number;
+  comment_count?: number;
+  createdAt?: string;
+}
 
 const CreateRecipeForm = () => {
+  const location = useLocation<{ recipeList: MyRecipeTypes[], setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>}>();
+  const { recipeList, setRecipeList } = location.state;
 
   const [title, setTitle] = useState<string>('');
   const [ingredients, setIngredients] = useState<string>('');
@@ -39,8 +52,9 @@ const CreateRecipeForm = () => {
 
   //on submit should send
   const create = () => {
-    console.log('listening? 41');
-    axios.post('/routes/user/profile/upload/recipe', { title, ingredients, instructions, userId: user.id})
+    setRecipeList(recipeList.concat([{ title, ingredients, instructions, userId: user.id }]))
+
+    axios.post('/routes/user/profile/upload/recipe', { title, ingredients, instructions, userId: user.id })
       .then(() => {
         setTitle('');
         setIngredients('');
@@ -117,7 +131,7 @@ const CreateRecipeForm = () => {
               // margin: '30px'
             }}
           />
-          <WidgetLoader />
+          {/* <WidgetLoader />
           <Widget 
             cloudname={process.env.CLOUDINARY_NAME}
             uploadPreset={'sPantry'}
@@ -132,8 +146,9 @@ const CreateRecipeForm = () => {
               height: '25px'
             }}
             folder={'sPantry'}
-          />
-          {/* <Button 
+          /> */}
+          <Link to={'/profile'} style={{textDecoration: 'none'}}>
+          <Button 
             onClick={create} 
             size="small" 
             color="primary"
@@ -142,7 +157,8 @@ const CreateRecipeForm = () => {
             }}
           >
             CREATE
-          </Button> */}
+          </Button>
+          </Link>
           </Box>
         </CardContent>
       </CardActionArea>

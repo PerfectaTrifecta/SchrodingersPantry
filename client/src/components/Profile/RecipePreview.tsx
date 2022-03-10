@@ -16,7 +16,7 @@ interface PreviewProps {
 const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
     return (
         <Card
-            // sx={{ maxWidth: 345 }}
+            sx={{ maxWidth: 345 }}
             style={{
                 alignContent: 'space around',
                 justifyContent: 'space-evenly',
@@ -41,6 +41,7 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
             <CardActions>
                 <Link
                     to={{ pathname: '/recipe_view', state: { idUserMeal: id } }}
+                    style={{textDecoration: 'none'}}
                 >
                     <Button size='small' color='primary'>
                         Go To Recipe

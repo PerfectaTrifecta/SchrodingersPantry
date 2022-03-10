@@ -201,9 +201,6 @@ const RecipeView: React.FC = () => {
           >
             <CommentIcon />
           </IconButton>
-          <IconButton>
-            See Reviews!
-          </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
