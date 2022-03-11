@@ -11,35 +11,27 @@ interface FavProps {
 
 const Favorite = (recipeId : FavProps) : JSX.Element => {
   //SHOULD ALL COME FROM USER CONTEXT
+   const { favorites, setFavorites, user } = React.useContext(UserContext);
 
-
-  //favorites is an array that comes from usercontext that contains strings of recipe ids
-  //favorites will be updated in the context on click, but the axios request wont be made until the end of a session to maintain site speed
-   //const { favorites, setFavorites } = React.useContext(UserContext);
-   //the string of recipe id thats clicked, to be pushed into favorites
   
   const [toggled, setToggled] = React.useState(false);
  
 
   const handleClick = () => {
-    //set color red ( toggle between red and normal on click)
-    //set state of clicked recipe
-    //send in params of axios request, with user id
-    //send recipe to be added to favorites
-
-  //  setFavorites(favorites.push(recipeId.toString()))
     setToggled(!toggled);
-    // return axios.post(`/routes/user/profile/favorites`, recipeId)
-    //   .then((response) => {
-    //     //should recieve an array to update the state
-    //     //save updated favorites list to user context to be used elsewhere
-    //       //should recieve an array to update the state
-    //       //save updated favorites list to user context to be used elsewhere
-    //       //setFavorites(response);
-    //   })
-    //   .catch((err) => {
-    //     console.error("response from favs on backend,",err);
-    //   })
+    //console.log(recipeId.recipeId, 300000000000000)
+    return axios.post(`/routes/user/profile/favorites`, {
+      userId: user.id,
+      recipeId: recipeId.recipeId.toString(),
+    })
+      .then((response) => {
+          //should recieve an array to update the state
+          //save updated favorites list to user context to be used elsewhere
+          setFavorites(response.data);
+      })
+      .catch((err) => {
+        console.error("response from favs on backend,",err);
+      })
   }
 
   return (

@@ -32,8 +32,8 @@ interface UserContextType {
   userAccount: () => void;
   loggedIn: boolean;
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  // favorites?: Array<string>;
-  // setFavorites: React.Dispatch<React.SetStateAction<Array<string>>>;
+  favorites?: Array<string>;
+  setFavorites: React.Dispatch<React.SetStateAction<Array<string>>>;
 }
 
 interface Props {
@@ -45,7 +45,7 @@ const UserContext = createContext({} as UserContextType);
 const UserContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<userTypes | any>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  //const [favorites, setFavorites] = useState<Array<string >>([]);
+  const [favorites, setFavorites] = useState<Array<string >>([]);
 
 
 
@@ -94,8 +94,8 @@ const UserContextProvider = ({ children }: Props) => {
 
 
   const UserProps: UserContextType = {
-    // favorites,
-    // setFavorites,
+    favorites,
+    setFavorites,
     loggedIn,
     setLoggedIn,
     user,
