@@ -74,11 +74,11 @@ sql
 ///////////////////Socket Server/////////////////////
 const io = new Server(server, {
   cors: {
-    origin: [process.env.EC2_IP] || ['http://localhost:4000'],
+    origin: [process.env.EC2_IP || 'http://localhost:4000'],
     method: ['GET', 'POST'], //methods to allow. maybe add more.
   },
 });
-io.path('/socket.io');
+
 //Socket io acts by listening to events.
 io.on('connection', (socket) => {
   console.log(`USER CONNECTED ${socket.id}`);
