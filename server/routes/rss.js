@@ -20,7 +20,6 @@ rssGet.get('/:selectedTab', (req, res) => {
   ]
   axios.get((async () => {
     const feed = await parser.parseURL(`http://fetchrss.com/rss/${feedUrls[selectedTab]}`)
-    // setStories(feed.items);
     res.send(feed.items);
   })());
 })
