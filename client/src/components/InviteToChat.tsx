@@ -4,7 +4,7 @@ import Chat from './Chat';
 import '../App.css';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3001', { path: '/socket.io' });
+const socket = io('wss://localhost:3001', { path: '/live_chat' });
 
 const InviteToChat: React.FC = () => {
   const [showChat, setShowChat] = useState(false);
