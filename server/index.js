@@ -5,6 +5,7 @@ const path = require('path');
 const { sql } = require('./db/index');
 const cookieParser = require('cookie-parser');
 const cloudinary = require('cloudinary').v2;
+const { instrument } = require('@socket.io/admin-ui');
 const cors = require('cors');
 const http = require('http');
 const app = express();
@@ -74,10 +75,11 @@ sql
 // const socketPort = 443;
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:4000',
+    origin: ['http://localhost:4000', 'https://admin.socket.io'],
     method: ['GET', 'POST'], //methods to allow. maybe add more.
   },
 });
+io.path('/socket.io');
 //Socket io acts by listening to events.
 io.on('connection', (socket) => {
   console.log(`USER CONNECTED ${socket.id}`);
@@ -95,6 +97,8 @@ io.on('connection', (socket) => {
     console.log('USER DISCONNECTED', socket.id);
   });
 });
+
+instrument(io, { auth: false });
 
 server.listen(3001, () => {
   console.log('socket server listening');
