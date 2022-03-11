@@ -36,17 +36,6 @@ interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
 
-interface MyRecipeTypes {
-  id: number;
-  userId: string;
-  title: string;
-  ingredients: string;
-  instructions: string;
-  vote_count: number;
-  comment_count: number;
-  createdAt: string;
-}
-
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -59,14 +48,27 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 //-----------------------------------------------------//
 
+interface MyRecipeTypes {
+  id?: number;
+  userId?: string;
+  title?: string;
+  ingredients?: string;
+  instructions?: string;
+  vote_count?: number;
+  comment_count?: number;
+  createdAt?: string;
+}
+
+interface Props {
+  recipeList: MyRecipeTypes[];
+  setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
+}
+
 //the search component should map over the results, creating a meal card for each recipe,
-const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser } = useContext(UserContext);
-  const { userName, recipes, bookmarks, favorites, diet, allergies, bio } =
-    user;
-
-  const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
+  const { userName, bookmarks, favorites, diet, allergies, bio } = user;
 
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
@@ -93,35 +95,6 @@ const ProfilePage: React.FC = () => {
   });
   const profilePic = cld.image(img);
   //checkout different url-gen actions to see how to style the image using profilePic.<action>
-
-  // when page loads, get user's recipes (& favorites & bookmarks) from db
-  useEffect(() => {
-    // axios
-    //   .get('/routes/user/profile/recipes')
-    //   .then(({ data }) => {
-    //     // console.log(data, 'user recipes, profile 96')
-    //     setCreations(data);
-    //   })
-    //   .catch((err) =>
-    //     console.error('problem getting recipes, profile 98', err)
-    //   );
-    // axios.get('/routes/user/profile/favorites')
-    //   .then(({ data }) => {
-    //     // console.log(data, 'user faves, profile 103');
-    //     setFavorites(data)
-    //   })
-    //   .catch(err => console.error('problem getting faves, profile 108'));
-    // axios.get('/routes/user/profile/bookmarks')
-    //   .then(({ data }) => {
-    //     // console.log(data, 'user bookmarks, profile 112');
-    //     setBookmarks(data);
-    //   })
-    //   .catch(err => console.error('problem getting bookmarks, profile 115'));
-  });
-
-  //for now use dummy data
-  // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
-  // const [favorites, setFavorites] = React.useState<Array<String>>(["everyone", "wanted", 'to know', 'what i would do', 'if i DIDNT win']);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -384,7 +357,6 @@ const ProfilePage: React.FC = () => {
         <Link
           to={{
             pathname: '/create_recipe',
-            state: { recipeList, setRecipeList },
           }}
           style={{ textDecoration: 'none' }}
         >
@@ -404,7 +376,7 @@ const ProfilePage: React.FC = () => {
         }}
       >
         FAVORITE RECIPES
-        {favorites.map((favorite) => (
+        {favorites.map((favorite: MyRecipeTypes) => (
           <RecipePreview id={favorite.id} title={favorite.title} />
         ))}
       </div>

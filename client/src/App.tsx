@@ -22,8 +22,23 @@ interface ThemeOptions {
   palette?: PaletteOptions;
 }
 
+interface MyRecipeTypes {
+  id?: number;
+  userId?: string;
+  title?: string;
+  ingredients?: string;
+  instructions?: string;
+  vote_count?: number;
+  comment_count?: number;
+  createdAt?: string;
+}
+
 const App: React.FC = (): JSX.Element => {
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
+
+  const { recipes } = user;
+
+  const [recipeList, setRecipeList] = useState<MyRecipeTypes[] | null>(recipes);
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
@@ -72,7 +87,10 @@ const App: React.FC = (): JSX.Element => {
               <RSSFeed />
             </Route>
             <Route path='/profile'>
-              <ProfilePage />
+              <ProfilePage
+                recipeList={recipeList}
+                setRecipeList={setRecipeList}
+              />
             </Route>
             <Route path='/recipe_view'>
               <RecipeView />
@@ -84,7 +102,10 @@ const App: React.FC = (): JSX.Element => {
               <Map />
             </Route>
             <Route path='/create_recipe'>
-              <CreateRecipeForm />
+              <CreateRecipeForm
+                recipeList={recipeList}
+                setRecipeList={setRecipeList}
+              />
             </Route>
             <Route path='/live_chat'>
               <InviteToChat />

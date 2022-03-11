@@ -7,34 +7,36 @@ interface userTypes {
   diet?: string;
   allergies?: string;
   bio?: string;
-  favorites: Array<{
-    id: number;
-    userId: string;
-    title: string;
-    ingredients: string;
-    instructions: string;
-    vote_count: number;
-    comment_count: number;
-    createdAt: string;
-  } | null>;
-  pics: Array<{} | null>;
-  recipes: Array<{
-    id: number;
-    userId: string;
-    title: string;
-    ingredients: string;
-    instructions: string;
-    vote_count: number;
-    comment_count: number;
-    createdAt: string;
-  } | null>;
-  bookmarks: Array<{
+  favorites?:
+    | Array<{
+        id: number;
+        userId: string;
+        title: string;
+        ingredients: string;
+        instructions: string;
+        vote_count: number;
+        comment_count: number;
+        createdAt: string;
+      }>
+    | [];
+  pics?: Array<{} | null>;
+  recipes?:
+    | Array<{
+        id: number;
+        userId: string;
+        title: string;
+        ingredients: string;
+        instructions: string;
+        vote_count: number;
+        comment_count: number;
+        createdAt: string;
+      }>
+    | [];
+  bookmarks?: Array<{
     id: number;
     url: string;
-  } | null>;
+  }>;
 }
-
-
 
 interface UserContextType {
   user?: userTypes;
@@ -55,8 +57,6 @@ const UserContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<userTypes | any>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-
-
   const getUser = () => {
     if (loggedIn === false) {
       axios
@@ -70,29 +70,24 @@ const UserContextProvider = ({ children }: Props) => {
     }
   };
 
-
-
   //this function sends a user with properties from user table in db, then receives a new user object with favs and pics
   const userAccount = () => {
-    
-    if (user !== null ) {
+    if (user !== null) {
       //console.log(user);
-     axios.post(`/auth/account`, user)
+      axios
+        .post(`/auth/account`, user)
         .then(({ data }) => {
-
           // console.log(data, 'userContext 65');
           setUser(data);
-      
         })
         .catch((err) => {
-          console.error(err, " response from User context post request");
-        })
+          console.error(err, ' response from User context post request');
+        });
     } else {
-      return
+      return;
     }
     //console.log(user, "successfully changed")
-  }
-
+  };
 
   const UserProps: UserContextType = {
     loggedIn,
@@ -100,7 +95,7 @@ const UserContextProvider = ({ children }: Props) => {
     user,
     getUser,
     setUser,
-    userAccount
+    userAccount,
   };
 
   return (

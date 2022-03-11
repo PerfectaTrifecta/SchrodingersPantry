@@ -24,14 +24,12 @@ interface MyRecipeTypes {
   createdAt?: string;
 }
 
-const CreateRecipeForm = () => {
-  const location =
-    useLocation<{
-      recipeList: MyRecipeTypes[];
-      setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
-    }>();
-  const { recipeList, setRecipeList } = location.state;
+interface Props {
+  recipeList: MyRecipeTypes[];
+  setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
+}
 
+const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
   const [title, setTitle] = useState<string>('');
   const [ingredients, setIngredients] = useState<string>('');
   const [instructions, setInstructions] = useState<string>('');
