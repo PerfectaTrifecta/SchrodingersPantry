@@ -5,36 +5,35 @@ import React, {
   SetStateAction,
   Dispatch,
 } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
-import CloseIcon from '@material-ui/icons/Close';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { useTheme } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
-import Login from '../Login';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';
+import { light, dark, veggie, meat } from '../../Theme';
+import Login from '../Login';
 import SpotLog from './spotify/SpotLog';
 import WebPlayback from './spotify/WebPlayback';
-import {
-  PaletteOptions,
-  FormControl,
-  FormLabel,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
 import Timer from '../Timer/Timer';
-import { light, dark, veggie, meat } from '../../Theme';
+import useTheme from '@mui/material/styles/useTheme';
+import { PaletteOptions } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import AppBar from '@mui/material/AppBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import MenuIcon from '@mui/icons-material/Menu'
+import CloseIcon from '@mui/icons-material/Close';
+import { Link } from 'react-router-dom';
+import logo from '../../img/logo.png';
 
 interface TokenValue {
   token: string;
@@ -48,7 +47,6 @@ interface Props {
   changeTheme: Dispatch<SetStateAction<ThemeOptions>>;
 }
 
-const drawerWidth = 240;
 const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const inCategories = [
     'Profile',
@@ -115,7 +113,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     <div>
       <Link to={'/'}>
         <img
-          src='https://upload.wikimedia.org/wikipedia/en/5/52/Star_Fox_SNES.jpg'
+          src={logo}
           width='200'
         />
       </Link>
@@ -125,7 +123,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button onClick={logout} key={text}>
+                  <Button onClick={logout} key={text}  >
                     <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -133,7 +131,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                 );
               } else {
                 return (
-                  <Link to={inCategories[index + 1]}>
+                  <Link to={inCategories[index + 1]} style={{ textDecoration: 'none'}}>
                     <ListItem button key={text}>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -154,7 +152,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           {outCategories.map((text, index) => {
             if (index % 2 === 0) {
               return (
-                <Link to={inCategories[index + 1]} key={text}>
+                <Link to={inCategories[index + 1]} key={text} style={{ textDecoration: 'none'}}>
                   <ListItem button>
                     <ListItemText primary={text} />
                   </ListItem>
@@ -184,8 +182,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap>
+          <Typography variant='h6'  noWrap>
+          <Link text-decoration="none" to={'/'}>
             Schroedinger's Pantry
+          </Link>
           </Typography>
           <FormControl component='fieldset'>
             <FormLabel component='legend'>Themes</FormLabel>

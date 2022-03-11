@@ -1,39 +1,34 @@
 ///------------MATERIAL UI IMPLEMENTATION--------------//
 import React, { useState, useContext, useEffect, SetStateAction } from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { orange } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import Box from '@mui/material/Box';
+import axios, { AxiosResponse } from 'axios';
+import { UserContext } from '../../UserContext';
+import CreateRecipeForm from './CreateRecipeForm';
 import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
-import { UserContext } from '../../UserContext';
-import axios, { AxiosResponse } from 'axios';
-import CreateRecipeForm from './CreateRecipeForm';
-import { AdvancedImage } from '@cloudinary/react';
-import { Cloudinary } from '@cloudinary/url-gen';
-import EditIcon from '@mui/icons-material/Edit';
-import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+import RecipePreview from './RecipePreview';
+import styled from '@mui/material/styles/styled';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import orange from '@mui/material/colors/orange';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-//import SearchYoutube from './SearchYoutube';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText  from '@mui/material/ListItemText';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import EditIcon from '@mui/icons-material/Edit';
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+import { AdvancedImage } from '@cloudinary/react';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
@@ -42,12 +37,13 @@ interface ExpandMoreProps extends IconButtonProps {
 
 interface MyRecipeTypes {
   id: number;
-  user_id: string;
+  userId: string;
   title: string;
   ingredients: string;
   instructions: string;
   vote_count: number;
   comment_count: number;
+  createdAt: string;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -68,9 +64,9 @@ const ProfilePage: React.FC = () => {
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
-  const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
-  const [bookmarks, setBookmarks] = useState<string[]>([]);
+  // const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
+  // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
+  // const [bookmarks, setBookmarks] = useState<string[]>([]);
 
   const [aboutMeDisplay, setAboutMeDisplay] = useState<string>('');
   const [aboutMe, setAboutMe] = useState<string>('');
@@ -82,7 +78,8 @@ const ProfilePage: React.FC = () => {
   const [allergies, setAllergies] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
   // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser, getUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { recipes, bookmarks, favorites } = user;
 
   const cld = new Cloudinary({
     cloud: {
@@ -94,32 +91,30 @@ const ProfilePage: React.FC = () => {
 
   // when page loads, get user's recipes (& favorites & bookmarks) from db
   useEffect(() => {
-    axios
-      .get('/routes/user/profile/recipes')
-      .then(({ data }) => {
-        // console.log(data, 'user recipes, profile 96')
-        setCreations(data);
-      })
-      .catch((err) =>
-        console.error('problem getting recipes, profile 98', err)
-      );
+    // axios
+    //   .get('/routes/user/profile/recipes')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user recipes, profile 96')
+    //     setCreations(data);
+    //   })
+    //   .catch((err) =>
+    //     console.error('problem getting recipes, profile 98', err)
+    //   );
 
-    axios
-      .get('/routes/user/profile/favorites')
-      .then(({ data }) => {
-        // console.log(data, 'user faves, profile 103');
-        setFavorites(data);
-      })
-      .catch((err) => console.error('problem getting faves, profile 108'));
+    // axios.get('/routes/user/profile/favorites')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user faves, profile 103');
+    //     setFavorites(data)
+    //   })
+    //   .catch(err => console.error('problem getting faves, profile 108'));
 
-    axios
-      .get('/routes/user/profile/bookmarks')
-      .then(({ data }) => {
-        // console.log(data, 'user bookmarks, profile 112');
-        setBookmarks(data);
-      })
-      .catch((err) => console.error('problem getting bookmarks, profile 115'));
-  });
+    // axios.get('/routes/user/profile/bookmarks')
+    //   .then(({ data }) => {
+    //     // console.log(data, 'user bookmarks, profile 112');
+    //     setBookmarks(data);
+    //   })
+    //   .catch(err => console.error('problem getting bookmarks, profile 115'));
+  })
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -360,30 +355,22 @@ const ProfilePage: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        MY RECIPES
-        <Button size='small' onClick={handleForm}>
-          {' '}
-          Create a New Recipe{' '}
-        </Button>
-        {/* BUG TO REVISIT*/}
-        {/* {creations.map((creation) => {
-          //should return a recipe preview like the search page 
-        })} */}
+        MY RECIPES 
+        <Button size='small' onClick={handleForm}> Create a New Recipe </Button>
+        {recipes.map(recipe => <RecipePreview id={recipe.id} title={recipe.title} />)}
       </div>
       <div>
         FAVORITE RECIPES
-        {/* {favorites.map((favorite) => {
-          //should return a recipe preview like the search page
-        })} */}
+        {favorites.map(favorite => <RecipePreview id={favorite.id} title={favorite.title} />)}
       </div>
       <div>
         BOOKMARKS
         <List>
-          {/* {bookmarks.map(mark => {
+          {bookmarks.map(mark => {
             <ListItem>
-              <ListItemText primary={mark} />
+              <ListItemText primary={mark.url} />
             </ListItem>
-          })} */}
+          })}
         </List>
       </div>
     </div>

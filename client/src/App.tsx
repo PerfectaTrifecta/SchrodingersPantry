@@ -1,29 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react';
-import CreateRecipeForm from './components/Profile/CreateRecipeForm';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
 import RSSFeed from './components/rss/RSSFeedContainer';
 import Search from './components/Search';
 import ProfilePage from './components/Profile/ProfilePage';
 import RecipeView from './components/RecipeView';
-import Map from './components/marketLocator/map'
-import VideoModal from './components/VideoModal';
+import Map from './components/marketLocator/map';
 import MealPrep from './components/MealPrep/AddMealToCal';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { UserContext } from './UserContext';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import createTheme from '@mui/material/styles/createTheme';
 import { PaletteOptions } from '@mui/material';
 import { light, dark, veggie, meat } from './Theme';
 import io from 'socket.io-client';
 import Chat from './components/Chat';
 import './App.css';
-import { ClimbingBoxLoader } from 'react-spinners';
+import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 
 const render = (status: Status) => {
   return <h1>{status}</h1>;
 };
+
+const socket = io.connect('ws://localhost:3001');
 interface ThemeOptions {
   palette?: PaletteOptions;
 }
@@ -53,7 +54,6 @@ const App: React.FC = (): JSX.Element => {
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
   // socket is what we call the actual connection to the socket server
-  const socket = io.connect('ws://localhost:443');
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
@@ -77,9 +77,8 @@ const App: React.FC = (): JSX.Element => {
   const chosenTheme = createTheme(theme);
 
   const joinRoom = () => {
-    if (room !== '') {
+    if (username !== '' && room !== '') {
       socket.emit('join_room', room);
-      setUsername(user.userName);
       setShowChat(true);
     }
   };
@@ -111,6 +110,13 @@ const App: React.FC = (): JSX.Element => {
                   placeholder='Room ID...'
                   onChange={(e) => {
                     setRoom(e.target.value);
+                  }}
+                />
+                <input
+                  type='text'
+                  placeholder='Username'
+                  onChange={(e) => {
+                    setUsername(e.target.value);
                   }}
                 />
                 <button onClick={joinRoom}>Join A Room</button>
@@ -146,7 +152,7 @@ const App: React.FC = (): JSX.Element => {
               center={center}
               onIdle={onIdle}
               zoom={zoom}
-              style={{flexGrow: '1', height: '1000px', width: '1000px'}}
+              style={{flexGrow: '1', height: '1000px', width: '1000px', 'margin-left': 'auto', 'margin-right': 'auto' }}
              >
              </Map>
             </Wrapper>

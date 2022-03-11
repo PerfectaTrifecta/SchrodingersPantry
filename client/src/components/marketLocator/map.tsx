@@ -2,7 +2,6 @@ import TextField from '@material-ui/core/Input';
 import { Button } from "@material-ui/core";
 import React from "react";
 import axios from 'axios';
-import Marker from './marker';
 
 
 interface MapProps extends google.maps.MapOptions {
@@ -75,37 +74,28 @@ const Map: React.FC<MapProps> = ({
             .then(response => {
               markets.push(response.data.marketdetails);
           })
-        })
-      .then(res => {
+        }
+      })
+      .then(() => {
         return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${markets[0].Address}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
 
-
-      }).then(res => {
-        const contentString = `${markets[0].Address}
-            ${markets[0].Schedule}`;
-    
+      }).then(res => {    
 
         setInfoWindow(new google.maps.InfoWindow({
-          content: contentString,
+          content: `${markets[0].Address}
+          ${markets[0].Schedule}`,
         }));
       setMarker( new google.maps.Marker({
           position: res.data.results[0].geometry.location,
           map: map,
         }));
       
-        console.log(res.data.results[0]);
         setCenter(res.data.results[0].geometry.location);
         setZoom(15);
       })
       .catch((err) => {
         console.error(err);
       });
-
-   
-      
-
-
-
 
   };
   
@@ -117,9 +107,8 @@ const Map: React.FC<MapProps> = ({
     setZip(e.target.value);
 
   };
-  const onSearch = (e: any) => {
+  const onSearch = () => {
     searchMarkets(zip);
-    e.target.reset;
   };
 
 
@@ -128,9 +117,10 @@ const Map: React.FC<MapProps> = ({
   
   return (
     <div>
+      <header>Find a Farmer's Market near you</header>
       <div>
-        <TextField id="outlined-basic" onChange={handleInput} value={zip}/>
-        <Button onClick={onSearch}>Zip Code</Button>
+        <TextField id="outlined-basic" onChange={handleInput} value={zip} placeholder='Enter Zip Code' />
+        <Button onClick={onSearch}>Search</Button>
       </div>
       <div ref={ref} style={style}/>
       {React.Children.map(children, (child) => {

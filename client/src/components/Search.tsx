@@ -3,7 +3,6 @@ import axios, { AxiosResponse } from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import MealCard from './MealCard';
 import NewCard from './MealCard';
 
 interface SearchProps {

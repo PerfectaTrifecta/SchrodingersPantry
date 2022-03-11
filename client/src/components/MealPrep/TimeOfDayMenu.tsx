@@ -1,6 +1,11 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { Button, Menu, Popper, Paper, ClickAwayListener, MenuItem, MenuList, Grow } from "@material-ui/core";
+import Button from '@mui/material/Button';
+import Popper from '@mui/material/Popper';
+import Paper from '@mui/material/Paper';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 
 
 type Props = {

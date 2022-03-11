@@ -1,5 +1,8 @@
-import { createTheme } from "@mui/material/styles";
-import { blue, lightBlue, green, red } from "@mui/material/colors";
+import createTheme from "@mui/material/styles/createTheme";
+import blue  from "@mui/material/colors/blue";
+import lightBlue from "@mui/material/colors/lightBlue";
+import green from "@mui/material/colors/green";
+import red from "@mui/material/colors/red";
 import { PaletteOptions } from "@mui/material";
 
 

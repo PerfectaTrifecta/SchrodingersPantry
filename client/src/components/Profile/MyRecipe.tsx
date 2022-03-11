@@ -3,22 +3,21 @@
 //using user context, make get request to server for users created recipes, 
 //display a container with links to recipe view
 import  React, { useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
+import axios from 'axios';
+import styled from '@mui/material/styles/styled';
+import orange from '@mui/material/colors/orange';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card'; 
+import CardHeader from '@mui/material/CardHeader'; 
+import CardMedia from '@mui/material/CardMedia'; 
+import CardContent from '@mui/material/CardContent'; 
+import CardActions from '@mui/material/CardActions'; 
+import Collapse from '@mui/material/Collapse'; 
+import Typography from '@mui/material/Typography'; 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { orange } from '@mui/material/colors';
-import Avatar from '@mui/material/Avatar';
-import axios from 'axios';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {

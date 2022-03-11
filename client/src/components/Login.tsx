@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from 'react';
-import { UserContext } from '../UserContext';
+import React from 'react';
 
 
 const Login = () => {

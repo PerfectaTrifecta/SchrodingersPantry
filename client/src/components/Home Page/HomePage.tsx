@@ -1,6 +1,6 @@
 import React from 'react';
 import dummyData from './DummyData.js';
-import { useTheme } from '@mui/material/styles';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface RecipeBox {
   title: string;
