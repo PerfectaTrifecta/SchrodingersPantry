@@ -5,6 +5,7 @@ const path = require('path');
 const { sql } = require('./db/index');
 const cookieParser = require('cookie-parser');
 const cloudinary = require('cloudinary').v2;
+const { instrument } = require('@socket.io/admin-ui');
 const cors = require('cors');
 const http = require('http');
 const app = express();
@@ -71,13 +72,13 @@ sql
   .catch((err) => console.error(err));
 
 ///////////////////Socket Server/////////////////////
-// const socketPort = 443;
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:4000',
+    origin: [process.env.EC2_IP || 'http://localhost:4000'],
     method: ['GET', 'POST'], //methods to allow. maybe add more.
   },
 });
+
 //Socket io acts by listening to events.
 io.on('connection', (socket) => {
   console.log(`USER CONNECTED ${socket.id}`);
@@ -95,6 +96,8 @@ io.on('connection', (socket) => {
     console.log('USER DISCONNECTED', socket.id);
   });
 });
+
+instrument(io, { auth: false });
 
 server.listen(3001, () => {
   console.log('socket server listening');
