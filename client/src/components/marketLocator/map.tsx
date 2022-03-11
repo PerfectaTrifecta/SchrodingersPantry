@@ -117,7 +117,7 @@ const Map: React.FC<MapProps> = ({
   
   return (
     <div>
-      <header>Find a Farmer's Market near you</header>
+      <header>Find a Farmers' Market near you!</header>
       <div>
         <TextField id="outlined-basic" onChange={handleInput} value={zip} placeholder='Enter Zip Code' />
         <Button onClick={onSearch}>Search</Button>
