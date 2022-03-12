@@ -182,21 +182,24 @@ const RecipeView: React.FC = () => {
               ))}
           </ul>
           <Typography paragraph>
-            <strong>Directions:</strong>
+            <strong>Directions:
+              <p>
+            <TextToSpeech instructions={instructions} />
+            </p>
+            </strong>
           </Typography>
           {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
             <Typography key={p + i}>{p}</Typography>
             ))}
-            <TextToSpeech instructions={instructions} />
         </CardContent>
-        <CardActions disableSpacing>
+        <CardActions  >
           <Favorite recipeId={idMeal}/>
           <IconButton 
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label='show more'
           >
-            <CommentIcon />
+            <CommentIcon fontSize="large" />
           </IconButton>
           <VideoModal mealName={mealRecipe[0].strMeal} />
           <IconButton size='small'>

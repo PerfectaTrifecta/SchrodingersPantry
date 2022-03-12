@@ -72,14 +72,13 @@ sql
   .catch((err) => console.error(err));
 
 ///////////////////Socket Server/////////////////////
-// const socketPort = 443;
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:4000', 'https://admin.socket.io'],
+    origin: [process.env.EC2_IP || 'http://localhost:4000'],
     method: ['GET', 'POST'], //methods to allow. maybe add more.
   },
 });
-io.path('/socket.io');
+
 //Socket io acts by listening to events.
 io.on('connection', (socket) => {
   console.log(`USER CONNECTED ${socket.id}`);

@@ -226,28 +226,23 @@ UserRouter.get('/bookmarks', (req, res) => {
 
 
 UserRouter.post('/favorites', (req, res) => {
-  const { recipeId } = req.body;
-  const userId = req.cookies.googleId;
+  const { recipeId, userId } = req.body;
+  //const userId = req.cookies.googleId;
   console.log(`{${recipeId} : ${userId}}`, 1900000000089)
 
-  //console.log(newFav);
   Favorite.create({ 
-    recipeId, userId }, {
-      include: [Recipe, User]
-    }
+    recipeId, userId }
     )
-    // .then(() => {
-    //   Favorite.findAll({
-    //     where: {
-    //       userId
-    //     }
-    //  })
-    // })
+    .then(() => {
+      Favorite.findAll({
+        where: {
+          userId
+        }
+     })
+    })
    .then(() => {
       console.log('Added SUCCESSFULLY TO FAVORITES');
-      res.status(201)
-     .send(favs);
-      //.send(favs);
+      res.status(201).send(favs);
     })
     .catch((err) => {
       console.error('error with post request to favorites', err);
@@ -255,19 +250,19 @@ UserRouter.post('/favorites', (req, res) => {
     });
 });
 
-// UserRouter.patch('/favorites/delete/:favId', (req, res) => {
-//   const { googleId, favId } = req.body;
-//   console.log(req.body);
-//   findAndDeleteFavorites(googleId, favId)
-//     .then((user) => {
-//       console.log('REMOVED SUCCESSFULLY FROM FAVORITES', favId);
-//       res.status(201).send(user);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.sendStatus(500);
-//     });
-// });
+UserRouter.patch('/favorites/delete/:favId', (req, res) => {
+  const { googleId, favId } = req.body;
+  console.log(req.body);
+  findAndDeleteFavorites(googleId, favId)
+    .then((user) => {
+      console.log('REMOVED SUCCESSFULLY FROM FAVORITES', favId);
+      res.status(201).send(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
 
 
 UserRouter.post('/upload/recipe-image/:recipeId', (req, res) => {

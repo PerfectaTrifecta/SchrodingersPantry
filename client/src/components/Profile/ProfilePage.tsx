@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, SetStateAction } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { UserContext } from '../../UserContext';
 import CreateRecipeForm from './CreateRecipeForm';
-import ProfileImage from './ProfileImage';
+import ProfileImage from './ImageUploader.jsx';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
