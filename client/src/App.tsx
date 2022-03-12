@@ -28,13 +28,6 @@ interface ThemeOptions {
 }
 
 
-const navbarLinks = [
-  {url: '#', title: 'Home'},
-  {url: '#', title: 'The Feed'},
-  {url: '#', title: 'Recipe Finder'},
-  {url: '#', title: 'Profile'},
-  {url: '#', title: 'Sign-Out'}
-]
 
 const App: React.FC = (): JSX.Element => {
   const [zoom, setZoom] = React.useState(10); // initial zoom

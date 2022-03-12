@@ -43,11 +43,11 @@ interface ThemeOptions {
   palette?: PaletteOptions;
 }
 
-// interface Props {
-//   changeTheme: Dispatch<SetStateAction<ThemeOptions>>;
-// }
-// { changeTheme }React.FC<Props>
-const PulloutMenu: any = () => {
+interface Props {
+  changeTheme: Dispatch<SetStateAction<ThemeOptions>>;
+}
+
+const PulloutMenu: React.FC<Props> = ({ changeTheme })  => {
   const inCategories = [
     'Profile',
     '/profile',
@@ -63,28 +63,28 @@ const PulloutMenu: any = () => {
     '/live_chat',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
-  // const theme = useTheme();
+   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const [token, setToken] = useState('');
 
   // //Theme Checkbox States
-  // const [radioVal, setRadioVal] = useState('light');
+  const [radioVal, setRadioVal] = useState('light');
 
-  // if (radioVal === 'light') {
-  //   changeTheme(light);
-  // } else if (radioVal === 'dark') {
-  //   changeTheme(dark);
-  // } else if (radioVal === 'veggie') {
-  //   changeTheme(veggie);
-  // } else if (radioVal === 'meat') {
-  //   changeTheme(meat);
-  // }
+  if (radioVal === 'light') {
+    changeTheme(light);
+  } else if (radioVal === 'dark') {
+    changeTheme(dark);
+  } else if (radioVal === 'veggie') {
+    changeTheme(veggie);
+  } else if (radioVal === 'meat') {
+    changeTheme(meat);
+  }
 
-  // //Theme Checkbox Changes
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setRadioVal(e.target.value);
-  // };
+  //Theme Checkbox Changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioVal(e.target.value);
+  };
 
   useEffect(() => {
     const getToken = async () => {
@@ -114,7 +114,7 @@ const PulloutMenu: any = () => {
   const drawer = (
     <div>
       <Link to={'/'}>
-        <img src={logo} width='200' />
+        <img src={logo} width='200' style={{ paddingTop: '20px' }} />
       </Link>
       {user ? (
         <List style={{
@@ -184,7 +184,7 @@ const PulloutMenu: any = () => {
       <CssBaseline />
       <AppBar
         position='static'
-        // style={{ background: theme.palette.primary.main }}
+         style={{ background: theme.palette.primary.main }}
       >
         <Toolbar>
         <Link to={'/'}>
@@ -203,14 +203,14 @@ const PulloutMenu: any = () => {
           </IconButton>
           </Link >
           <Typography variant='h6'  noWrap>
-          {/* <Link text-decoration="none" to={'/'}>
-            Schroedinger's Pantry
-          </Link> */}
-          <span className='navbar-logo'>Schroedinger's Pantry</span>
+          <Link text-decoration="none" className='navbar-logo' to={'/'}>
+           <span >Schroedinger's Pantry</span> 
+          </Link>
+          
           </Typography>
           <FormControl component='fieldset'>
             <FormLabel component='legend'>Themes</FormLabel>
-            {/* <RadioGroup
+            <RadioGroup
               aria-label='position'
               row
               value={radioVal}
@@ -235,12 +235,12 @@ const PulloutMenu: any = () => {
                 labelPlacement='bottom'
               />
               <FormControlLabel
-                value='dark' */}
-                {/* control={<Radio />}
+                value='dark'
+                control={<Radio />}
                 label='Dark'
                 labelPlacement='bottom'
               />
-            </RadioGroup> */}
+            </RadioGroup>
           </FormControl>
         </Toolbar>
       </AppBar>
@@ -262,14 +262,6 @@ const PulloutMenu: any = () => {
             {drawer}
           </Drawer>
         </Hidden>
-        {/* <Hidden xsDown implementation="css">
-          <Drawer
-            variant="permanent"
-          >
-            <div />
-            {drawer}
-          </Drawer>  
-        </Hidden> */}
       </nav>
       <div>
         <div />
