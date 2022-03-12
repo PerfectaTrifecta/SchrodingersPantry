@@ -69,7 +69,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const { user, setUser } = useContext(UserContext);
   const [token, setToken] = useState('');
 
-  //Theme Checkbox States
+  // //Theme Checkbox States
   const [radioVal, setRadioVal] = useState('light');
 
   if (radioVal === 'light') {
@@ -119,10 +119,19 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       }}
     >
       <Link to={'/'}>
-        <img src={logo} width='200' />
+        <img src={logo} width='200' style={{ paddingTop: '20px' }} />
       </Link>
       {user ? (
-        <List>
+        <List
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            justifyContent: 'space-between',
+            alignItems: 'stretch',
+            alignContent: 'stretch',
+          }}
+        >
           {inCategories.map((text, index) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
@@ -197,29 +206,30 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           color: theme.palette.primary.light,
         }}
       >
-        <Toolbar
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
-          <IconButton
-            color='inherit'
-            aria-label='Open drawer'
-            edge='start'
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar>
+          <Link to={'/'}>
+            <img src={logo} width='110' height='80' />
+
+            <IconButton
+              color='inherit'
+              aria-label='Open drawer'
+              edge='start'
+              onClick={handleDrawerToggle}
+              style={{ background: theme.palette.primary.light }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Link>
           <Typography variant='h6' noWrap>
             <Link
               style={{
                 textDecoration: 'none',
                 color: theme.palette.primary.light,
               }}
+              className='navbar-logo'
               to={'/'}
             >
-              Schrödinger's Pantry
+              <span>Schroedinger's Pantry</span>
             </Link>
           </Typography>
           <FormControl component='fieldset' style={{ marginLeft: 'auto' }}>
