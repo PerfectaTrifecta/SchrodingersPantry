@@ -30,7 +30,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import MenuIcon from '@mui/icons-material/Menu'
+import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import logo from '../../img/logo.png';
@@ -59,6 +59,8 @@ const PulloutMenu: any = () => {
     '/market_finder',
     'Sign Out',
     '/logout',
+    'Live Chat',
+    '/live_chat',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   // const theme = useTheme();
@@ -112,11 +114,8 @@ const PulloutMenu: any = () => {
   const drawer = (
     <div>
       <Link to={'/'}>
-        <img
-          src={logo}
-          width='100'
-        />
-      </Link >
+        <img src={logo} width='200' />
+      </Link>
       {user ? (
         <List style={{
           display: 'flex',
@@ -130,10 +129,7 @@ const PulloutMenu: any = () => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button 
-                  onClick={logout} 
-                  key={text} 
-                 >
+                  <Button onClick={logout} key={text}>
                     <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -141,7 +137,10 @@ const PulloutMenu: any = () => {
                 );
               } else {
                 return (
-                  <Link to={inCategories[index + 1]} style={{ textDecoration: 'none'}} >
+                  <Link
+                    to={inCategories[index + 1]}
+                    style={{ textDecoration: 'none' }}
+                  >
                     <ListItem button key={text}>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -162,7 +161,11 @@ const PulloutMenu: any = () => {
           {outCategories.map((text, index) => {
             if (index % 2 === 0) {
               return (
-                <Link to={inCategories[index + 1]} key={text} style={{ textDecoration: 'none'}}>
+                <Link
+                  to={inCategories[index + 1]}
+                  key={text}
+                  style={{ textDecoration: 'none' }}
+                >
                   <ListItem button>
                     <ListItemText primary={text} />
                   </ListItem>

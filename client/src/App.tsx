@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import InviteToChat from './components/InviteToChat';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
 import RSSFeed from './components/rss/RSSFeedContainer';
@@ -13,16 +14,9 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
 import { PaletteOptions } from '@mui/material';
 import { light, dark, veggie, meat } from './Theme';
-import io from 'socket.io-client';
-import Chat from './components/Chat';
-import './App.css';
+
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 
-// import Landing from './Landing';
-// import Slider from './Slider';
-// import Navbar from './Navbar';
-
-const socket = io.connect('ws://localhost:3001');
 interface ThemeOptions {
   palette?: PaletteOptions;
 }
@@ -37,22 +31,15 @@ const navbarLinks = [
 ]
 
 const App: React.FC = (): JSX.Element => {
-   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
-   const [username, setUsername] = useState('');
-  const [room, setRoom] = useState('');
-  const [showChat, setShowChat] = useState(false);
-  // socket is what we call the actual connection to the socket server
+  const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
-  
 
   useEffect(() => {
     userAccount();
 
   }, [loggedIn]);
-
-  // console.log(user, 'app tsx 41');
 
   useEffect(() => {
     setLoading(true);
@@ -64,13 +51,6 @@ const App: React.FC = (): JSX.Element => {
   const [theme, setTheme] = useState<ThemeOptions>(light);
 
   const chosenTheme = createTheme(theme);
-
-  const joinRoom = () => {
-    if (username !== '' && room !== '') {
-      socket.emit('join_room', room);
-      setShowChat(true);
-    }
-  };
 
   return (
     <ThemeProvider theme={chosenTheme}>
@@ -89,33 +69,7 @@ const App: React.FC = (): JSX.Element => {
         </div>
       ) : (
         <div>
-          
-          <PulloutMenu />
-      
-         {/* <div className='chatContainer'>
-            {!showChat ? (
-              <div className='joinChatContainer'>
-                <h3>Live Chat</h3>
-                <input
-                  type='text'
-                  placeholder='Room ID...'
-                  onChange={(e) => {
-                    setRoom(e.target.value);
-                  }}
-                />
-                <input
-                  type='text'
-                  placeholder='Username'
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                />
-                <button onClick={joinRoom}>Join A Room</button>
-              </div>
-            ) : (
-              <Chat socket={socket} username={username} room={room} />
-            )}
-          </div> */}
+          <PulloutMenu changeTheme={setTheme} />
           <Switch>
             <Route exact path='/'>
               <HomePage />
@@ -137,6 +91,9 @@ const App: React.FC = (): JSX.Element => {
             </Route>
             <Route path='/market_finder'>
               <Map />
+            </Route>
+            <Route path='/live_chat'>
+              <InviteToChat />
             </Route>
           </Switch>
         </div>
