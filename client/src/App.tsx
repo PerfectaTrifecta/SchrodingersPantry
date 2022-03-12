@@ -16,12 +16,36 @@ import { PaletteOptions } from '@mui/material';
 import { light, dark, veggie, meat } from './Theme';
 
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+
+
+const render = (status: Status) => {
+  return <h1>{status}</h1>;
+};
 
 interface ThemeOptions {
   palette?: PaletteOptions;
 }
 
 const App: React.FC = (): JSX.Element => {
+  const [zoom, setZoom] = React.useState(10); // initial zoom
+  const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
+    lat: 29.951065,
+    lng: -90.071533,
+  });
+
+  
+
+  const onIdle = (m: google.maps.Map) => {
+    console.log("onIdle");
+    
+  };
+
+
+
+
+
+  
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
 
   const [loading, setLoading] = useState(false);
@@ -80,7 +104,17 @@ const App: React.FC = (): JSX.Element => {
               <MealPrep />
             </Route>
             <Route path='/market_finder'>
-              <Map />
+            <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY} render={render}>
+             <Map
+              setCenter={setCenter}
+              setZoom={setZoom}
+              center={center}
+              onIdle={onIdle}
+              zoom={zoom}
+              style={{flexGrow: '1', height: '1000px', width: '1000px', 'margin-left': 'auto', 'margin-right': 'auto' }}
+             >
+             </Map>
+            </Wrapper>
             </Route>
             <Route path='/live_chat'>
               <InviteToChat />

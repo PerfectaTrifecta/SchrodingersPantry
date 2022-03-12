@@ -1,130 +1,136 @@
-import React, { useState } from "react";
+import TextField from '@material-ui/core/Input';
+import { Button } from "@material-ui/core";
+import React from "react";
 import axios from 'axios';
-import { Loader } from "@googlemaps/js-api-loader";
-import { env } from 'process';
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
-const Map = () => {
-  const [zip, setZip] = useState<string>('');
-  // const [zoom, setZoom] = React.useState(15); 
 
-  // let map: google.maps.Map
-  const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
-    lat: 0,
-    lng: 0,
-  });
-  // const ref = React.useRef<HTMLDivElement>(null);
-  // const [map, setMap] = React.useState<google.maps.Map>();
+interface MapProps extends google.maps.MapOptions {
 
-  // React.useEffect(() => {
-  //   if (ref.current && !map) {
-  //     setMap(new window.google.maps.Map(ref.current, {}));
-  //   }
-  // }, [ref, map]);
+  style: { [key: string]: string };
+  onIdle?: (map: google.maps.Map) => void;
+  setCenter?:(map: google.maps.LatLngLiteral) =>void;
+  setZoom?: (number: number)=> void;
 
-  const loader = new Loader({
-    apiKey: process.env.GOOGLE_MAPS_API_KEY,
-    version: "weekly",
-  });
+}
 
-  loader.load().then(() => {
-    function initMap(): void {
-      let map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-        center,
-        zoom: 5
-      });
+const Map: React.FC<MapProps> = ({
+  onIdle,
+  setCenter,
+  setZoom,
+  children,
+  style,
+  ...options
+}) => {
+  
 
+
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [map, setMap] = React.useState<google.maps.Map>();
+  const [zip, setZip] = React.useState<string>('');
+  const [marker, setMarker] = React.useState<google.maps.Marker>()
+  const [infoWindow, setInfoWindow] = React.useState<google.maps.InfoWindow>()
+
+  React.useEffect(() => {
+    if (ref.current && !map) {
+      setMap(new window.google.maps.Map(ref.current, {}),);
+    }  
+  }, [ref, map]);
+
+  
+  React.useEffect(() => {
+      
+    if (map) {
+       map.setOptions(options);
+      ["idle"].forEach((eventName) =>
+        google.maps.event.clearListeners(map, eventName),
+      );      
     }
-    initMap();
-  });
+  }, [map, onIdle]);
+  React.useEffect(() => {
+    if(marker){
+      marker.addListener("click", () => {
+        infoWindow.open({
+          anchor: marker,
+          map,
+          shouldFocus: false,
+        });
+      });
+    }
+  }, [marker, infoWindow])
+  
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+
   const searchMarkets = (zip: string) => {
-    const addresses = []
+    const markets : any = []
     axios
       .get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`)
       .then(({ data }) => {
-        console.log(data.results);
         const top3 = data.results.slice(0, 3)
 
         for (let i = 0; i < top3.length; i++) {
 
           return axios.get(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`)
             .then(response => {
-              addresses.push(response.data.marketdetails.Address);
+              markets.push(response.data.marketdetails);
           })
         }
       })
-      .then(res => {
-        return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addresses[0]}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
+      .then(() => {
+        return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${markets[0].Address}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
 
+      }).then(res => {    
 
-      }).then(res => {
-        console.log(res.data.results[0].geometry)
+        setInfoWindow(new google.maps.InfoWindow({
+          content: `${markets[0].Address}
+          ${markets[0].Schedule}`,
+        }));
+      setMarker( new google.maps.Marker({
+          position: res.data.results[0].geometry.location,
+          map: map,
+        }));
+      
         setCenter(res.data.results[0].geometry.location);
-        // setZoom(8);
+        setZoom(15);
       })
       .catch((err) => {
         console.error(err);
       });
 
-
-
-
   };
+  
+
+  
 
   const handleInput = (e: any) => {
     e.preventDefault();
     setZip(e.target.value);
 
   };
-  const onSearch = (e: any) => {
+  const onSearch = () => {
     searchMarkets(zip);
-    e.target.reset;
   };
 
 
   ///////////////////////////////////
 
-  // const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
-  //   const [marker, setMarker] = React.useState<google.maps.Marker>();
-
-  //   React.useEffect(() => {
-  //     if (!marker) {
-  //       setMarker(new google.maps.Marker());
-  //     }
-
-  //     // remove marker from map on unmount
-  //     return () => {
-  //       if (marker) {
-  //         marker.setMap(null);
-  //       }
-  //     };
-  //   }, [marker]);
-
-  //   React.useEffect(() => {
-  //     if (marker) {
-  //       marker.setOptions(options);
-  //     }
-  //   }, [marker, options]);
-
-  //   return null;
-  // };
+  
   return (
-
     <div>
+      <header>Find a Farmers' Market near you!</header>
       <div>
-        <TextField id="outlined-basic" onChange={handleInput} value={zip} />
-        <Button onClick={onSearch}>Zip Code</Button>
+        <TextField id="outlined-basic" onChange={handleInput} value={zip} placeholder='Enter Zip Code' />
+        <Button onClick={onSearch}>Search</Button>
       </div>
-      <div id="map" style={{ 'height': 500, 'width': 500 }}>
-        {/* <Marker key={1} position={{ lat: 29.9607918, lng: -90.0578881 }} /> */}
-      </div>
-
-
-
+      <div ref={ref} style={style}/>
+      {React.Children.map(children, (child) => {
+      if (React.isValidElement(child)) {
+        // set the map prop on the child component
+        return React.cloneElement(child, { map });
+      }
+    })}
     </div>
-
+    
   )
 
 }
