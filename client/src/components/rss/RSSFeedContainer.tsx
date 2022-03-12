@@ -10,6 +10,9 @@ const RSSFeed: React.FC = () => {
 
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [stories, setStories] = useState<RSSData[]>([]);
+  const [eater, setEaterFeed] = useState<RSSData[]>([]);
+  const [nyt, setNYTFeed] = useState<RSSData[]>([]);
+  const [delish, setDelishFeed] = useState<RSSData[]>([]);
 
   const randomClipArtArray: string[] = [
     'http://media1.s-nbcnews.com/i/streams/2014/October/141006/2D274906938828-today-cafeteria-140811-01.jpg',
@@ -45,7 +48,35 @@ const RSSFeed: React.FC = () => {
     link: string,
   }
 
+  let eaterFeed = () => {
+    axios.get<RSSData[]>(`/routes/rss/populate/${0}`)
+        .then(({ data }) => {
+          setEaterFeed(data);
+        })
+        .catch((err) => {
+          throw err;
+        })
+  }
   
+  const nytFeed = () => {
+    axios.get<RSSData[]>(`/routes/rss/populate/${1}`)
+        .then(({ data }) => {
+          setNYTFeed(data);
+        })
+        .catch((err) => {
+          throw err;
+        })
+  }
+
+  const delishFeed = () => {
+    axios.get<RSSData[]>(`/routes/rss/populate/${2}`)
+        .then(({ data }) => {
+          setDelishFeed(data);
+        })
+        .catch((err) => {
+          throw err;
+        })
+  }
   
   const getFeed = (selectedTab: number) => {
       axios.get<RSSData[]>(`/routes/rss/populate/${selectedTab}`)
@@ -59,6 +90,10 @@ const RSSFeed: React.FC = () => {
 
 useEffect(() => {
   getFeed(0);
+  eaterFeed();
+  nytFeed();
+  delishFeed();
+
 }, [])
 
 
@@ -69,7 +104,13 @@ useEffect(() => {
       <AppBar position="static">
         <Tabs value={selectedTab} onChange={(e, value) => {
           setSelectedTab(value);
-          getFeed(selectedTab);
+          if(value === 0) {
+            setStories(eater)
+          } else if(value === 1) {
+            setStories(nyt);
+          } else if(value === 2) {
+            setStories(delish);
+          }
         }
           }>
           {tabs.map((tab) => <Tab label={tab} key={tab} />)}
