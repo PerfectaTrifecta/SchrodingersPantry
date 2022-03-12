@@ -6,10 +6,11 @@ const { sql } = require('./db/index');
 const cookieParser = require('cookie-parser');
 const cloudinary = require('cloudinary').v2;
 const cors = require('cors');
-const http = require('http');
 const app = express();
-const server = http.createServer(app);
-const { Server } = require('socket.io');
+//Setting up http server for websockets.
+const http = require('http');
+const httpServer = http.createServer(express());
+
 const router = require('./routes/index.js');
 require('./auth/passport-config.js')(passport);
 
@@ -71,14 +72,14 @@ sql
   .catch((err) => console.error(err));
 
 ///////////////////Socket Server/////////////////////
-const io = new Server(server, {
+//io listens to events that originate from the other server on port 4000.
+const io = require('socket.io')(httpServer, {
   cors: {
     origin: [process.env.EC2_IP || 'http://localhost:4000'],
-    method: ['GET', 'POST'], //methods to allow. maybe add more.
+    methods: ['GET', 'POST'],
   },
-  path: '/socket.io',
 });
-//Socket io acts by listening to events.
+
 io.on('connection', (socket) => {
   console.log(`USER CONNECTED ${socket.id}`);
 
@@ -96,6 +97,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3001, () => {
+httpServer.listen(3001, () => {
   console.log('socket server listening');
 });

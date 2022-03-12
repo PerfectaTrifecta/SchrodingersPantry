@@ -6,7 +6,7 @@
   "scripts": {
     "start-socket": "nodemon ./socketServer/index.js",
     "start": "node ./server/index.js",
-    "start-dev": "nodemon server",
+    "start-dev": "nodemon ./server",
     "dev": "webpack --watch",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",

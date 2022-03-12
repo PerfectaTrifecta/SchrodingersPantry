@@ -4,8 +4,8 @@ import Chat from './Chat';
 import '../App.css';
 import { io } from 'socket.io-client';
 
+// const socket = io('http://localhost:3001');
 const socket = io(process.env.CHAT_SOCKET || 'http://localhost:3001');
-// const socket = io();
 
 const InviteToChat: React.FC = () => {
   const [showChat, setShowChat] = useState(false);
@@ -19,6 +19,10 @@ const InviteToChat: React.FC = () => {
       setShowChat(true);
     }
   };
+
+  socket.on('connect', () => {
+    console.log('Socket Connected!');
+  });
 
   return (
     <div className='chatContainer'>
