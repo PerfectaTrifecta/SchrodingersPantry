@@ -13,7 +13,14 @@ const HomePage: React.FC = () => {
   const theme = useTheme();
 
   return (
-    <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+        background: theme.palette.primary.main,
+      }}
+    >
       {/* <TextToSpeech /> */}
 
       {dummyData.map(({ title, user, image, recipe }: RecipeBox) => {
@@ -25,8 +32,8 @@ const HomePage: React.FC = () => {
               width: '90%',
               padding: '1rem',
               margin: '1rem 0',
-              boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
-
+              boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
+              background: theme.palette.primary.light,
               display: 'flex',
               flexFlow: 'column',
               alignItems: 'center',

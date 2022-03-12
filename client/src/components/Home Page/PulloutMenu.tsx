@@ -113,7 +113,13 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   };
 
   const drawer = (
-    <div>
+    <div
+      style={
+        {
+          // background: theme.palette.primary.main,
+        }
+      }
+    >
       <Link to={'/'}>
         <img src={logo} width='200' />
       </Link>
@@ -133,7 +139,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                 return (
                   <Link
                     to={inCategories[index + 1]}
-                    style={{ textDecoration: 'none' }}
+                    style={{
+                      textDecoration: 'none',
+                      color: theme.palette.primary.contrastText,
+                    }}
                   >
                     <ListItem button key={text}>
                       <ListItemText primary={text} />
@@ -178,12 +187,17 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       <CssBaseline />
       <AppBar
         position='static'
-        style={{ background: theme.palette.primary.main }}
+        style={{
+          background: theme.palette.primary.dark,
+          color: theme.palette.primary.light,
+        }}
       >
-        <Toolbar style={{
-          display: 'flex',
-          flexDirection: 'row'
-        }}>
+        <Toolbar
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
           <IconButton
             color='inherit'
             aria-label='Open drawer'
@@ -193,11 +207,17 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' noWrap>
-            <Link text-decoration='none' to={'/'}>
+            <Link
+              style={{
+                textDecoration: 'none',
+                color: theme.palette.primary.light,
+              }}
+              to={'/'}
+            >
               Schrödinger's Pantry
             </Link>
           </Typography>
-          <FormControl component='fieldset' style={{ marginLeft: 'auto'}}>
+          <FormControl component='fieldset' style={{ marginLeft: 'auto' }}>
             <RadioGroup
               aria-label='position'
               row
@@ -205,7 +225,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
               onChange={handleChange}
             >
               <FormControlLabel
-                value='light' 
+                value='light'
                 control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
                 label='Light'
                 labelPlacement='bottom'
@@ -243,6 +263,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
+            style={{ background: theme.palette.primary.main }}
           >
             <IconButton onClick={handleDrawerToggle}>
               <CloseIcon />

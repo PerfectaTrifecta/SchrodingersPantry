@@ -22,7 +22,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemText  from '@mui/material/ListItemText';
+import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -100,21 +100,19 @@ const ProfilePage: React.FC = () => {
     //   .catch((err) =>
     //     console.error('problem getting recipes, profile 98', err)
     //   );
-
     // axios.get('/routes/user/profile/favorites')
     //   .then(({ data }) => {
     //     // console.log(data, 'user faves, profile 103');
     //     setFavorites(data)
     //   })
     //   .catch(err => console.error('problem getting faves, profile 108'));
-
     // axios.get('/routes/user/profile/bookmarks')
     //   .then(({ data }) => {
     //     // console.log(data, 'user bookmarks, profile 112');
     //     setBookmarks(data);
     //   })
     //   .catch(err => console.error('problem getting bookmarks, profile 115'));
-  })
+  });
 
   //for now use dummy data
   // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
@@ -355,21 +353,28 @@ const ProfilePage: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        MY RECIPES 
-        <Button size='small' onClick={handleForm}> Create a New Recipe </Button>
-        {recipes.map(recipe => <RecipePreview id={recipe.id} title={recipe.title} />)}
+        MY RECIPES
+        <Button size='small' onClick={handleForm}>
+          {' '}
+          Create a New Recipe{' '}
+        </Button>
+        {recipes.map((recipe: MyRecipeTypes) => (
+          <RecipePreview id={recipe.id} title={recipe.title} />
+        ))}
       </div>
       <div>
         FAVORITE RECIPES
-        {favorites.map(favorite => <RecipePreview id={favorite.id} title={favorite.title} />)}
+        {favorites.map((favorite: MyRecipeTypes) => (
+          <RecipePreview id={favorite.id} title={favorite.title} />
+        ))}
       </div>
       <div>
         BOOKMARKS
         <List>
-          {bookmarks.map(mark => {
+          {bookmarks.map((mark) => {
             <ListItem>
               <ListItemText primary={mark.url} />
-            </ListItem>
+            </ListItem>;
           })}
         </List>
       </div>
