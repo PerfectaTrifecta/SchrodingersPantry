@@ -2,12 +2,11 @@ import React from 'react';
 
 function SpotLog() {
     return (
-        <div className="App">
-            <header className="App-header">
+        <div>
                 <a className="btn-spotify" href="/auth/spotify/login" >
-                    Login with Spotify 
+                    Connect To Spotify 
                 </a>
-            </header>
+            
         </div>
     );
 }
