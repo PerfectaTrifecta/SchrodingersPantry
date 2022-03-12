@@ -114,11 +114,9 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
 
   const drawer = (
     <div
-      style={
-        {
-          // background: theme.palette.primary.main,
-        }
-      }
+      style={{
+        background: theme.palette.primary.main,
+      }}
     >
       <Link to={'/'}>
         <img src={logo} width='200' />
@@ -129,7 +127,14 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
                 return (
-                  <Button onClick={logout} key={text}>
+                  <Button
+                    onClick={logout}
+                    key={text}
+                    sx={{
+                      background: theme.palette.primary.light,
+                      color: theme.palette.primary.dark,
+                    }}
+                  >
                     <ListItem button>
                       <ListItemText primary={text} />
                     </ListItem>
@@ -263,7 +268,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
-            style={{ background: theme.palette.primary.main }}
           >
             <IconButton onClick={handleDrawerToggle}>
               <CloseIcon />
