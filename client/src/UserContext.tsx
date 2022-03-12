@@ -1,20 +1,11 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect, createContext, ReactEventHandler } from 'react';
 import axios from 'axios';
 
 interface userTypes {
   id: string;
   userName: string;
   preference?: string;
-  favorites: Array<{
-    id: number;
-    userId: string;
-    title: string;
-    ingredients: string;
-    instructions: string;
-    vote_count: number;
-    comment_count: number;
-    createdAt: string;
-  } | null>;
+  favorites: Array<string>;
   pics: Array<{} | null>;
   recipes: Array<{
     id: number;
@@ -41,6 +32,8 @@ interface UserContextType {
   userAccount: () => void;
   loggedIn: boolean;
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  favorites?: Array<string>;
+  setFavorites: React.Dispatch<React.SetStateAction<Array<string>>>;
 }
 
 interface Props {
@@ -52,6 +45,14 @@ const UserContext = createContext({} as UserContextType);
 const UserContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<userTypes | any>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [favorites, setFavorites] = useState<Array<string >>([]);
+
+
+
+  // const updateFavs = (e: ReactEventHandler) => {
+  //  //take recipe id and add it to user's favorites, then setFavorites to that value
+
+  // }
 
 
 
@@ -93,6 +94,8 @@ const UserContextProvider = ({ children }: Props) => {
 
 
   const UserProps: UserContextType = {
+    favorites,
+    setFavorites,
     loggedIn,
     setLoggedIn,
     user,

@@ -27,6 +27,8 @@ interface ThemeOptions {
   palette?: PaletteOptions;
 }
 
+
+
 const App: React.FC = (): JSX.Element => {
   const [zoom, setZoom] = React.useState(10); // initial zoom
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
@@ -53,6 +55,7 @@ const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     userAccount();
+
   }, [loggedIn]);
 
   useEffect(() => {
@@ -68,8 +71,8 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <ThemeProvider theme={chosenTheme}>
-      {getUser()}
-
+      
+<div> {getUser()}
       {loading ? (
         <div
           style={{
@@ -79,7 +82,7 @@ const App: React.FC = (): JSX.Element => {
             height: '100vh',
           }}
         >
-          <ClimbingBoxLoader color={color} loading={loading} size={30} />
+          <ClimbingBoxLoader  loading={loading} size={30} />
         </div>
       ) : (
         <div>
@@ -121,9 +124,12 @@ const App: React.FC = (): JSX.Element => {
             </Route>
           </Switch>
         </div>
-      )}
-    </ThemeProvider>
-  );
-};
+        
+       )}
+   
+    </div>
+  </ThemeProvider>
+  )};
+
 
 export default App;

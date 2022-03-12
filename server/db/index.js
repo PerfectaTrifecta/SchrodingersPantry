@@ -57,7 +57,9 @@ const Favorite = sql.define('favorites', {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
-  }
+  },
+  recipeId: DataTypes.STRING,
+  userId: DataTypes.STRING,
 
 });
 
