@@ -18,21 +18,34 @@ import Chat from './components/Chat';
 import './App.css';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 
+// import Landing from './Landing';
+// import Slider from './Slider';
+// import Navbar from './Navbar';
+
 const socket = io.connect('ws://localhost:3001');
 interface ThemeOptions {
   palette?: PaletteOptions;
 }
 
+
+const navbarLinks = [
+  {url: '#', title: 'Home'},
+  {url: '#', title: 'The Feed'},
+  {url: '#', title: 'Recipe Finder'},
+  {url: '#', title: 'Profile'},
+  {url: '#', title: 'Sign-Out'}
+]
+
 const App: React.FC = (): JSX.Element => {
-  const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
-  const [username, setUsername] = useState('');
+   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
+   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [showChat, setShowChat] = useState(false);
   // socket is what we call the actual connection to the socket server
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
-  // const { userAccount, loggedIn } = useContext(UserContext);
+  
 
   useEffect(() => {
     userAccount();
@@ -61,8 +74,8 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <ThemeProvider theme={chosenTheme}>
-      {getUser()}
-
+      
+<div> {getUser()}
       {loading ? (
         <div
           style={{
@@ -72,13 +85,14 @@ const App: React.FC = (): JSX.Element => {
             height: '100vh',
           }}
         >
-          <ClimbingBoxLoader color={color} loading={loading} size={30} />
+          <ClimbingBoxLoader  loading={loading} size={30} />
         </div>
       ) : (
         <div>
           
-          <PulloutMenu changeTheme={setTheme} />
-          <div className='chatContainer'>
+          <PulloutMenu />
+      
+         {/* <div className='chatContainer'>
             {!showChat ? (
               <div className='joinChatContainer'>
                 <h3>Live Chat</h3>
@@ -101,7 +115,7 @@ const App: React.FC = (): JSX.Element => {
             ) : (
               <Chat socket={socket} username={username} room={room} />
             )}
-          </div>
+          </div> */}
           <Switch>
             <Route exact path='/'>
               <HomePage />
@@ -126,9 +140,12 @@ const App: React.FC = (): JSX.Element => {
             </Route>
           </Switch>
         </div>
-      )}
-    </ThemeProvider>
-  );
-};
+        
+       )}
+   
+    </div>
+  </ThemeProvider>
+  )};
+
 
 export default App;
