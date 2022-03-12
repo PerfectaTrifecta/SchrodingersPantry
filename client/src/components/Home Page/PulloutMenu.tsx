@@ -47,7 +47,7 @@ interface Props {
   changeTheme: Dispatch<SetStateAction<ThemeOptions>>;
 }
 
-const PulloutMenu: React.FC<Props> = ({ changeTheme })  => {
+const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const inCategories = [
     'Profile',
     '/profile',
@@ -63,7 +63,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme })  => {
     '/live_chat',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
-   const theme = useTheme();
+  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const [token, setToken] = useState('');
@@ -117,14 +117,16 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme })  => {
         <img src={logo} width='200' style={{ paddingTop: '20px' }} />
       </Link>
       {user ? (
-        <List style={{
-          display: 'flex',
-	        flexDirection: 'column',
-	        flexWrap: 'nowrap',
-	        justifyContent: 'space-between',
-	        alignItems: 'stretch',
-	        alignContent: 'stretch',
-       }}>
+        <List
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            justifyContent: 'space-between',
+            alignItems: 'stretch',
+            alignContent: 'stretch',
+          }}
+        >
           {inCategories.map((text, index) => {
             if (index % 2 === 0) {
               if (text === 'Sign Out') {
@@ -184,29 +186,24 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme })  => {
       <CssBaseline />
       <AppBar
         position='static'
-         style={{ background: theme.palette.primary.main }}
+        style={{ background: theme.palette.primary.main }}
       >
         <Toolbar>
-        <Link to={'/'}>
-        <img
-          src={logo}
-          width='110'
-          height="80"
-        />
-         <IconButton
-            color='inherit'
-            aria-label='Open drawer'
-            edge='start'
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
-          </Link >
-          <Typography variant='h6'  noWrap>
-          <Link text-decoration="none" className='navbar-logo' to={'/'}>
-           <span >Schroedinger's Pantry</span> 
+          <Link to={'/'}>
+            <img src={logo} width='110' height='80' />
+            <IconButton
+              color='inherit'
+              aria-label='Open drawer'
+              edge='start'
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
           </Link>
-          
+          <Typography variant='h6' noWrap>
+            <Link text-decoration='none' className='navbar-logo' to={'/'}>
+              <span>Schrödinger's Pantry</span>
+            </Link>
           </Typography>
           <FormControl component='fieldset'>
             <FormLabel component='legend'>Themes</FormLabel>

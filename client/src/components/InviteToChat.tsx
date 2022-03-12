@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { UserContext } from '../UserContext';
 import Chat from './Chat';
 import '../App.css';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3001');
+// const socket = io('http://localhost:3001');
+const socket = io(process.env.CHAT_SOCKET || 'http://localhost:3001');
 
 const InviteToChat: React.FC = () => {
   const [showChat, setShowChat] = useState(false);
-  const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
+  const { getUser } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
 
@@ -18,6 +19,10 @@ const InviteToChat: React.FC = () => {
       setShowChat(true);
     }
   };
+
+  socket.on('connect', () => {
+    console.log('Socket Connected!');
+  });
 
   return (
     <div className='chatContainer'>
