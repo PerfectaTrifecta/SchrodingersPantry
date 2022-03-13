@@ -189,8 +189,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         style={{ background: theme.palette.primary.main }}
       >
         <Toolbar>
-          <Link to={'/'}>
-            <img src={logo} width='110' height='80' />
             <IconButton
               color='inherit'
               aria-label='Open drawer'
@@ -199,7 +197,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             >
               <MenuIcon />
             </IconButton>
+          <Link to={'/'}>
+            <img src={logo} width='110' height='80' />
           </Link>
+          
           <Typography variant='h6' noWrap>
             <Link text-decoration='none' className='navbar-logo' to={'/'}>
               <span>Schrödinger's Pantry</span>

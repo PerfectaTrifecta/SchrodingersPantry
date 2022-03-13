@@ -4,6 +4,7 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
+
 module.exports = {
   entry: path.resolve(__dirname, './client/index.tsx'),
   devtool: 'eval',
