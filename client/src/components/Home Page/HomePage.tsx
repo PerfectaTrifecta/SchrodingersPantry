@@ -16,66 +16,53 @@ interface RecipeBox {
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
-  const { loggedIn, user } = React.useContext(UserContext)
+  const { loggedIn, user } = React.useContext(UserContext);
 
   return (
-<<<<<<< HEAD
-    <div style={{ background: theme.palette.primary.main }}>
-      <Landing imageSrc={pantry} />
-      <Slider
-        imageSrc={family}
-        title={'Explore flavor, your way!'}
-        subtitle={'Our platform offers a variety of unique dishes and recipes.'}
-      />
-      <Slider
-        imageSrc={lady}
-        title={'Browse recipes and more, in just a few clicks'}
-        subtitle={'Sign-In with Google to get started'}
-        flipped={true}
-      />
-    </div>
-=======
     <div>
-    {loggedIn ?  (
-        <div>
-        <Landing imageSrc={pantry} phrase={`Welcome, ${user.userName.split(' ')[0]}!`}/>
-        <Slider 
-         imageSrc={family} 
-          title={"Explore flavor, your way!"} 
-          subtitle={"Our platform offers a variety of unique dishes and recipes."} 
+      {loggedIn ? (
+        <div style={{ background: theme.palette.primary.main }}>
+          <Landing
+            imageSrc={pantry}
+            phrase={`Welcome, ${user.userName.split(' ')[0]}!`}
           />
-        <Slider 
-         imageSrc={lady} 
-         title={"Welcome Back...hope you're hungry"} 
-          subtitle={"choose an option from the pullout menu"} 
-          flipped={true}
-          loggedIn={loggedIn} />
+          <Slider
+            imageSrc={family}
+            title={'Explore flavor, your way!'}
+            subtitle={
+              'Our platform offers a variety of unique dishes and recipes.'
+            }
+          />
+          <Slider
+            imageSrc={lady}
+            title={"Welcome Back...hope you're hungry"}
+            subtitle={'choose an option from the pullout menu'}
+            flipped={true}
+            loggedIn={loggedIn}
+          />
         </div>
-       
-    )
-    :
-    (
-      <div>
-      <Landing imageSrc={pantry} phrase='Your Favorite Meals at Your Fingertips' />
-      <Slider 
-       imageSrc={family} 
-        title={"Explore flavor, your way!"} 
-        subtitle={"Our platform offers a variety of unique dishes and recipes."} 
-        />
-      <Slider 
-       imageSrc={lady} 
-       title={"Browse recipes and more, in just a few clicks"} 
-        subtitle={"Sign-In with Google to get started"} 
-        flipped={true} 
-        loggedIn={loggedIn}
-        />
-      </div>
-        
-        )
->>>>>>> 9c604bb436c76e2f5ee3f1e515f5c608c725884f
-
-
-    }
+      ) : (
+        <div style={{ background: theme.palette.primary.main }}>
+          <Landing
+            imageSrc={pantry}
+            phrase='Your Favorite Meals at Your Fingertips'
+          />
+          <Slider
+            imageSrc={family}
+            title={'Explore flavor, your way!'}
+            subtitle={
+              'Our platform offers a variety of unique dishes and recipes.'
+            }
+          />
+          <Slider
+            imageSrc={lady}
+            title={'Browse recipes and more, in just a few clicks'}
+            subtitle={'Sign-In with Google to get started'}
+            flipped={true}
+            loggedIn={loggedIn}
+          />
+        </div>
+      )}
     </div>
     // <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'center' }}>
     //   {/* <TextToSpeech /> */}

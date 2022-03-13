@@ -38,6 +38,15 @@ interface MyRecipeTypes {
   createdAt?: string;
 }
 
+interface Bookmarks {
+  id: number;
+  link: string;
+  title: string;
+  creator: string;
+  relTime: string;
+  img: string;
+}
+
 const App: React.FC = (): JSX.Element => {
   const [zoom, setZoom] = React.useState(10); // initial zoom
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
@@ -51,12 +60,16 @@ const App: React.FC = (): JSX.Element => {
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
   let recipes: Array<MyRecipeTypes | []> = [];
+  let bookmarks: Array<Bookmarks | []> = [];
 
   if (loggedIn) {
     recipes = user.recipes;
+    bookmarks = user.bookmarks;
   }
 
   const [recipeList, setRecipeList] = useState<MyRecipeTypes[] | null>(recipes);
+  const [bookmarkList, setBookmarkList] =
+    useState<Bookmarks[] | null>(bookmarks);
 
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState('#1682B2');
@@ -103,12 +116,17 @@ const App: React.FC = (): JSX.Element => {
                 <Search />
               </Route>
               <Route path='/rss'>
-                <RSSFeed />
+                <RSSFeed
+                  bookmarkList={bookmarkList}
+                  setBookmarkList={setBookmarkList}
+                />
               </Route>
               <Route path='/profile'>
                 <ProfilePage
                   recipeList={recipeList}
                   setRecipeList={setRecipeList}
+                  bookmarkList={bookmarkList}
+                  setBookmarkList={setBookmarkList}
                 />
               </Route>
               <Route path='/recipe_view'>

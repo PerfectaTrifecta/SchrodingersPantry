@@ -59,13 +59,29 @@ interface MyRecipeTypes {
   createdAt?: string;
 }
 
+interface Bookmarks {
+  id: number;
+  link: string;
+  title: string;
+  creator: string;
+  relTime: string;
+  img: string;
+}
+
 interface Props {
   recipeList: MyRecipeTypes[];
   setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
+  bookmarkList: Bookmarks[];
+  setBookmarkList: React.Dispatch<React.SetStateAction<Bookmarks[]>>;
 }
 
 //the search component should map over the results, creating a meal card for each recipe,
-const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
+const ProfilePage: React.FC<Props> = ({
+  recipeList,
+  setRecipeList,
+  bookmarkList,
+  setBookmarkList,
+}) => {
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser } = useContext(UserContext);
   const { userName, bookmarks, favorites, diet, allergies, bio } = user;
@@ -390,7 +406,7 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
       >
         BOOKMARKS
         <List>
-          {bookmarks.map((mark) => {
+          {bookmarkList.map((mark) => {
             const { creator, title, relTime, link, img } = mark;
 
             return (

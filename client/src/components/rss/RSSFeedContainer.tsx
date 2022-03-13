@@ -8,7 +8,21 @@ import axios from 'axios';
 import moment from 'moment';
 import { UserContext } from '../../UserContext';
 
-const RSSFeed: React.FC = () => {
+interface Bookmarks {
+  id?: number;
+  link: string;
+  title: string;
+  creator: string;
+  relTime: string;
+  img: string;
+}
+
+interface Props {
+  bookmarkList: Bookmarks[];
+  setBookmarkList: React.Dispatch<React.SetStateAction<Bookmarks[]>>;
+}
+
+const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [stories, setStories] = useState<RSSData[]>([]);
   const [eater, setEaterFeed] = useState<RSSData[]>([]);
@@ -123,7 +137,12 @@ const RSSFeed: React.FC = () => {
   }: Bookmark) => {
     //if there is a user, run the post request
     if (loggedIn) {
-      // setBookmark(true);
+      //update the BookmarkList that shows on the profile page
+      setBookmarkList(
+        bookmarkList.concat([{ title, creator, relTime, link, img: randomImg }])
+      );
+
+      //send the bookmark info to the db
       axios
         .post('/routes/rss/populate/bookmarks', {
           userId: user.id,
