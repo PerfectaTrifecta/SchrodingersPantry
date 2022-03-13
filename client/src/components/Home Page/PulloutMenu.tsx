@@ -74,10 +74,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     changeTheme(light);
   } else if (radioVal === 'dark') {
     changeTheme(dark);
-  } else if (radioVal === 'veggie') {
-    changeTheme(veggie);
-  } else if (radioVal === 'meat') {
-    changeTheme(meat);
   }
 
   //Theme Checkbox Changes
@@ -252,20 +248,16 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                 labelPlacement='bottom'
               />
               <FormControlLabel
-                value='veggie'
-                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
-                label='Veggie'
-                labelPlacement='bottom'
-              />
-              <FormControlLabel
-                value='meat'
-                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
-                label='Meat'
-                labelPlacement='bottom'
-              />
-              <FormControlLabel
                 value='dark'
-                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
+                control={
+                  <Radio
+                    checkedIcon={
+                      <RadioButtonCheckedIcon
+                        style={{ color: theme.palette.secondary.main }}
+                      />
+                    }
+                  />
+                }
                 label='Dark'
                 labelPlacement='bottom'
               />
