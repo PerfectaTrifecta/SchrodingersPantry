@@ -50,7 +50,7 @@ const Search: React.FC = () => {
 
   return (
     <div>
-      <h1>Search For A Recipe!</h1>
+      <h1 className="search-title" >Search For A Recipe!</h1>
       <Stack spacing={2} direction='row' padding={2}>
         <Button variant='outlined' onClick={onSearch}>
           Search

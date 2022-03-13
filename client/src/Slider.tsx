@@ -3,7 +3,7 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 
-const Slider = ({ imageSrc, title, subtitle, flipped } : any) => {
+const Slider = ({ imageSrc, title, subtitle, flipped, loggedIn } : any) => {
 
   const { ref, inView, entry } = useInView({
     /* Optional options */
@@ -27,11 +27,19 @@ const Slider = ({ imageSrc, title, subtitle, flipped } : any) => {
       <>
        <div className='slider-content'>
         <h1 className='slider-title'>{title}</h1>
+        { !loggedIn ? (
+          <div>
         <p>{subtitle}</p>
         <Button color='inherit' size='small'>
           <Link to={'/google'} style={{ textDecoration: 'none'}} />
           Sign-In with Google
           </Button>
+          </div>
+        ) :
+        <div>
+          <p>{subtitle}</p>
+        </div>
+        }
         </div>
         <img src={imageSrc} alt={title} className='slider-image' />
       </>
