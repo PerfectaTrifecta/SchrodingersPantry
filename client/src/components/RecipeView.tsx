@@ -165,79 +165,36 @@ const RecipeView: React.FC = () => {
         maxWidth: '600px',
         width: '90%',
       }}
-    >
-      <CardHeader
-        title={mealRecipe[0].strMeal}
-        subheader={`${mealRecipe[0].strArea}  |  ${mealRecipe[0].strCategory}`}
-      />
-      <CardMedia
-        component='img'
-        height='380'
-        src={`${mealRecipe[0].strMealThumb}`}
-        alt=''
-      />
-      <CardContent>
-        <Typography paragraph>
-          <strong>Ingredients:</strong>
-        </Typography>
-        <ul>
-          {mealRecipe[0].ingredients.map((tuple, i) => (
-            <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
-          ))}
-        </ul>
-        <Typography paragraph>
-          <strong>
-            Directions:
-            <p>
-              <TextToSpeech instructions={instructions} />
-            </p>
-          </strong>
-        </Typography>
-        {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
-          <Typography key={p + i}>{p}</Typography>
-        ))}
-      </CardContent>
-      <CardActions>
-        <Favorite recipeId={idMeal} />
-        <IconButton
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label='show more'
-        >
-          <CommentIcon fontSize='large' />
-        </IconButton>
-        <VideoModal mealName={mealRecipe[0].strMeal} />
-        <IconButton size='small'>Reviews</IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout='auto' unmountOnExit>
+      >
+        <CardHeader
+          title={mealRecipe[0].strMeal}
+          subheader={`${mealRecipe[0].strArea}  |  ${mealRecipe[0].strCategory}`}
+        />
+        <CardMedia
+          component='img'
+          height='380'
+          src={`${mealRecipe[0].strMealThumb}`}
+          alt=''
+        />
         <CardContent>
-          <TextField
-            id='outlined-multiline-flexible'
-            label='Your Comment'
-            placeholder='Tasted this dish before?'
-            multiline
-            maxRows={4}
-            inputProps={{ maxLength: 120 }}
-            value={rawComment}
-            onChange={handleCommentChange}
-          />
-          <Button variant='outlined' size='small' onClick={submitComment}>
-            Submit
-          </Button>
-          {featComments.map((comment) => (
-            <Box
-              sx={{
-                border: '1px solid lightGrey',
-                width: '450px',
-                marginTop: '5px',
-                padding: '5px 5px 10px 5px',
-              }}
-            >
-              <Typography>{comment.name}</Typography>
-              <Typography>{comment.text}</Typography>
-              <Typography>{comment.postedAt}</Typography>
-            </Box>
-          ))}
+          <Typography paragraph>
+            <strong>Ingredients:</strong>
+          </Typography>
+          <ul>
+            {mealRecipe[0].ingredients.map((tuple, i) => (
+              <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
+              ))}
+          </ul>
+          {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
+            <Typography key={p + i}>{p}</Typography>
+            ))}
+          <Typography paragraph>
+            <strong>Directions:
+              <p>
+            <TextToSpeech instructions={instructions} />
+            </p>
+            </strong>
+          </Typography>
         </CardContent>
       </Collapse>
     </Card>
