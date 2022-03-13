@@ -185,6 +185,9 @@ const RecipeView: React.FC = () => {
               <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
               ))}
           </ul>
+          {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
+            <Typography key={p + i}>{p}</Typography>
+            ))}
           <Typography paragraph>
             <strong>Directions:
               <p>
@@ -192,9 +195,6 @@ const RecipeView: React.FC = () => {
             </p>
             </strong>
           </Typography>
-          {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
-            <Typography key={p + i}>{p}</Typography>
-            ))}
         </CardContent>
         <CardActions  >
           <Favorite recipeId={idMeal}/>
