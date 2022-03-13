@@ -1,4 +1,9 @@
-import React, { useState, useEffect, createContext, ReactEventHandler } from 'react';
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  ReactEventHandler,
+} from 'react';
 import axios from 'axios';
 
 interface userTypes {
@@ -19,11 +24,13 @@ interface userTypes {
   } | null>;
   bookmarks: Array<{
     id: number;
-    url: string;
+    link: string;
+    title: string;
+    creator: string;
+    relTime: string;
+    img: string;
   } | null>;
 }
-
-
 
 interface UserContextType {
   user?: userTypes;
@@ -45,16 +52,12 @@ const UserContext = createContext({} as UserContextType);
 const UserContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<userTypes | any>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [favorites, setFavorites] = useState<Array<string >>([]);
-
-
+  const [favorites, setFavorites] = useState<Array<string>>([]);
 
   // const updateFavs = (e: ReactEventHandler) => {
   //  //take recipe id and add it to user's favorites, then setFavorites to that value
 
   // }
-
-
 
   const getUser = () => {
     if (loggedIn === false) {
@@ -69,29 +72,24 @@ const UserContextProvider = ({ children }: Props) => {
     }
   };
 
-
-
   //this function sends a user with properties from user table in db, then receives a new user object with favs and pics
   const userAccount = () => {
-    
-    if (user !== null ) {
+    if (user !== null) {
       //console.log(user);
-     axios.post(`/auth/account`, user)
+      axios
+        .post(`/auth/account`, user)
         .then(({ data }) => {
-
           // console.log(data, 'userContext 65');
           setUser(data);
-      
         })
         .catch((err) => {
-          console.error(err, " response from User context post request");
-        })
+          console.error(err, ' response from User context post request');
+        });
     } else {
-      return
+      return;
     }
     //console.log(user, "successfully changed")
-  }
-
+  };
 
   const UserProps: UserContextType = {
     favorites,
@@ -101,7 +99,7 @@ const UserContextProvider = ({ children }: Props) => {
     user,
     getUser,
     setUser,
-    userAccount
+    userAccount,
   };
 
   return (

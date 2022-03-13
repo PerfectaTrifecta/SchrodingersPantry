@@ -129,16 +129,19 @@ authRouter.post('/account', (req, res) => {
 
               //BOOKMARKS
               Bookmark.findAll({
-                include: {
+                include: [{
                   model: User,
-                  through: User_Bookmark,
-                  where: {
-                    id: user.id
+                  through: {
+                    where: {
+                      userId: user.id
+                    }
                   }
-                }
+                  
+                }]
               })
               .then(bookmarks => {
                 if (bookmarks) {
+                  // console.log(bookmarks, 'authRoute 142')
                   userDetails.bookmarks = bookmarks;
                 } else {
                   userDetails.bookmarks = [];

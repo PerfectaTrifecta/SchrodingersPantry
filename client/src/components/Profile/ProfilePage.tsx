@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, SetStateAction } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { UserContext } from '../../UserContext';
 import CreateRecipeForm from './CreateRecipeForm';
-import ProfileImage from './ImageUploader.jsx';
+import ProfileImage from './ProfileImage';
 import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
@@ -88,35 +88,6 @@ const ProfilePage: React.FC = () => {
   });
   const profilePic = cld.image(img);
   //checkout different url-gen actions to see how to style the image using profilePic.<action>
-
-  // when page loads, get user's recipes (& favorites & bookmarks) from db
-  useEffect(() => {
-    // axios
-    //   .get('/routes/user/profile/recipes')
-    //   .then(({ data }) => {
-    //     // console.log(data, 'user recipes, profile 96')
-    //     setCreations(data);
-    //   })
-    //   .catch((err) =>
-    //     console.error('problem getting recipes, profile 98', err)
-    //   );
-    // axios.get('/routes/user/profile/favorites')
-    //   .then(({ data }) => {
-    //     // console.log(data, 'user faves, profile 103');
-    //     setFavorites(data)
-    //   })
-    //   .catch(err => console.error('problem getting faves, profile 108'));
-    // axios.get('/routes/user/profile/bookmarks')
-    //   .then(({ data }) => {
-    //     // console.log(data, 'user bookmarks, profile 112');
-    //     setBookmarks(data);
-    //   })
-    //   .catch(err => console.error('problem getting bookmarks, profile 115'));
-  });
-
-  //for now use dummy data
-  // const [creations, setCreations] = React.useState<Array<string>>(['um', 'ig', 'well', 'nerver', 'know']);
-  // const [favorites, setFavorites] = React.useState<Array<String>>(["everyone", "wanted", 'to know', 'what i would do', 'if i DIDNT win']);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -368,13 +339,33 @@ const ProfilePage: React.FC = () => {
           <RecipePreview id={favorite.id} title={favorite.title} />
         ))}
       </div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         BOOKMARKS
         <List>
           {bookmarks.map((mark) => {
-            <ListItem>
-              <ListItemText primary={mark.url} />
-            </ListItem>;
+            const { creator, title, relTime, link, img } = mark;
+
+            return (
+              <div id='bookmark' key={title}>
+                <a id='headline' href={link}>
+                  <div id='rssImg'>
+                    <img width='120' src={img}></img>
+                  </div>
+                  <div id='rssStoryDiv'>
+                    <h5 id='rssTitle'>{title}</h5>
+                    <h6 id='rssCreator'>Written by: {creator}</h6>
+                    <h6 id='rssTime'>{relTime}</h6>
+                  </div>
+                </a>
+              </div>
+            );
           })}
         </List>
       </div>

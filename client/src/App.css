@@ -8,7 +8,7 @@
   place-items: center;
   box-sizing: border-box;
   margin: 0;
-  padding:0;
+  padding: 0;
   font-family: 'Nunito', sans-serif;
 }
 body {
@@ -209,7 +209,6 @@ body {
   opacity: 0 !important;
 }
 
-
 #headline {
   text-decoration: none;
 }
@@ -254,18 +253,17 @@ body {
   color: white;
   margin-bottom: 5px;
   margin-left: 27px;
-  
 }
 #TTSButtons:hover {
   margin: 30px 20px 30px 20px;
-  transform: scale(2.0);
+  transform: scale(2);
   color: #22f00b;
 }
 
 #TTSButtons {
   margin: 30px 20px 30px 20px;
-  
-  transform: scale(2.0);
+
+  transform: scale(2);
   color: #2f42d3;
 }
 
@@ -280,17 +278,12 @@ body {
   color: white;
 }
 
-
-
-
-
-
 .navbar {
   position: sticky;
   top: 0px;
   height: 70px;
   background-color: white;
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -299,11 +292,11 @@ body {
 }
 
 .navbar-logo {
-   color: black;
-   font-family: 'Nunito', sans-serif;
-   font-size: 2.5rem;
-   margin-left: 10px;
-   text-decoration: none;
+  color: black;
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.5rem;
+  margin-left: 10px;
+  text-decoration: none;
 }
 
 .navbar-list {
@@ -326,7 +319,7 @@ body {
 }
 
 .navbar-link:hover {
-  border-color:  rgb(34, 211, 152);
+  border-color: rgb(34, 211, 152);
   transition: 250ms;
 }
 
@@ -343,7 +336,7 @@ body {
   position: absolute;
 }
 
-.landing-title{
+.landing-title {
   position: absolute;
   bottom: 15%;
   right: 10%;
@@ -395,14 +388,18 @@ body {
   border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: 20px;
+  margin-left: 25%;
   margin-right: 20px;
   box-shadow: 2px 2px rgb(144, 144, 144);
+  max-width: 800px;
+}
+
+#rssTabs {
+  margin-left: 37%;
 }
 
 #rssImg {
-float: left;
-
+  float: left;
 }
 #rssImg img {
   display: block;
@@ -427,4 +424,23 @@ float: left;
 #rssTime {
   margin-bottom: 4px;
   margin-top: 10px;
+}
+
+.addIcon {
+  float: right;
+  margin-top: -30px;
+  margin-right: 5px;
+}
+
+#bookmark {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5%;
+  margin-right: 20px;
+  box-shadow: 2px 2px rgb(144, 144, 144);
+  max-width: 800px;
 }

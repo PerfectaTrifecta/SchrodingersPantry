@@ -179,7 +179,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             if (index % 2 === 0) {
               return (
                 <Link
-                  to={inCategories[index + 1]}
+                  to={outCategories[index + 1]}
                   key={text}
                   style={{ textDecoration: 'none' }}
                 >
