@@ -291,12 +291,16 @@ body {
   margin-bottom: -70px;
 }
 
+/* @import url('https://fonts.googleapis.com/css2?family=Croissant+One&family=Montserrat:wght@100&family=Nunito:wght@200&family=Paytone+One&family=Sansita+Swashed:wght@300&display=swap'); */
+
 .navbar-logo {
   color: black;
   font-family: 'Nunito', sans-serif;
   font-size: 2.5rem;
   margin-left: 10px;
   text-decoration: none;
+  text-shadow: 0.5px 1px 1px black, 0 0 25px rgb(240, 252, 255),
+    0 0 5px rgb(143, 143, 143);
 }
 
 .navbar-list {
@@ -443,4 +447,8 @@ body {
   margin-right: 20px;
   box-shadow: 2px 2px rgb(144, 144, 144);
   max-width: 800px;
+}
+.search-title {
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
 }

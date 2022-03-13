@@ -14,8 +14,19 @@ const User = sql.define('users', {
     type: DataTypes.STRING,
     primaryKey: true,
   },
-  name: DataTypes.STRING,
-  preference: DataTypes.STRING,
+  userName: DataTypes.STRING,
+  diet: {
+    type: DataTypes.STRING,
+    defaultValue:'None'
+  },
+  allergies: {
+    type: DataTypes.STRING,
+    defaultValue: 'None'
+  },
+  bio: {
+    type: DataTypes.STRING,
+    defaultValue: 'None'
+  }
 });
 
 const Recipe = sql.define('recipes', {
@@ -191,7 +202,7 @@ User.hasMany(User_Image);
 User_Image.belongsTo(User);
 
 sql
-  .sync({alter: true}) //insert {alter: true} if you need to change the db structure
+  .sync() //insert {alter: true}(alters tables if necessary) or {force: true}(drops all tables and recreates them every save) if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 

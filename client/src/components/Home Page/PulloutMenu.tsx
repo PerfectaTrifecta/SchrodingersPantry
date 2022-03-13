@@ -209,7 +209,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         <Toolbar>
           <Link to={'/'}>
             <img src={logo} width='110' height='80' />
-
             <IconButton
               color='inherit'
               aria-label='Open drawer'

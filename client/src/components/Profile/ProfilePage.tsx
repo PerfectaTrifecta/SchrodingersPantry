@@ -29,21 +29,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
+import { Link } from 'react-router-dom';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
-}
-
-interface MyRecipeTypes {
-  id: number;
-  userId: string;
-  title: string;
-  ingredients: string;
-  instructions: string;
-  vote_count: number;
-  comment_count: number;
-  createdAt: string;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -58,8 +48,28 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 //-----------------------------------------------------//
 
+interface MyRecipeTypes {
+  id?: number;
+  userId?: string;
+  title?: string;
+  ingredients?: string;
+  instructions?: string;
+  vote_count?: number;
+  comment_count?: number;
+  createdAt?: string;
+}
+
+interface Props {
+  recipeList: MyRecipeTypes[];
+  setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
+}
+
 //the search component should map over the results, creating a meal card for each recipe,
-const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
+  // use user context and assign the values to corresponding state values and map thru
+  const { user, setUser } = useContext(UserContext);
+  const { userName, bookmarks, favorites, diet, allergies, bio } = user;
+
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
@@ -68,18 +78,15 @@ const ProfilePage: React.FC = () => {
   // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
   // const [bookmarks, setBookmarks] = useState<string[]>([]);
 
-  const [aboutMeDisplay, setAboutMeDisplay] = useState<string>('');
-  const [aboutMe, setAboutMe] = useState<string>('');
+  const [aboutMeDisplay, setAboutMeDisplay] = useState<string>(bio);
+  const [aboutMeField, setAboutMeField] = useState<string>('');
   const [editBio, setEditBio] = useState<boolean>(false);
-  const [dietDisplay, setDietDisplay] = useState<string>('None');
-  const [diet, setDiet] = useState<string>('');
+  const [dietDisplay, setDietDisplay] = useState<string>(diet);
+  const [dietField, setDietField] = useState<string>('');
   const [editDiet, setEditDiet] = useState<boolean>(false);
-  const [allergyDisplay, setAllergyDisplay] = useState<string>('None');
-  const [allergies, setAllergies] = useState<string>('');
+  const [allergyDisplay, setAllergyDisplay] = useState<string>(allergies);
+  const [allergyField, setAllergyField] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
-  // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser } = useContext(UserContext);
-  const { recipes, bookmarks, favorites } = user;
 
   const cld = new Cloudinary({
     cloud: {
@@ -112,7 +119,7 @@ const ProfilePage: React.FC = () => {
       reader.onload = () => {
         console.log(typeof reader.result);
         setSelectedImg(reader.result);
-        console.log(selectedImg, 'profile 76');
+        console.log(reader.result, 'profile 76');
       };
     }
   };
@@ -129,40 +136,62 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAboutMe(e.target.value);
+    setAboutMeField(e.target.value);
   };
 
   const submitBio = () => {
-    setAboutMeDisplay(aboutMe);
-    setEditBio(false);
+    setAboutMeDisplay(aboutMeField);
+
+    axios
+      .post('/routes/user/profile/update/bio', { bio: aboutMeField })
+      .then(() => {
+        setAboutMeField('');
+        setEditBio(false);
+      })
+      .catch((err) => console.error(err, 'profile 176'));
   };
 
   const handleDietChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDiet(e.target.value);
+    setDietField(e.target.value);
   };
 
   const submitDiet = () => {
-    setDietDisplay(diet);
-    setEditDiet(false);
+    setDietDisplay(dietField);
+
+    axios
+      .post('routes/user/profile/update/diet', { diet: dietField })
+      .then(() => {
+        setDietField('');
+        setEditDiet(false);
+      })
+      .catch((err) => console.error(err, 'profile 191'));
   };
 
   const handleAllergyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAllergies(e.target.value);
+    setAllergyField(e.target.value);
   };
 
   const submitAllergies = () => {
-    setAllergyDisplay(allergies);
-    setEditAllergies(false);
+    setAllergyDisplay(allergyField);
+
+    axios
+      .post('routes.user/profile/update/allergies', { allergies: allergyField })
+      .then(() => {
+        setAllergyField('');
+        setEditAllergies(false);
+      })
+      .catch((err) => console.error(err, 'profile 206'));
   };
 
   return (
     <div
       style={{
         display: 'flex',
-        flexDirection: 'column',
+        flexFlow: 'row wrap',
         width: '100%',
+        height: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        // alignItems: 'center',
       }}
     >
       <Card
@@ -193,7 +222,7 @@ const ProfilePage: React.FC = () => {
                 aria-label='recipe'
               >
                 {/* {console.log(user.name, 'profile 99')} */}
-                {user.userName.slice(0, 1)}
+                {userName.slice(0, 1)}
                 {/* this should be user profile's first letter */}
               </Avatar>
             }
@@ -243,7 +272,7 @@ const ProfilePage: React.FC = () => {
                   label='Write about yourself'
                   multiline
                   rows={5}
-                  defaultValue={aboutMe}
+                  defaultValue={aboutMeField}
                   onChange={handleBioChange}
                 />
                 <Button size='small' color='primary' onClick={submitBio}>
@@ -267,7 +296,7 @@ const ProfilePage: React.FC = () => {
                   label='Set your preference'
                   multiline
                   rows={1}
-                  defaultValue={diet}
+                  defaultValue={dietField}
                   onChange={handleDietChange}
                 />
                 <Button size='small' color='primary' onClick={submitDiet}>
@@ -291,7 +320,7 @@ const ProfilePage: React.FC = () => {
                   label='Any food allergies?'
                   multiline
                   rows={3}
-                  defaultValue={allergies}
+                  defaultValue={allergyField}
                   onChange={handleAllergyChange}
                 />
                 <Button size='small' color='primary' onClick={submitAllergies}>
@@ -315,25 +344,37 @@ const ProfilePage: React.FC = () => {
           </CardContent>
         </Collapse>
       </Card>
-      {showForm ? <CreateRecipeForm handleForm={handleForm} /> : null}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          width: '100%',
         }}
       >
         MY RECIPES
-        <Button size='small' onClick={handleForm}>
-          {' '}
-          Create a New Recipe{' '}
-        </Button>
-        {recipes.map((recipe: MyRecipeTypes) => (
+        <Link
+          to={{
+            pathname: '/create_recipe',
+          }}
+          style={{ textDecoration: 'none' }}
+        >
+          <Button size='small'> Create a New Recipe </Button>
+        </Link>
+        {recipeList.map((recipe) => (
           <RecipePreview id={recipe.id} title={recipe.title} />
         ))}
       </div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+        }}
+      >
         FAVORITE RECIPES
         {favorites.map((favorite: MyRecipeTypes) => (
           <RecipePreview id={favorite.id} title={favorite.title} />

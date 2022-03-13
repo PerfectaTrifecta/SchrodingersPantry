@@ -9,10 +9,12 @@ import axios from 'axios';
 interface userTypes {
   id: string;
   userName: string;
-  preference?: string;
-  favorites: Array<string>;
-  pics: Array<{} | null>;
-  recipes: Array<{
+  diet?: string;
+  allergies?: string;
+  bio?: string;
+  favorites?: Array<string> | [];
+  pics?: Array<{} | null>;
+  recipes?: Array<{
     id: number;
     userId: string;
     title: string;
@@ -22,7 +24,7 @@ interface userTypes {
     comment_count: number;
     createdAt: string;
   } | null>;
-  bookmarks: Array<{
+  bookmarks?: Array<{
     id: number;
     link: string;
     title: string;
@@ -64,7 +66,7 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          //console.log(data[0], 'context 31');
+          console.log(data[0], 'context 31');
           setUser(data[0]);
           setLoggedIn(true);
         })
