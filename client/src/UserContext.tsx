@@ -14,18 +14,16 @@ interface userTypes {
   bio?: string;
   favorites?: Array<string> | [];
   pics?: Array<{} | null>;
-  recipes?:
-    | Array<{
-        id: number;
-        userId: string;
-        title: string;
-        ingredients: string;
-        instructions: string;
-        vote_count: number;
-        comment_count: number;
-        createdAt: string;
-      }>
-    | [];
+  recipes?: Array<{
+    id: number;
+    userId: string;
+    title: string;
+    ingredients: string;
+    instructions: string;
+    vote_count: number;
+    comment_count: number;
+    createdAt: string;
+  } | null>;
   bookmarks?: Array<{
     id: number;
     url: string;
@@ -64,7 +62,7 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          //console.log(data[0], 'context 31');
+          // console.log(data[0], 'context 31');
           setUser(data[0]);
           setLoggedIn(true);
         })

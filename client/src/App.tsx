@@ -50,8 +50,11 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
+  let recipes: Array<MyRecipeTypes | []> = [];
 
-  const { recipes } = user;
+  if (loggedIn) {
+    recipes = user.recipes;
+  }
 
   const [recipeList, setRecipeList] = useState<MyRecipeTypes[] | null>(recipes);
 

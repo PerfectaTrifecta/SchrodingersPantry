@@ -201,7 +201,11 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             </IconButton>
           </Link>
           <Typography variant='h6' noWrap>
-            <Link text-decoration='none' className='navbar-logo' to={'/'}>
+            <Link
+              style={{ textDecoration: 'none' }}
+              className='navbar-logo'
+              to={'/'}
+            >
               <span>Schrödinger's Pantry</span>
             </Link>
           </Typography>

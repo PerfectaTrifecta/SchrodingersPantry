@@ -50,7 +50,7 @@ authRouter.get(
 );
 
 authRouter.get('/user', (req, res) => {
-  // console.log(req.cookies, 'auth 20');
+  console.log(req.cookies, 'auth 20');
   //should search all models and send back a user object
 
   if (req.cookies.googleId) {
