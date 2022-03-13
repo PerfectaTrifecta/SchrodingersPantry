@@ -19,6 +19,7 @@ import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+// import {createMemoryHistory} from 'history';
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -60,6 +61,7 @@ const RecipeView: React.FC = () => {
   const [mealUserRecipe, setMealUserRecipe] = useState<UserRecipeProps[] | null>(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
+  // const [mealId, setMealId] = useState<string>('');
 
   //Comments settings
   const [rawComment, setRawComment] = useState('');
@@ -99,8 +101,10 @@ const RecipeView: React.FC = () => {
   };
 
   //Prints the recipe to the screen on page load
-  if (idMeal) {
-    useEffect(() => {
+  
+  // setMealId(idMeal);
+  useEffect(() => {
+      if (idMeal) {
       axios
         .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
         .then(({ data }) => {
@@ -120,10 +124,9 @@ const RecipeView: React.FC = () => {
         })
         .catch((err) => console.error(err, 'recipeView 143'));  
       
-    }, []);
-  } else if (idUserMeal) {
-    useEffect(() => {
-      axios.get('/routes/search/getUserRecipe', { params: { id: idUserMeal } })
+      } else if (idUserMeal) {
+        
+        axios.get('/routes/search/getUserRecipe', { params: { id: idUserMeal } })
         .then(({data}) => {
           // console.log(data, 'recipeView 96');
           setMealUserRecipe(data);
@@ -133,15 +136,16 @@ const RecipeView: React.FC = () => {
           setUserIngredients(mealUserRecipe[0].ingredients.split(','));
         })
         .catch(err => console.error(err, 'recipeView 135'));
-
-      axios
+        
+        axios
         .get('routes/user/profile/userComment', { params: { recipeId: idUserMeal }})
         .then(({ data }) => {
           setFeatComments(data);
         })
         .catch(err => console.error(err, 'recipeView 142'));
-    })
-  }
+      }
+    }, []);
+  
 
 
   const [expanded, setExpanded] = React.useState(false);
