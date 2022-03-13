@@ -62,7 +62,7 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          // console.log(data[0], 'context 31');
+          console.log(data[0], 'context 31');
           setUser(data[0]);
           setLoggedIn(true);
         })
