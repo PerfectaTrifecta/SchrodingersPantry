@@ -15,6 +15,7 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
 import { PaletteOptions } from '@mui/material';
 import { light, dark, veggie, meat } from './Theme';
+import useTheme from '@mui/material/styles/useTheme';
 
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
@@ -86,13 +87,14 @@ const App: React.FC = (): JSX.Element => {
   }, []);
 
   const [theme, setTheme] = useState<ThemeOptions>(light);
-
   const chosenTheme = createTheme(theme);
 
   return (
     <ThemeProvider theme={chosenTheme}>
-      <div>
-        {' '}
+      <div style={{ backgroundColor: chosenTheme.palette.primary.main }}>
+        {/* style={{ backgroundColor: appTheme.palette.primary.main }} */}
+        {/* tried adding the theme colors to App to fill in the extra white spaces
+        (inside the divs on line 95 and 112) but it didn't work like that */}
         {getUser()}
         {loading ? (
           <div
@@ -103,10 +105,15 @@ const App: React.FC = (): JSX.Element => {
               height: '100vh',
             }}
           >
-            <ClimbingBoxLoader loading={loading} size={30} />
+            <ClimbingBoxLoader
+              loading={loading}
+              size={30}
+              color={chosenTheme.palette.primary.dark}
+            />
           </div>
         ) : (
           <div>
+            {/* style={{ backgroundColor: appTheme.palette.primary.main }}÷ */}
             <PulloutMenu changeTheme={setTheme} />
             <Switch>
               <Route exact path='/'>

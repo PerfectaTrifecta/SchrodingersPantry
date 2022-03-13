@@ -19,6 +19,7 @@ import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import useTheme from '@mui/material/styles/useTheme';
 // import {createMemoryHistory} from 'history';
 
 /*Recipe View is where the user can see details about a recipe that they
@@ -53,12 +54,15 @@ interface CommentDisplay {
 
 const RecipeView: React.FC = () => {
   const { user } = useContext(UserContext);
+  const theme = useTheme();
 
   //Use the useLocation hook to get idMeal passed through the search route.
-  const location = useLocation<{ idMeal: string | null, idUserMeal: number | null }>();
+  const location =
+    useLocation<{ idMeal: string | null; idUserMeal: number | null }>();
   const { idMeal, idUserMeal } = location.state;
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] = useState<UserRecipeProps[] | null>(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] =
+    useState<UserRecipeProps[] | null>(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   // const [mealId, setMealId] = useState<string>('');
@@ -74,42 +78,41 @@ const RecipeView: React.FC = () => {
   const submitComment = () => {
     if (idMeal) {
       axios
-      .post('routes/user/profile/comment', {
-        text: rawComment,
-        userId: user.id,
-        userName: user.userName,
-        mealId: idMeal,
-      })
-      .then(() => {
-        setRawComment('');
-      })
-      .catch((err) => console.error(err, 'recipeView 84'));
+        .post('routes/user/profile/comment', {
+          text: rawComment,
+          userId: user.id,
+          userName: user.userName,
+          mealId: idMeal,
+        })
+        .then(() => {
+          setRawComment('');
+        })
+        .catch((err) => console.error(err, 'recipeView 84'));
     } else if (idUserMeal) {
       axios
-      .post('routes/user/profile/userComment', {
-        text: rawComment,
-        userId: user.id,
-        userName: user.userName,
-        recipeId: idUserMeal
-      })
-      .then(() => {
-        setRawComment('');
-      })
-      .catch(err => console.error(err, 'recipeView 96'))
+        .post('routes/user/profile/userComment', {
+          text: rawComment,
+          userId: user.id,
+          userName: user.userName,
+          recipeId: idUserMeal,
+        })
+        .then(() => {
+          setRawComment('');
+        })
+        .catch((err) => console.error(err, 'recipeView 96'));
     }
-
   };
 
   //Prints the recipe to the screen on page load
-  
+
   // setMealId(idMeal);
   useEffect(() => {
-      if (idMeal) {
+    if (idMeal) {
       axios
         .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
         .then(({ data }) => {
           // console.log(data, 'recipeView 61');
-          data && setMealRecipe(data) 
+          data && setMealRecipe(data);
           setInstructions(data[0].strInstructions.split('\r\n'));
         })
         .catch((err) => {
@@ -122,12 +125,11 @@ const RecipeView: React.FC = () => {
           // console.log(data, 'recipeView 96')
           setFeatComments(data);
         })
-        .catch((err) => console.error(err, 'recipeView 143'));  
-      
-      } else if (idUserMeal) {
-        
-        axios.get('/routes/search/getUserRecipe', { params: { id: idUserMeal } })
-        .then(({data}) => {
+        .catch((err) => console.error(err, 'recipeView 143'));
+    } else if (idUserMeal) {
+      axios
+        .get('/routes/search/getUserRecipe', { params: { id: idUserMeal } })
+        .then(({ data }) => {
           // console.log(data, 'recipeView 96');
           setMealUserRecipe(data);
         })
@@ -135,18 +137,18 @@ const RecipeView: React.FC = () => {
           // console.log(mealUserRecipe, 'recipeView 101');
           setUserIngredients(mealUserRecipe[0].ingredients.split(','));
         })
-        .catch(err => console.error(err, 'recipeView 135'));
-        
-        axios
-        .get('routes/user/profile/userComment', { params: { recipeId: idUserMeal }})
+        .catch((err) => console.error(err, 'recipeView 135'));
+
+      axios
+        .get('routes/user/profile/userComment', {
+          params: { recipeId: idUserMeal },
+        })
         .then(({ data }) => {
           setFeatComments(data);
         })
-        .catch(err => console.error(err, 'recipeView 142'));
-      }
-    }, []);
-  
-
+        .catch((err) => console.error(err, 'recipeView 142'));
+    }
+  }, []);
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -154,192 +156,180 @@ const RecipeView: React.FC = () => {
     setExpanded(!expanded);
   };
 
-
   //Conditionally renders based on meal data availability
-  return (
-    mealRecipe[0] ? (
-      <Card
+  return mealRecipe[0] ? (
+    <Card
       sx={{ maxWidth: 345 }}
       style={{
         margin: '16px auto',
         maxWidth: '600px',
         width: '90%',
+        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
       }}
-      >
-        <CardHeader
-          title={mealRecipe[0].strMeal}
-          subheader={`${mealRecipe[0].strArea}  |  ${mealRecipe[0].strCategory}`}
-        />
-        <CardMedia
-          component='img'
-          height='380'
-          src={`${mealRecipe[0].strMealThumb}`}
-          alt=''
-        />
-        <CardContent>
-          <Typography paragraph>
-            <strong>Ingredients:</strong>
-          </Typography>
-          <ul>
-            {mealRecipe[0].ingredients.map((tuple, i) => (
-              <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
-              ))}
-          </ul>
-          <Typography paragraph>
-            <strong>Directions:
-              <p>
-            <TextToSpeech instructions={instructions} />
+    >
+      <CardHeader
+        title={mealRecipe[0].strMeal}
+        subheader={`${mealRecipe[0].strArea}  |  ${mealRecipe[0].strCategory}`}
+      />
+      <CardMedia
+        component='img'
+        height='380'
+        src={`${mealRecipe[0].strMealThumb}`}
+        alt=''
+      />
+      <CardContent>
+        <Typography paragraph>
+          <strong>Ingredients:</strong>
+        </Typography>
+        <ul>
+          {mealRecipe[0].ingredients.map((tuple, i) => (
+            <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
+          ))}
+        </ul>
+        <Typography paragraph>
+          <strong>
+            Directions:
+            <p>
+              <TextToSpeech instructions={instructions} />
             </p>
-            </strong>
-          </Typography>
-          {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
-            <Typography key={p + i}>{p}</Typography>
-            ))}
+          </strong>
+        </Typography>
+        {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
+          <Typography key={p + i}>{p}</Typography>
+        ))}
+      </CardContent>
+      <CardActions>
+        <Favorite recipeId={idMeal} />
+        <IconButton
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label='show more'
+        >
+          <CommentIcon fontSize='large' />
+        </IconButton>
+        <VideoModal mealName={mealRecipe[0].strMeal} />
+        <IconButton size='small'>Reviews</IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout='auto' unmountOnExit>
+        <CardContent>
+          <TextField
+            id='outlined-multiline-flexible'
+            label='Your Comment'
+            placeholder='Tasted this dish before?'
+            multiline
+            maxRows={4}
+            inputProps={{ maxLength: 120 }}
+            value={rawComment}
+            onChange={handleCommentChange}
+          />
+          <Button variant='outlined' size='small' onClick={submitComment}>
+            Submit
+          </Button>
+          {featComments.map((comment) => (
+            <Box
+              sx={{
+                border: '1px solid lightGrey',
+                width: '450px',
+                marginTop: '5px',
+                padding: '5px 5px 10px 5px',
+              }}
+            >
+              <Typography>{comment.name}</Typography>
+              <Typography>{comment.text}</Typography>
+              <Typography>{comment.postedAt}</Typography>
+            </Box>
+          ))}
         </CardContent>
-        <CardActions  >
-          <Favorite recipeId={idMeal}/>
-          <IconButton 
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label='show more'
-          >
-            <CommentIcon fontSize="large" />
-          </IconButton>
-          <VideoModal mealName={mealRecipe[0].strMeal} />
-          <IconButton size='small'>
-            Reviews
-          </IconButton>
-        </CardActions>
-        <Collapse in={expanded} timeout='auto' unmountOnExit>
-          <CardContent>
-            <TextField
-              id="outlined-multiline-flexible"
-              label='Your Comment'
-              placeholder="Tasted this dish before?"
-              multiline
-              maxRows={4}
-              inputProps={{maxLength: 120}}
-              value={rawComment}
-              onChange={handleCommentChange}
-            />
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={submitComment}
-            > 
-              Submit 
-            </Button>
-            {featComments.map(comment => (
-              <Box
-                sx={{
-                  border: '1px solid lightGrey',
-                  width: '450px',
-                  marginTop: '5px',
-                  padding: '5px 5px 10px 5px',
-                }}
-              >
-                <Typography>{comment.name}</Typography>
-                <Typography>{comment.text}</Typography>
-                <Typography>{comment.postedAt}</Typography>
-              </Box>
-            ))}
-          </CardContent>
-        </Collapse>
-      </Card>
-    ) : mealUserRecipe ? (
-      <Card
+      </Collapse>
+    </Card>
+  ) : mealUserRecipe ? (
+    <Card
       sx={{ maxWidth: 345 }}
       style={{
         margin: '16px auto',
         maxWidth: '600px',
         width: '90%',
+        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
       }}
-      >
-        <CardHeader
-          title={mealUserRecipe[0].title}
-          // subheader={`${mealRecipe[0].strArea}  |  ${mealRecipe[0].strCategory}`}
-        />
-        {/* <CardMedia
+    >
+      <CardHeader
+        title={mealUserRecipe[0].title}
+        // subheader={`${mealRecipe[0].strArea}  |  ${mealRecipe[0].strCategory}`}
+      />
+      {/* <CardMedia
           component='img'
           height='380'
           src={`${mealRecipe[0].strMealThumb}`}
           alt=''
         /> */}
-        <CardContent>
-          <Typography paragraph>
-            <strong>Ingredients:</strong>
-          </Typography>
-          <ul>
-            {userIngredients.map((tuple, i) => (
-              <li key={i}>{tuple}</li>
-              ))}
-          </ul>
-          <Typography paragraph>
-            <strong>Directions:</strong>
-          </Typography>
-          {/* {console.log(mealUserRecipe, 'recipeView 252')} */}
-          {mealUserRecipe[0].instructions.split('\n').map((p: string, i: number) => (
+      <CardContent>
+        <Typography paragraph>
+          <strong>Ingredients:</strong>
+        </Typography>
+        <ul>
+          {userIngredients.map((tuple, i) => (
+            <li key={i}>{tuple}</li>
+          ))}
+        </ul>
+        <Typography paragraph>
+          <strong>Directions:</strong>
+        </Typography>
+        {/* {console.log(mealUserRecipe, 'recipeView 252')} */}
+        {mealUserRecipe[0].instructions
+          .split('\n')
+          .map((p: string, i: number) => (
             <Typography key={p + i}>{p}</Typography>
           ))}
-          <TextToSpeech instructions={instructions} />
-          
+        <TextToSpeech instructions={instructions} />
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label='add to favorites'>
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label='show more'
+        >
+          <CommentIcon />
+        </IconButton>
+        <IconButton>See Reviews!</IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout='auto' unmountOnExit>
+        <CardContent>
+          <TextField
+            id='outlined-multiline-flexible'
+            label='Your Comment'
+            placeholder='Tasted this dish before?'
+            multiline
+            maxRows={4}
+            inputProps={{ maxLength: 120 }}
+            value={rawComment}
+            onChange={handleCommentChange}
+          />
+          <Button variant='outlined' size='small' onClick={submitComment}>
+            Submit
+          </Button>
+          {featComments.map((comment) => (
+            <Box
+              sx={{
+                border: '1px solid lightGrey',
+                width: '450px',
+                marginTop: '5px',
+                padding: '5px 5px 10px 5px',
+              }}
+            >
+              <Typography>{comment.name}</Typography>
+              <Typography>{comment.text}</Typography>
+              <Typography>{comment.postedAt}</Typography>
+            </Box>
+          ))}
         </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label='add to favorites'>
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton 
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label='show more'
-          >
-            <CommentIcon />
-          </IconButton>
-          <IconButton>
-            See Reviews!
-          </IconButton>
-        </CardActions>
-        <Collapse in={expanded} timeout='auto' unmountOnExit>
-          <CardContent>
-            <TextField
-              id="outlined-multiline-flexible"
-              label='Your Comment'
-              placeholder="Tasted this dish before?"
-              multiline
-              maxRows={4}
-              inputProps={{maxLength: 120}}
-              value={rawComment}
-              onChange={handleCommentChange}
-            />
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={submitComment}
-            > 
-              Submit 
-            </Button>
-            {featComments.map(comment => (
-              <Box
-                sx={{
-                  border: '1px solid lightGrey',
-                  width: '450px',
-                  marginTop: '5px',
-                  padding: '5px 5px 10px 5px',
-                }}
-              >
-                <Typography>{comment.name}</Typography>
-                <Typography>{comment.text}</Typography>
-                <Typography>{comment.postedAt}</Typography>
-              </Box>
-            ))}
-          </CardContent>
-        </Collapse>
-      </Card>
-    ) : null
-    
-  );
-
-  
+      </Collapse>
+    </Card>
+  ) : null;
 };
 
 export default RecipeView;

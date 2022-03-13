@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface PreviewProps {
   id: number;
@@ -14,6 +15,8 @@ interface PreviewProps {
 }
 
 const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
+  const theme = useTheme();
+
   return (
     <Card
       // sx={{ maxWidth: 345 }}
@@ -23,6 +26,8 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
         margin: '16px',
         maxWidth: '600px',
         width: '90%',
+        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
       }}
     >
       <CardActionArea>

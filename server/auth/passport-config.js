@@ -42,7 +42,7 @@ module.exports = passport => {
   (accessToken, refreshToken, profile, cb) => {
     //find or create the user
     // console.log('passport 13');
-    console.log(profile, 'passport 45');
+    // console.log(profile, 'passport 45');
     User.findOrCreate({
       where: { id: profile.id},
       defaults: { userName: profile.displayName}

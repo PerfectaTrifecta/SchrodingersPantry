@@ -7,6 +7,7 @@ import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import axios from 'axios';
 import moment from 'moment';
 import { UserContext } from '../../UserContext';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface Bookmarks {
   id?: number;
@@ -32,6 +33,7 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
   // const [bookmark, setBookmark] = useState<boolean>(false);
 
   const { user, loggedIn } = useContext(UserContext);
+  const theme = useTheme();
 
   const randomClipArtArray: string[] = [
     'http://media1.s-nbcnews.com/i/streams/2014/October/141006/2D274906938828-today-cafeteria-140811-01.jpg',
@@ -179,7 +181,11 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
           }}
         >
           {tabs.map((tab) => (
-            <Tab label={tab} key={tab} />
+            <Tab
+              label={tab}
+              key={tab}
+              sx={{ color: theme.palette.primary.contrastText }}
+            />
           ))}
         </Tabs>
       </AppBar>
@@ -197,12 +203,21 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
         };
 
         return (
-          <div id='story' key={title}>
+          <div
+            id='story'
+            key={title}
+            style={{
+              backgroundColor: theme.palette.primary.light,
+            }}
+          >
             <a id='headline' href={link}>
               <div id='rssImg'>
                 <img width='120' src={randomClipArtArray[randomImg]}></img>
               </div>
-              <div id='rssStoryDiv'>
+              <div
+                id='rssStoryDiv'
+                style={{ color: theme.palette.primary.contrastText }}
+              >
                 <h5 id='rssTitle'>{title}</h5>
                 <h6 id='rssCreator'>Written by: {creator}</h6>
                 <h6 id='rssTime'>{relTime}</h6>

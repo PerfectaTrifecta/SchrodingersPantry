@@ -66,11 +66,11 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          console.log(data[0], 'context 31');
+          // console.log(data[0], 'context 69');
           setUser(data[0]);
           setLoggedIn(true);
         })
-        .catch((err) => console.error('error context 34', err));
+        .catch((err) => console.error('error context 73', err));
     }
   };
 

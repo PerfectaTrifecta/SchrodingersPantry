@@ -21,7 +21,12 @@ const HomePage: React.FC = () => {
   return (
     <div>
       {loggedIn ? (
-        <div style={{ background: theme.palette.primary.main }}>
+        <div
+          style={{
+            background: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+          }}
+        >
           <Landing
             imageSrc={pantry}
             phrase={`Welcome, ${user.userName.split(' ')[0]}!`}

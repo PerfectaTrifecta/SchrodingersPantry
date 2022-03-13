@@ -50,7 +50,7 @@ authRouter.get(
 );
 
 authRouter.get('/user', (req, res) => {
-  console.log(req.cookies, 'auth 53');
+  // console.log(req.cookies, 'auth 53');
   //should search all models and send back a user object
 
   if (req.cookies.googleId) {
@@ -73,7 +73,7 @@ authRouter.get('/user', (req, res) => {
 authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
-  console.log(user, 'auth 76');
+  // console.log(user, 'auth 76');
   let userDetails = user;
   // console.log(user, 12);
 

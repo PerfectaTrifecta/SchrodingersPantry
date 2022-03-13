@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import NewCard from './MealCard';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface SearchProps {
   strMeal: string;
@@ -11,6 +12,8 @@ interface SearchProps {
   strMealThumb: string;
 }
 const Search: React.FC = () => {
+  const theme = useTheme();
+
   const [ingredients, setIngredients] = useState<string>('');
   const [meals, setMeals] = useState<SearchProps[]>([]);
 
@@ -50,7 +53,7 @@ const Search: React.FC = () => {
 
   return (
     <div>
-      <h1 className="search-title" >Search For A Recipe!</h1>
+      <h1 className='search-title'>Search For A Recipe!</h1>
       <Stack spacing={2} direction='row' padding={2}>
         <Button variant='outlined' onClick={onSearch}>
           Search
@@ -63,6 +66,12 @@ const Search: React.FC = () => {
           value={ingredients}
           id='fullWidth'
           onChange={handleInput}
+          style={{
+            backgroundColor: theme.palette.primary.light,
+            color: theme.palette.primary.contrastText,
+            borderColor: theme.palette.primary.dark,
+            borderRadius: '5px',
+          }}
         />
       </Stack>
       <div

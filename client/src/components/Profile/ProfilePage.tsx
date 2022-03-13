@@ -9,8 +9,9 @@ import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
 import RecipePreview from './RecipePreview';
 import styled from '@mui/material/styles/styled';
+import useTheme from '@mui/material/styles/useTheme';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import orange from '@mui/material/colors/orange';
+import green from '@mui/material/colors/green';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -82,14 +83,15 @@ const ProfilePage: React.FC<Props> = ({
   bookmarkList,
   setBookmarkList,
 }) => {
+  const theme = useTheme();
+
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser } = useContext(UserContext);
-  const { userName, bookmarks, favorites, diet, allergies, bio } = user;
+  const { userName, favorites, diet, allergies, bio } = user;
 
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState<boolean>(false);
   // const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
   // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
   // const [bookmarks, setBookmarks] = useState<string[]>([]);
@@ -120,10 +122,6 @@ const ProfilePage: React.FC<Props> = ({
   // // set state of meal to the clicked cards title
   //   setMeal(event.target.value);
   // }
-
-  const handleForm = () => {
-    setShowForm(!showForm);
-  };
 
   const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [file] = e.target.files;
@@ -207,6 +205,7 @@ const ProfilePage: React.FC<Props> = ({
         width: '100%',
         height: '100%',
         justifyContent: 'center',
+        backgroundColor: theme.palette.primary.main,
         // alignItems: 'center',
       }}
     >
@@ -218,6 +217,8 @@ const ProfilePage: React.FC<Props> = ({
           margin: '16px',
           maxWidth: '600px',
           width: '90%',
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
         }} //{onClick={handleCardClick}}
       >
         {img ? (
@@ -234,7 +235,7 @@ const ProfilePage: React.FC<Props> = ({
           <CardHeader
             avatar={
               <Avatar
-                sx={{ bgcolor: orange[500], width: 56, height: 56 }}
+                sx={{ bgcolor: green[700], width: 56, height: 56 }}
                 aria-label='recipe'
               >
                 {/* {console.log(user.name, 'profile 99')} */}
@@ -367,6 +368,7 @@ const ProfilePage: React.FC<Props> = ({
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
+          color: theme.palette.primary.contrastText,
         }}
       >
         MY RECIPES
@@ -376,7 +378,15 @@ const ProfilePage: React.FC<Props> = ({
           }}
           style={{ textDecoration: 'none' }}
         >
-          <Button size='small'> Create a New Recipe </Button>
+          <Button
+            size='small'
+            style={{
+              color: theme.palette.primary.contrastText,
+            }}
+          >
+            {' '}
+            Create a New Recipe{' '}
+          </Button>
         </Link>
         {recipeList.map((recipe) => (
           <RecipePreview id={recipe.id} title={recipe.title} />
@@ -389,6 +399,7 @@ const ProfilePage: React.FC<Props> = ({
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
+          color: theme.palette.primary.contrastText,
         }}
       >
         FAVORITE RECIPES
@@ -402,6 +413,7 @@ const ProfilePage: React.FC<Props> = ({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          color: theme.palette.primary.contrastText,
         }}
       >
         BOOKMARKS

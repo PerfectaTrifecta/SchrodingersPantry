@@ -58,8 +58,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     '/rss',
     'Market Locator',
     '/market_finder',
-    'Sign Out',
-    '/logout',
     'Live Chat',
     '/live_chat',
   ];
@@ -134,36 +132,19 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         >
           {inCategories.map((text, index) => {
             if (index % 2 === 0) {
-              if (text === 'Sign Out') {
-                return (
-                  <Button
-                    onClick={logout}
-                    key={text}
-                    sx={{
-                      background: theme.palette.primary.light,
-                      color: theme.palette.primary.dark,
-                    }}
-                  >
-                    <ListItem button>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  </Button>
-                );
-              } else {
-                return (
-                  <Link
-                    to={inCategories[index + 1]}
-                    style={{
-                      textDecoration: 'none',
-                      color: theme.palette.primary.contrastText,
-                    }}
-                  >
-                    <ListItem button key={text}>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  </Link>
-                );
-              }
+              return (
+                <Link
+                  to={inCategories[index + 1]}
+                  style={{
+                    textDecoration: 'none',
+                    color: theme.palette.primary.contrastText,
+                  }}
+                >
+                  <ListItem button key={text}>
+                    <ListItemText primary={text} />
+                  </ListItem>
+                </Link>
+              );
             }
           })}
           {token === undefined ? (
@@ -171,6 +152,20 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           ) : (
             <WebPlayback token={token} key={token} />
           )}
+          <Button
+            onClick={logout}
+            // key={text}
+            sx={{
+              background: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              paddingLeft: '0px',
+              // width: '175px',
+            }}
+          >
+            <ListItem button>
+              <ListItemText primary={'Sign Out'} />
+            </ListItem>
+          </Button>
         </List>
       ) : (
         <List>
@@ -181,7 +176,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                 <Link
                   to={outCategories[index + 1]}
                   key={text}
-                  style={{ textDecoration: 'none' }}
+                  style={{
+                    textDecoration: 'none',
+                    color: theme.palette.primary.contrastText,
+                  }}
                 >
                   <ListItem button>
                     <ListItemText primary={text} />
@@ -203,28 +201,28 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         position='static'
         style={{
           background: theme.palette.primary.dark,
-          color: theme.palette.primary.light,
+          color: theme.palette.secondary.main,
         }}
       >
         <Toolbar>
-            <IconButton
-              color='inherit'
-              aria-label='Open drawer'
-              edge='start'
-              onClick={handleDrawerToggle}
-              style={{ background: theme.palette.primary.light }}
-            >
-              <MenuIcon />
-            </IconButton>
-          <Link to={'/'}>
+          <IconButton
+            color='inherit'
+            aria-label='Open drawer'
+            edge='start'
+            onClick={handleDrawerToggle}
+            style={{ background: theme.palette.primary.dark }}
+          >
+            <MenuIcon fontSize='large' />
+          </IconButton>
+          {/* <Link to={'/'}>
             <img src={logo} width='110' height='80' />
-          </Link>
-          
+          </Link> */}
+
           <Typography variant='h6' noWrap>
             <Link
               style={{
                 textDecoration: 'none',
-                color: theme.palette.primary.light,
+                color: theme.palette.secondary.main,
               }}
               className='navbar-logo'
               to={'/'}
@@ -241,7 +239,15 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             >
               <FormControlLabel
                 value='light'
-                control={<Radio checkedIcon={<RadioButtonCheckedIcon />} />}
+                control={
+                  <Radio
+                    checkedIcon={
+                      <RadioButtonCheckedIcon
+                        style={{ color: theme.palette.secondary.main }}
+                      />
+                    }
+                  />
+                }
                 label='Light'
                 labelPlacement='bottom'
               />
@@ -267,9 +273,13 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           </FormControl>
         </Toolbar>
       </AppBar>
-      <nav>
+      <nav style={{ backgroundColor: theme.palette.primary.main }}>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation='css'>
+        <Hidden
+          smUp
+          implementation='css'
+          // style={{ backgroundColor: theme.palette.primary.main }}
+        >
           <Drawer
             variant='temporary'
             anchor='left'
@@ -279,7 +289,13 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <IconButton onClick={handleDrawerToggle}>
+            <IconButton
+              onClick={handleDrawerToggle}
+              style={{
+                backgroundColor: theme.palette.primary.main,
+                // width: '100%',
+              }}
+            >
               <CloseIcon />
             </IconButton>
             {drawer}

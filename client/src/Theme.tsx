@@ -16,22 +16,25 @@ const light = {
     primary: {
       main: '#D9A370',
       light: '#FDDFB1',
-      dark: '#5B2F24',
-      contrastText: '#5B2F24',
+      dark: '#2b1914',
+      contrastText: '#2b1914',
     },
     secondary: {
-      main: red[500],
+      main: '#FDDFB1',
     },
   },
 };
 
+//dark brown choices: '#5B2F24', '#42251e', '#3b211b'
 const dark = {
   palette: {
     primary: {
-      main: blue[500],
+      main: '#3b211b',
+      dark: '#2b1914',
+      contrastText: '#FDDFB1',
     },
     secondary: {
-      main: blue[600],
+      main: '#FDDFB1',
     },
   },
 };
