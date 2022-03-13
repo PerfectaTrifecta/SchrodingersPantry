@@ -2,14 +2,14 @@ const { default: axios } = require('axios');
 const { Router } = require('express');
 const UserRouter = Router();
 const { Recipe, Favorite, User_Bookmark, Bookmark, Comment, User } = require('../db/index');
-// const cloudinary = require('cloudinary').v2;
-// //require User Model, sequelize
+const cloudinary = require('cloudinary').v2;
+//require User Model, sequelize
 
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_NAME,
-//   api_key: process.env.CLOUDINARY_KEY,
-//   api_secret: process.env.CLOUDINARY_SECRET,
-// });
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 //on User post of image
 UserRouter.post('/upload/pic', async (req, res) => {
@@ -17,9 +17,9 @@ UserRouter.post('/upload/pic', async (req, res) => {
   try {
     const pic = req.body;
     console.log(pic, 'user 18');
-    // const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'sPantry'})
+    const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'sPantry'})
 
-    // console.log(public.id, 'user 14');
+    console.log(uploadedRes, 'user 14');
     // res.status(201).send(uploadedRes.public_id);
   } catch (error) {
     console.error(error, 'user route 13');
@@ -29,7 +29,7 @@ UserRouter.post('/upload/pic', async (req, res) => {
 
 //on User submission of recipe
 UserRouter.post('/upload/recipe', (req, res) => {
-  console.log(req.body, 'userRoute 23')
+  // console.log(req.body, 'userRoute 23')
   const { title, ingredients, instructions, userId} = req.body;
 
   Recipe.create({ userId, title, ingredients, instructions})
@@ -38,6 +38,50 @@ UserRouter.post('/upload/recipe', (req, res) => {
     })
     .catch(err => console.error(err, 'userRoute 38'))
 
+});
+
+//Profile Info Updates//
+UserRouter.post('/update/bio', (req, res) => {
+  console.log(req.body, 'userRoute 45');
+  const { bio } = req.body;
+
+  User.update({ bio }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 56'));
+});
+
+UserRouter.post('/update/diet', (req, res) => {
+  const { diet } = req.body;
+
+  User.update({ diet }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 70'));
+});
+
+UserRouter.post('/update/allergies', (req, res) => {
+  const { allergies } = req.body;
+
+  User.update({ allergies }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then(() => {
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 84'));
 });
 
 //On user post of comment
@@ -49,7 +93,7 @@ UserRouter.post('/comment', (req, res) => {
     .then(() => {
       res.sendStatus(201);
     })
-    .catch(err => console.error(err, 'userRoute 51'))
+    .catch(err => console.error(err, 'userRoute 68'));
 });
 
 UserRouter.post('/userComment', (req, res) => {

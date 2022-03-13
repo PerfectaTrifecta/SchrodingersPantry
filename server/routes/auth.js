@@ -1,6 +1,13 @@
 const { Router } = require('express');
 const passport = require('passport');
-const { User, Favorite, User_Image, Recipe, Bookmark, User_Bookmark } = require('../db/index');
+const {
+  User,
+  Favorite,
+  User_Image,
+  Recipe,
+  Bookmark,
+  User_Bookmark,
+} = require('../db/index');
 
 const authRouter = Router();
 let accessToken;
@@ -50,7 +57,7 @@ authRouter.get(
 );
 
 authRouter.get('/user', (req, res) => {
-  // console.log(req.cookies, 'auth 20');
+  // console.log(req.cookies, 'auth 53');
   //should search all models and send back a user object
 
   if (req.cookies.googleId) {
@@ -64,7 +71,7 @@ authRouter.get('/user', (req, res) => {
         res.send(user);
       })
 
-      .catch((err) => console.error('auth 28', err));
+      .catch((err) => console.error('auth 67', err));
   } else {
     res.sendStatus(404);
   }
@@ -73,7 +80,8 @@ authRouter.get('/user', (req, res) => {
 authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
-  let userDetails = {};
+  // console.log(user, 'auth 76');
+  let userDetails = user;
   // console.log(user, 12);
 
   User.findOrCreate({
@@ -82,90 +90,88 @@ authRouter.post('/account', (req, res) => {
     },
   })
     .then((data) => {
-      userDetails.userName = user.name;
-      userDetails.id = data[0].id;
       //FAVORITES
       User.findAll({
         include: {
           model: Recipe,
           through: Favorite,
           where: {
-            userId: user.id
-          }
-        }
-      }).then((favs) => {
-        if (favs) {
-          userDetails.favorites = favs;
-          //console.log(favs, 50000000);
-        } else {
-          userDetails.favorites = [];
-        }
-        //IMAGES
-        User_Image.findAll({
-          where: {
             userId: user.id,
           },
-        })
-          .then((images) => {
-            if (images) {
-              userDetails.pics = images;
-            } else {
-              userDetails.pics = [];
-            }
-            // console.log(userDetails, 1700000000);
-            
-            //RECIPES
-            Recipe.findAll({
-              where: {
-                userId: user.id
-              }
-            })
-            .then(recipes => {
-              if (recipes) {
-                userDetails.recipes = recipes;
+        },
+      })
+        .then((favs) => {
+          if (favs) {
+            userDetails.favorites = favs;
+            //console.log(favs, 50000000);
+          } else {
+            userDetails.favorites = [];
+          }
+          //IMAGES
+          User_Image.findAll({
+            where: {
+              userId: user.id,
+            },
+          })
+            .then((images) => {
+              if (images) {
+                userDetails.pics = images;
               } else {
-                userDetails.recipes = [];
+                userDetails.pics = [];
               }
+              // console.log(userDetails, 1700000000);
 
-              //BOOKMARKS
-              Bookmark.findAll({
-                include: {
-                  model: User,
-                  through: User_Bookmark,
-                  where: {
-                    id: user.id
+              //RECIPES
+              Recipe.findAll({
+                where: {
+                  userId: user.id,
+                },
+              })
+                .then((recipes) => {
+                  if (recipes) {
+                    userDetails.recipes = recipes;
+                  } else {
+                    userDetails.recipes = [];
                   }
-                }
-              })
-              .then(bookmarks => {
-                if (bookmarks) {
-                  userDetails.bookmarks = bookmarks;
-                } else {
-                  userDetails.bookmarks = [];
-                }
 
-                res.status(200).send(userDetails);
-              })
-              .catch(err => {
-                console.error(err);
-                res.sendStatus(404);
-              });
+                  //BOOKMARKS
+                  Bookmark.findAll({
+                    include: {
+                      model: User,
+                      through: User_Bookmark,
+                      where: {
+                        id: user.id,
+                      },
+                    },
+                  })
+                    .then((bookmarks) => {
+                      if (bookmarks) {
+                        userDetails.bookmarks = bookmarks;
+                      } else {
+                        userDetails.bookmarks = [];
+                      }
 
+                      res.status(200).send(userDetails);
+                    })
+                    .catch((err) => {
+                      console.error(err);
+                      res.sendStatus(404);
+                    });
+                })
+                .catch((err) => {
+                  console.error(err);
+                  res.sendStatus(404);
+                });
             })
-            .catch(err => {
+            .catch((err) => {
               console.error(err);
               res.sendStatus(404);
-            })
-          })
-          .catch((err) => {
-            console.error(err);
-            res.sendStatus(404);
-          });
-      })
-      .catch(err => {
-        console.error(err);
-        res.sendStatus(404);
-      })
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.sendStatus(404);
+        });
     })
     .catch((err) => {
       console.error('auth user lookup error:', err);

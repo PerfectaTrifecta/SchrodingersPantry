@@ -39,7 +39,10 @@ const MealCard = ({ recipe }: CardProps) => {
       </CardActionArea>
       <CardActions>
         <Link
-          to={{ pathname: '/recipe_view', state: { idMeal: recipe.idMeal } }}
+          to={{
+            pathname: `/recipe_view/${recipe.idMeal}`,
+            state: { idMeal: recipe.idMeal },
+          }}
         >
           <Button size='small' color='primary'>
             Go To Recipe
