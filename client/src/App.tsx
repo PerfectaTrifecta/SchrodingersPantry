@@ -60,10 +60,7 @@ const App: React.FC = (): JSX.Element => {
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
   let recipes: Array<MyRecipeTypes> = [];
-<<<<<<< HEAD
-=======
   let bookmarks: Array<Bookmarks> = [];
->>>>>>> 4bf2a5f35cb441a62a2cd4b734808d1bf8a03066
 
   // if (loggedIn) {
   //   recipes = user.recipes;
@@ -71,14 +68,6 @@ const App: React.FC = (): JSX.Element => {
   // }
 
   const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
-<<<<<<< HEAD
-
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    if (user) {
-      recipes = user.recipes;
-      setRecipeList(recipes);
-=======
   const [bookmarkList, setBookmarkList] = useState<Bookmarks[]>(bookmarks);
 
   const [loading, setLoading] = useState(false);
@@ -90,7 +79,6 @@ const App: React.FC = (): JSX.Element => {
 
       setRecipeList(recipes);
       setBookmarkList(bookmarks);
->>>>>>> 4bf2a5f35cb441a62a2cd4b734808d1bf8a03066
     }
   });
 
