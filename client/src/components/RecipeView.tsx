@@ -55,15 +55,15 @@ interface CommentDisplay {
 
 const RecipeView: React.FC = () => {
   const { user } = useContext(UserContext);
+  const theme = useTheme();
   //Use the useLocation hook to get idMeal passed through the search route.
   // const location = useLocation<{ idUserMeal: number | null }>();
-  const idUserMeal = null;
+  const idUserMeal: number | null = null;
   const { idMeal } = useParams<{ idMeal: string }>();
   //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] = useState<
-    UserRecipeProps[] | null
-  >(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] =
+    useState<UserRecipeProps[] | null>(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   // const [mealId, setMealId] = useState<string>('');
@@ -150,8 +150,6 @@ const RecipeView: React.FC = () => {
     setExpanded(!expanded);
   };
   //Conditionally renders based on meal data availability
-
-  const theme = useTheme();
 
   return mealRecipe[0] ? (
     <div

@@ -26,8 +26,12 @@ interface userTypes {
   } | null>;
   bookmarks?: Array<{
     id: number;
-    url: string;
-  }>;
+    link: string;
+    title: string;
+    creator: string;
+    relTime: string;
+    img: string;
+  } | null>;
 }
 
 interface UserContextType {
@@ -62,11 +66,11 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          console.log(data[0], 'context 31');
+          // console.log(data[0], 'context 69');
           setUser(data[0]);
           setLoggedIn(true);
         })
-        .catch((err) => console.error('error context 34', err));
+        .catch((err) => console.error('error context 73', err));
     }
   };
 
@@ -77,7 +81,7 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {
-          // console.log(data, 'userContext 65');
+          // console.log(data, 'userContext 84');
           setUser(data);
         })
         .catch((err) => {

@@ -8,7 +8,7 @@
   place-items: center;
   box-sizing: border-box;
   margin: 0;
-  padding:0;
+  padding: 0;
   font-family: 'Nunito', sans-serif;
 }
 body {
@@ -55,8 +55,8 @@ body {
   border-radius: 5px;
   padding: 5px;
   font-size: 16px;
-  background: #3f51b5;
-  color: #fff;
+  /* background: #3f51b5;
+  color: #fff; */
   cursor: pointer;
   display: flex;
   flex-flow: column;
@@ -79,14 +79,14 @@ body {
 .chat-window .chat-header {
   height: 35px;
   border-radius: 6px;
-  background: #3f51b5;
+  /* background: #3f51b5; */
   position: relative;
   cursor: pointer;
 }
 .chat-window .chat-header p {
   display: block;
   padding: 0 1em 0 2em;
-  color: #fff;
+  /* color: #fff; */
   font-weight: 700;
   line-height: 45px;
 }
@@ -209,7 +209,6 @@ body {
   opacity: 0 !important;
 }
 
-
 #headline {
   text-decoration: none;
 }
@@ -217,13 +216,13 @@ body {
 #timerDiv {
   border-style: solid;
   border-width: 1px;
-  border-color: gray;
+  /* border-color: gray; */
   border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 10px;
   margin-right: 10px;
-  box-shadow: 2px 2px rgb(144, 144, 144);
+  box-shadow: 2px 2px rgb(43, 25, 20);
 }
 
 #timerButton {
@@ -254,18 +253,17 @@ body {
   color: white;
   margin-bottom: 5px;
   margin-left: 27px;
-  
 }
 #TTSButtons:hover {
   margin: 30px 20px 30px 20px;
-  transform: scale(2.0);
+  transform: scale(2);
   color: #22f00b;
 }
 
 #TTSButtons {
   margin: 30px 20px 30px 20px;
-  
-  transform: scale(2.0);
+
+  transform: scale(2);
   color: #2f42d3;
 }
 
@@ -280,17 +278,12 @@ body {
   color: white;
 }
 
-
-
-
-
-
 .navbar {
   position: sticky;
   top: 0px;
   height: 70px;
   background-color: white;
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -301,13 +294,13 @@ body {
 /* @import url('https://fonts.googleapis.com/css2?family=Croissant+One&family=Montserrat:wght@100&family=Nunito:wght@200&family=Paytone+One&family=Sansita+Swashed:wght@300&display=swap'); */
 
 .navbar-logo {
-   color: black;
-   font-family: 'Nunito', sans-serif;
-   font-size: 2.5rem;
-   margin-left: 10px;
-   text-decoration: none;
-   text-shadow: 0.5px 1px 1px black, 0 0 25px rgb(240, 252, 255), 0 0 5px rgb(143, 143, 143);
-
+  color: black;
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.5rem;
+  margin-left: 10px;
+  text-decoration: none;
+  text-shadow: 0.5px 1px 1px black, 0 0 25px rgb(240, 252, 255),
+    0 0 5px rgb(143, 143, 143);
 }
 
 .navbar-list {
@@ -329,6 +322,10 @@ body {
   font-family: 'Nunito', sans-serif;
 }
 
+.navbar-link:hover {
+  border-color: rgb(34, 211, 152);
+  transition: 250ms;
+}
 
 .landing {
   position: relative;
@@ -343,7 +340,7 @@ body {
   position: absolute;
 }
 
-.landing-title{
+.landing-title {
   position: absolute;
   bottom: 15%;
   right: 10%;
@@ -351,7 +348,6 @@ body {
   font-size: 4rem;
   padding: 15px;
   font-family: 'Nunito', sans-serif;
-  
 }
 
 .slider {
@@ -392,18 +388,22 @@ body {
 #story {
   border-style: solid;
   border-width: 1px;
-  border-color: gray;
   border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: 20px;
+  margin-left: 25%;
   margin-right: 20px;
-  box-shadow: 2px 2px rgb(144, 144, 144);
+  box-shadow: 2px 2px rgb(43, 25, 20);
+  max-width: 800px;
+  height: 50%;
 }
 
-#rssImg {
-float: left;
+/* #rssTabs {
+  margin-left: 37%;
+} */
 
+#rssImg {
+  float: left;
 }
 #rssImg img {
   display: block;
@@ -430,7 +430,29 @@ float: left;
   margin-top: 10px;
 }
 
-.search-title{
+.addIcon {
+  float: right;
+  margin-top: -30px;
+  margin-right: 5px;
+}
+
+#bookmark {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 2%;
+  margin-right: 20px;
+  box-shadow: 2px 2px rgb(43, 25, 20);
+  width: 600px;
+}
+.search-title {
   text-align: center;
   font-family: 'Nunito', sans-serif;
+}
+
+#button-google {
+  text-decoration: 'none';
+  margin-left: 15px;
 }
