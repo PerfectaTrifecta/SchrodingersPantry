@@ -19,6 +19,8 @@ import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import InviteToChat from './InviteToChat';
+import useTheme from '@mui/material/styles/useTheme';
+
 // import {createMemoryHistory} from 'history';
 
 /*Recipe View is where the user can see details about a recipe that they
@@ -148,15 +150,32 @@ const RecipeView: React.FC = () => {
     setExpanded(!expanded);
   };
   //Conditionally renders based on meal data availability
+
+  const theme = useTheme();
+
   return mealRecipe[0] ? (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+        borderRadius: '0.25rem',
+      }}
+    >
       <InviteToChat />
       <Card
         sx={{ maxWidth: 345 }}
         style={{
-          margin: '16px auto',
           maxWidth: '600px',
           width: '90%',
+          padding: '1rem',
+          margin: '1rem 0',
+          boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+
+          display: 'flex',
+          flexFlow: 'column',
+          alignItems: 'center',
+          borderRadius: '0.25rem',
         }}
       >
         <CardHeader
@@ -234,14 +253,28 @@ const RecipeView: React.FC = () => {
       </Card>
     </div>
   ) : mealUserRecipe ? (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+        borderRadius: '0.25rem',
+      }}
+    >
       <InviteToChat />
       <Card
         sx={{ maxWidth: 345 }}
         style={{
-          margin: '16px auto',
           maxWidth: '600px',
           width: '90%',
+          padding: '1rem',
+          margin: '1rem 0',
+          boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+
+          display: 'flex',
+          flexFlow: 'column',
+          alignItems: 'center',
+          borderRadius: '0.25rem',
         }}
       >
         <CardHeader
