@@ -111,7 +111,7 @@ const App: React.FC = (): JSX.Element => {
                   setRecipeList={setRecipeList}
                 />
               </Route>
-              <Route path='/recipe_view'>
+              <Route path='/recipe_view/:idMeal'>
                 <RecipeView />
               </Route>
               <Route path='/meal_prep'>
