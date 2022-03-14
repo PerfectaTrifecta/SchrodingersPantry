@@ -71,7 +71,7 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
         setTitle('');
         setIngredients('');
         setInstructions('');
-        console.log('recipe created 38');
+        // console.log('recipe created 38');
       })
       .catch((err) => console.error(err, 'createRecipe failed 39'));
   };

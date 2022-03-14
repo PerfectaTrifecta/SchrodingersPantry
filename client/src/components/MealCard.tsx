@@ -20,13 +20,17 @@ const MealCard = ({ recipe }: CardProps) => {
     <Card
       sx={{ maxWidth: 345 }}
       style={{
-        alignContent: 'space around',
-        justifyContent: 'space-evenly',
-        margin: '16px',
         maxWidth: '600px',
         width: '90%',
         backgroundColor: theme.palette.primary.light,
         color: theme.palette.primary.contrastText,
+        padding: '1rem',
+        margin: '1rem 0',
+        boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+        borderRadius: '0.25rem',
       }}
     >
       <CardActionArea>
@@ -44,7 +48,10 @@ const MealCard = ({ recipe }: CardProps) => {
       </CardActionArea>
       <CardActions>
         <Link
-          to={{ pathname: '/recipe_view', state: { idMeal: recipe.idMeal } }}
+          to={{
+            pathname: `/recipe_view/${recipe.idMeal}`,
+            state: { idMeal: recipe.idMeal },
+          }}
           style={{ textDecoration: 'none' }}
         >
           <Button

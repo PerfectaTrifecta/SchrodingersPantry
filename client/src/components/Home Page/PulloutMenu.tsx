@@ -58,8 +58,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     '/rss',
     'Market Locator',
     '/market_finder',
-    'Live Chat',
-    '/live_chat',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   const theme = useTheme();
@@ -102,7 +100,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       .then(() => {
         setLoggedIn(false);
         setUser(null);
-        console.log('user set to null');
+        // console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
   };

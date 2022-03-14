@@ -6,7 +6,7 @@
   "scripts": {
     "start-socket": "nodemon ./socketServer/index.js",
     "start": "node ./server/index.js",
-    "start-dev": "nodemon ./server",
+    "start-dev": "nodemon ./server/index.js",
     "dev": "webpack --watch",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -81,6 +81,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-spotify": "^2.0.0",
     "pg": "^8.7.3",
+    "qs": "^6.10.3",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
     "react-dom": "^17.0.2",
