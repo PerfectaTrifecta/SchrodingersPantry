@@ -25,11 +25,12 @@ const MealCard = ({ recipe }: CardProps) => {
         backgroundColor: theme.palette.primary.light,
         color: theme.palette.primary.contrastText,
         padding: '1rem',
-        margin: '1rem 0',
-        boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+        margin: '5px 7px 5px 7px',
+        boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
         display: 'flex',
         flexFlow: 'column',
-        alignItems: 'center',
+        alignContent: 'space-around',
+        justifyContent: 'space-evenly',
         borderRadius: '0.25rem',
       }}
     >

@@ -85,6 +85,7 @@ const Search: React.FC = () => {
           flexFlow: 'row wrap',
           width: '100%',
           justifyContent: 'center',
+          alignItems: 'space-around',
         }}
       >
         {meals.map((meal, i) => (

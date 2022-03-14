@@ -164,8 +164,21 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
   };
 
   return (
-    <div>
-      <AppBar position='static'>
+    <div
+      style={{
+        height: '100%',
+        backgroundColor: theme.palette.primary.main,
+        marginBottom: '100%',
+      }}
+    >
+      <AppBar
+        position='static'
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Tabs
           id='rssTabs'
           value={selectedTab}
@@ -208,6 +221,7 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
             key={title}
             style={{
               backgroundColor: theme.palette.primary.light,
+              borderColor: theme.palette.primary.dark,
             }}
           >
             <a id='headline' href={link}>

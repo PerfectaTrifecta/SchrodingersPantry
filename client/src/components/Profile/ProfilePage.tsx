@@ -219,7 +219,10 @@ const ProfilePage: React.FC<Props> = ({
           color: theme.palette.primary.contrastText,
           padding: '1rem',
           margin: '1rem 0',
-          boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+          boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          borderColor: theme.palette.primary.dark,
         }} //{onClick={handleCardClick}}
       >
         {img ? (
@@ -424,12 +427,22 @@ const ProfilePage: React.FC<Props> = ({
             const { creator, title, relTime, link, img } = mark;
 
             return (
-              <div id='bookmark' key={title}>
+              <div
+                id='bookmark'
+                key={title}
+                style={{
+                  backgroundColor: theme.palette.primary.light,
+                  borderColor: theme.palette.primary.dark,
+                }}
+              >
                 <a id='headline' href={link}>
                   <div id='rssImg'>
                     <img width='120' src={img}></img>
                   </div>
-                  <div id='rssStoryDiv'>
+                  <div
+                    id='rssStoryDiv'
+                    style={{ color: theme.palette.primary.contrastText }}
+                  >
                     <h5 id='rssTitle'>{title}</h5>
                     <h6 id='rssCreator'>Written by: {creator}</h6>
                     <h6 id='rssTime'>{relTime}</h6>

@@ -100,7 +100,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       .then(() => {
         setLoggedIn(false);
         setUser(null);
-        // console.log('user set to null');
+        console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
   };
@@ -109,12 +109,13 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     <div
       style={{
         background: theme.palette.primary.main,
+        height: '100%',
       }}
     >
       <Link to={'/'}>
         <img src={logo} width='200' style={{ paddingTop: '20px' }} />
       </Link>
-      {user ? (
+      {loggedIn ? (
         <List
           style={{
             display: 'flex',
@@ -222,7 +223,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
               className='navbar-logo'
               to={'/'}
             >
-              <span>Schroedinger's Pantry</span>
+              <span>Schrödinger's Pantry</span>
             </Link>
           </Typography>
           <FormControl component='fieldset' style={{ marginLeft: 'auto' }}>
@@ -284,8 +285,10 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
               onClick={handleDrawerToggle}
               style={{
                 backgroundColor: theme.palette.primary.main,
-                // width: '100%',
+                width: '100%',
+                borderRadius: '0px',
               }}
+              // edge='start'
             >
               <CloseIcon />
             </IconButton>

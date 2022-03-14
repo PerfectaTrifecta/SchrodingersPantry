@@ -28,6 +28,10 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
         width: '90%',
         backgroundColor: theme.palette.primary.light,
         color: theme.palette.primary.contrastText,
+        boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderColor: theme.palette.primary.dark,
       }}
     >
       <CardActionArea>
