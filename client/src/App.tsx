@@ -49,16 +49,21 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
-  let recipes: Array<MyRecipeTypes | []> = [];
+  let recipes: Array<MyRecipeTypes> = [];
 
   if (loggedIn) {
     recipes = user.recipes;
   }
 
-  const [recipeList, setRecipeList] = useState<MyRecipeTypes[] | null>(recipes);
+  const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
 
   const [loading, setLoading] = useState(false);
-  const [color, setColor] = useState('#1682B2');
+  useEffect(() => {
+    if (user) {
+      recipes = user.recipes;
+      setRecipeList(recipes);
+    }
+  });
 
   useEffect(() => {
     userAccount();

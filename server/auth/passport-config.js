@@ -12,7 +12,9 @@ module.exports = (passport) => {
       {
         clientID: process.env.SPOTIFY_CLIENT_ID,
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-        callbackURL: 'http://localhost:4000/auth/spotify/callback',
+        callbackURL:
+          process.env.SPOTIFY_CALLBACK_URL ||
+          'http://localhost:4000/auth/spotify/callback',
       },
       function (accesToken, refreshToken, expires_in, profile, done) {
         passport.serializeUser(function (user, done) {
@@ -22,7 +24,7 @@ module.exports = (passport) => {
           done(null, user);
         });
 
-        process.nextTick(function () {
+        process.nextTick(() => {
           return done(null, accesToken, refreshToken, profile);
         });
       }
@@ -34,7 +36,9 @@ module.exports = (passport) => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'http://localhost:4000/auth/google/callback',
+        callbackURL:
+          process.env.GOOGLE_CALLBACK_URL ||
+          'http://localhost:4000/auth/google/callback',
       },
       (accessToken, refreshToken, profile, cb) => {
         //find or create the user
