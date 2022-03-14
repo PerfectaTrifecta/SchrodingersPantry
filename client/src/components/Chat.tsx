@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { UserContext } from '../UserContext';
+
 import ScrollToBottom from 'react-scroll-to-bottom'; /*<-- Researched 
 this and there does not appear to be a fix. It doesn't break anything*/
 
 type Props = {
   socket: Socket;
-  username: string;
-  room: string;
 };
 
 interface SocketData {
@@ -15,15 +16,17 @@ interface SocketData {
   time: Date;
 }
 
-const Chat: React.FC<Props> = ({ socket, username, room }) => {
+const Chat: React.FC<Props> = ({ socket }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
-
+  const { user } = useContext(UserContext);
+  const { userName } = user;
+  const { idMeal } = useParams<{ idMeal: string }>();
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData = {
-        room: room,
-        author: username,
+        room: idMeal,
+        author: userName,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
@@ -55,7 +58,7 @@ const Chat: React.FC<Props> = ({ socket, username, room }) => {
               <div
                 key={i}
                 className='message'
-                id={username === messageContent.author ? 'you' : 'other'}
+                id={userName === messageContent.author ? 'you' : 'other'}
               >
                 <div>
                   <div className='message-content'>

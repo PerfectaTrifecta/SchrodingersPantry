@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import InviteToChat from './components/InviteToChat';
 import HomePage from './components/Home Page/HomePage';
 import PulloutMenu from './components/Home Page/PulloutMenu';
 import RSSFeed from './components/rss/RSSFeedContainer';
@@ -143,9 +142,6 @@ const App: React.FC = (): JSX.Element => {
                   recipeList={recipeList}
                   setRecipeList={setRecipeList}
                 />
-              </Route>
-              <Route path='/live_chat'>
-                <InviteToChat />
               </Route>
             </Switch>
           </div>
