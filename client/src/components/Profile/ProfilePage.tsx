@@ -61,7 +61,7 @@ interface MyRecipeTypes {
 }
 
 interface Bookmarks {
-  id: number;
+  id?: number;
   link: string;
   title: string;
   creator: string;
@@ -403,9 +403,10 @@ const ProfilePage: React.FC<Props> = ({
         }}
       >
         FAVORITE RECIPES
-        {favorites.map((favorite: MyRecipeTypes) => (
-          <RecipePreview id={favorite.id} title={favorite.title} />
-        ))}
+        {/* {favorites.map((favorite: string) => (
+          //INTEGRATE FAVORITES HERE
+          // <RecipePreview id={favorite.id} title={favorite.title} />
+        ))} */}
       </div>
       <div
         style={{

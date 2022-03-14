@@ -176,10 +176,11 @@ authRouter.post('/account', (req, res) => {
 });
 
 authRouter.get('/logout', (req, res) => {
-  console.log('yep');
   res.clearCookie('googleId');
   res.clearCookie('connect.sid');
   res.status(200);
+  
+  console.log('logged out');
   res.redirect('/');
 });
 

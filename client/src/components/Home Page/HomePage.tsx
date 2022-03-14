@@ -19,14 +19,14 @@ const HomePage: React.FC = () => {
   const { loggedIn, user } = React.useContext(UserContext);
 
   return (
-    <div>
+    <div
+      style={{
+        background: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+      }}
+    >
       {loggedIn ? (
-        <div
-          style={{
-            background: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-          }}
-        >
+        <div>
           <Landing
             imageSrc={pantry}
             phrase={`Welcome, ${user.userName.split(' ')[0]}!`}
@@ -47,7 +47,7 @@ const HomePage: React.FC = () => {
           />
         </div>
       ) : (
-        <div style={{ background: theme.palette.primary.main }}>
+        <div>
           <Landing
             imageSrc={pantry}
             phrase='Your Favorite Meals at Your Fingertips'

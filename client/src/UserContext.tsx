@@ -81,7 +81,7 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {
-          // console.log(data, 'userContext 65');
+          // console.log(data, 'userContext 84');
           setUser(data);
         })
         .catch((err) => {

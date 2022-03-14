@@ -40,7 +40,7 @@ interface MyRecipeTypes {
 }
 
 interface Bookmarks {
-  id: number;
+  id?: number;
   link: string;
   title: string;
   creator: string;
@@ -60,20 +60,28 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
-  let recipes: Array<MyRecipeTypes | []> = [];
-  let bookmarks: Array<Bookmarks | []> = [];
+  let recipes: Array<MyRecipeTypes> = [];
+  let bookmarks: Array<Bookmarks> = [];
 
-  if (loggedIn) {
-    recipes = user.recipes;
-    bookmarks = user.bookmarks;
-  }
+  // if (loggedIn) {
+  //   recipes = user.recipes;
+  //   bookmarks = user.bookmarks;
+  // }
 
-  const [recipeList, setRecipeList] = useState<MyRecipeTypes[] | null>(recipes);
-  const [bookmarkList, setBookmarkList] =
-    useState<Bookmarks[] | null>(bookmarks);
+  const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
+  const [bookmarkList, setBookmarkList] = useState<Bookmarks[]>(bookmarks);
 
   const [loading, setLoading] = useState(false);
-  const [color, setColor] = useState('#1682B2');
+
+  useEffect(() => {
+    if (user) {
+      recipes = user.recipes;
+      bookmarks = user.bookmarks;
+
+      setRecipeList(recipes);
+      setBookmarkList(bookmarks);
+    }
+  });
 
   useEffect(() => {
     userAccount();
@@ -83,7 +91,7 @@ const App: React.FC = (): JSX.Element => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1500);
   }, []);
 
   const [theme, setTheme] = useState<ThemeOptions>(light);
