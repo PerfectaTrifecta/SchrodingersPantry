@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const { User } = require('../db/index.js');
 
-module.exports = (passport) => {
+module.exports = () => {
   passport.use(
     'spotify',
     new SpotifyStrategy(
@@ -48,8 +48,7 @@ module.exports = (passport) => {
           where: { id: profile.id },
           defaults: { userName: profile.displayName },
         })
-          .then((user) => {
-            // console.log(user[0], '19?');
+          .then(() => {
             cb(null, profile);
           })
           .catch((err) => console.log(err, 'passport 21'));

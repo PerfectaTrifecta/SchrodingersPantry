@@ -13,8 +13,7 @@ import { UserContext } from './UserContext';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
 import { PaletteOptions } from '@mui/material';
-import { light, dark, veggie, meat } from './Theme';
-import useTheme from '@mui/material/styles/useTheme';
+import { light, dark } from './Theme';
 
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
