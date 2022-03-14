@@ -59,8 +59,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     '/market_finder',
     'Sign Out',
     '/logout',
-    'Live Chat',
-    '/live_chat',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   const theme = useTheme();
@@ -106,7 +104,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       .get('/auth/logout')
       .then(() => {
         setUser(null);
-        console.log('user set to null');
+        // console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
   };
@@ -189,18 +187,18 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         style={{ background: theme.palette.primary.main }}
       >
         <Toolbar>
-            <IconButton
-              color='inherit'
-              aria-label='Open drawer'
-              edge='start'
-              onClick={handleDrawerToggle}
-            >
-              <MenuIcon />
-            </IconButton>
+          <IconButton
+            color='inherit'
+            aria-label='Open drawer'
+            edge='start'
+            onClick={handleDrawerToggle}
+          >
+            <MenuIcon />
+          </IconButton>
           <Link to={'/'}>
             <img src={logo} width='110' height='80' />
           </Link>
-          
+
           <Typography variant='h6' noWrap>
             <Link
               style={{ textDecoration: 'none' }}
