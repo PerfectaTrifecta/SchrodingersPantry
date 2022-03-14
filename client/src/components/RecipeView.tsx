@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import VideoModal from './VideoModal';
 import Favorite from './Favorite';
@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import InviteToChat from './InviteToChat';
 import useTheme from '@mui/material/styles/useTheme';
-
+import moment from 'moment';
 // import {createMemoryHistory} from 'history';
 
 /*Recipe View is where the user can see details about a recipe that they
@@ -62,8 +62,9 @@ const RecipeView: React.FC = () => {
   const { idMeal } = useParams<{ idMeal: string }>();
   //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] =
-    useState<UserRecipeProps[] | null>(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] = useState<
+    UserRecipeProps[] | null
+  >(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   // const [mealId, setMealId] = useState<string>('');
@@ -169,7 +170,8 @@ const RecipeView: React.FC = () => {
           padding: '1rem',
           margin: '1rem 0',
           boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
-
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
           display: 'flex',
           flexFlow: 'column',
           alignItems: 'center',
@@ -215,7 +217,6 @@ const RecipeView: React.FC = () => {
             <CommentIcon fontSize='large' />
           </IconButton>
           <VideoModal mealName={mealRecipe[0].strMeal} />
-          <IconButton size='small'>Reviews</IconButton>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
@@ -229,21 +230,29 @@ const RecipeView: React.FC = () => {
               value={rawComment}
               onChange={handleCommentChange}
             />
-            <Button variant='outlined' size='small' onClick={submitComment}>
+            <Button
+              variant='outlined'
+              size='small'
+              onClick={submitComment}
+              style={{ color: theme.palette.primary.contrastText }}
+            >
               Submit
             </Button>
             {featComments.map((comment) => (
               <Box
                 sx={{
-                  border: '1px solid lightGrey',
+                  border: `1px solid ${theme.palette.primary.contrastText}`,
                   width: '450px',
                   marginTop: '5px',
                   padding: '5px 5px 10px 5px',
+                  borderRadius: '5px',
                 }}
               >
                 <Typography>{comment.name}</Typography>
                 <Typography>{comment.text}</Typography>
-                <Typography>{comment.postedAt}</Typography>
+                <Typography>
+                  {moment(comment.postedAt).format('MMMM Do YYYY, h:mm a')}
+                </Typography>
               </Box>
             ))}
           </CardContent>
@@ -268,7 +277,8 @@ const RecipeView: React.FC = () => {
           padding: '1rem',
           margin: '1rem 0',
           boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
-
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
           display: 'flex',
           flexFlow: 'column',
           alignItems: 'center',
@@ -316,7 +326,6 @@ const RecipeView: React.FC = () => {
           >
             <CommentIcon />
           </IconButton>
-          <IconButton>See Reviews!</IconButton>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
@@ -330,13 +339,18 @@ const RecipeView: React.FC = () => {
               value={rawComment}
               onChange={handleCommentChange}
             />
-            <Button variant='outlined' size='small' onClick={submitComment}>
+            <Button
+              variant='outlined'
+              size='small'
+              onClick={submitComment}
+              style={{ color: theme.palette.primary.contrastText }}
+            >
               Submit
             </Button>
             {featComments.map((comment) => (
               <Box
                 sx={{
-                  border: '1px solid lightGrey',
+                  border: `1px solid ${theme.palette.primary.contrastText}`,
                   width: '450px',
                   marginTop: '5px',
                   padding: '5px 5px 10px 5px',
@@ -344,7 +358,9 @@ const RecipeView: React.FC = () => {
               >
                 <Typography>{comment.name}</Typography>
                 <Typography>{comment.text}</Typography>
-                <Typography>{comment.postedAt}</Typography>
+                <Typography>
+                  {moment(comment.postedAt).format('MMMM Do YYYY, h:mm a')}
+                </Typography>
               </Box>
             ))}
           </CardContent>
