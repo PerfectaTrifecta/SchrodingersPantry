@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../UserContext';
-
+import moment from 'moment';
 import ScrollToBottom from 'react-scroll-to-bottom'; /*<-- Researched 
 this and there does not appear to be a fix. It doesn't break anything*/
 
@@ -16,6 +16,8 @@ interface SocketData {
   time: Date;
 }
 
+const currentTime: Date = new Date();
+
 const Chat: React.FC<Props> = ({ socket }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
@@ -28,10 +30,7 @@ const Chat: React.FC<Props> = ({ socket }) => {
         room: idMeal,
         author: userName,
         message: currentMessage,
-        time:
-          new Date(Date.now()).getHours() +
-          ':' +
-          new Date(Date.now()).getMinutes(),
+        time: moment(currentTime).format('h:mm a'),
       };
 
       await socket.emit('send_message', messageData);
@@ -65,8 +64,7 @@ const Chat: React.FC<Props> = ({ socket }) => {
                     <p>{messageContent.message}</p>
                   </div>
                   <div className='message-meta'>
-                    <p>{messageContent.author}</p>
-                    <p>{messageContent.time}</p>
+                    <p>{`${messageContent.author} ${messageContent.time}`}</p>
                   </div>
                 </div>
               </div>
