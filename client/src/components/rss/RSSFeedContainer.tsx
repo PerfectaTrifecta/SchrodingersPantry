@@ -1,20 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import AppBar from '@mui/material/AppBar';
-import axios from "axios";
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import axios from 'axios';
 import moment from 'moment';
+import { UserContext } from '../../UserContext';
+import useTheme from '@mui/material/styles/useTheme';
 
+interface Bookmarks {
+  id?: number;
+  link: string;
+  title: string;
+  creator: string;
+  relTime: string;
+  img: string;
+}
 
+interface Props {
+  bookmarkList: Bookmarks[];
+  setBookmarkList: React.Dispatch<React.SetStateAction<Bookmarks[]>>;
+}
 
-const RSSFeed: React.FC = () => {
-
-
+const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [stories, setStories] = useState<RSSData[]>([]);
   const [eater, setEaterFeed] = useState<RSSData[]>([]);
   const [nyt, setNYTFeed] = useState<RSSData[]>([]);
   const [delish, setDelishFeed] = useState<RSSData[]>([]);
+  const [showMessage, setShowMessage] = useState<boolean>(false);
+  // const [bookmark, setBookmark] = useState<boolean>(false);
+
+  const { user, loggedIn } = useContext(UserContext);
+  const theme = useTheme();
 
   const randomClipArtArray: string[] = [
     'http://media1.s-nbcnews.com/i/streams/2014/October/141006/2D274906938828-today-cafeteria-140811-01.jpg',
@@ -42,99 +61,203 @@ const RSSFeed: React.FC = () => {
   ];
 
   interface RSSData {
-    feed: string,
-    item: number,
-    creator: string,
-    title: string,
-    pubDate: string,
-    link: string,
+    feed: string;
+    item: number;
+    creator: string;
+    title: string;
+    pubDate: string;
+    link: string;
   }
 
   let eaterFeed = () => {
-    axios.get<RSSData[]>(`/routes/rss/populate/${0}`)
-        .then(({ data }) => {
-          setEaterFeed(data);
-        })
-        .catch((err) => {
-          throw err;
-        })
-  }
-  
-  const nytFeed = () => {
-    axios.get<RSSData[]>(`/routes/rss/populate/${1}`)
-        .then(({ data }) => {
-          setNYTFeed(data);
-        })
-        .catch((err) => {
-          throw err;
-        })
-  }
-
-  const delishFeed = () => {
-    axios.get<RSSData[]>(`/routes/rss/populate/${2}`)
-        .then(({ data }) => {
-          setDelishFeed(data);
-        })
-        .catch((err) => {
-          throw err;
-        })
-  }
-  
-  const getFeed = (selectedTab: number) => {
-      axios.get<RSSData[]>(`/routes/rss/populate/${selectedTab}`)
-        .then(({ data }) => {
-          setStories(data);
-        })
-        .catch((err) => {
-          throw err;
-        })
+    axios
+      .get<RSSData[]>(`/routes/rss/populate/${0}`)
+      .then(({ data }) => {
+        setEaterFeed(data);
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
-useEffect(() => {
-  getFeed(0);
-  eaterFeed();
-  nytFeed();
-  delishFeed();
+  const nytFeed = () => {
+    axios
+      .get<RSSData[]>(`/routes/rss/populate/${1}`)
+      .then(({ data }) => {
+        setNYTFeed(data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
 
-}, [])
+  const delishFeed = () => {
+    axios
+      .get<RSSData[]>(`/routes/rss/populate/${2}`)
+      .then(({ data }) => {
+        setDelishFeed(data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
 
+  const getFeed = (selectedTab: number) => {
+    axios
+      .get<RSSData[]>(`/routes/rss/populate/${selectedTab}`)
+      .then(({ data }) => {
+        setStories(data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
 
-  const tabs = ["Eater", "NYT Food", "Delish"];
+  useEffect(() => {
+    getFeed(0);
+    eaterFeed();
+    nytFeed();
+    delishFeed();
+  }, []);
+
+  const tabs = ['Eater', 'NYT Food', 'Delish'];
+
+  interface Bookmark {
+    title: string;
+    creator: string;
+    relTime: string;
+    link: string;
+    randomImg: string;
+  }
+
+  const handleBookmarkClick = ({
+    title,
+    creator,
+    relTime,
+    link,
+    randomImg,
+  }: Bookmark) => {
+    //if there is a user, run the post request
+    if (loggedIn) {
+      //update the BookmarkList that shows on the profile page
+      setBookmarkList(
+        bookmarkList.concat([{ title, creator, relTime, link, img: randomImg }])
+      );
+
+      //send the bookmark info to the db
+      axios
+        .post('/routes/rss/populate/bookmarks', {
+          userId: user.id,
+          title,
+          creator,
+          relTime,
+          link,
+          randomImg,
+        })
+        .then(() => console.log('bookmark posted! rss134'))
+        .catch((err) => console.error(err, 'rss 127'));
+    } else {
+      setShowMessage(true);
+    }
+
+    //if not, redirect to sign in
+  };
 
   return (
-    <div>
-      <AppBar position="static">
-        <Tabs value={selectedTab} onChange={(e, value) => {
-          setSelectedTab(value);
-          if(value === 0) {
-            setStories(eater)
-          } else if(value === 1) {
-            setStories(nyt);
-          } else if(value === 2) {
-            setStories(delish);
-          }
-        }
-          }>
-          {tabs.map((tab) => <Tab label={tab} key={tab} />)}
+    <div
+      style={{
+        height: '100%',
+        backgroundColor: theme.palette.primary.main,
+        marginBottom: '100%',
+      }}
+    >
+      <AppBar
+        position='static'
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Tabs
+          id='rssTabs'
+          value={selectedTab}
+          onChange={(e, value) => {
+            setSelectedTab(value);
+            if (value === 0) {
+              setStories(eater);
+            } else if (value === 1) {
+              setStories(nyt);
+            } else if (value === 2) {
+              setStories(delish);
+            }
+          }}
+        >
+          {tabs.map((tab) => (
+            <Tab
+              label={tab}
+              key={tab}
+              sx={{ color: theme.palette.primary.contrastText }}
+            />
+          ))}
         </Tabs>
       </AppBar>
       {stories.map((story) => {
-        const { creator, title, pubDate, link} = story;
-        const relTime = moment(pubDate).format("[Published On: ] dddd, MMMM Do" );
+        // setBookmark(false);
+        const { creator, title, pubDate, link } = story;
+        const relTime = moment(pubDate).format(
+          '[Published On: ] dddd, MMMM Do'
+        );
         const randomImg = Math.floor(Math.random() * randomClipArtArray.length);
-        return(
-          <div id="story" key={title}><a id="headline" href={link}>
-          <div id="rssImg"><img width='120' src={randomClipArtArray[randomImg]}></img></div>
-              <div id="rssStoryDiv">
-                <h5 id='rssTitle'>{title}</h5> 
+        // const [bookmark, setBookmark] = useState<boolean>(false);
+        let bookmark = false;
+        const toggleBookmark = () => {
+          bookmark = true;
+        };
+
+        return (
+          <div
+            id='story'
+            key={title}
+            style={{
+              backgroundColor: theme.palette.primary.light,
+              borderColor: theme.palette.primary.dark,
+            }}
+          >
+            <a id='headline' href={link}>
+              <div id='rssImg'>
+                <img width='120' src={randomClipArtArray[randomImg]}></img>
+              </div>
+              <div
+                id='rssStoryDiv'
+                style={{ color: theme.palette.primary.contrastText }}
+              >
+                <h5 id='rssTitle'>{title}</h5>
                 <h6 id='rssCreator'>Written by: {creator}</h6>
                 <h6 id='rssTime'>{relTime}</h6>
               </div>
-          </a></div>
-        )
+            </a>
+            <BookmarkAddIcon
+              className='addIcon'
+              onClick={() => {
+                console.log(bookmark, '197');
+                toggleBookmark();
+                console.log(bookmark, '198');
+                handleBookmarkClick({
+                  title,
+                  creator,
+                  relTime,
+                  link,
+                  randomImg: randomClipArtArray[randomImg],
+                });
+              }}
+            />
+            {showMessage ? 'Sign in to save to bookmarks' : null}
+          </div>
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
 export default RSSFeed;

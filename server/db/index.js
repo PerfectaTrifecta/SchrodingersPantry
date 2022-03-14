@@ -50,7 +50,11 @@ const Bookmark = sql.define('bookmarks', {
     primaryKey: true,
     autoIncrement: true,
   },
-  url: DataTypes.STRING,
+  link: DataTypes.STRING,
+  title: DataTypes.STRING,
+  creator: DataTypes.STRING,
+  relTime: DataTypes.STRING,
+  img: DataTypes.STRING,
 });
 
 const User_Bookmark = sql.define('user_bookmarks', {

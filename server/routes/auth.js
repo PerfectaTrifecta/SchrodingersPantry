@@ -136,13 +136,14 @@ authRouter.post('/account', (req, res) => {
 
                   //BOOKMARKS
                   Bookmark.findAll({
-                    include: {
+                    include: [{
                       model: User,
-                      through: User_Bookmark,
-                      where: {
-                        id: user.id,
-                      },
-                    },
+                      through: {
+                        where: {
+                          userId: user.id,
+                        },
+                      }
+                    }],
                   })
                     .then((bookmarks) => {
                       if (bookmarks) {
@@ -180,10 +181,11 @@ authRouter.post('/account', (req, res) => {
 });
 
 authRouter.get('/logout', (req, res) => {
-  console.log('yep');
   res.clearCookie('googleId');
   res.clearCookie('connect.sid');
   res.status(200);
+
+  console.log('logged out');
   res.redirect('/');
 });
 

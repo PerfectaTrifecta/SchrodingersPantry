@@ -14,6 +14,7 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
 import { PaletteOptions } from '@mui/material';
 import { light, dark, veggie, meat } from './Theme';
+import useTheme from '@mui/material/styles/useTheme';
 
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
@@ -37,6 +38,15 @@ interface MyRecipeTypes {
   createdAt?: string;
 }
 
+interface Bookmarks {
+  id?: number;
+  link: string;
+  title: string;
+  creator: string;
+  relTime: string;
+  img: string;
+}
+
 const App: React.FC = (): JSX.Element => {
   const [zoom, setZoom] = React.useState(10); // initial zoom
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
@@ -49,16 +59,28 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
-  let recipes: Array<MyRecipeTypes | []> = [];
+  let recipes: Array<MyRecipeTypes> = [];
+  let bookmarks: Array<Bookmarks> = [];
 
-  if (loggedIn) {
-    recipes = user.recipes;
-  }
+  // if (loggedIn) {
+  //   recipes = user.recipes;
+  //   bookmarks = user.bookmarks;
+  // }
 
-  const [recipeList, setRecipeList] = useState<MyRecipeTypes[] | null>(recipes);
+  const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
+  const [bookmarkList, setBookmarkList] = useState<Bookmarks[]>(bookmarks);
 
   const [loading, setLoading] = useState(false);
-  const [color, setColor] = useState('#1682B2');
+
+  useEffect(() => {
+    if (user) {
+      recipes = user.recipes;
+      bookmarks = user.bookmarks;
+
+      setRecipeList(recipes);
+      setBookmarkList(bookmarks);
+    }
+  });
 
   useEffect(() => {
     userAccount();
@@ -68,17 +90,18 @@ const App: React.FC = (): JSX.Element => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1500);
   }, []);
 
   const [theme, setTheme] = useState<ThemeOptions>(light);
-
   const chosenTheme = createTheme(theme);
 
   return (
     <ThemeProvider theme={chosenTheme}>
-      <div>
-        {' '}
+      <div style={{ backgroundColor: chosenTheme.palette.primary.main }}>
+        {/* style={{ backgroundColor: appTheme.palette.primary.main }} */}
+        {/* tried adding the theme colors to App to fill in the extra white spaces
+        (inside the divs on line 95 and 112) but it didn't work like that */}
         {getUser()}
         {loading ? (
           <div
@@ -89,10 +112,15 @@ const App: React.FC = (): JSX.Element => {
               height: '100vh',
             }}
           >
-            <ClimbingBoxLoader loading={loading} size={30} />
+            <ClimbingBoxLoader
+              loading={loading}
+              size={30}
+              color={chosenTheme.palette.primary.dark}
+            />
           </div>
         ) : (
           <div>
+            {/* style={{ backgroundColor: appTheme.palette.primary.main }}÷ */}
             <PulloutMenu changeTheme={setTheme} />
             <Switch>
               <Route exact path='/'>
@@ -102,12 +130,17 @@ const App: React.FC = (): JSX.Element => {
                 <Search />
               </Route>
               <Route path='/rss'>
-                <RSSFeed />
+                <RSSFeed
+                  bookmarkList={bookmarkList}
+                  setBookmarkList={setBookmarkList}
+                />
               </Route>
               <Route path='/profile'>
                 <ProfilePage
                   recipeList={recipeList}
                   setRecipeList={setRecipeList}
+                  bookmarkList={bookmarkList}
+                  setBookmarkList={setBookmarkList}
                 />
               </Route>
               <Route path='/recipe_view/:idMeal'>
