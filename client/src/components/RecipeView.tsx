@@ -62,20 +62,31 @@ const RecipeView: React.FC = () => {
   const { idMeal } = useParams<{ idMeal: string }>();
   //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] = useState<
-    UserRecipeProps[] | null
-  >(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] =
+    useState<UserRecipeProps[] | null>(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   // const [mealId, setMealId] = useState<string>('');
   //Comments settings
   const [rawComment, setRawComment] = useState('');
   const [featComments, setFeatComments] = useState<CommentDisplay[]>([]);
+  // const postTime: Date = new Date();
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRawComment(e.target.value);
   };
   const submitComment = () => {
     if (idMeal) {
+      setFeatComments(
+        featComments.concat([
+          {
+            name: user.userName,
+            text: rawComment,
+            postedAt: new Date().toString(),
+          },
+        ])
+      );
+
       axios
         .post('routes/user/profile/comment', {
           text: rawComment,
@@ -88,6 +99,16 @@ const RecipeView: React.FC = () => {
         })
         .catch((err) => console.error(err, 'recipeView 84'));
     } else if (idUserMeal) {
+      setFeatComments(
+        featComments.concat([
+          {
+            name: user.userName,
+            text: rawComment,
+            postedAt: new Date().toString(),
+          },
+        ])
+      );
+
       axios
         .post('routes/user/profile/userComment', {
           text: rawComment,
