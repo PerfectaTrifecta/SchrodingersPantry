@@ -61,11 +61,6 @@ const App: React.FC = (): JSX.Element => {
   let recipes: Array<MyRecipeTypes> = [];
   let bookmarks: Array<Bookmarks> = [];
 
-  // if (loggedIn) {
-  //   recipes = user.recipes;
-  //   bookmarks = user.bookmarks;
-  // }
-
   const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
   const [bookmarkList, setBookmarkList] = useState<Bookmarks[]>(bookmarks);
 
@@ -73,6 +68,7 @@ const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (user) {
+      // console.log(user, 'app 71');
       recipes = user.recipes;
       bookmarks = user.bookmarks;
 
@@ -83,6 +79,15 @@ const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     userAccount();
+    console.log(user, 'app 82');
+
+    // if (loggedIn) {
+    //   recipes = user.recipes;
+    //   bookmarks = user.bookmarks;
+
+    //   setRecipeList(recipes);
+    //   setBookmarkList(bookmarks);
+    // }
   }, [loggedIn]);
 
   useEffect(() => {

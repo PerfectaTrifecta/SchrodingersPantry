@@ -81,8 +81,8 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {
-          // console.log(data, 'userContext 84');
           setUser(data);
+          console.log(data, 'userContext 84');
         })
         .catch((err) => {
           console.error(err, ' response from User context post request');
