@@ -9,7 +9,10 @@ const Login = () => {
       <a
         id='button-google'
         href='/auth/google'
-        style={{ color: theme.palette.primary.contrastText }}
+        style={{
+          color: theme.palette.primary.contrastText,
+          textDecoration: 'none',
+        }}
       >
         Sign in with Google
       </a>

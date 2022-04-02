@@ -141,13 +141,13 @@ const ProfilePage: React.FC<Props> = ({
       reader.onload = () => {
         console.log(typeof reader.result);
         setSelectedImg(reader.result);
-        console.log(reader.result, 'profile 76');
+        // console.log(reader.result, 'profile 144');
       };
     }
   };
 
   const submitImg = () => {
-    // console.log(selectedImg, 83);
+    console.log(selectedImg, 'profile 150');
     axios
       .post('/routes/user/profile/upload/pic', selectedImg)
       .then((id) => {

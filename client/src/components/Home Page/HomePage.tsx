@@ -3,6 +3,7 @@ import dummyData from './DummyData.js';
 import useTheme from '@mui/material/styles/useTheme';
 import Landing from '../../Landing';
 import Slider from '../../Slider';
+import pantryJars from '../../img/pantryJars.jpg';
 import pantry from '../../img/pantry.jpg';
 import family from '../../img/family.jpg';
 import lady from '../../img/lady.jpg';
@@ -27,9 +28,10 @@ const HomePage: React.FC = () => {
     >
       {loggedIn ? (
         <div>
-          <Landing
-            imageSrc={pantry}
-            phrase={`Welcome, ${user.userName.split(' ')[0]}!`}
+          <Slider
+            imageSrc={pantryJars}
+            title={`Welcome, ${user.userName.split(' ')[0]}!`}
+            flipped={true}
           />
           <Slider
             imageSrc={family}
@@ -48,9 +50,10 @@ const HomePage: React.FC = () => {
         </div>
       ) : (
         <div>
-          <Landing
-            imageSrc={pantry}
-            phrase='Your Favorite Meals at Your Fingertips'
+          <Slider
+            imageSrc={pantryJars}
+            title='Your Favorite Meals at Your Fingertips'
+            flipped={true}
           />
           <Slider
             imageSrc={family}
