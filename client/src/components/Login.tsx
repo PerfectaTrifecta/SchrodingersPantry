@@ -14,7 +14,7 @@ const Login = () => {
           textDecoration: 'none',
         }}
       >
-        Sign in with Google
+        SIGN-IN WITH GOOGLE
       </a>
     </div>
   );

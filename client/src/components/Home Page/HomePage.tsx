@@ -32,6 +32,7 @@ const HomePage: React.FC = () => {
             imageSrc={pantryJars}
             title={`Welcome, ${user.userName.split(' ')[0]}!`}
             flipped={true}
+            loggedIn={loggedIn}
           />
           <Slider
             imageSrc={family}
@@ -65,7 +66,6 @@ const HomePage: React.FC = () => {
           <Slider
             imageSrc={lady}
             title={'Browse recipes and more, in just a few clicks'}
-            subtitle={'Sign-In with Google to get started'}
             flipped={true}
             loggedIn={loggedIn}
           />
