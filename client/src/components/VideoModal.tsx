@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { VideoContext } from '../VideoContext';
 import { ModalFooter } from 'react-bootstrap';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface VideoProps {
   mealName: string;
@@ -15,6 +16,7 @@ const VideoModal = ({ mealName }: VideoProps) => {
   const [show, setShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const theme = useTheme();
 
   
   useEffect(() => {
@@ -42,6 +44,8 @@ const VideoModal = ({ mealName }: VideoProps) => {
           alignItems: 'center',
           justifyContent: 'space-evenly',
           display: 'flex',
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
           }}>
             <iframe
               width='600'
@@ -53,7 +57,7 @@ const VideoModal = ({ mealName }: VideoProps) => {
               allowFullScreen
             ></iframe>
           </Modal.Body>
-         <ModalFooter style={{ justifyContent: 'center', display: 'flex', alignItems: 'center'}}>
+         <ModalFooter style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', backgroundColor: theme.palette.primary.light}}>
          <Button variant='text' color='inherit' onClick={handleClose} >
             Close
           </Button>
