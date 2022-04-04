@@ -58,7 +58,7 @@ const RecipeView: React.FC = () => {
   const theme = useTheme();
   //Use the useLocation hook to get idMeal passed through the search route.
   // const location = useLocation<{ idUserMeal: number | null }>();
-  const idUserMeal: number | null = null;
+  const { idUserMeal } = useParams<{ idUserMeal: string }>();
   const { idMeal } = useParams<{ idMeal: string }>();
   //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
@@ -76,7 +76,7 @@ const RecipeView: React.FC = () => {
     setRawComment(e.target.value);
   };
   const submitComment = () => {
-    if (idMeal) {
+    if (idMeal.length === 5) {
       setFeatComments(
         featComments.concat([
           {
@@ -98,7 +98,7 @@ const RecipeView: React.FC = () => {
           setRawComment('');
         })
         .catch((err) => console.error(err, 'recipeView 84'));
-    } else if (idUserMeal) {
+    } else {
       setFeatComments(
         featComments.concat([
           {
@@ -125,7 +125,7 @@ const RecipeView: React.FC = () => {
   //Prints the recipe to the screen on page load
 
   useEffect(() => {
-    if (idMeal) {
+    if (idMeal.length === 5) {
       axios
         .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
         .then(({ data }) => {
@@ -143,15 +143,16 @@ const RecipeView: React.FC = () => {
           setFeatComments(data);
         })
         .catch((err) => console.error(err, 'recipeView 143'));
-    } else if (idUserMeal) {
+    } else {
+      console.log({ idMeal, idUserMeal }, 'recipeview 147');
       axios
-        .get('/routes/search/getUserRecipe', { params: { id: idUserMeal } })
+        .get('/routes/search/getUserRecipe', { params: { id: idMeal } })
         .then(({ data }) => {
           // console.log(data, 'recipeView 96');
           setMealUserRecipe(data);
         })
         .then(() => {
-          // console.log(mealUserRecipe, 'recipeView 101');
+          console.log(mealUserRecipe, 'recipeView 101');
           setUserIngredients(mealUserRecipe[0].ingredients.split(','));
         })
         .catch((err) => console.error(err, 'recipeView 135'));
@@ -321,7 +322,7 @@ const RecipeView: React.FC = () => {
             <strong>Ingredients:</strong>
           </Typography>
           <ul>
-            {userIngredients.map((tuple, i) => (
+            {mealUserRecipe[0].ingredients.split(',').map((tuple, i) => (
               <li key={i}>{tuple}</li>
             ))}
           </ul>

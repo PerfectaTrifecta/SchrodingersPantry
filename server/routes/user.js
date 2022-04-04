@@ -15,14 +15,16 @@ cloudinary.config({
 UserRouter.post('/upload/pic', async (req, res) => {
   // console.log(req.body, 'userRoute 10');
   try {
-    const pic = req.body;
-    console.log(pic, 'user 18');
+    const pic = Object.keys(req.body)[0];
+    // .replace(/ /g, "+")
+    // console.log(pic, 'user 19');
     const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'sPantry'})
 
-    console.log(uploadedRes, 'user 14');
-    // res.status(201).send(uploadedRes.public_id);
+    console.log(uploadedRes, 'user 22');
+    res.sendStatus(201);
+    // .send(uploadedRes.public_id)
   } catch (error) {
-    console.error(error, 'user route 13');
+    console.error(error, 'user route 25');
   }
 
 });
@@ -42,7 +44,7 @@ UserRouter.post('/upload/recipe', (req, res) => {
 
 //Profile Info Updates//
 UserRouter.post('/update/bio', (req, res) => {
-  console.log(req.body, 'userRoute 45');
+  // console.log(req.body, 'userRoute 45');
   const { bio } = req.body;
 
   User.update({ bio }, {
