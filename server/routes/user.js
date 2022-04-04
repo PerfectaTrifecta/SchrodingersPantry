@@ -44,7 +44,7 @@ UserRouter.post('/upload/recipe', (req, res) => {
 
 //Profile Info Updates//
 UserRouter.post('/update/bio', (req, res) => {
-  console.log(req.body, 'userRoute 45');
+  // console.log(req.body, 'userRoute 45');
   const { bio } = req.body;
 
   User.update({ bio }, {

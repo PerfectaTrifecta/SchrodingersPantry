@@ -102,7 +102,9 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <ThemeProvider theme={chosenTheme}>
-      <div style={{ backgroundColor: chosenTheme.palette.primary.main }}>
+      <div
+        style={{ backgroundColor: chosenTheme.palette.primary.main, margin: 0 }}
+      >
         {/* style={{ backgroundColor: appTheme.palette.primary.main }} */}
         {/* tried adding the theme colors to App to fill in the extra white spaces
         (inside the divs on line 95 and 112) but it didn't work like that */}
