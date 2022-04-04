@@ -49,7 +49,10 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
       </CardActionArea>
       <CardActions>
         <Link
-          to={{ pathname: '/recipe_view', state: { idUserMeal: id } }}
+          to={{
+            pathname: `/recipe_view/${id.toString()}`,
+            state: { idUserMeal: id },
+          }}
           style={{ textDecoration: 'none' }}
         >
           <Button size='small' color='primary'>
