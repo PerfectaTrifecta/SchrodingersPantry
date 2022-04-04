@@ -25,7 +25,7 @@ searchRouter.get('/ingredients/:ingredients', (req, res) => {
       res.send(response.data.meals);
     })
     .catch((error) => {
-      console.error(error);
+      console.error(error, 'this error');
       res.sendStatus(500);
     });
 });
@@ -126,16 +126,14 @@ searchRouter.get('/getUserRecipe', (req, res) => {
 
   Recipe.findAll({
     where: {
-      id
-    }
+      id,
+    },
   })
-  .then(recipe => {
-    // console.log(recipe, 'searchRouter 132');
-    res.status(200).send(recipe);
-  })
-  .catch(err => console.error(err, 'searchRouter 135'));
-
-
-})
+    .then((recipe) => {
+      // console.log(recipe, 'searchRouter 132');
+      res.status(200).send(recipe);
+    })
+    .catch((err) => console.error(err, 'searchRouter 135'));
+});
 
 module.exports = { searchRouter };

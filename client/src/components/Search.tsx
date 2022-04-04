@@ -36,14 +36,16 @@ const Search: React.FC = () => {
   };
 
   const searchRecipes = () => {
-    axios
-      .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
-      .then(({ data }) => {
-        setMeals(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (ingredients && ingredients !== '') {
+      axios
+        .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
+        .then(({ data }) => {
+          setMeals(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
   const onSearch = (e: any) => {
@@ -80,6 +82,9 @@ const Search: React.FC = () => {
           value={ingredients}
           id='fullWidth'
           onChange={handleInput}
+          onKeyPress={(e) => {
+            e.key === 'Enter' && onSearch();
+          }}
           style={{
             backgroundColor: theme.palette.primary.light,
             color: theme.palette.primary.contrastText,
@@ -88,19 +93,32 @@ const Search: React.FC = () => {
           }}
         />
       </Stack>
-      <div
-        style={{
-          display: 'flex',
-          flexFlow: 'row wrap',
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'space-around',
-        }}
-      >
-        {meals.map((meal, i) => (
-          <NewCard recipe={meal} key={i} />
-        ))}
-      </div>
+      {meals.length ? (
+        <div
+          style={{
+            display: 'flex',
+            flexFlow: 'row wrap',
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'space-around',
+          }}
+        >
+          {meals.map((meal, i) => (
+            <NewCard recipe={meal} key={i} />
+          ))}
+        </div>
+      ) : (
+        <div
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
+          }}
+        >
+          Hmm....there doesn't appear to be any recipes with those
+          ingredients...
+        </div>
+      )}
     </div>
   );
 };
