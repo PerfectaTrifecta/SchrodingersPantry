@@ -60,7 +60,16 @@ const Search: React.FC = () => {
         Search For A Recipe!
       </h1>
       <Stack spacing={2} direction='row' padding={2}>
-        <Button variant='outlined' onClick={onSearch}>
+        <Button
+          variant='outlined'
+          onClick={onSearch}
+          style={{
+            backgroundColor: theme.palette.primary.light,
+            color: theme.palette.primary.contrastText,
+            borderColor: theme.palette.primary.dark,
+            borderRadius: '5px',
+          }}
+        >
           Search
         </Button>
         <TextField
