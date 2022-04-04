@@ -36,14 +36,16 @@ const Search: React.FC = () => {
   };
 
   const searchRecipes = () => {
-    axios
-      .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
-      .then(({ data }) => {
-        setMeals(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (ingredients && ingredients !== '') {
+      axios
+        .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
+        .then(({ data }) => {
+          setMeals(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
   const onSearch = (e: any) => {
@@ -91,7 +93,7 @@ const Search: React.FC = () => {
           }}
         />
       </Stack>
-      {meals ? (
+      {meals.length ? (
         <div
           style={{
             display: 'flex',
