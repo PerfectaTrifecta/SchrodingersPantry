@@ -90,6 +90,13 @@ authRouter.post('/account', (req, res) => {
     },
   })
     .then((data) => {
+      // console.log(data[0].dataValues, 'authRoute 93');
+      const { diet, allergies, bio } = data[0].dataValues;
+
+      userDetails.diet = diet;
+      userDetails.allergies = allergies;
+      userDetails.bio = bio;
+
       //FAVORITES
       User.findAll({
         include: {

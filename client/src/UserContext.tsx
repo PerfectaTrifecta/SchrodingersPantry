@@ -7,8 +7,8 @@ import React, {
 import axios from 'axios';
 
 interface userTypes {
-  id: string;
-  userName: string;
+  id?: string;
+  userName?: string;
   diet?: string;
   allergies?: string;
   bio?: string;
@@ -52,7 +52,14 @@ interface Props {
 const UserContext = createContext({} as UserContextType);
 
 const UserContextProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<userTypes | any>(null);
+  const [user, setUser] = useState<userTypes | any>({
+    userName: 'Guest',
+    diet: 'none',
+    allergies: 'none',
+    bio: 'none',
+    recipes: [],
+    bookmarks: [],
+  });
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<Array<string>>([]);
 
@@ -81,8 +88,8 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {
-          // console.log(data, 'userContext 84');
           setUser(data);
+          console.log(data, 'userContext 84');
         })
         .catch((err) => {
           console.error(err, ' response from User context post request');

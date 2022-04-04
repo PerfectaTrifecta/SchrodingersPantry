@@ -84,9 +84,10 @@ const ProfilePage: React.FC<Props> = ({
   setBookmarkList,
 }) => {
   const theme = useTheme();
+  console.log(recipeList, 'profile 87');
 
   // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, userAccount } = useContext(UserContext);
   const { userName, favorites, diet, allergies, bio } = user;
 
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -105,6 +106,13 @@ const ProfilePage: React.FC<Props> = ({
   const [allergyDisplay, setAllergyDisplay] = useState<string>(allergies);
   const [allergyField, setAllergyField] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(user, 'before userAccount');
+    userAccount();
+
+    console.log(user, 'after userAccount');
+  }, []);
 
   const cld = new Cloudinary({
     cloud: {
@@ -133,13 +141,13 @@ const ProfilePage: React.FC<Props> = ({
       reader.onload = () => {
         console.log(typeof reader.result);
         setSelectedImg(reader.result);
-        console.log(reader.result, 'profile 76');
+        // console.log(reader.result, 'profile 144');
       };
     }
   };
 
   const submitImg = () => {
-    // console.log(selectedImg, 83);
+    console.log(selectedImg, 'profile 150');
     axios
       .post('/routes/user/profile/upload/pic', selectedImg)
       .then((id) => {
@@ -189,7 +197,7 @@ const ProfilePage: React.FC<Props> = ({
     setAllergyDisplay(allergyField);
 
     axios
-      .post('routes.user/profile/update/allergies', { allergies: allergyField })
+      .post('routes/user/profile/update/allergies', { allergies: allergyField })
       .then(() => {
         setAllergyField('');
         setEditAllergies(false);
