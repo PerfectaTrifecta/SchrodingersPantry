@@ -75,7 +75,7 @@ const WebPlayback: React.FC<WebProps> = (props): JSX.Element => {
             <div className="container">
                 <div className="main-wrapper">
                     <img src={current_track.album.images[0].url}
-                        className="now-playing__cover" alt="" />
+                        className="now-playing__cover" alt="" height= '200px' width= '200px'/>
                     <div className="now-playing__side">
                         <div className="now-playing__name">{
                             current_track.name
