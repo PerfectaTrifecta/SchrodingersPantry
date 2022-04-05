@@ -7,21 +7,31 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface CardProps {
   recipe: { strMeal: string; idMeal: string; strMealThumb: string };
 }
 
 const MealCard = ({ recipe }: CardProps) => {
+  const theme = useTheme();
+
   return (
     <Card
       sx={{ maxWidth: 345 }}
       style={{
-        alignContent: 'space around',
-        justifyContent: 'space-evenly',
-        margin: '16px',
         maxWidth: '600px',
         width: '90%',
+        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
+        padding: '1rem',
+        margin: '5px 7px 5px 7px',
+        boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
+        display: 'flex',
+        flexFlow: 'column',
+        alignContent: 'space-around',
+        justifyContent: 'space-evenly',
+        borderRadius: '0.25rem',
       }}
     >
       <CardActionArea>
@@ -39,9 +49,18 @@ const MealCard = ({ recipe }: CardProps) => {
       </CardActionArea>
       <CardActions>
         <Link
-          to={{ pathname: '/recipe_view', state: { idMeal: recipe.idMeal } }}
+          to={{
+            pathname: `/recipe_view/${recipe.idMeal}`,
+            state: { idMeal: recipe.idMeal },
+          }}
+          style={{ textDecoration: 'none' }}
         >
-          <Button size='small' color='primary'>
+          <Button
+            size='small'
+            sx={{
+              color: theme.palette.primary.contrastText,
+            }}
+          >
             Go To Recipe
           </Button>
         </Link>

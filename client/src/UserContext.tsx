@@ -7,8 +7,8 @@ import React, {
 import axios from 'axios';
 
 interface userTypes {
-  id: string;
-  userName: string;
+  id?: string;
+  userName?: string;
   diet?: string;
   allergies?: string;
   bio?: string;
@@ -26,8 +26,12 @@ interface userTypes {
   } | null>;
   bookmarks?: Array<{
     id: number;
-    url: string;
-  }>;
+    link: string;
+    title: string;
+    creator: string;
+    relTime: string;
+    img: string;
+  } | null>;
 }
 
 interface UserContextType {
@@ -48,7 +52,14 @@ interface Props {
 const UserContext = createContext({} as UserContextType);
 
 const UserContextProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<userTypes | any>(null);
+  const [user, setUser] = useState<userTypes | any>({
+    userName: 'Guest',
+    diet: 'none',
+    allergies: 'none',
+    bio: 'none',
+    recipes: [],
+    bookmarks: [],
+  });
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<Array<string>>([]);
 
@@ -62,11 +73,11 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          console.log(data[0], 'context 31');
+          // console.log(data[0], 'context 69');
           setUser(data[0]);
           setLoggedIn(true);
         })
-        .catch((err) => console.error('error context 34', err));
+        .catch((err) => console.error('error context 73', err));
     }
   };
 
@@ -77,8 +88,8 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {
-          // console.log(data, 'userContext 65');
           setUser(data);
+          console.log(data, 'userContext 84');
         })
         .catch((err) => {
           console.error(err, ' response from User context post request');

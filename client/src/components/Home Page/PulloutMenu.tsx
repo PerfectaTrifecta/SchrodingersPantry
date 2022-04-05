@@ -32,6 +32,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { Link } from 'react-router-dom';
 import logo from '../../img/logo.png';
 
@@ -57,15 +58,11 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     '/rss',
     'Market Locator',
     '/market_finder',
-    'Sign Out',
-    '/logout',
-    'Live Chat',
-    '/live_chat',
   ];
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, loggedIn, setLoggedIn } = useContext(UserContext);
   const [token, setToken] = useState('');
 
   // //Theme Checkbox States
@@ -75,10 +72,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     changeTheme(light);
   } else if (radioVal === 'dark') {
     changeTheme(dark);
-  } else if (radioVal === 'veggie') {
-    changeTheme(veggie);
-  } else if (radioVal === 'meat') {
-    changeTheme(meat);
   }
 
   //Theme Checkbox Changes
@@ -105,6 +98,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
     axios
       .get('/auth/logout')
       .then(() => {
+        setLoggedIn(false);
         setUser(null);
         console.log('user set to null');
       })
@@ -112,11 +106,16 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   };
 
   const drawer = (
-    <div>
+    <div
+      style={{
+        background: theme.palette.primary.main,
+        height: '100%',
+      }}
+    >
       <Link to={'/'}>
         <img src={logo} width='200' style={{ paddingTop: '20px' }} />
       </Link>
-      {user ? (
+      {loggedIn ? (
         <List
           style={{
             display: 'flex',
@@ -129,26 +128,19 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
         >
           {inCategories.map((text, index) => {
             if (index % 2 === 0) {
-              if (text === 'Sign Out') {
-                return (
-                  <Button onClick={logout} key={text}>
-                    <ListItem button>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  </Button>
-                );
-              } else {
-                return (
-                  <Link
-                    to={inCategories[index + 1]}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <ListItem button key={text}>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  </Link>
-                );
-              }
+              return (
+                <Link
+                  to={inCategories[index + 1]}
+                  style={{
+                    textDecoration: 'none',
+                    color: theme.palette.primary.contrastText,
+                  }}
+                >
+                  <ListItem button key={text}>
+                    <ListItemText primary={text} />
+                  </ListItem>
+                </Link>
+              );
             }
           })}
           {token === undefined ? (
@@ -156,6 +148,20 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           ) : (
             <WebPlayback token={token} key={token} />
           )}
+          <Button
+            onClick={logout}
+            // key={text}
+            sx={{
+              background: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              paddingLeft: '0px',
+              // width: '175px',
+            }}
+          >
+            <ListItem button>
+              <ListItemText primary={'Sign Out'} />
+            </ListItem>
+          </Button>
         </List>
       ) : (
         <List>
@@ -164,9 +170,12 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             if (index % 2 === 0) {
               return (
                 <Link
-                  to={inCategories[index + 1]}
+                  to={outCategories[index + 1]}
                   key={text}
-                  style={{ textDecoration: 'none' }}
+                  style={{
+                    textDecoration: 'none',
+                    color: theme.palette.primary.contrastText,
+                  }}
                 >
                   <ListItem button>
                     <ListItemText primary={text} />
@@ -186,31 +195,38 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       <CssBaseline />
       <AppBar
         position='static'
-        style={{ background: theme.palette.primary.main }}
+        style={{
+          background: theme.palette.primary.dark,
+          color: theme.palette.secondary.main,
+        }}
       >
         <Toolbar>
-          <Link to={'/'}>
+          <IconButton
+            color='inherit'
+            aria-label='Open drawer'
+            edge='start'
+            onClick={handleDrawerToggle}
+            style={{ background: theme.palette.primary.dark }}
+          >
+            <MenuIcon fontSize='large' />
+          </IconButton>
+          {/* <Link to={'/'}>
             <img src={logo} width='110' height='80' />
-            <IconButton
-              color='inherit'
-              aria-label='Open drawer'
-              edge='start'
-              onClick={handleDrawerToggle}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Link>
+          </Link> */}
+
           <Typography variant='h6' noWrap>
             <Link
-              style={{ textDecoration: 'none' }}
+              style={{
+                textDecoration: 'none',
+                color: theme.palette.secondary.main,
+              }}
               className='navbar-logo'
               to={'/'}
             >
               <span>Schrödinger's Pantry</span>
             </Link>
           </Typography>
-          <FormControl component='fieldset'>
-            <FormLabel component='legend'>Themes</FormLabel>
+          <FormControl component='fieldset' style={{ marginLeft: 'auto' }}>
             <RadioGroup
               aria-label='position'
               row
@@ -219,25 +235,29 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             >
               <FormControlLabel
                 value='light'
-                control={<Radio />}
+                control={
+                  <Radio
+                    checkedIcon={
+                      <RadioButtonCheckedIcon
+                        style={{ color: theme.palette.secondary.main }}
+                      />
+                    }
+                  />
+                }
                 label='Light'
                 labelPlacement='bottom'
               />
               <FormControlLabel
-                value='veggie'
-                control={<Radio />}
-                label='Veggie'
-                labelPlacement='bottom'
-              />
-              <FormControlLabel
-                value='meat'
-                control={<Radio />}
-                label='Meat'
-                labelPlacement='bottom'
-              />
-              <FormControlLabel
                 value='dark'
-                control={<Radio />}
+                control={
+                  <Radio
+                    checkedIcon={
+                      <RadioButtonCheckedIcon
+                        style={{ color: theme.palette.secondary.main }}
+                      />
+                    }
+                  />
+                }
                 label='Dark'
                 labelPlacement='bottom'
               />
@@ -245,9 +265,13 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
           </FormControl>
         </Toolbar>
       </AppBar>
-      <nav>
+      <nav style={{ backgroundColor: theme.palette.primary.main }}>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation='css'>
+        <Hidden
+          smUp
+          implementation='css'
+          // style={{ backgroundColor: theme.palette.primary.main }}
+        >
           <Drawer
             variant='temporary'
             anchor='left'
@@ -257,7 +281,15 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <IconButton onClick={handleDrawerToggle}>
+            <IconButton
+              onClick={handleDrawerToggle}
+              style={{
+                backgroundColor: theme.palette.primary.main,
+                width: '100%',
+                borderRadius: '0px',
+              }}
+              // edge='start'
+            >
               <CloseIcon />
             </IconButton>
             {drawer}

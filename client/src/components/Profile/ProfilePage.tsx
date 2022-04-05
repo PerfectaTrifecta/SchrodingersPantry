@@ -9,8 +9,9 @@ import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
 import RecipePreview from './RecipePreview';
 import styled from '@mui/material/styles/styled';
+import useTheme from '@mui/material/styles/useTheme';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import orange from '@mui/material/colors/orange';
+import green from '@mui/material/colors/green';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -26,6 +27,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
@@ -59,21 +61,39 @@ interface MyRecipeTypes {
   createdAt?: string;
 }
 
+interface Bookmarks {
+  id?: number;
+  link: string;
+  title: string;
+  creator: string;
+  relTime: string;
+  img: string;
+}
+
 interface Props {
   recipeList: MyRecipeTypes[];
   setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
+  bookmarkList: Bookmarks[];
+  setBookmarkList: React.Dispatch<React.SetStateAction<Bookmarks[]>>;
 }
 
 //the search component should map over the results, creating a meal card for each recipe,
-const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
+const ProfilePage: React.FC<Props> = ({
+  recipeList,
+  setRecipeList,
+  bookmarkList,
+  setBookmarkList,
+}) => {
+  const theme = useTheme();
+  console.log(recipeList, 'profile 87');
+
   // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser } = useContext(UserContext);
-  const { userName, bookmarks, favorites, diet, allergies, bio } = user;
+  const { user, setUser, userAccount } = useContext(UserContext);
+  const { userName, favorites, diet, allergies, bio } = user;
 
   const [expanded, setExpanded] = useState<boolean>(false);
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
   const [img, setImg] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState<boolean>(false);
   // const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
   // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
   // const [bookmarks, setBookmarks] = useState<string[]>([]);
@@ -87,6 +107,13 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
   const [allergyDisplay, setAllergyDisplay] = useState<string>(allergies);
   const [allergyField, setAllergyField] = useState<string>('');
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(user, 'before profile userAccount');
+    userAccount();
+
+    console.log(user, 'after profile userAccount');
+  }, []);
 
   const cld = new Cloudinary({
     cloud: {
@@ -102,12 +129,8 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
 
   // const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
   // // set state of meal to the clicked cards title
-  //   setMeal(event.target.value);
+  //   setMeal(eve nt.target.value);
   // }
-
-  const handleForm = () => {
-    setShowForm(!showForm);
-  };
 
   const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [file] = e.target.files;
@@ -119,18 +142,18 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
       reader.onload = () => {
         console.log(typeof reader.result);
         setSelectedImg(reader.result);
-        console.log(reader.result, 'profile 76');
+        // console.log(reader.result, 'profile 144');
       };
     }
   };
 
   const submitImg = () => {
-    // console.log(selectedImg, 83);
+    console.log(selectedImg, 'profile 150');
     axios
       .post('/routes/user/profile/upload/pic', selectedImg)
-      .then((id) => {
+      .then(({ data }) => {
         //BUG TO REVISTS
-        // setImg(id);
+        data && setImg(data);
       })
       .catch((err) => console.log('problem uploading profile pic', err));
   };
@@ -175,7 +198,7 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
     setAllergyDisplay(allergyField);
 
     axios
-      .post('routes.user/profile/update/allergies', { allergies: allergyField })
+      .post('routes/user/profile/update/allergies', { allergies: allergyField })
       .then(() => {
         setAllergyField('');
         setEditAllergies(false);
@@ -191,17 +214,24 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
         width: '100%',
         height: '100%',
         justifyContent: 'center',
+        backgroundColor: theme.palette.primary.main,
+        borderRadius: '0.25rem',
         // alignItems: 'center',
       }}
     >
       <Card
         sx={{ maxWidth: 345 }}
         style={{
-          alignContent: 'space around',
-          justifyContent: 'space-evenly',
-          margin: '16px',
           maxWidth: '600px',
           width: '90%',
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+          padding: '1rem',
+          margin: '1rem 0',
+          boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          borderColor: theme.palette.primary.dark,
         }} //{onClick={handleCardClick}}
       >
         {img ? (
@@ -218,7 +248,7 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
           <CardHeader
             avatar={
               <Avatar
-                sx={{ bgcolor: orange[500], width: 56, height: 56 }}
+                sx={{ bgcolor: green[700], width: 56, height: 56 }}
                 aria-label='recipe'
               >
                 {/* {console.log(user.name, 'profile 99')} */}
@@ -235,7 +265,7 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
           />
         )}
 
-        {/* <ProfileImage /> */}
+        <ProfileImage />
         <CardContent>
           <Typography variant='subtitle1'>About Me: </Typography>
           <Typography variant='body2'>{aboutMeDisplay}</Typography>
@@ -331,15 +361,14 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
             <Typography variant='subtitle1' color='text.secondary'>
               Edit Profile Pic
               <IconButton aria-label='edit'>
-                <FaceRetouchingNaturalIcon />
+                <input
+                  type='file'
+                  accept='image/*'
+                  onChange={handleImgUpload}
+                  multiple={false}
+                />
               </IconButton>
             </Typography>
-            <input
-              type='file'
-              accept='image/*'
-              onChange={handleImgUpload}
-              multiple={false}
-            />
             <Button onClick={submitImg}> Submit </Button>
           </CardContent>
         </Collapse>
@@ -351,6 +380,7 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
+          color: theme.palette.primary.contrastText,
         }}
       >
         MY RECIPES
@@ -360,7 +390,15 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
           }}
           style={{ textDecoration: 'none' }}
         >
-          <Button size='small'> Create a New Recipe </Button>
+          <Button
+            size='small'
+            style={{
+              color: theme.palette.primary.contrastText,
+            }}
+          >
+            {' '}
+            Create a New Recipe{' '}
+          </Button>
         </Link>
         {recipeList.map((recipe) => (
           <RecipePreview id={recipe.id} title={recipe.title} />
@@ -373,20 +411,70 @@ const ProfilePage: React.FC<Props> = ({ recipeList, setRecipeList }) => {
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
+          color: theme.palette.primary.contrastText,
         }}
       >
-        FAVORITE RECIPES
-        {favorites.map((favorite: MyRecipeTypes) => (
-          <RecipePreview id={favorite.id} title={favorite.title} />
-        ))}
+        {/* FAVORITE RECIPES */}
+        {/* {favorites.map((favorite: string) => (
+          //INTEGRATE FAVORITES HERE
+          // <RecipePreview id={favorite.id} title={favorite.title} />
+        ))} */}
       </div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: theme.palette.primary.contrastText,
+        }}
+      >
         BOOKMARKS
         <List>
-          {bookmarks.map((mark) => {
-            <ListItem>
-              <ListItemText primary={mark.url} />
-            </ListItem>;
+          {bookmarkList.map((mark) => {
+            const { id, creator, title, relTime, link, img } = mark;
+
+            const deleteBookmark = () => {
+              axios
+                .delete(`/routes/user/profile/delete/bookmark/${id}`)
+                .then(() => {
+                  userAccount();
+                })
+                .catch((err) => console.error(err, 'profile 215'));
+            };
+
+            return (
+              <div
+                id='bookmark'
+                key={title}
+                style={{
+                  backgroundColor: theme.palette.primary.light,
+                  borderColor: theme.palette.primary.dark,
+                }}
+              >
+                <a id='headline' href={link}>
+                  <div id='rssImg'>
+                    <img width='120' src={img}></img>
+                  </div>
+                  <div
+                    id='rssStoryDiv'
+                    style={{ color: theme.palette.primary.contrastText }}
+                  >
+                    <h5 id='rssTitle'>{title}</h5>
+                    <h6 id='rssCreator'>Written by: {creator}</h6>
+                    <h6 id='rssTime'>{relTime}</h6>
+                  </div>
+                </a>
+                <DeleteIcon
+                  onClick={deleteBookmark}
+                  style={{
+                    float: 'right',
+                    marginTop: '-30px',
+                    // marginRight: '5px',
+                  }}
+                />
+              </div>
+            );
           })}
         </List>
       </div>

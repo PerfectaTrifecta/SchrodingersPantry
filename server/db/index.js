@@ -17,16 +17,16 @@ const User = sql.define('users', {
   userName: DataTypes.STRING,
   diet: {
     type: DataTypes.STRING,
-    defaultValue:'None'
+    defaultValue: 'None',
   },
   allergies: {
     type: DataTypes.STRING,
-    defaultValue: 'None'
+    defaultValue: 'None',
   },
   bio: {
     type: DataTypes.STRING,
-    defaultValue: 'None'
-  }
+    defaultValue: 'None',
+  },
 });
 
 const Recipe = sql.define('recipes', {
@@ -50,7 +50,11 @@ const Bookmark = sql.define('bookmarks', {
     primaryKey: true,
     autoIncrement: true,
   },
-  url: DataTypes.STRING,
+  link: DataTypes.STRING,
+  title: DataTypes.STRING,
+  creator: DataTypes.STRING,
+  relTime: DataTypes.STRING,
+  img: DataTypes.STRING,
 });
 
 const User_Bookmark = sql.define('user_bookmarks', {
@@ -71,7 +75,6 @@ const Favorite = sql.define('favorites', {
   },
   recipeId: DataTypes.STRING,
   userId: DataTypes.STRING,
-
 });
 
 const Comment = sql.define('comments', {
@@ -150,15 +153,15 @@ const User_Image = sql.define('user_images', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   userId: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
       model: User,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   //eg. 'profile pic' or 'recipe pic"
   description: DataTypes.STRING,
@@ -172,11 +175,9 @@ const User_Image = sql.define('user_images', {
       model: Recipe,
       key: 'id',
     },
-    allowNull: true
-
-  }, 
-
-})
+    allowNull: true,
+  },
+});
 
 //DEFINE MODEL RELATIONSHIPS HERE
 User.belongsToMany(Bookmark, { through: 'user_bookmarks' });
@@ -188,11 +189,11 @@ Recipe.belongsTo(User);
 User.belongsToMany(Recipe, { through: 'favorites' });
 Recipe.belongsToMany(User, { through: 'favorites' });
 
-User.belongsToMany(Recipe, { through: 'votes'});
-Recipe.belongsToMany(User, { through: 'votes'});
+User.belongsToMany(Recipe, { through: 'votes' });
+Recipe.belongsToMany(User, { through: 'votes' });
 
-User.belongsToMany(Recipe, { through: 'comments'});
-Recipe.belongsToMany(User, { through: 'comments'});
+User.belongsToMany(Recipe, { through: 'comments' });
+Recipe.belongsToMany(User, { through: 'comments' });
 
 User.hasMany(User_Image);
 User_Image.belongsTo(User);
@@ -214,5 +215,5 @@ module.exports = {
   Tag,
   Recipe_Tag,
   Image,
-  User_Image
+  User_Image,
 };

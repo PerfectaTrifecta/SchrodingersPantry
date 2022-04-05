@@ -12,6 +12,7 @@ import { Typography } from '@mui/material';
 import { Cloudinary } from '@cloudinary/url-gen';
 // import { WidgetLoader, Widget } from 'react-cloudinary-upload-widget'
 import { Link, useLocation } from 'react-router-dom';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface MyRecipeTypes {
   id?: number;
@@ -30,6 +31,8 @@ interface Props {
 }
 
 const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
+  const theme = useTheme();
+
   const [title, setTitle] = useState<string>('');
   const [ingredients, setIngredients] = useState<string>('');
   const [instructions, setInstructions] = useState<string>('');
@@ -53,8 +56,12 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
 
   //on submit should send
   const create = () => {
+    const id = recipeList[recipeList.length - 1].id + 1;
+
     setRecipeList(
-      recipeList.concat([{ title, ingredients, instructions, userId: user.id }])
+      recipeList.concat([
+        { id, title, ingredients, instructions, userId: user.id },
+      ])
     );
 
     axios
@@ -68,7 +75,7 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
         setTitle('');
         setIngredients('');
         setInstructions('');
-        console.log('recipe created 38');
+        // console.log('recipe created 38');
       })
       .catch((err) => console.error(err, 'createRecipe failed 39'));
   };
@@ -79,6 +86,7 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: theme.palette.primary.main,
       }}
     >
       <Card
@@ -89,6 +97,8 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
           flexDirection: 'column',
           // justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
         }}
       >
         <h2>Add Your Own Recipe</h2>
@@ -165,10 +175,10 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
               <Link to={'/profile'} style={{ textDecoration: 'none' }}>
                 <Button
                   onClick={create}
-                  size='small'
-                  color='primary'
+                  size='large'
                   sx={{
                     paddingBottom: '10px',
+                    color: theme.palette.primary.contrastText,
                   }}
                 >
                   CREATE

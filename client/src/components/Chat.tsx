@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { UserContext } from '../UserContext';
+import moment from 'moment';
 import ScrollToBottom from 'react-scroll-to-bottom'; /*<-- Researched 
 this and there does not appear to be a fix. It doesn't break anything*/
 
 type Props = {
   socket: Socket;
-  username: string;
-  room: string;
 };
 
 interface SocketData {
@@ -15,20 +16,20 @@ interface SocketData {
   time: Date;
 }
 
-const Chat: React.FC<Props> = ({ socket, username, room }) => {
+const Chat: React.FC<Props> = ({ socket }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
-
+  const { user } = useContext(UserContext);
+  const { userName } = user;
+  const { idMeal } = useParams<{ idMeal: string }>();
   const sendMessage = async () => {
+    const currentTime: Date = new Date();
     if (currentMessage !== '') {
       const messageData = {
-        room: room,
-        author: username,
+        room: idMeal,
+        author: userName,
         message: currentMessage,
-        time:
-          new Date(Date.now()).getHours() +
-          ':' +
-          new Date(Date.now()).getMinutes(),
+        time: moment(currentTime).format('h:mm a'),
       };
 
       await socket.emit('send_message', messageData);
@@ -55,15 +56,14 @@ const Chat: React.FC<Props> = ({ socket, username, room }) => {
               <div
                 key={i}
                 className='message'
-                id={username === messageContent.author ? 'you' : 'other'}
+                id={userName === messageContent.author ? 'you' : 'other'}
               >
                 <div>
                   <div className='message-content'>
                     <p>{messageContent.message}</p>
                   </div>
                   <div className='message-meta'>
-                    <p>{messageContent.author}</p>
-                    <p>{messageContent.time}</p>
+                    <p>{`${messageContent.author} ${messageContent.time}`}</p>
                   </div>
                 </div>
               </div>

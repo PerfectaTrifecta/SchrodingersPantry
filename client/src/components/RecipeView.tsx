@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import VideoModal from './VideoModal';
 import Favorite from './Favorite';
@@ -18,7 +18,10 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import InviteToChat from './InviteToChat';
+import useTheme from '@mui/material/styles/useTheme';
+import moment from 'moment';
+// import {createMemoryHistory} from 'history';
 
 /*Recipe View is where the user can see details about a recipe that they
 either created or searched for.*/
@@ -52,115 +55,150 @@ interface CommentDisplay {
 
 const RecipeView: React.FC = () => {
   const { user } = useContext(UserContext);
-
+  const theme = useTheme();
   //Use the useLocation hook to get idMeal passed through the search route.
-  const location = useLocation<{ idMeal: string | null, idUserMeal: number | null }>();
-  const { idMeal, idUserMeal } = location.state;
+  // const location = useLocation<{ idUserMeal: number | null }>();
+  const { idUserMeal } = useParams<{ idUserMeal: string }>();
+  const { idMeal } = useParams<{ idMeal: string }>();
+  //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] = useState<UserRecipeProps[] | null>(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] =
+    useState<UserRecipeProps[] | null>(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
-
+  // const [mealId, setMealId] = useState<string>('');
   //Comments settings
   const [rawComment, setRawComment] = useState('');
   const [featComments, setFeatComments] = useState<CommentDisplay[]>([]);
+  // const postTime: Date = new Date();
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRawComment(e.target.value);
   };
-
   const submitComment = () => {
-    if (idMeal) {
+    if (idMeal.length === 5) {
+      setFeatComments(
+        featComments.concat([
+          {
+            name: user.userName,
+            text: rawComment,
+            postedAt: new Date().toString(),
+          },
+        ])
+      );
+
       axios
-      .post('routes/user/profile/comment', {
-        text: rawComment,
-        userId: user.id,
-        userName: user.userName,
-        mealId: idMeal,
-      })
-      .then(() => {
-        setRawComment('');
-      })
-      .catch((err) => console.error(err, 'recipeView 84'));
-    } else if (idUserMeal) {
+        .post('routes/user/profile/comment', {
+          text: rawComment,
+          userId: user.id,
+          userName: user.userName,
+          mealId: idMeal,
+        })
+        .then(() => {
+          setRawComment('');
+        })
+        .catch((err) => console.error(err, 'recipeView 84'));
+    } else {
+      setFeatComments(
+        featComments.concat([
+          {
+            name: user.userName,
+            text: rawComment,
+            postedAt: new Date().toString(),
+          },
+        ])
+      );
+
       axios
-      .post('routes/user/profile/userComment', {
-        text: rawComment,
-        userId: user.id,
-        userName: user.userName,
-        recipeId: idUserMeal
-      })
-      .then(() => {
-        setRawComment('');
-      })
-      .catch(err => console.error(err, 'recipeView 96'))
+        .post('routes/user/profile/userComment', {
+          text: rawComment,
+          userId: user.id,
+          userName: user.userName,
+          recipeId: idUserMeal,
+        })
+        .then(() => {
+          setRawComment('');
+        })
+        .catch((err) => console.error(err, 'recipeView 96'));
     }
-
   };
-
   //Prints the recipe to the screen on page load
-  if (idMeal) {
-    useEffect(() => {
+
+  useEffect(() => {
+    if (idMeal.length === 5) {
       axios
         .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
         .then(({ data }) => {
           // console.log(data, 'recipeView 61');
-          data && setMealRecipe(data) 
+          data && setMealRecipe(data);
           setInstructions(data[0].strInstructions.split('\r\n'));
         })
         .catch((err) => {
           console.error(err);
         });
-
       axios
         .get('routes/user/profile/comment', { params: { mealId: idMeal } })
         .then(({ data }) => {
           // console.log(data, 'recipeView 96')
           setFeatComments(data);
         })
-        .catch((err) => console.error(err, 'recipeView 143'));  
-      
-    }, []);
-  } else if (idUserMeal) {
-    useEffect(() => {
-      axios.get('/routes/search/getUserRecipe', { params: { id: idUserMeal } })
-        .then(({data}) => {
+        .catch((err) => console.error(err, 'recipeView 143'));
+    } else {
+      console.log({ idMeal, idUserMeal }, 'recipeview 147');
+      axios
+        .get('/routes/search/getUserRecipe', { params: { id: idMeal } })
+        .then(({ data }) => {
           // console.log(data, 'recipeView 96');
           setMealUserRecipe(data);
         })
         .then(() => {
-          // console.log(mealUserRecipe, 'recipeView 101');
+          console.log(mealUserRecipe, 'recipeView 101');
           setUserIngredients(mealUserRecipe[0].ingredients.split(','));
         })
-        .catch(err => console.error(err, 'recipeView 135'));
+        .catch((err) => console.error(err, 'recipeView 135'));
 
       axios
-        .get('routes/user/profile/userComment', { params: { recipeId: idUserMeal }})
+        .get('routes/user/profile/userComment', {
+          params: { recipeId: idMeal },
+        })
         .then(({ data }) => {
           setFeatComments(data);
         })
-        .catch(err => console.error(err, 'recipeView 142'));
-    })
-  }
-
+        .catch((err) => console.error(err, 'recipeView 142'));
+    }
+  }, []);
 
   const [expanded, setExpanded] = React.useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-
   //Conditionally renders based on meal data availability
-  return (
-    mealRecipe[0] ? (
-      <Card
-      sx={{ maxWidth: 345 }}
+
+  return mealRecipe[0] ? (
+    <div
       style={{
-        margin: '16px auto',
-        maxWidth: '600px',
-        width: '90%',
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+        borderRadius: '0.25rem',
       }}
+    >
+      <InviteToChat />
+      <Card
+        sx={{ maxWidth: 345 }}
+        style={{
+          maxWidth: '600px',
+          width: '90%',
+          padding: '1rem',
+          margin: '1rem 0',
+          boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+          display: 'flex',
+          flexFlow: 'column',
+          alignItems: 'center',
+          borderRadius: '0.25rem',
+        }}
       >
         <CardHeader
           title={mealRecipe[0].strMeal}
@@ -179,77 +217,95 @@ const RecipeView: React.FC = () => {
           <ul>
             {mealRecipe[0].ingredients.map((tuple, i) => (
               <li key={i}>{`${tuple[0]}:  ${tuple[1]}`}</li>
-              ))}
+            ))}
           </ul>
           <Typography paragraph>
-            <strong>Directions:
-              <p>
-            <TextToSpeech instructions={instructions} />
-            </p>
-            </strong>
+            <strong>Directions:</strong>
           </Typography>
           {mealRecipe[0].strInstructions.split('\n').map((p, i) => (
             <Typography key={p + i}>{p}</Typography>
-            ))}
+          ))}
+          <p>
+            <TextToSpeech instructions={instructions} />
+          </p>
         </CardContent>
-        <CardActions  >
-          <Favorite recipeId={idMeal}/>
-          <IconButton 
+        <CardActions>
+          <Favorite recipeId={idMeal} />
+          <IconButton
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label='show more'
           >
-            <CommentIcon fontSize="large" />
+            <CommentIcon fontSize='large' />
           </IconButton>
           <VideoModal mealName={mealRecipe[0].strMeal} />
-          <IconButton size='small'>
-            Reviews
-          </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
             <TextField
-              id="outlined-multiline-flexible"
+              id='outlined-multiline-flexible'
               label='Your Comment'
-              placeholder="Tasted this dish before?"
+              placeholder='Tasted this dish before?'
               multiline
               maxRows={4}
-              inputProps={{maxLength: 120}}
+              inputProps={{ maxLength: 120 }}
               value={rawComment}
               onChange={handleCommentChange}
             />
             <Button
-              variant="outlined"
-              size="small"
+              variant='outlined'
+              size='small'
               onClick={submitComment}
-            > 
-              Submit 
+              style={{ color: theme.palette.primary.contrastText }}
+            >
+              Submit
             </Button>
-            {featComments.map(comment => (
+            {featComments.map((comment) => (
               <Box
                 sx={{
-                  border: '1px solid lightGrey',
+                  border: `1px solid ${theme.palette.primary.contrastText}`,
                   width: '450px',
                   marginTop: '5px',
                   padding: '5px 5px 10px 5px',
+                  borderRadius: '5px',
                 }}
               >
                 <Typography>{comment.name}</Typography>
                 <Typography>{comment.text}</Typography>
-                <Typography>{comment.postedAt}</Typography>
+                <Typography>
+                  {moment(comment.postedAt).format('MMMM Do YYYY, h:mm a')}
+                </Typography>
               </Box>
             ))}
           </CardContent>
         </Collapse>
       </Card>
-    ) : mealUserRecipe ? (
-      <Card
-      sx={{ maxWidth: 345 }}
+    </div>
+  ) : mealUserRecipe ? (
+    <div
       style={{
-        margin: '16px auto',
-        maxWidth: '600px',
-        width: '90%',
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+        borderRadius: '0.25rem',
       }}
+    >
+      <InviteToChat />
+      <Card
+        sx={{ maxWidth: 345 }}
+        style={{
+          maxWidth: '600px',
+          width: '90%',
+          padding: '1rem',
+          margin: '1rem 0',
+          boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.secondary.main}`,
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+          display: 'flex',
+          flexFlow: 'column',
+          alignItems: 'center',
+          borderRadius: '0.25rem',
+        }}
       >
         <CardHeader
           title={mealUserRecipe[0].title}
@@ -266,58 +322,57 @@ const RecipeView: React.FC = () => {
             <strong>Ingredients:</strong>
           </Typography>
           <ul>
-            {userIngredients.map((tuple, i) => (
+            {mealUserRecipe[0].ingredients.split(',').map((tuple, i) => (
               <li key={i}>{tuple}</li>
-              ))}
+            ))}
           </ul>
           <Typography paragraph>
             <strong>Directions:</strong>
           </Typography>
           {/* {console.log(mealUserRecipe, 'recipeView 252')} */}
-          {mealUserRecipe[0].instructions.split('\n').map((p: string, i: number) => (
-            <Typography key={p + i}>{p}</Typography>
-          ))}
+          {mealUserRecipe[0].instructions
+            .split('\n')
+            .map((p: string, i: number) => (
+              <Typography key={p + i}>{p}</Typography>
+            ))}
           <TextToSpeech instructions={instructions} />
-          
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label='add to favorites'>
             <FavoriteIcon />
           </IconButton>
-          <IconButton 
+          <IconButton
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label='show more'
           >
             <CommentIcon />
           </IconButton>
-          <IconButton>
-            See Reviews!
-          </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
             <TextField
-              id="outlined-multiline-flexible"
+              id='outlined-multiline-flexible'
               label='Your Comment'
-              placeholder="Tasted this dish before?"
+              placeholder='Tasted this dish before?'
               multiline
               maxRows={4}
-              inputProps={{maxLength: 120}}
+              inputProps={{ maxLength: 120 }}
               value={rawComment}
               onChange={handleCommentChange}
             />
             <Button
-              variant="outlined"
-              size="small"
+              variant='outlined'
+              size='small'
               onClick={submitComment}
-            > 
-              Submit 
+              style={{ color: theme.palette.primary.contrastText }}
+            >
+              Submit
             </Button>
-            {featComments.map(comment => (
+            {featComments.map((comment) => (
               <Box
                 sx={{
-                  border: '1px solid lightGrey',
+                  border: `1px solid ${theme.palette.primary.contrastText}`,
                   width: '450px',
                   marginTop: '5px',
                   padding: '5px 5px 10px 5px',
@@ -325,17 +380,16 @@ const RecipeView: React.FC = () => {
               >
                 <Typography>{comment.name}</Typography>
                 <Typography>{comment.text}</Typography>
-                <Typography>{comment.postedAt}</Typography>
+                <Typography>
+                  {moment(comment.postedAt).format('MMMM Do YYYY, h:mm a')}
+                </Typography>
               </Box>
             ))}
           </CardContent>
         </Collapse>
       </Card>
-    ) : null
-    
-  );
-
-  
+    </div>
+  ) : null;
 };
 
 export default RecipeView;

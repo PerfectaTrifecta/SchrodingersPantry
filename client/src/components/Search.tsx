@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import NewCard from './MealCard';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface SearchProps {
   strMeal: string;
@@ -11,6 +12,8 @@ interface SearchProps {
   strMealThumb: string;
 }
 const Search: React.FC = () => {
+  const theme = useTheme();
+
   const [ingredients, setIngredients] = useState<string>('');
   const [meals, setMeals] = useState<SearchProps[]>([]);
 
@@ -33,14 +36,16 @@ const Search: React.FC = () => {
   };
 
   const searchRecipes = () => {
-    axios
-      .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
-      .then(({ data }) => {
-        setMeals(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (ingredients && ingredients !== '') {
+      axios
+        .get<SearchProps[]>(`/routes/search/ingredients/${ingredients}`)
+        .then(({ data }) => {
+          setMeals(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
   const onSearch = (e: any) => {
@@ -50,9 +55,23 @@ const Search: React.FC = () => {
 
   return (
     <div>
-      <h1 className="search-title" >Search For A Recipe!</h1>
+      <h1
+        className='search-title'
+        style={{ color: theme.palette.primary.contrastText }}
+      >
+        Search For A Recipe!
+      </h1>
       <Stack spacing={2} direction='row' padding={2}>
-        <Button variant='outlined' onClick={onSearch}>
+        <Button
+          variant='outlined'
+          onClick={onSearch}
+          style={{
+            backgroundColor: theme.palette.primary.light,
+            color: theme.palette.primary.contrastText,
+            borderColor: theme.palette.primary.dark,
+            borderRadius: '5px',
+          }}
+        >
           Search
         </Button>
         <TextField
@@ -63,20 +82,43 @@ const Search: React.FC = () => {
           value={ingredients}
           id='fullWidth'
           onChange={handleInput}
+          onKeyPress={(e) => {
+            e.key === 'Enter' && onSearch();
+          }}
+          style={{
+            backgroundColor: theme.palette.primary.light,
+            color: theme.palette.primary.contrastText,
+            borderColor: theme.palette.primary.dark,
+            borderRadius: '5px',
+          }}
         />
       </Stack>
-      <div
-        style={{
-          display: 'flex',
-          flexFlow: 'row wrap',
-          width: '100%',
-          justifyContent: 'center',
-        }}
-      >
-        {meals.map((meal, i) => (
-          <NewCard recipe={meal} key={i} />
-        ))}
-      </div>
+      {meals.length ? (
+        <div
+          style={{
+            display: 'flex',
+            flexFlow: 'row wrap',
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'space-around',
+          }}
+        >
+          {meals.map((meal, i) => (
+            <NewCard recipe={meal} key={i} />
+          ))}
+        </div>
+      ) : (
+        <div
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
+          }}
+        >
+          Hmm....there doesn't appear to be any recipes with those
+          ingredients...
+        </div>
+      )}
     </div>
   );
 };
