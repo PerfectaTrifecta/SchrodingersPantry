@@ -244,9 +244,8 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
             <BookmarkAddIcon
               className='addIcon'
               onClick={() => {
-                // console.log(bookmark, '197');
                 toggleBookmark();
-                // console.log(bookmark, '198');
+
                 handleBookmarkClick({
                   title,
                   creator,

@@ -100,7 +100,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       .then(() => {
         setLoggedIn(false);
         setUser(null);
-        console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
   };

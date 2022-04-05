@@ -86,7 +86,6 @@ const ProfilePage: React.FC<Props> = ({
   setBookmarkList,
 }) => {
   const theme = useTheme();
-  console.log(recipeList, 'profile 87');
 
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser, userAccount } = useContext(UserContext);
@@ -110,10 +109,7 @@ const ProfilePage: React.FC<Props> = ({
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(user, 'before profile userAccount');
     userAccount();
-
-    console.log(user, 'after profile userAccount');
   }, []);
 
   const handleExpandClick = () => {
@@ -134,7 +130,6 @@ const ProfilePage: React.FC<Props> = ({
         .then(({ data }) => {
           setDisplayImg(data.url);
           setEditPic(false);
-          // console.log(12345667, data);
         })
         .catch(() => {});
     }

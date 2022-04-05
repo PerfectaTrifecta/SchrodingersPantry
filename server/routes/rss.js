@@ -27,16 +27,16 @@ rssGet.get('/:selectedTab', (req, res) => {
 });
 
 rssGet.post('/bookmarks', (req, res) => {
-  // console.log(req.body, 'rssRoute 30');
+  
   const { title, creator, relTime, link, randomImg, userId } = req.body;
 
   Bookmark.findOrCreate({ where: { title }, defaults: { title, link, creator, relTime, img: randomImg } })
     .then(bookmark => {
-      console.log(bookmark, 'rssRoute 36');
+    
 
       User_Bookmark.create( {bookmarkId: bookmark.id, userId})
         .then(() => {
-          console.log('bookmark created, rssRoute 40');
+      
           res.sendStatus(201);
         });
     })
