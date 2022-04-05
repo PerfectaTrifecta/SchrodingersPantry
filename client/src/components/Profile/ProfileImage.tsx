@@ -6,7 +6,7 @@ import axios from 'axios';
 const ProfileImage = () => {
 
   const [image, setImage] = React.useState< File | File[]>([]);
-  const [displayImg, setDisplayImg] = React.useState<string>('"http://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649119002/on2sre4jrjtrgatzovbk.png"');
+  const [displayImg, setDisplayImg] = React.useState<string>('http://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649119002/on2sre4jrjtrgatzovbk.png');
 
 
   const handleUpload = async ( file: File | File[]) : Promise<void> => {
