@@ -143,10 +143,6 @@ const RecipeView: React.FC = () => {
         })
         .catch((err) => console.error(err, 'recipeView 143'));
     } else {
-<<<<<<< HEAD
-      // console.log({ idMeal, idUserMeal }, 'recipeview 147');
-=======
->>>>>>> 1f50bb7f2f4976ad3a86b6f129573957445b8fe8
       axios
         .get('/routes/search/getUserRecipe', { params: { id: idMeal } })
         .then(({ data }) => {
