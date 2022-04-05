@@ -14,6 +14,7 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
 import { PaletteOptions } from '@mui/material';
 import { light, dark } from './Theme';
+import GlobalStyle from './globalStyles';
 
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
@@ -102,6 +103,7 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <ThemeProvider theme={chosenTheme}>
+      {/* <GlobalStyle /> */}
       <div
         style={{ backgroundColor: chosenTheme.palette.primary.main, margin: 0 }}
       >

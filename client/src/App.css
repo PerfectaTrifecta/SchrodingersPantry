@@ -12,14 +12,14 @@
   font-family: 'Nunito', sans-serif;
 } */
 
-body {
+/* body {
   margin: 0px;
   padding: 0px;
   overflow: auto;
   height: 100vh;
   width: 100vw;
   background-color: #d9a370;
-}
+} */
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 
 .chatContainer {
