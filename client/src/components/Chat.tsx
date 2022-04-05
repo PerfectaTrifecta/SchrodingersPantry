@@ -16,8 +16,6 @@ interface SocketData {
   time: Date;
 }
 
-const currentTime: Date = new Date();
-
 const Chat: React.FC<Props> = ({ socket }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
@@ -25,6 +23,7 @@ const Chat: React.FC<Props> = ({ socket }) => {
   const { userName } = user;
   const { idMeal } = useParams<{ idMeal: string }>();
   const sendMessage = async () => {
+    const currentTime: Date = new Date();
     if (currentMessage !== '') {
       const messageData = {
         room: idMeal,
