@@ -112,11 +112,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       }}
     >
       <Link to={'/'}>
-        <img
-          src={schrodingers_logo}
-          width='180'
-          style={{ paddingTop: '20px' }}
-        />
+        <img src={schrodingers_logo} width='180' style={{ padding: '15px' }} />
       </Link>
       {loggedIn ? (
         <List
