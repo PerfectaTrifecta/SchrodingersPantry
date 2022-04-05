@@ -128,7 +128,7 @@ const ProfilePage: React.FC<Props> = ({
 
   // const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
   // // set state of meal to the clicked cards title
-  //   setMeal(event.target.value);
+  //   setMeal(eve nt.target.value);
   // }
 
   const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,9 +150,9 @@ const ProfilePage: React.FC<Props> = ({
     console.log(selectedImg, 'profile 150');
     axios
       .post('/routes/user/profile/upload/pic', selectedImg)
-      .then((id) => {
+      .then(({ data }) => {
         //BUG TO REVISTS
-        // setImg(id);
+       data && setImg(data);
       })
       .catch((err) => console.log('problem uploading profile pic', err));
   };
@@ -264,7 +264,7 @@ const ProfilePage: React.FC<Props> = ({
           />
         )}
 
-        {/* <ProfileImage /> */}
+        <ProfileImage />
         <CardContent>
           <Typography variant='subtitle1'>About Me: </Typography>
           <Typography variant='body2'>{aboutMeDisplay}</Typography>
@@ -360,15 +360,14 @@ const ProfilePage: React.FC<Props> = ({
             <Typography variant='subtitle1' color='text.secondary'>
               Edit Profile Pic
               <IconButton aria-label='edit'>
-                <FaceRetouchingNaturalIcon />
+                  <input
+                      type='file'
+                      accept='image/*'
+                      onChange={handleImgUpload}
+                      multiple={false}
+                      />
               </IconButton>
             </Typography>
-            <input
-              type='file'
-              accept='image/*'
-              onChange={handleImgUpload}
-              multiple={false}
-            />
             <Button onClick={submitImg}> Submit </Button>
           </CardContent>
         </Collapse>
