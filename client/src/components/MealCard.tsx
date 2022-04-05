@@ -40,7 +40,10 @@ const MealCard = ({ recipe }: CardProps) => {
             pathname: `/recipe_view/${recipe.idMeal}`,
             state: { idMeal: recipe.idMeal },
           }}
-          style={{ textDecoration: 'none' }}
+          style={{
+            textDecoration: 'none',
+            color: theme.palette.primary.contrastText,
+          }}
         >
           <CardMedia
             component='img'
@@ -48,12 +51,12 @@ const MealCard = ({ recipe }: CardProps) => {
             image={recipe ? `${recipe.strMealThumb}` : ''}
             alt='green iguana'
           />
+          <CardContent>
+            <Typography gutterBottom variant='h5' component='div'>
+              {recipe.strMeal}
+            </Typography>
+          </CardContent>
         </Link>
-        <CardContent>
-          <Typography gutterBottom variant='h5' component='div'>
-            {recipe.strMeal}
-          </Typography>
-        </CardContent>
       </CardActionArea>
       <CardActions>
         <Link
