@@ -27,6 +27,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
@@ -152,7 +153,7 @@ const ProfilePage: React.FC<Props> = ({
       .post('/routes/user/profile/upload/pic', selectedImg)
       .then(({ data }) => {
         //BUG TO REVISTS
-       data && setImg(data);
+        data && setImg(data);
       })
       .catch((err) => console.log('problem uploading profile pic', err));
   };
@@ -360,12 +361,12 @@ const ProfilePage: React.FC<Props> = ({
             <Typography variant='subtitle1' color='text.secondary'>
               Edit Profile Pic
               <IconButton aria-label='edit'>
-                  <input
-                      type='file'
-                      accept='image/*'
-                      onChange={handleImgUpload}
-                      multiple={false}
-                      />
+                <input
+                  type='file'
+                  accept='image/*'
+                  onChange={handleImgUpload}
+                  multiple={false}
+                />
               </IconButton>
             </Typography>
             <Button onClick={submitImg}> Submit </Button>
@@ -413,7 +414,7 @@ const ProfilePage: React.FC<Props> = ({
           color: theme.palette.primary.contrastText,
         }}
       >
-        FAVORITE RECIPES
+        {/* FAVORITE RECIPES */}
         {/* {favorites.map((favorite: string) => (
           //INTEGRATE FAVORITES HERE
           // <RecipePreview id={favorite.id} title={favorite.title} />
@@ -431,7 +432,16 @@ const ProfilePage: React.FC<Props> = ({
         BOOKMARKS
         <List>
           {bookmarkList.map((mark) => {
-            const { creator, title, relTime, link, img } = mark;
+            const { id, creator, title, relTime, link, img } = mark;
+
+            const deleteBookmark = () => {
+              axios
+                .delete(`/routes/user/profile/delete/bookmark/${id}`)
+                .then(() => {
+                  userAccount();
+                })
+                .catch((err) => console.error(err, 'profile 215'));
+            };
 
             return (
               <div
@@ -455,6 +465,14 @@ const ProfilePage: React.FC<Props> = ({
                     <h6 id='rssTime'>{relTime}</h6>
                   </div>
                 </a>
+                <DeleteIcon
+                  onClick={deleteBookmark}
+                  style={{
+                    float: 'right',
+                    marginTop: '-30px',
+                    // marginRight: '5px',
+                  }}
+                />
               </div>
             );
           })}
