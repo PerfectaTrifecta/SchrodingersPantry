@@ -37,6 +37,7 @@ UserRouter.post('/upload/recipe', (req, res) => {
   Recipe.create({ userId, title, ingredients, instructions})
     .then(() => {
       res.sendStatus(201);
+      // res.redirect('/profile');
     })
     .catch(err => console.error(err, 'userRoute 38'))
 
