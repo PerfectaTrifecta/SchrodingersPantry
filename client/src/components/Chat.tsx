@@ -43,7 +43,9 @@ const Chat: React.FC<Props> = ({ socket, showChat, setShowChat }) => {
       setCurrentMessage('');
     }
   };
-
+  const closeTheChat = () => {
+    setShowChat(!showChat);
+  };
   useEffect(() => {
     socket.on('receive_message', (data: SocketData) => {
       setMessageList((list) => [...list, data]);
@@ -65,7 +67,7 @@ const Chat: React.FC<Props> = ({ socket, showChat, setShowChat }) => {
               marginTop: '10px',
               marginRight: '5px',
             }}
-            onClick={}
+            onClick={closeTheChat}
           />
           <p style={{ color: theme.palette.primary.dark }}>Live Chat</p>
         </div>

@@ -35,12 +35,20 @@ const MealCard = ({ recipe }: CardProps) => {
       }}
     >
       <CardActionArea>
-        <CardMedia
-          component='img'
-          height='250'
-          image={recipe ? `${recipe.strMealThumb}` : ''}
-          alt='green iguana'
-        />
+        <Link
+          to={{
+            pathname: `/recipe_view/${recipe.idMeal}`,
+            state: { idMeal: recipe.idMeal },
+          }}
+          style={{ textDecoration: 'none' }}
+        >
+          <CardMedia
+            component='img'
+            height='250'
+            image={recipe ? `${recipe.strMealThumb}` : ''}
+            alt='green iguana'
+          />
+        </Link>
         <CardContent>
           <Typography gutterBottom variant='h5' component='div'>
             {recipe.strMeal}
