@@ -21,8 +21,6 @@ const ProfileImage = () => {
         )
         .then(({ data }) => {
           setDisplayImg(data.url);
-
-          console.log(12345667, data);
         })
         .catch(() => {});
     }

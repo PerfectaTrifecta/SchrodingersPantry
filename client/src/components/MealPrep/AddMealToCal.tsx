@@ -19,7 +19,6 @@ const MealPrep: React.FC = () => {
   const dateArr = date.split('/');
 
   const addMealToCalendar = () => {
-    // console.log(process.env.CALENDAR_API, "HERE");
     if (timeOfDay === 'Breakfast') {
       setTimeToEatStart(
         '2022-' + dateArr[0] + '-' + dateArr[1] + '8:00:00.000'
@@ -44,9 +43,9 @@ const MealPrep: React.FC = () => {
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES,
       });
-      gapi.client.load('calendar', 'v3', () =>
-        console.log('calendar loading now')
-      );
+      gapi.client.load('calendar', 'v3', () => {
+        // console.log('calendar loading now')
+      });
 
       gapi.auth2
         .getAuthInstance()
