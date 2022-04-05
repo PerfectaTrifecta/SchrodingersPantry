@@ -54,7 +54,7 @@ const App: React.FC = (): JSX.Element => {
   });
 
   const onIdle = (m: google.maps.Map) => {
-    console.log('onIdle');
+    // console.log('onIdle');
   };
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
@@ -68,7 +68,6 @@ const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (user) {
-      // console.log(user, 'app 71');
       recipes = user.recipes;
       bookmarks = user.bookmarks;
 
@@ -79,15 +78,6 @@ const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     userAccount();
-    console.log(user, 'app 82');
-
-    // if (loggedIn) {
-    //   recipes = user.recipes;
-    //   bookmarks = user.bookmarks;
-
-    //   setRecipeList(recipes);
-    //   setBookmarkList(bookmarks);
-    // }
   }, [loggedIn]);
 
   useEffect(() => {
