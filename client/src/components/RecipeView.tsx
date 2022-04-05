@@ -159,7 +159,7 @@ const RecipeView: React.FC = () => {
 
       axios
         .get('routes/user/profile/userComment', {
-          params: { recipeId: idUserMeal },
+          params: { recipeId: idMeal },
         })
         .then(({ data }) => {
           setFeatComments(data);

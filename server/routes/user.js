@@ -37,6 +37,7 @@ UserRouter.post('/upload/recipe', (req, res) => {
   Recipe.create({ userId, title, ingredients, instructions})
     .then(() => {
       res.sendStatus(201);
+      // res.redirect('/profile');
     })
     .catch(err => console.error(err, 'userRoute 38'))
 
@@ -278,5 +279,38 @@ UserRouter.post('/upload/recipe-image/:recipeId', (req, res) => {
       console.error(err);
     })
 });
+
+UserRouter.delete('/delete/recipe/:id', (req, res) => {
+  // console.log(req.params, 'userRoute 284');
+  const { id } = req.params;
+
+  Recipe.destroy({
+    where: {
+      id
+    }
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch(err => console.error(err, 'userRoute 295'));
+  
+});
+
+UserRouter.delete('/delete/bookmark/:id', (req, res) => {
+  console.log(req.params, 'userRoute 300');
+  const { id } = req.params;
+
+  User_Bookmark.destroy({
+    where: {
+      bookmarkId: id,
+      userId: req.cookies.googleId
+    }
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch(err => console.error(err, 'userRoute 311'));
+
+})
 
 module.exports = { UserRouter };
