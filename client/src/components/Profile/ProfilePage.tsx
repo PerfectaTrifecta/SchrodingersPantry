@@ -108,10 +108,10 @@ const ProfilePage: React.FC<Props> = ({
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(user, 'before userAccount');
+    console.log(user, 'before profile userAccount');
     userAccount();
 
-    console.log(user, 'after userAccount');
+    console.log(user, 'after profile userAccount');
   }, []);
 
   const cld = new Cloudinary({
