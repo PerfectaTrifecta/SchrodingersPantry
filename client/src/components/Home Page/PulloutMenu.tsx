@@ -34,7 +34,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { Link } from 'react-router-dom';
-import logo from '../../img/logo.png';
+import schrodingers_logo from '../../img/schrodingers_logo_black.png';
 
 interface TokenValue {
   token: string;
@@ -100,7 +100,6 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       .then(() => {
         setLoggedIn(false);
         setUser(null);
-        console.log('user set to null');
       })
       .catch((err) => console.error('error pullout 47', err));
   };
@@ -113,7 +112,11 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       }}
     >
       <Link to={'/'}>
-        <img src={logo} width='200' style={{ paddingTop: '20px' }} />
+        <img
+          src={schrodingers_logo}
+          width='180'
+          style={{ paddingTop: '20px' }}
+        />
       </Link>
       {loggedIn ? (
         <List

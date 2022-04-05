@@ -140,8 +140,12 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
     //if there is a user, run the post request
     if (loggedIn) {
       //update the BookmarkList that shows on the profile page
+      const id = bookmarkList[bookmarkList.length - 1].id + 1;
+
       setBookmarkList(
-        bookmarkList.concat([{ title, creator, relTime, link, img: randomImg }])
+        bookmarkList.concat([
+          { id, title, creator, relTime, link, img: randomImg },
+        ])
       );
 
       //send the bookmark info to the db
@@ -240,9 +244,8 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
             <BookmarkAddIcon
               className='addIcon'
               onClick={() => {
-                console.log(bookmark, '197');
                 toggleBookmark();
-                console.log(bookmark, '198');
+
                 handleBookmarkClick({
                   title,
                   creator,

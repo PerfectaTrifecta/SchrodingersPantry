@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import axios from 'axios';
+import { UserContext } from '../../UserContext';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
@@ -8,6 +10,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import useTheme from '@mui/material/styles/useTheme';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface PreviewProps {
   id: number;
@@ -16,6 +19,16 @@ interface PreviewProps {
 
 const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
   const theme = useTheme();
+  const { userAccount } = useContext(UserContext);
+
+  const deleteRecipe = () => {
+    axios
+      .delete(`/routes/user/profile/delete/recipe/${id}`)
+      .then(() => {
+        userAccount();
+      })
+      .catch((err) => console.error(err, 'recipePreview 25'));
+  };
 
   return (
     <Card
@@ -59,6 +72,15 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
             Go To Recipe
           </Button>
         </Link>
+        <DeleteIcon
+          onClick={deleteRecipe}
+          style={{
+            // float: 'right',
+            // marginTop: '-30px',
+            // marginRight: '5px',
+            marginLeft: '77%',
+          }}
+        />
       </CardActions>
     </Card>
   );

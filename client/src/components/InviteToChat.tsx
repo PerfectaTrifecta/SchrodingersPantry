@@ -45,7 +45,7 @@ const InviteToChat: React.FC = () => {
           </button>
         </div>
       ) : (
-        <Chat socket={socket} />
+        <Chat socket={socket} showChat={showChat} setShowChat={setShowChat} />
       )}
     </div>
   );

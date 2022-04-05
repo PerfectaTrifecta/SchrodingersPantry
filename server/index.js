@@ -37,12 +37,10 @@ app.use(passport.session());
 app.use(passport.authenticate('session'));
 
 passport.serializeUser(function (user, cb) {
-  // console.log(user, 'serialize');
   cb(null, user);
 });
 
 passport.deserializeUser(function (user, cb) {
-  // console.log(user, 'deserialize');
   cb(null, user);
 });
 
@@ -81,11 +79,11 @@ const io = require('socket.io')(httpServer, {
 });
 
 io.on('connection', (socket) => {
-  console.log(`USER CONNECTED ${socket.id}`);
+  // console.log(`USER CONNECTED ${socket.id}`);
 
   socket.on('join_room', (data) => {
     socket.join(data); //data is room id passed from front end.
-    console.log(`User with ID ${socket.id} joined room: ${data}`);
+    // console.log(`User with ID ${socket.id} joined room: ${data}`);
   });
 
   socket.on('send_message', (data) => {
@@ -93,7 +91,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('USER DISCONNECTED', socket.id);
+    // console.log('USER DISCONNECTED', socket.id);
   });
 });
 

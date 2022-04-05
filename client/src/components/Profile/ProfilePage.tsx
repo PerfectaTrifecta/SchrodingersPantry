@@ -23,10 +23,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Box from '@mui/material/Box';
 import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
@@ -84,18 +86,17 @@ const ProfilePage: React.FC<Props> = ({
   setBookmarkList,
 }) => {
   const theme = useTheme();
-  console.log(recipeList, 'profile 87');
 
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser, userAccount } = useContext(UserContext);
   const { userName, favorites, diet, allergies, bio } = user;
 
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
-  const [img, setImg] = useState<string | null>(null);
-  // const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
-  // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
-  // const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [image, setImage] = React.useState<File | File[]>([]);
+  const [displayImg, setDisplayImg] = React.useState<string>(
+    'http://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649119002/on2sre4jrjtrgatzovbk.png'
+  );
+  const [editPic, setEditPic] = useState<boolean>(false);
 
   const [aboutMeDisplay, setAboutMeDisplay] = useState<string>(bio);
   const [aboutMeField, setAboutMeField] = useState<string>('');
@@ -108,53 +109,30 @@ const ProfilePage: React.FC<Props> = ({
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(user, 'before profile userAccount');
     userAccount();
-
-    console.log(user, 'after profile userAccount');
   }, []);
-
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: process.env.CLOUDINARY_NAME,
-    },
-  });
-  const profilePic = cld.image(img);
-  //checkout different url-gen actions to see how to style the image using profilePic.<action>
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  // const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
-  // // set state of meal to the clicked cards title
-  //   setMeal(eve nt.target.value);
-  // }
+  const handleUpload = async (file: File | File[]): Promise<void> => {
+    if (file && !Array.isArray(file)) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'ivfzsgyx');
 
-  const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const [file] = e.target.files;
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        console.log(typeof reader.result);
-        setSelectedImg(reader.result);
-        // console.log(reader.result, 'profile 144');
-      };
+      axios
+        .post(
+          'https://api.cloudinary.com/v1_1/schrodinger-s-pantry/image/upload',
+          formData
+        )
+        .then(({ data }) => {
+          setDisplayImg(data.url);
+          setEditPic(false);
+        })
+        .catch(() => {});
     }
-  };
-
-  const submitImg = () => {
-    console.log(selectedImg, 'profile 150');
-    axios
-      .post('/routes/user/profile/upload/pic', selectedImg)
-      .then(({ data }) => {
-        //BUG TO REVISTS
-       data && setImg(data);
-      })
-      .catch((err) => console.log('problem uploading profile pic', err));
   };
 
   const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,38 +211,30 @@ const ProfilePage: React.FC<Props> = ({
           borderColor: theme.palette.primary.dark,
         }} //{onClick={handleCardClick}}
       >
-        {img ? (
-          <CardHeader
-            avatar={<AdvancedImage cldImg={profilePic} />}
-            action={
-              <IconButton aria-label='settings'>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={user ? `${user.userName.toUpperCase()}` : 'nope'} //user.name
-          />
-        ) : (
-          <CardHeader
-            avatar={
-              <Avatar
-                sx={{ bgcolor: green[700], width: 56, height: 56 }}
-                aria-label='recipe'
-              >
-                {/* {console.log(user.name, 'profile 99')} */}
-                {userName.slice(0, 1)}
-                {/* this should be user profile's first letter */}
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label='settings'>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={user ? `${user.userName.toUpperCase()}` : 'nope'} //user.name
-          />
-        )}
+        <CardHeader
+          title={`${user.userName.toUpperCase()}`}
+          titleTypographyProps={{ variant: 'h4' }}
+          avatar={
+            <Box
+              sx={{
+                width: 300,
+                height: 300,
+                backgroundColor: 'primary.dark',
+                '&:hover': {
+                  backgroundColor: 'primary.main',
+                  opacity: [0.9, 0.8, 0.7],
+                },
+              }}
+            >
+              <img src={displayImg} alt='profile' width='300' height='300' />
+            </Box>
+          }
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        />
 
-        <ProfileImage />
         <CardContent>
           <Typography variant='subtitle1'>About Me: </Typography>
           <Typography variant='body2'>{aboutMeDisplay}</Typography>
@@ -359,16 +329,33 @@ const ProfilePage: React.FC<Props> = ({
             ) : null}
             <Typography variant='subtitle1' color='text.secondary'>
               Edit Profile Pic
-              <IconButton aria-label='edit'>
-                  <input
-                      type='file'
-                      accept='image/*'
-                      onChange={handleImgUpload}
-                      multiple={false}
-                      />
+              <IconButton
+                aria-label='edit'
+                onClick={() => setEditPic(!editPic)}
+              >
+                <FaceRetouchingNaturalIcon />
               </IconButton>
             </Typography>
-            <Button onClick={submitImg}> Submit </Button>
+            {editPic ? (
+              <>
+                <input
+                  type='file'
+                  accept='image/*'
+                  multiple={false}
+                  onChange={(event) => {
+                    setImage(event.target.files[0]);
+                  }}
+                />
+                <Button
+                  onClick={() => {
+                    handleUpload(image);
+                  }}
+                >
+                  {' '}
+                  Upload{' '}
+                </Button>
+              </>
+            ) : null}
           </CardContent>
         </Collapse>
       </Card>
@@ -413,7 +400,7 @@ const ProfilePage: React.FC<Props> = ({
           color: theme.palette.primary.contrastText,
         }}
       >
-        FAVORITE RECIPES
+        {/* FAVORITE RECIPES */}
         {/* {favorites.map((favorite: string) => (
           //INTEGRATE FAVORITES HERE
           // <RecipePreview id={favorite.id} title={favorite.title} />
@@ -431,7 +418,16 @@ const ProfilePage: React.FC<Props> = ({
         BOOKMARKS
         <List>
           {bookmarkList.map((mark) => {
-            const { creator, title, relTime, link, img } = mark;
+            const { id, creator, title, relTime, link, img } = mark;
+
+            const deleteBookmark = () => {
+              axios
+                .delete(`/routes/user/profile/delete/bookmark/${id}`)
+                .then(() => {
+                  userAccount();
+                })
+                .catch((err) => console.error(err, 'profile 215'));
+            };
 
             return (
               <div
@@ -455,6 +451,14 @@ const ProfilePage: React.FC<Props> = ({
                     <h6 id='rssTime'>{relTime}</h6>
                   </div>
                 </a>
+                <DeleteIcon
+                  onClick={deleteBookmark}
+                  style={{
+                    float: 'right',
+                    marginTop: '-30px',
+                    // marginRight: '5px',
+                  }}
+                />
               </div>
             );
           })}
