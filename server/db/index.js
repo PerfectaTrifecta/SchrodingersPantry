@@ -37,8 +37,8 @@ const Recipe = sql.define('recipes', {
     autoIncrement: true,
   },
   title: DataTypes.STRING,
-  ingredients: DataTypes.STRING,
-  instructions: DataTypes.STRING,
+  ingredients: DataTypes.STRING(500),
+  instructions: DataTypes.STRING(1000),
   vote_count: DataTypes.INTEGER,
   comment_count: DataTypes.INTEGER,
 });
@@ -199,7 +199,7 @@ User.hasMany(User_Image);
 User_Image.belongsTo(User);
 
 sql
-  .sync() //insert {alter: true}(alters tables if necessary) or {force: true}(drops all tables and recreates them every save) if you need to change the db structure
+  .sync({alter: true}) //insert {alter: true}(alters tables if necessary) or {force: true}(drops all tables and recreates them every save) if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 
