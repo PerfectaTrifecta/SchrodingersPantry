@@ -1,30 +1,29 @@
 const { Router } = require('express');
 const axios = require('axios').default;
 const rssGet = Router();
-const Parser =require('rss-parser');
+const Parser = require('rss-parser');
 const { Bookmark, User_Bookmark } = require('../db/index');
 
-  const parser = new Parser({
-    customFields: {
-      feed: ['foo'],
-      item: ['bar']
-    }
-  });
-
+const parser = new Parser({
+  customFields: {
+    feed: ['foo'],
+    item: ['bar']
+  }
+});
 rssGet.get('/:selectedTab', (req, res) => {
   const { selectedTab } = req.params;
   //unique RSS feeds for each outlet
   const feedUrls = [
-    '6224f0ec7f158e227c74e3526224f1448394e80ad70ed0d2.xml',
-    '6224f0ec7f158e227c74e3526224f1d0b51b1b2a253956b2.xml',
-    '6224f0ec7f158e227c74e352622cbfe821556b2e1528be82.xml'
+    '624c6916be9d5652ef71fa72624c6ab46d652c2a324fb893.xml',
+    '624c6916be9d5652ef71fa72624c696c3bd74a34f96b3962.xml',
+    '624c6916be9d5652ef71fa72624c6b323c9a0e6849094e42.xml'
   ]
   axios.get((async () => {
     const feed = await parser.parseURL(`http://fetchrss.com/rss/${feedUrls[selectedTab]}`)
     res.send(feed.items);
   })())
-  .catch(err => {})
-  
+  .catch(err => {err})
+
 });
 
 rssGet.post('/bookmarks', (req, res) => {
@@ -44,5 +43,6 @@ rssGet.post('/bookmarks', (req, res) => {
     .catch(err => console.error(err, 'rssRoute 38'));
 
 });
+
 
 module.exports = { rssGet };
