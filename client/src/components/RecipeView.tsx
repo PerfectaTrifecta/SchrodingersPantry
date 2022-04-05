@@ -361,6 +361,9 @@ const RecipeView: React.FC = () => {
               inputProps={{ maxLength: 120 }}
               value={rawComment}
               onChange={handleCommentChange}
+              onKeyPress={(e) => {
+                e.key === 'Enter' && submitComment();
+              }}
             />
             <Button
               variant='outlined'
