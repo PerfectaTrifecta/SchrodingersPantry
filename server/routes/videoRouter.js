@@ -14,8 +14,7 @@ const videoRouter = Router();
 //sending meal name from front
 videoRouter.post('/youtube', (req, res) => {
   const { mealName } = req.body;
-  //console.log(mealName);
-  //console.log(YOUTUBE_KEY);
+
    return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=how to cook${mealName}&key=${YOUTUBE_KEY}`) 
       .then(( { data } ) => {
        
@@ -24,11 +23,11 @@ videoRouter.post('/youtube', (req, res) => {
         //returns an object with an array of 1 video
         //only need to send back the videoID
         const videoId = data.items[0].id.videoId;
-        //console.log(videoId);
+      
         res.status(201).send(videoId);
       })
       .catch((err) => {
-        //console.log(err);
+     
         console.error(err);
         res.sendStatus(500);
       })

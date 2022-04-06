@@ -32,6 +32,7 @@ interface userTypes {
     relTime: string;
     img: string;
   } | null>;
+  image?: string;
 }
 
 interface UserContextType {
@@ -43,6 +44,8 @@ interface UserContextType {
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   favorites?: Array<string>;
   setFavorites: React.Dispatch<React.SetStateAction<Array<string>>>;
+  profileImage?: string;
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface Props {
@@ -59,9 +62,12 @@ const UserContextProvider = ({ children }: Props) => {
     bio: 'none',
     recipes: [],
     bookmarks: [],
+    favorites: [],
+    image: 'http://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649119002/on2sre4jrjtrgatzovbk.png'
   });
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<Array<string>>([]);
+  const [profileImage, setProfileImage] = useState<string>(user.image);
 
   // const updateFavs = (e: ReactEventHandler) => {
   //  //take recipe id and add it to user's favorites, then setFavorites to that value
@@ -101,6 +107,8 @@ const UserContextProvider = ({ children }: Props) => {
   };
 
   const UserProps: UserContextType = {
+    profileImage,
+    setProfileImage,
     favorites,
     setFavorites,
     loggedIn,

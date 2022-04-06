@@ -56,8 +56,12 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
 
   //on submit should send
   const create = () => {
+    const id = recipeList[recipeList.length - 1].id + 1;
+
     setRecipeList(
-      recipeList.concat([{ title, ingredients, instructions, userId: user.id }])
+      recipeList.concat([
+        { id, title, ingredients, instructions, userId: user.id },
+      ])
     );
 
     axios
@@ -71,7 +75,6 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
         setTitle('');
         setIngredients('');
         setInstructions('');
-        // console.log('recipe created 38');
       })
       .catch((err) => console.error(err, 'createRecipe failed 39'));
   };
