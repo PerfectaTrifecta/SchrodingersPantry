@@ -31,13 +31,14 @@ cloudinary.config({
 
 
 UserRouter.post('/upload/pic', (req, res) => {
- const { profileImg, userId} = req.body;
+ const { profileImg, userId } = req.body;
  //const userId  = req.cookies.googleId;
-  User.update({ profileImg }, {
+  User.update({ image: profileImg }, {
     where: {
       id: userId
     } 
-    }).then(() => {
+    }).then((rows) => {
+      console.log(rows, 41)
       res.sendStatus(201);
     }).catch((err) => {
       console.error('error saving user image :', err);
@@ -102,6 +103,23 @@ UserRouter.post('/update/allergies', (req, res) => {
   })
   .catch(err => console.error(err, 'userRoute 84'));
 });
+
+UserRouter.post('/update/theme', (req, res) => {
+  const { theme } = req.body;
+  // console.log(theme, 'userRoute 92');
+
+  User.update({ theme }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then((data) => {
+    console.log(data, 'userRoute 100')
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 102'))
+
+})
 
 //On user post of comment
 UserRouter.post('/comment', (req, res) => {

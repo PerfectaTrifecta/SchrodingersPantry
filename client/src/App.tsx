@@ -58,6 +58,9 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
+  const [theme, setTheme] = useState<ThemeOptions>(light);
+  const chosenTheme = createTheme(theme);
+
   let recipes: Array<MyRecipeTypes> = [];
   let bookmarks: Array<Bookmarks> = [];
 
@@ -73,6 +76,12 @@ const App: React.FC = (): JSX.Element => {
 
       setRecipeList(recipes);
       setBookmarkList(bookmarks);
+
+      if (user.theme === 'light') {
+        setTheme(light);
+      } else if (user.theme === 'dark') {
+        setTheme(dark);
+      }
     }
   });
 
@@ -87,17 +96,11 @@ const App: React.FC = (): JSX.Element => {
     }, 1500);
   }, []);
 
-  const [theme, setTheme] = useState<ThemeOptions>(light);
-  const chosenTheme = createTheme(theme);
-
   return (
     <ThemeProvider theme={chosenTheme}>
       <div
         style={{ backgroundColor: chosenTheme.palette.primary.main, margin: 0 }}
       >
-        {/* style={{ backgroundColor: appTheme.palette.primary.main }} */}
-        {/* tried adding the theme colors to App to fill in the extra white spaces
-        (inside the divs on line 95 and 112) but it didn't work like that */}
         {getUser()}
         {loading ? (
           <div
@@ -137,6 +140,7 @@ const App: React.FC = (): JSX.Element => {
                   setRecipeList={setRecipeList}
                   bookmarkList={bookmarkList}
                   setBookmarkList={setBookmarkList}
+                  setTheme={setTheme}
                 />
               </Route>
               <Route path='/recipe_view/:idMeal'>

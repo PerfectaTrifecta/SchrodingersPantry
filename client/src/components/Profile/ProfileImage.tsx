@@ -5,7 +5,7 @@ import { UserContext } from '../../UserContext';
 
 const ProfileImage = () => {
   const [image, setImage] = React.useState<File | File[]>([]);
-  const { profileImage, setProfileImage } = React.useContext(UserContext);
+  const { profileImage, setProfileImage, userAccount, user } = React.useContext(UserContext);
   
   
 
@@ -21,23 +21,36 @@ const ProfileImage = () => {
           formData
         )
         .then(({ data }) => {
+          console.log(data.url , 30);
           setProfileImage(data.url);
-          let imgObj = { profileImg: data.url};
+        }).then(() => {
+          return saveImage(profileImage);
 
-          axios.post('/routes/user/profile/upload/pic', imgObj)
-
-          .then(() => {
-            console.log('successfully saved image');
-          }).catch((err) => {
-            console.error('error saving image url:' , err);
-          })
-
-        })
-        .catch((err) => {
+        }).catch((err) => {
           console.error('error from img request:', err);
         });
     }
   };
+
+  const saveImage = (profileImage: string) => {
+    console.log(profileImage, "profile Image,", 36);
+
+       let imgObj = { 
+            profileImg: profileImage,
+            userId: user.id
+          };
+
+        return  axios.post('/routes/user/profile/upload/pic', imgObj)
+          .then(() => { 
+            console.log();
+            userAccount();
+            console.log('successfully saved image');
+          }).catch((err) => {
+            console.error('error saving image url:' , err);
+          })
+  }
+
+
   return (
     <div>
       <Box

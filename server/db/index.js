@@ -30,7 +30,11 @@ const User = sql.define('users', {
   image: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: 'http://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649119002/on2sre4jrjtrgatzovbk.png',
+    defaultValue: 'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1645633651/o7h83ewat5aaicqukmtu.png',
+  },
+  theme: {
+    type: DataTypes.STRING,
+    defaultValue: 'light',
   }
 });
 
@@ -208,7 +212,7 @@ User.hasMany(User_Image);
 User_Image.belongsTo(User);
 
 sql
-  .sync({force: true}) //insert {alter: true}(alters tables if necessary) or {force: true}(drops all tables and recreates them every save) if you need to change the db structure
+  .sync() //insert {alter: true}(alters tables if necessary) or {force: true}(drops all tables and recreates them every save) if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 

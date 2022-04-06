@@ -12,6 +12,7 @@ interface userTypes {
   diet?: string;
   allergies?: string;
   bio?: string;
+  theme?: string;
   favorites?: Array<string> | [];
   pics?: Array<{} | null>;
   recipes?: Array<{
@@ -60,10 +61,11 @@ const UserContextProvider = ({ children }: Props) => {
     diet: 'none',
     allergies: 'none',
     bio: 'none',
+    theme: 'light',
     recipes: [],
     bookmarks: [],
     favorites: [],
-    image: 'http://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649119002/on2sre4jrjtrgatzovbk.png'
+    image: 'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649210858/eftem6mzfrhgcnpbevuk.png'
   });
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<Array<string>>([]);

@@ -80,6 +80,7 @@ authRouter.get('/user', (req, res) => {
 authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
+  console.log(user, 83);
  
   let userDetails = user;
 
@@ -91,12 +92,14 @@ authRouter.post('/account', (req, res) => {
   })
     .then((data) => {
       
-      const { diet, allergies, bio, image } = data[0].dataValues;
+    
+      const { diet, allergies, bio, theme, image } = data[0].dataValues;
 
       userDetails.diet = diet;
       userDetails.allergies = allergies;
       userDetails.bio = bio;
       userDetails.image = image;
+      userDetails.theme = theme;
 
       //FAVORITES
       User.findAll({
@@ -160,6 +163,7 @@ authRouter.post('/account', (req, res) => {
                         userDetails.bookmarks = [];
                       }
 
+                      // console.log(userDetails, 'auth 162')
                       res.status(200).send(userDetails);
                     })
                     .catch((err) => {
