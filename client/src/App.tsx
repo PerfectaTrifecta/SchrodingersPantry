@@ -55,10 +55,13 @@ const App: React.FC = (): JSX.Element => {
   });
 
   const onIdle = (m: google.maps.Map) => {
-    console.log('onIdle');
+    // console.log('onIdle');
   };
 
   const { getUser, user, userAccount, loggedIn } = useContext(UserContext);
+  const [theme, setTheme] = useState<ThemeOptions>(light);
+  const chosenTheme = createTheme(theme);
+
   let recipes: Array<MyRecipeTypes> = [];
   let bookmarks: Array<Bookmarks> = [];
 
@@ -69,26 +72,22 @@ const App: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (user) {
-      // console.log(user, 'app 71');
       recipes = user.recipes;
       bookmarks = user.bookmarks;
 
       setRecipeList(recipes);
       setBookmarkList(bookmarks);
+
+      if (user.theme === 'light') {
+        setTheme(light);
+      } else if (user.theme === 'dark') {
+        setTheme(dark);
+      }
     }
   });
 
   useEffect(() => {
     userAccount();
-    console.log(user, 'app 82');
-
-    // if (loggedIn) {
-    //   recipes = user.recipes;
-    //   bookmarks = user.bookmarks;
-
-    //   setRecipeList(recipes);
-    //   setBookmarkList(bookmarks);
-    // }
   }, [loggedIn]);
 
   useEffect(() => {
@@ -98,18 +97,12 @@ const App: React.FC = (): JSX.Element => {
     }, 1500);
   }, []);
 
-  const [theme, setTheme] = useState<ThemeOptions>(light);
-  const chosenTheme = createTheme(theme);
-
   return (
     <ThemeProvider theme={chosenTheme}>
       {/* <GlobalStyle /> */}
       <div
         style={{ backgroundColor: chosenTheme.palette.primary.main, margin: 0 }}
       >
-        {/* style={{ backgroundColor: appTheme.palette.primary.main }} */}
-        {/* tried adding the theme colors to App to fill in the extra white spaces
-        (inside the divs on line 95 and 112) but it didn't work like that */}
         {getUser()}
         {loading ? (
           <div
@@ -149,6 +142,7 @@ const App: React.FC = (): JSX.Element => {
                   setRecipeList={setRecipeList}
                   bookmarkList={bookmarkList}
                   setBookmarkList={setBookmarkList}
+                  setTheme={setTheme}
                 />
               </Route>
               <Route path='/recipe_view/:idMeal'>

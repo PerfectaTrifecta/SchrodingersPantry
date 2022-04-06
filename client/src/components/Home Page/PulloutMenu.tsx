@@ -34,7 +34,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { Link } from 'react-router-dom';
-import logo from '../../img/logo.png';
+import schrodingers_logo from '../../img/schrodingers_logo_black.png';
 
 interface TokenValue {
   token: string;
@@ -62,21 +62,41 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, setUser, loggedIn, setLoggedIn } = useContext(UserContext);
+  const { user, setUser, loggedIn, setLoggedIn, userAccount } =
+    useContext(UserContext);
   const [token, setToken] = useState('');
 
   // //Theme Checkbox States
-  const [radioVal, setRadioVal] = useState('light');
+  // const [radioVal, setRadioVal] = useState('light');
 
-  if (radioVal === 'light') {
-    changeTheme(light);
-  } else if (radioVal === 'dark') {
-    changeTheme(dark);
-  }
+  // if (radioVal === 'light') {
+  //   changeTheme(light);
+  // } else if (radioVal === 'dark') {
+  //   changeTheme(dark);
+  // }
 
   //Theme Checkbox Changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioVal(e.target.value);
+    const value = e.target.value;
+    setUser({
+      userName: user.userName,
+      diet: user.diet,
+      allergies: user.allergies,
+      bio: user.bio,
+      theme: value,
+      recipes: user.recipes,
+      bookmarks: user.bookmarks,
+    });
+
+    if (loggedIn) {
+      axios
+        .post('/routes/user/profile/update/theme', { theme: value })
+        .then(() => {
+          userAccount();
+          console.log('user theme saved');
+        })
+        .catch((err) => console.error(err, 'pullout 84'));
+    }
   };
 
   useEffect(() => {
@@ -99,8 +119,15 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       .get('/auth/logout')
       .then(() => {
         setLoggedIn(false);
-        setUser(null);
-        console.log('user set to null');
+        setUser({
+          userName: 'Guest',
+          diet: 'none',
+          allergies: 'none',
+          bio: 'none',
+          theme: 'light',
+          recipes: [],
+          bookmarks: [],
+        });
       })
       .catch((err) => console.error('error pullout 47', err));
   };
@@ -113,7 +140,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       }}
     >
       <Link to={'/'}>
-        <img src={logo} width='200' style={{ paddingTop: '20px' }} />
+        <img src={schrodingers_logo} width='180' style={{ padding: '15px' }} />
       </Link>
       {loggedIn ? (
         <List
@@ -230,7 +257,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             <RadioGroup
               aria-label='position'
               row
-              value={radioVal}
+              value={user.theme}
               onChange={handleChange}
             >
               <FormControlLabel

@@ -8,6 +8,7 @@ import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
 import RecipePreview from './RecipePreview';
+import { PaletteOptions } from '@mui/material';
 import styled from '@mui/material/styles/styled';
 import useTheme from '@mui/material/styles/useTheme';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
@@ -23,6 +24,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Box from '@mui/material/Box';
 import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -32,6 +34,7 @@ import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { Link } from 'react-router-dom';
+import { light, dark } from '../../Theme';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
@@ -49,6 +52,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 //-----------------------------------------------------//
+
+interface ThemeOptions {
+  palette?: PaletteOptions;
+}
 
 interface MyRecipeTypes {
   id?: number;
@@ -75,6 +82,7 @@ interface Props {
   setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
   bookmarkList: Bookmarks[];
   setBookmarkList: React.Dispatch<React.SetStateAction<Bookmarks[]>>;
+  setTheme: React.Dispatch<React.SetStateAction<ThemeOptions>>;
 }
 
 //the search component should map over the results, creating a meal card for each recipe,
@@ -83,20 +91,18 @@ const ProfilePage: React.FC<Props> = ({
   setRecipeList,
   bookmarkList,
   setBookmarkList,
+  setTheme,
 }) => {
   const theme = useTheme();
-  console.log(recipeList, 'profile 87');
 
   // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser, userAccount } = useContext(UserContext);
+  const { user, setUser, userAccount, profileImage, setProfileImage } =
+    useContext(UserContext);
   const { userName, favorites, diet, allergies, bio } = user;
 
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer>();
-  const [img, setImg] = useState<string | null>(null);
-  // const [creations, setCreations] = useState<MyRecipeTypes[]>([]);
-  // const [favorites, setFavorites] = useState<MyRecipeTypes[]>([]);
-  // const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [image, setImage] = React.useState<File | File[]>([]);
+  const [editPic, setEditPic] = useState<boolean>(false);
 
   const [aboutMeDisplay, setAboutMeDisplay] = useState<string>(bio);
   const [aboutMeField, setAboutMeField] = useState<string>('');
@@ -109,53 +115,51 @@ const ProfilePage: React.FC<Props> = ({
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(user, 'before profile userAccount');
     userAccount();
-
-    console.log(user, 'after profile userAccount');
   }, []);
-
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: process.env.CLOUDINARY_NAME,
-    },
-  });
-  const profilePic = cld.image(img);
-  //checkout different url-gen actions to see how to style the image using profilePic.<action>
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  // const handleCardClick = (event: React.MouseEvent<HTMLElement>) => {
-  // // set state of meal to the clicked cards title
-  //   setMeal(eve nt.target.value);
-  // }
+  const handleUpload = async (file: File | File[]): Promise<void> => {
+    if (file && !Array.isArray(file)) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'ivfzsgyx');
 
-  const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const [file] = e.target.files;
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        console.log(typeof reader.result);
-        setSelectedImg(reader.result);
-        // console.log(reader.result, 'profile 144');
-      };
+      axios
+        .post(
+          'https://api.cloudinary.com/v1_1/schrodinger-s-pantry/image/upload',
+          formData
+        )
+        .then(({ data }) => {
+          setProfileImage(data.url);
+          saveImage(data.url);
+          setEditPic(false);
+        })
+        .catch((err) => console.error('error from img request:', err));
     }
   };
 
-  const submitImg = () => {
-    console.log(selectedImg, 'profile 150');
-    axios
-      .post('/routes/user/profile/upload/pic', selectedImg)
-      .then(({ data }) => {
-        //BUG TO REVISTS
-        data && setImg(data);
+  const saveImage = (profileImage: string) => {
+    console.log(profileImage, 'profile,', 146);
+
+    let imgObj = {
+      profileImg: profileImage,
+      userId: user.id,
+    };
+
+    return axios
+      .post('/routes/user/profile/upload/pic', imgObj)
+      .then(() => {
+        console.log();
+        userAccount();
+        console.log('successfully saved image');
       })
-      .catch((err) => console.log('problem uploading profile pic', err));
+      .catch((err) => {
+        console.error('error saving image url:', err);
+      });
   };
 
   const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -225,7 +229,7 @@ const ProfilePage: React.FC<Props> = ({
           maxWidth: '600px',
           width: '90%',
           backgroundColor: theme.palette.primary.light,
-          color: theme.palette.primary.contrastText,
+          // color: theme.palette.primary.contrastText,
           padding: '1rem',
           margin: '1rem 0',
           boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
@@ -234,45 +238,60 @@ const ProfilePage: React.FC<Props> = ({
           borderColor: theme.palette.primary.dark,
         }} //{onClick={handleCardClick}}
       >
-        {img ? (
-          <CardHeader
-            avatar={<AdvancedImage cldImg={profilePic} />}
-            action={
-              <IconButton aria-label='settings'>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={user ? `${user.userName.toUpperCase()}` : 'nope'} //user.name
-          />
-        ) : (
-          <CardHeader
-            avatar={
-              <Avatar
-                sx={{ bgcolor: green[700], width: 56, height: 56 }}
-                aria-label='recipe'
-              >
-                {/* {console.log(user.name, 'profile 99')} */}
-                {userName.slice(0, 1)}
-                {/* this should be user profile's first letter */}
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label='settings'>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={user ? `${user.userName.toUpperCase()}` : 'nope'} //user.name
-          />
-        )}
+        <CardHeader
+          title={`${user.userName.toUpperCase()}`}
+          titleTypographyProps={{ variant: 'h4' }}
+          avatar={
+            <Box
+              sx={{
+                width: 300,
+                height: 300,
+                backgroundColor: 'primary.dark',
+                '&:hover': {
+                  backgroundColor: 'primary.main',
+                  opacity: [0.9, 0.8, 0.7],
+                },
+              }}
+            >
+              {console.log(profileImage, 'profile 256')}
+              <img src={profileImage} alt='profile' width='300' height='300' />
+            </Box>
+          }
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            color: theme.palette.primary.contrastText,
+          }}
+        />
 
-        <ProfileImage />
         <CardContent>
-          <Typography variant='subtitle1'>About Me: </Typography>
-          <Typography variant='body2'>{aboutMeDisplay}</Typography>
-          <Typography variant='subtitle1'>Dietary Preference: </Typography>
-          <Typography variant='body2'>{dietDisplay}</Typography>
-          <Typography variant='subtitle1'>Food Allergies: </Typography>
-          <Typography variant='body2'>{allergyDisplay}</Typography>
+          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            About Me:{' '}
+          </Typography>
+          <Typography
+            variant='body2'
+            color={theme.palette.primary.contrastText}
+          >
+            {aboutMeDisplay}
+          </Typography>
+          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            Dietary Preference:{' '}
+          </Typography>
+          <Typography
+            variant='body2'
+            color={theme.palette.primary.contrastText}
+          >
+            {dietDisplay}
+          </Typography>
+          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            Food Allergies:{' '}
+          </Typography>
+          <Typography
+            variant='body2'
+            color={theme.palette.primary.contrastText}
+          >
+            {allergyDisplay}
+          </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <ExpandMore
@@ -286,7 +305,7 @@ const ProfilePage: React.FC<Props> = ({
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit About Me
               <IconButton
                 aria-label='edit'
@@ -310,7 +329,7 @@ const ProfilePage: React.FC<Props> = ({
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit Dietary Preference
               <IconButton
                 aria-label='edit'
@@ -334,7 +353,7 @@ const ProfilePage: React.FC<Props> = ({
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit Food Allergies
               <IconButton
                 aria-label='edit'
@@ -352,24 +371,42 @@ const ProfilePage: React.FC<Props> = ({
                   rows={3}
                   defaultValue={allergyField}
                   onChange={handleAllergyChange}
+                  sx={{ color: theme.palette.primary.contrastText }}
                 />
                 <Button size='small' color='primary' onClick={submitAllergies}>
                   Update
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit Profile Pic
-              <IconButton aria-label='edit'>
+              <IconButton
+                aria-label='edit'
+                onClick={() => setEditPic(!editPic)}
+              >
+                <FaceRetouchingNaturalIcon />
+              </IconButton>
+            </Typography>
+            {editPic ? (
+              <>
                 <input
                   type='file'
                   accept='image/*'
-                  onChange={handleImgUpload}
                   multiple={false}
+                  onChange={(event) => {
+                    setImage(event.target.files[0]);
+                  }}
                 />
-              </IconButton>
-            </Typography>
-            <Button onClick={submitImg}> Submit </Button>
+                <Button
+                  onClick={() => {
+                    handleUpload(image);
+                  }}
+                >
+                  {' '}
+                  Upload{' '}
+                </Button>
+              </>
+            ) : null}
           </CardContent>
         </Collapse>
       </Card>

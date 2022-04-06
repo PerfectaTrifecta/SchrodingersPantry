@@ -113,6 +113,7 @@ const Search: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
             display: 'flex',
+            color: theme.palette.primary.contrastText,
           }}
         >
           Hmm....there doesn't appear to be any recipes with those

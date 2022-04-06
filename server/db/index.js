@@ -27,6 +27,15 @@ const User = sql.define('users', {
     type: DataTypes.STRING,
     defaultValue: 'None',
   },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: 'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649210858/eftem6mzfrhgcnpbevuk.png',
+  },
+  theme: {
+    type: DataTypes.STRING,
+    defaultValue: 'light',
+  }
 });
 
 const Recipe = sql.define('recipes', {
@@ -37,8 +46,8 @@ const Recipe = sql.define('recipes', {
     autoIncrement: true,
   },
   title: DataTypes.STRING,
-  ingredients: DataTypes.STRING,
-  instructions: DataTypes.STRING,
+  ingredients: DataTypes.STRING(500),
+  instructions: DataTypes.STRING(1000),
   vote_count: DataTypes.INTEGER,
   comment_count: DataTypes.INTEGER,
 });
@@ -162,6 +171,10 @@ const User_Image = sql.define('user_images', {
       model: User,
       key: 'id',
     },
+  imgUrl: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
   },
   //eg. 'profile pic' or 'recipe pic"
   description: DataTypes.STRING,

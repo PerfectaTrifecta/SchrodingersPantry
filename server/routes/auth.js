@@ -29,7 +29,7 @@ authRouter.get(
     res.redirect('/');
   }
 );
-// console.log(accessToken, 20);
+
 authRouter.get('/token', (req, res) => {
   res.json({
     accessToken: accessToken,
@@ -50,23 +50,25 @@ authRouter.get(
     failureRedirect: '/logout',
   }),
   (req, res) => {
-    console.log(req.session.passport.user.id, '/google/callback called');
+ 
     res.cookie('googleId', req.session.passport.user.id);
     res.redirect('/');
   }
 );
 
 authRouter.get('/user', (req, res) => {
-  // console.log(req.cookies, 'auth 53');
+  // console.log(req, 'auth 60')
   //should search all models and send back a user object
 
   if (req.cookies.googleId) {
+    // console.log('cookie found')
     User.findAll({
       where: {
         id: req.cookies.googleId,
       },
     })
       .then((user) => {
+        // console.log('auth 71', user)
         res.status(200);
         res.send(user);
       })
@@ -80,9 +82,10 @@ authRouter.get('/user', (req, res) => {
 authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
-  // console.log(user, 'auth 76');
+  // console.log(user, 'auth 85');
+ 
   let userDetails = user;
-  // console.log(user, 12);
+
 
   User.findOrCreate({
     where: {
@@ -90,12 +93,15 @@ authRouter.post('/account', (req, res) => {
     },
   })
     .then((data) => {
-      // console.log(data[0].dataValues, 'authRoute 93');
-      const { diet, allergies, bio } = data[0].dataValues;
+      
+    
+      const { diet, allergies, bio, theme, image } = data[0].dataValues;
 
       userDetails.diet = diet;
       userDetails.allergies = allergies;
       userDetails.bio = bio;
+      userDetails.image = image;
+      userDetails.theme = theme;
 
       //FAVORITES
       User.findAll({
@@ -110,7 +116,7 @@ authRouter.post('/account', (req, res) => {
         .then((favs) => {
           if (favs) {
             userDetails.favorites = favs;
-            //console.log(favs, 50000000);
+           
           } else {
             userDetails.favorites = [];
           }
@@ -126,7 +132,7 @@ authRouter.post('/account', (req, res) => {
               } else {
                 userDetails.pics = [];
               }
-              // console.log(userDetails, 1700000000);
+             
 
               //RECIPES
               Recipe.findAll({
@@ -145,6 +151,7 @@ authRouter.post('/account', (req, res) => {
                   Bookmark.findAll({
                     include: [{
                       model: User,
+                      required: true,
                       through: {
                         where: {
                           userId: user.id,
@@ -159,6 +166,7 @@ authRouter.post('/account', (req, res) => {
                         userDetails.bookmarks = [];
                       }
 
+                      // console.log(userDetails, 'auth 162')
                       res.status(200).send(userDetails);
                     })
                     .catch((err) => {
@@ -192,7 +200,7 @@ authRouter.get('/logout', (req, res) => {
   res.clearCookie('connect.sid');
   res.status(200);
 
-  console.log('logged out');
+
   res.redirect('/');
 });
 

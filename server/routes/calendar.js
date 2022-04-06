@@ -31,7 +31,6 @@ async function main() {
       // }
     },
   });
-  console.log(res.data);
 
   // Example response
   // {

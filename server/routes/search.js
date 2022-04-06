@@ -121,7 +121,7 @@ searchRouter.get('/tod', (req, res) => {
 });
 
 searchRouter.get('/getUserRecipe', (req, res) => {
-  // console.log(req.query, 'searchRouter 124');
+  
   const { id } = req.query;
 
   Recipe.findAll({
@@ -130,7 +130,7 @@ searchRouter.get('/getUserRecipe', (req, res) => {
     },
   })
     .then((recipe) => {
-      // console.log(recipe, 'searchRouter 132');
+   
       res.status(200).send(recipe);
     })
     .catch((err) => console.error(err, 'searchRouter 135'));
