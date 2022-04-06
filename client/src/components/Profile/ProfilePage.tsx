@@ -8,6 +8,7 @@ import AboutMe from './AboutMe';
 import Favorite from './Favorite';
 import MyRecipe from './MyRecipe';
 import RecipePreview from './RecipePreview';
+import { PaletteOptions } from '@mui/material';
 import styled from '@mui/material/styles/styled';
 import useTheme from '@mui/material/styles/useTheme';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
@@ -33,6 +34,7 @@ import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural
 import { AdvancedImage } from '@cloudinary/react';
 import { Cloudinary } from '@cloudinary/url-gen';
 import { Link } from 'react-router-dom';
+import { light, dark } from '../../Theme';
 
 //-----for card chevron expansion functionality-----/
 interface ExpandMoreProps extends IconButtonProps {
@@ -50,6 +52,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 //-----------------------------------------------------//
+
+interface ThemeOptions {
+  palette?: PaletteOptions;
+}
 
 interface MyRecipeTypes {
   id?: number;
@@ -76,6 +82,7 @@ interface Props {
   setRecipeList: React.Dispatch<React.SetStateAction<MyRecipeTypes[]>>;
   bookmarkList: Bookmarks[];
   setBookmarkList: React.Dispatch<React.SetStateAction<Bookmarks[]>>;
+  setTheme: React.Dispatch<React.SetStateAction<ThemeOptions>>;
 }
 
 //the search component should map over the results, creating a meal card for each recipe,
@@ -84,6 +91,7 @@ const ProfilePage: React.FC<Props> = ({
   setRecipeList,
   bookmarkList,
   setBookmarkList,
+  setTheme,
 }) => {
   const theme = useTheme();
   console.log(recipeList, 'profile 87');
@@ -110,10 +118,13 @@ const ProfilePage: React.FC<Props> = ({
   const [editAllergies, setEditAllergies] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(user, 'before profile userAccount');
     userAccount();
 
-    console.log(user, 'after profile userAccount');
+    if (user.theme === 'light') {
+      setTheme(light);
+    } else if (user.theme === 'dark') {
+      setTheme(dark);
+    }
   }, []);
 
   const handleExpandClick = () => {

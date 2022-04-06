@@ -87,6 +87,23 @@ UserRouter.post('/update/allergies', (req, res) => {
   .catch(err => console.error(err, 'userRoute 84'));
 });
 
+UserRouter.post('/update/theme', (req, res) => {
+  const { theme } = req.body;
+  // console.log(theme, 'userRoute 92');
+
+  User.update({ theme }, {
+    where: {
+      id: req.cookies.googleId
+    }
+  })
+  .then((data) => {
+    console.log(data, 'userRoute 100')
+    res.sendStatus(201);
+  })
+  .catch(err => console.error(err, 'userRoute 102'))
+
+})
+
 //On user post of comment
 UserRouter.post('/comment', (req, res) => {
   const { mealId, userId, text, userName } = req.body; 

@@ -12,6 +12,7 @@ interface userTypes {
   diet?: string;
   allergies?: string;
   bio?: string;
+  theme?: string;
   favorites?: Array<string> | [];
   pics?: Array<{} | null>;
   recipes?: Array<{
@@ -57,6 +58,7 @@ const UserContextProvider = ({ children }: Props) => {
     diet: 'none',
     allergies: 'none',
     bio: 'none',
+    theme: 'light',
     recipes: [],
     bookmarks: [],
   });
@@ -84,7 +86,7 @@ const UserContextProvider = ({ children }: Props) => {
   //this function sends a user with properties from user table in db, then receives a new user object with favs and pics
   const userAccount = () => {
     if (user !== null) {
-      //console.log(user);
+      console.log(user, 'userContext 88');
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {

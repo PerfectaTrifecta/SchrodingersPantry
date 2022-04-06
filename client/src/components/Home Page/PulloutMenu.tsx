@@ -62,21 +62,32 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   const outCategories = ['Find a Recipe', '/recipe_finder', 'The Feed', '/rss'];
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, setUser, loggedIn, setLoggedIn } = useContext(UserContext);
+  const { user, setUser, loggedIn, setLoggedIn, userAccount } =
+    useContext(UserContext);
   const [token, setToken] = useState('');
 
   // //Theme Checkbox States
-  const [radioVal, setRadioVal] = useState('light');
+  // const [radioVal, setRadioVal] = useState('light');
 
-  if (radioVal === 'light') {
-    changeTheme(light);
-  } else if (radioVal === 'dark') {
-    changeTheme(dark);
-  }
+  // if (radioVal === 'light') {
+  //   changeTheme(light);
+  // } else if (radioVal === 'dark') {
+  //   changeTheme(dark);
+  // }
 
   //Theme Checkbox Changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioVal(e.target.value);
+    const value = e.target.value;
+
+    if (loggedIn) {
+      axios
+        .post('/routes/user/profile/update/theme', { theme: value })
+        .then(() => {
+          userAccount();
+          console.log('user theme saved');
+        })
+        .catch((err) => console.error(err, 'pullout 84'));
+    }
   };
 
   useEffect(() => {
@@ -230,7 +241,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
             <RadioGroup
               aria-label='position'
               row
-              value={radioVal}
+              value={user.theme}
               onChange={handleChange}
             >
               <FormControlLabel
