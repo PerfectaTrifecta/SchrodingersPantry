@@ -91,11 +91,12 @@ authRouter.post('/account', (req, res) => {
   })
     .then((data) => {
       
-      const { diet, allergies, bio } = data[0].dataValues;
+      const { diet, allergies, bio, theme } = data[0].dataValues;
 
       userDetails.diet = diet;
       userDetails.allergies = allergies;
       userDetails.bio = bio;
+      userDetails.theme = theme;
 
       //FAVORITES
       User.findAll({
@@ -159,6 +160,7 @@ authRouter.post('/account', (req, res) => {
                         userDetails.bookmarks = [];
                       }
 
+                      // console.log(userDetails, 'auth 162')
                       res.status(200).send(userDetails);
                     })
                     .catch((err) => {

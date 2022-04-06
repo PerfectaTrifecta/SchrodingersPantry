@@ -12,6 +12,7 @@ interface userTypes {
   diet?: string;
   allergies?: string;
   bio?: string;
+  theme?: string;
   favorites?: Array<string> | [];
   pics?: Array<{} | null>;
   recipes?: Array<{
@@ -57,6 +58,7 @@ const UserContextProvider = ({ children }: Props) => {
     diet: 'none',
     allergies: 'none',
     bio: 'none',
+    theme: 'light',
     recipes: [],
     bookmarks: [],
   });
