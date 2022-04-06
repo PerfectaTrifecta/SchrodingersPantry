@@ -27,6 +27,11 @@ const User = sql.define('users', {
     type: DataTypes.STRING,
     defaultValue: 'None',
   },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: 'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1645633651/o7h83ewat5aaicqukmtu.png',
+  },
   theme: {
     type: DataTypes.STRING,
     defaultValue: 'light',
@@ -166,6 +171,10 @@ const User_Image = sql.define('user_images', {
       model: User,
       key: 'id',
     },
+  imgUrl: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
   },
   //eg. 'profile pic' or 'recipe pic"
   description: DataTypes.STRING,

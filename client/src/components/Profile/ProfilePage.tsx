@@ -96,14 +96,12 @@ const ProfilePage: React.FC<Props> = ({
   const theme = useTheme();
 
   // use user context and assign the values to corresponding state values and map thru
-  const { user, setUser, userAccount } = useContext(UserContext);
+  const { user, setUser, userAccount, profileImage, setProfileImage } =
+    useContext(UserContext);
   const { userName, favorites, diet, allergies, bio } = user;
 
   const [expanded, setExpanded] = useState<boolean>(false);
   const [image, setImage] = React.useState<File | File[]>([]);
-  const [displayImg, setDisplayImg] = React.useState<string>(
-    'http://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649119002/on2sre4jrjtrgatzovbk.png'
-  );
   const [editPic, setEditPic] = useState<boolean>(false);
 
   const [aboutMeDisplay, setAboutMeDisplay] = useState<string>(bio);
@@ -136,11 +134,32 @@ const ProfilePage: React.FC<Props> = ({
           formData
         )
         .then(({ data }) => {
-          setDisplayImg(data.url);
+          setProfileImage(data.url);
+          saveImage(data.url);
           setEditPic(false);
         })
-        .catch(() => {});
+        .catch((err) => console.error('error from img request:', err));
     }
+  };
+
+  const saveImage = (profileImage: string) => {
+    console.log(profileImage, 'profile,', 146);
+
+    let imgObj = {
+      profileImg: profileImage,
+      userId: user.id,
+    };
+
+    return axios
+      .post('/routes/user/profile/upload/pic', imgObj)
+      .then(() => {
+        console.log();
+        userAccount();
+        console.log('successfully saved image');
+      })
+      .catch((err) => {
+        console.error('error saving image url:', err);
+      });
   };
 
   const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,7 +253,8 @@ const ProfilePage: React.FC<Props> = ({
                 },
               }}
             >
-              <img src={displayImg} alt='profile' width='300' height='300' />
+              {console.log(profileImage, 'profile 256')}
+              <img src={profileImage} alt='profile' width='300' height='300' />
             </Box>
           }
           style={{

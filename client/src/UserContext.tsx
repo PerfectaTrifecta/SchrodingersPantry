@@ -33,6 +33,7 @@ interface userTypes {
     relTime: string;
     img: string;
   } | null>;
+  image?: string;
 }
 
 interface UserContextType {
@@ -44,6 +45,8 @@ interface UserContextType {
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   favorites?: Array<string>;
   setFavorites: React.Dispatch<React.SetStateAction<Array<string>>>;
+  profileImage?: string;
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface Props {
@@ -61,9 +64,13 @@ const UserContextProvider = ({ children }: Props) => {
     theme: 'light',
     recipes: [],
     bookmarks: [],
+    favorites: [],
+    image:
+      'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649210858/eftem6mzfrhgcnpbevuk.png',
   });
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<Array<string>>([]);
+  const [profileImage, setProfileImage] = useState<string>(user.image);
 
   // const updateFavs = (e: ReactEventHandler) => {
   //  //take recipe id and add it to user's favorites, then setFavorites to that value
@@ -72,10 +79,14 @@ const UserContextProvider = ({ children }: Props) => {
 
   const getUser = () => {
     if (loggedIn === false) {
+      console.log(user, 'context 82');
+
       axios
         .get('/auth/user')
         .then(({ data }) => {
+          console.log(data, 'context 69');
           setUser(data[0]);
+          setProfileImage(data[0].image);
           setLoggedIn(true);
         })
         .catch((err) => console.error('error context 73', err));
@@ -84,11 +95,13 @@ const UserContextProvider = ({ children }: Props) => {
 
   //this function sends a user with properties from user table in db, then receives a new user object with favs and pics
   const userAccount = () => {
-    if (user !== null) {
+    if (user.userName !== 'Guest') {
+      //console.log(user);
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {
           setUser(data);
+          console.log(data, 'userContext 84');
         })
         .catch((err) => {
           console.error(err, ' response from User context post request');
@@ -96,9 +109,12 @@ const UserContextProvider = ({ children }: Props) => {
     } else {
       return;
     }
+    //console.log(user, "successfully changed")
   };
 
   const UserProps: UserContextType = {
+    profileImage,
+    setProfileImage,
     favorites,
     setFavorites,
     loggedIn,
