@@ -236,7 +236,7 @@ body {
 }
 
 #timerButton {
-  margin-left: 27px;
+  margin-left: 17px;
   background-color: green;
   color: white;
 }
@@ -246,15 +246,15 @@ body {
 }
 
 #timerForm {
-  margin-left: 53px;
+  margin-left: 45px;
 }
 
 #timeRemaining {
-  margin-left: 25px;
+  margin-left: 15px;
 }
 
 #timerCountdown {
-  margin-left: 72px;
+  margin-left: 62px;
   margin-top: -15px;
 }
 
@@ -262,19 +262,19 @@ body {
   background-color: red;
   color: white;
   margin-bottom: 5px;
-  margin-left: 27px;
+  margin-left: 20px;
 }
 #TTSButtons:hover {
-  margin: 30px 20px 30px 20px;
+  margin: 30px 20px 30px 10px;
   transform: scale(2);
   color: #22f00b;
 }
 
 #TTSButtons {
-  margin: 30px 20px 30px 20px;
+  margin: 30px 20px 30px 10px;
 
   transform: scale(2);
-  color: #2f42d3;
+  color: #342b04;
 }
 
 #TTSDiv {
@@ -282,7 +282,7 @@ body {
 }
 
 #VRecButton {
-  margin-left: 24px;
+  margin-left: 3px;
   margin-bottom: 10px;
   background-color: red;
   color: white;
@@ -401,10 +401,10 @@ body {
   border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: 25%;
-  margin-right: 20px;
+  margin-left: 15%;
+  margin-right: 15%;
   box-shadow: 2px 2px rgb(43, 25, 20);
-  max-width: 800px;
+  max-width: 500px;
   height: 50%;
 }
 
@@ -438,6 +438,11 @@ body {
 #rssTime {
   margin-bottom: 4px;
   margin-top: 10px;
+}
+
+#titleDiv {
+  text-align: center;
+  color: #3b211b;
 }
 
 .addIcon {

@@ -30,6 +30,7 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
   const [nyt, setNYTFeed] = useState<RSSData[]>([]);
   const [delish, setDelishFeed] = useState<RSSData[]>([]);
   const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [outletTitle, setOutletTitle] = useState<string>("Eater");
   // const [bookmark, setBookmark] = useState<boolean>(false);
 
   const { user, loggedIn } = useContext(UserContext);
@@ -191,10 +192,13 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
           onChange={(e, value) => {
             setSelectedTab(value);
             if (value === 0) {
+              setOutletTitle("Eater")
               setStories(eater);
             } else if (value === 1) {
+              setOutletTitle("New York Times Food")
               setStories(nyt);
             } else if (value === 2) {
+              setOutletTitle("Delish");
               setStories(delish);
             }
           }}
@@ -203,11 +207,14 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
             <Tab
               label={tab}
               key={tab}
-              sx={{ color: theme.palette.primary.contrastText }}
+              sx={{ 
+                color: theme.palette.primary.contrastText
+               }}
             />
           ))}
         </Tabs>
       </AppBar>
+      <h1 id="titleDiv">{outletTitle}</h1>
       {stories.map((story) => {
         // setBookmark(false);
         const { creator, title, pubDate, link } = story;
