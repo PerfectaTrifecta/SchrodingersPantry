@@ -75,7 +75,6 @@ const UserContextProvider = ({ children }: Props) => {
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          // console.log(data[0], 'context 69');
           setUser(data[0]);
           setLoggedIn(true);
         })
@@ -86,12 +85,10 @@ const UserContextProvider = ({ children }: Props) => {
   //this function sends a user with properties from user table in db, then receives a new user object with favs and pics
   const userAccount = () => {
     if (user !== null) {
-      console.log(user, 'userContext 88');
       axios
         .post(`/auth/account`, user)
         .then(({ data }) => {
           setUser(data);
-          console.log(data, 'userContext 84');
         })
         .catch((err) => {
           console.error(err, ' response from User context post request');
@@ -99,7 +96,6 @@ const UserContextProvider = ({ children }: Props) => {
     } else {
       return;
     }
-    //console.log(user, "successfully changed")
   };
 
   const UserProps: UserContextType = {

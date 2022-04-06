@@ -13,14 +13,13 @@ cloudinary.config({
 
 //on User post of image
 UserRouter.post('/upload/pic', async (req, res) => {
-  // console.log(req.body, 'userRoute 10');
+  
   try {
     const pic = Object.keys(req.body)[0];
-    // .replace(/ /g, "+")
-    // console.log(pic, 'user 19');
+    
     const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'sPantry'})
 
-    console.log(uploadedRes, 'user 22');
+   
     res.sendStatus(201);
     // .send(uploadedRes.public_id)
   } catch (error) {
@@ -31,13 +30,13 @@ UserRouter.post('/upload/pic', async (req, res) => {
 
 //on User submission of recipe
 UserRouter.post('/upload/recipe', (req, res) => {
-  // console.log(req.body, 'userRoute 23')
+  
   const { title, ingredients, instructions, userId} = req.body;
 
   Recipe.create({ userId, title, ingredients, instructions})
     .then(() => {
       res.sendStatus(201);
-      // res.redirect('/profile');
+      
     })
     .catch(err => console.error(err, 'userRoute 38'))
 
@@ -45,7 +44,7 @@ UserRouter.post('/upload/recipe', (req, res) => {
 
 //Profile Info Updates//
 UserRouter.post('/update/bio', (req, res) => {
-  // console.log(req.body, 'userRoute 45');
+  
   const { bio } = req.body;
 
   User.update({ bio }, {
@@ -127,7 +126,7 @@ UserRouter.post('/userComment', (req, res) => {
 })
 
 UserRouter.get('/comment', (req, res) => {
-  // console.log(req.query, 'userRoute 55');
+  
   const { mealId } = req.query;
   //find all comments where the mealId matches the mealId in req.params
   Comment.findAll({
@@ -136,11 +135,10 @@ UserRouter.get('/comment', (req, res) => {
     }
   })
   .then(comments => {
-    // console.log(comments, 'userRoute 64');
-    // let name;
+  
 
     const polishedComments = comments.map(comment => {
-      // console.log(comment.userId, 'userRoute 66')
+    
       const { userName, text, createdAt } = comment;
 
      return ({
@@ -151,14 +149,14 @@ UserRouter.get('/comment', (req, res) => {
 
     });
 
-    // console.log(polishedComments, 'userRoute 85');
+    
     res.status(200).send(polishedComments);
   })
   .catch(err => console.error(err, 'userRoute 93'))
 })
 
 UserRouter.get('/userComment', (req, res) => {
-  // console.log(req.query, 'userRoute 55');
+ 
   const { recipeId } = req.query;
   //find all comments where the mealId matches the mealId in req.params
   Comment.findAll({
@@ -167,11 +165,10 @@ UserRouter.get('/userComment', (req, res) => {
     }
   })
   .then(comments => {
-    // console.log(comments, 'userRoute 64');
-    // let name;
+   
 
     const polishedComments = comments.map(comment => {
-      // console.log(comment.userId, 'userRoute 66')
+     
       const { userName, text, createdAt } = comment;
 
      return ({
@@ -182,7 +179,7 @@ UserRouter.get('/userComment', (req, res) => {
 
     });
 
-    // console.log(polishedComments, 'userRoute 85');
+
     res.status(200).send(polishedComments);
   })
   .catch(err => console.error(err, 'userRoute 124'))
@@ -195,7 +192,7 @@ UserRouter.get('/recipes', (req, res) => {
     }
   })
   .then(recipes => {
-      // console.log(recipes, 43);
+   
       res.status(200).send(recipes)
     })
     .catch(err => console.error(err, 'userRoute 52'));
@@ -212,9 +209,7 @@ UserRouter.get('/favorites', (req, res) => {
    }
   })
   .then(faves => {
-    //console.log(faves, 'userRoute 67');
-    //Uncomment This ^^ and check that data structure,
-    //You should be sending back an array of Recipe objects 
+ 
     res.status(200). send(faves);
   })
   .catch(err => console.error(err, 'userRoute 67'));
@@ -231,11 +226,7 @@ UserRouter.get('/bookmarks', (req, res) => {
    }
   })
   .then(urls => {
-    // console.log(urls, 'userRoute 77');
-    //Uncomment this ^^ and check the data structure
-    //You should send and array of urls to the front
-    //Maybe an array of objects with urls and titles?
-    //If so, be sure to change the expectation on ProfilePage line 75
+    
     res.status(200).send(urls);
   })
   .catch(err => console.error(err, 'userRoute 82'))
@@ -247,8 +238,7 @@ UserRouter.get('/bookmarks', (req, res) => {
 
 UserRouter.post('/favorites', (req, res) => {
   const { recipeId, userId } = req.body;
-  //const userId = req.cookies.googleId;
-  console.log(`{${recipeId} : ${userId}}`, 1900000000089)
+
 
   Favorite.create({ 
     recipeId, userId }
@@ -261,7 +251,7 @@ UserRouter.post('/favorites', (req, res) => {
      })
     })
    .then(() => {
-      console.log('Added SUCCESSFULLY TO FAVORITES');
+      
       res.status(201).send(favs);
     })
     .catch((err) => {
@@ -272,10 +262,10 @@ UserRouter.post('/favorites', (req, res) => {
 
 UserRouter.patch('/favorites/delete/:favId', (req, res) => {
   const { googleId, favId } = req.body;
-  console.log(req.body);
+
   findAndDeleteFavorites(googleId, favId)
     .then((user) => {
-      console.log('REMOVED SUCCESSFULLY FROM FAVORITES', favId);
+     
       res.status(201).send(user);
     })
     .catch((err) => {
@@ -298,7 +288,7 @@ UserRouter.post('/upload/recipe-image/:recipeId', (req, res) => {
 });
 
 UserRouter.delete('/delete/recipe/:id', (req, res) => {
-  // console.log(req.params, 'userRoute 284');
+ 
   const { id } = req.params;
 
   Recipe.destroy({
@@ -314,7 +304,7 @@ UserRouter.delete('/delete/recipe/:id', (req, res) => {
 });
 
 UserRouter.delete('/delete/bookmark/:id', (req, res) => {
-  console.log(req.params, 'userRoute 300');
+ 
   const { id } = req.params;
 
   User_Bookmark.destroy({

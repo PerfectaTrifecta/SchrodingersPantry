@@ -94,7 +94,6 @@ const ProfilePage: React.FC<Props> = ({
   setTheme,
 }) => {
   const theme = useTheme();
-  console.log(recipeList, 'profile 87');
 
   // use user context and assign the values to corresponding state values and map thru
   const { user, setUser, userAccount } = useContext(UserContext);
@@ -119,12 +118,6 @@ const ProfilePage: React.FC<Props> = ({
 
   useEffect(() => {
     userAccount();
-
-    if (user.theme === 'light') {
-      setTheme(light);
-    } else if (user.theme === 'dark') {
-      setTheme(dark);
-    }
   }, []);
 
   const handleExpandClick = () => {
@@ -145,7 +138,6 @@ const ProfilePage: React.FC<Props> = ({
         .then(({ data }) => {
           setDisplayImg(data.url);
           setEditPic(false);
-          // console.log(12345667, data);
         })
         .catch(() => {});
     }

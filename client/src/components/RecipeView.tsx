@@ -62,8 +62,9 @@ const RecipeView: React.FC = () => {
   const { idMeal } = useParams<{ idMeal: string }>();
   //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] =
-    useState<UserRecipeProps[] | null>(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] = useState<
+    UserRecipeProps[] | null
+  >(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   // const [mealId, setMealId] = useState<string>('');
@@ -129,7 +130,6 @@ const RecipeView: React.FC = () => {
       axios
         .get<RecipeProps[]>(`/routes/search/getRecipe/${idMeal}`)
         .then(({ data }) => {
-          // console.log(data, 'recipeView 61');
           data && setMealRecipe(data);
           setInstructions(data[0].strInstructions.split('\r\n'));
         })
@@ -139,20 +139,16 @@ const RecipeView: React.FC = () => {
       axios
         .get('routes/user/profile/comment', { params: { mealId: idMeal } })
         .then(({ data }) => {
-          // console.log(data, 'recipeView 96')
           setFeatComments(data);
         })
         .catch((err) => console.error(err, 'recipeView 143'));
     } else {
-      console.log({ idMeal, idUserMeal }, 'recipeview 147');
       axios
         .get('/routes/search/getUserRecipe', { params: { id: idMeal } })
         .then(({ data }) => {
-          // console.log(data, 'recipeView 96');
           setMealUserRecipe(data);
         })
         .then(() => {
-          console.log(mealUserRecipe, 'recipeView 101');
           setUserIngredients(mealUserRecipe[0].ingredients.split(','));
         })
         .catch((err) => console.error(err, 'recipeView 135'));
@@ -329,7 +325,7 @@ const RecipeView: React.FC = () => {
           <Typography paragraph>
             <strong>Directions:</strong>
           </Typography>
-          {/* {console.log(mealUserRecipe, 'recipeView 252')} */}
+
           {mealUserRecipe[0].instructions
             .split('\n')
             .map((p: string, i: number) => (
@@ -360,6 +356,9 @@ const RecipeView: React.FC = () => {
               inputProps={{ maxLength: 120 }}
               value={rawComment}
               onChange={handleCommentChange}
+              onKeyPress={(e) => {
+                e.key === 'Enter' && submitComment();
+              }}
             />
             <Button
               variant='outlined'
