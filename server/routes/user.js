@@ -324,6 +324,7 @@ UserRouter.delete('/delete/recipe/:id', (req, res) => {
 UserRouter.delete('/delete/bookmark/:id', (req, res) => {
  
   const { id } = req.params;
+  console.log(id, "id, userRoute 327")
 
   User_Bookmark.destroy({
     where: {
@@ -332,6 +333,7 @@ UserRouter.delete('/delete/bookmark/:id', (req, res) => {
     }
   })
   .then(() => {
+    console.log('bookmark found & deleted')
     res.sendStatus(200);
   })
   .catch(err => console.error(err, 'userRoute 311'));
