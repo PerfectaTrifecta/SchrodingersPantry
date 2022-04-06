@@ -294,6 +294,13 @@ const ProfilePage: React.FC<Props> = ({
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
+          <Typography
+            variant='subtitle2'
+            color={theme.palette.primary.dark}
+            sx={{ marginLeft: '430px' }}
+          >
+            Edit Profile
+          </Typography>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
