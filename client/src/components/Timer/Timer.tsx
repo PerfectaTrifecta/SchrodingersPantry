@@ -12,7 +12,7 @@ const Timer = () => {
   const [minutesRemaining, setMinutesRemaining] = useState(0);
   const [alarm, setAlarm] = useState(false);
   const audio = new Audio(
-    'http://starmen.net/mother2/music/005-%20Earthbound%20-%20Opening%20Credits.mp3'
+    'http://starmen.net/mother2/music/021-%20Earthbound%20-%20Sunrise%20&%20Onett%20Theme.mp3'
   );
 
   if (alarm === true) {
@@ -45,7 +45,7 @@ const Timer = () => {
         setSecondsRemaining(0);
         setAlarm(true);
       }
-    }, 1000);
+    }, 900);
   };
 
   return (
