@@ -91,7 +91,7 @@ authRouter.post('/account', (req, res) => {
   })
     .then((data) => {
       
-      const { diet, allergies, bio } = data[0].dataValues;
+      const { diet, allergies, bio, theme } = data[0].dataValues;
 
       userDetails.diet = diet;
       userDetails.allergies = allergies;

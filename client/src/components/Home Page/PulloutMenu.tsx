@@ -78,6 +78,15 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
   //Theme Checkbox Changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setUser({
+      userName: user.userName,
+      diet: user.diet,
+      allergies: user.allergies,
+      bio: user.bio,
+      theme: value,
+      recipes: user.recipes,
+      bookmarks: user.bookmarks,
+    });
 
     if (loggedIn) {
       axios
@@ -110,7 +119,15 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
       .get('/auth/logout')
       .then(() => {
         setLoggedIn(false);
-        setUser(null);
+        setUser({
+          userName: 'Guest',
+          diet: 'none',
+          allergies: 'none',
+          bio: 'none',
+          theme: 'light',
+          recipes: [],
+          bookmarks: [],
+        });
       })
       .catch((err) => console.error('error pullout 47', err));
   };
