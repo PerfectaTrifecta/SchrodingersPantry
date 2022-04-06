@@ -265,13 +265,13 @@ body {
   margin-left: 20px;
 }
 #TTSButtons:hover {
-  margin: 30px 20px 30px 20px;
+  margin: 30px 20px 30px 10px;
   transform: scale(2);
   color: #22f00b;
 }
 
 #TTSButtons {
-  margin: 30px 20px 30px 20px;
+  margin: 30px 20px 30px 10px;
 
   transform: scale(2);
   color: #342b04;
@@ -282,7 +282,7 @@ body {
 }
 
 #VRecButton {
-  margin-left: 24px;
+  margin-left: 3px;
   margin-bottom: 10px;
   background-color: red;
   color: white;
