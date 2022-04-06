@@ -5,9 +5,8 @@ import { UserContext } from '../../UserContext';
 
 const ProfileImage = () => {
   const [image, setImage] = React.useState<File | File[]>([]);
-  const { profileImage, setProfileImage, userAccount, user } = React.useContext(UserContext);
-  
-  
+  const { profileImage, setProfileImage, userAccount, user } =
+    React.useContext(UserContext);
 
   const handleUpload = async (file: File | File[]): Promise<void> => {
     if (file && !Array.isArray(file)) {
@@ -15,41 +14,44 @@ const ProfileImage = () => {
       formData.append('file', file);
       formData.append('upload_preset', 'ivfzsgyx');
 
+      console.log('uploading image, profileImg 18 ');
       axios
         .post(
           'https://api.cloudinary.com/v1_1/schrodinger-s-pantry/image/upload',
           formData
         )
         .then(({ data }) => {
-          console.log(data.url , 30);
+          console.log(data.url, 30);
           setProfileImage(data.url);
-        }).then(() => {
+        })
+        .then(() => {
           return saveImage(profileImage);
-
-        }).catch((err) => {
+        })
+        .catch((err) => {
           console.error('error from img request:', err);
         });
     }
   };
 
   const saveImage = (profileImage: string) => {
-    console.log(profileImage, "profile Image,", 36);
+    console.log(profileImage, 'profile Image,', 36);
 
-       let imgObj = { 
-            profileImg: profileImage,
-            userId: user.id
-          };
+    let imgObj = {
+      profileImg: profileImage,
+      userId: user.id,
+    };
 
-        return  axios.post('/routes/user/profile/upload/pic', imgObj)
-          .then(() => { 
-            console.log();
-            userAccount();
-            console.log('successfully saved image');
-          }).catch((err) => {
-            console.error('error saving image url:' , err);
-          })
-  }
-
+    return axios
+      .post('/routes/user/profile/upload/pic', imgObj)
+      .then(() => {
+        console.log();
+        userAccount();
+        console.log('successfully saved image');
+      })
+      .catch((err) => {
+        console.error('error saving image url:', err);
+      });
+  };
 
   return (
     <div>

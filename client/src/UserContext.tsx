@@ -65,7 +65,8 @@ const UserContextProvider = ({ children }: Props) => {
     recipes: [],
     bookmarks: [],
     favorites: [],
-    image: 'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649210858/eftem6mzfrhgcnpbevuk.png'
+    image:
+      'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649210858/eftem6mzfrhgcnpbevuk.png',
   });
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<Array<string>>([]);
@@ -78,11 +79,14 @@ const UserContextProvider = ({ children }: Props) => {
 
   const getUser = () => {
     if (loggedIn === false) {
+      console.log(user, 'context 82');
+
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          // console.log(data[0], 'context 69');
+          console.log(data, 'context 69');
           setUser(data[0]);
+          setProfileImage(data[0].image);
           setLoggedIn(true);
         })
         .catch((err) => console.error('error context 73', err));
@@ -91,7 +95,7 @@ const UserContextProvider = ({ children }: Props) => {
 
   //this function sends a user with properties from user table in db, then receives a new user object with favs and pics
   const userAccount = () => {
-    if (user !== null) {
+    if (user.userName !== 'Guest') {
       //console.log(user);
       axios
         .post(`/auth/account`, user)

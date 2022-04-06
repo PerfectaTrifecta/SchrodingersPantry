@@ -57,16 +57,18 @@ authRouter.get(
 );
 
 authRouter.get('/user', (req, res) => {
-  
+  // console.log(req, 'auth 60')
   //should search all models and send back a user object
 
   if (req.cookies.googleId) {
+    console.log('cookie found')
     User.findAll({
       where: {
         id: req.cookies.googleId,
       },
     })
       .then((user) => {
+        console.log('auth 71', user)
         res.status(200);
         res.send(user);
       })
