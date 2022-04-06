@@ -18,10 +18,9 @@ const ProfileImage = () => {
       axios.post('https://api.cloudinary.com/v1_1/schrodinger-s-pantry/image/upload',
        formData).then(({ data }) => {
         setDisplayImg(data.url)
-
         console.log(12345667, data);
-       }).catch(() => {
-
+       }).catch((err) => {
+          console.error(err);
        });
 
 
@@ -36,16 +35,13 @@ const ProfileImage = () => {
           width: 300,
           height: 300,
           backgroundColor: 'primary.dark',
-          '&:hover': {
-            backgroundColor: 'primary.main',
-            opacity: [0.9, 0.8, 0.7],
-          },
         }}
       >
         <img src={displayImg} alt="profile"  width='300'
           height='300' />
       </Box>
       <div> 
+        
         <input type="file" 
         accept="image/*"
          multiple={false}

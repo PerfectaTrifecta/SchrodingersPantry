@@ -12,22 +12,35 @@ cloudinary.config({
 });
 
 //on User post of image
-UserRouter.post('/upload/pic', async (req, res) => {
-  // console.log(req.body, 'userRoute 10');
-  try {
-    const pic = Object.keys(req.body)[0];
-    // .replace(/ /g, "+")
-    // console.log(pic, 'user 19');
-    const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'sPantry'})
+// UserRouter.post('/upload/pic', async (req, res) => {
+//   // console.log(req.body, 'userRoute 10');
+//   try {
+//     const pic = Object.keys(req.body)[0];
+//     // .replace(/ /g, "+")
+//     // console.log(pic, 'user 19');
+//     const uploadedRes = await cloudinary.uploader.upload(pic, { upload_preset: 'sPantry'})
 
-    console.log(uploadedRes, 'user 22');
-    res.sendStatus(201);
-    // .send(uploadedRes.public_id)
-  } catch (error) {
-    console.error(error, 'user route 25');
-  }
+//     console.log(uploadedRes, 'user 22');
+//     res.sendStatus(201);
+//     // .send(uploadedRes.public_id)
+//   } catch (error) {
+//     console.error(error, 'user route 25');
+//   }
 
-});
+// });
+
+
+UserRouter.post('/upload/pic', (req, res) => {
+ const { profileImg } = req.body;
+ const userId  = req.cookies.googleId;
+  User_Image.create({ userId, profileImg
+    }).then((userImage) => {
+      res.sendStatus(201);
+  }).catch((err) => {
+    console.error('error saving user image :', err);
+    res.sendStatus(500);
+  })
+  });
 
 //on User submission of recipe
 UserRouter.post('/upload/recipe', (req, res) => {

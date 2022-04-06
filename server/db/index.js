@@ -162,6 +162,10 @@ const User_Image = sql.define('user_images', {
       model: User,
       key: 'id',
     },
+  imgUrl: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
   },
   //eg. 'profile pic' or 'recipe pic"
   description: DataTypes.STRING,
@@ -199,7 +203,7 @@ User.hasMany(User_Image);
 User_Image.belongsTo(User);
 
 sql
-  .sync() //insert {alter: true}(alters tables if necessary) or {force: true}(drops all tables and recreates them every save) if you need to change the db structure
+  .sync({force: true}) //insert {alter: true}(alters tables if necessary) or {force: true}(drops all tables and recreates them every save) if you need to change the db structure
   .then(() => console.log('Models synced!'))
   .catch((err) => console.error(err));
 
