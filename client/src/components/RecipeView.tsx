@@ -62,9 +62,8 @@ const RecipeView: React.FC = () => {
   const { idMeal } = useParams<{ idMeal: string }>();
   //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] = useState<
-    UserRecipeProps[] | null
-  >(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] =
+    useState<UserRecipeProps[] | null>(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   // const [mealId, setMealId] = useState<string>('');
@@ -244,7 +243,10 @@ const RecipeView: React.FC = () => {
               placeholder='Tasted this dish before?'
               multiline
               maxRows={4}
-              inputProps={{ maxLength: 120 }}
+              inputProps={{
+                maxLength: 120,
+                color: theme.palette.primary.contrastText,
+              }}
               value={rawComment}
               onChange={handleCommentChange}
             />

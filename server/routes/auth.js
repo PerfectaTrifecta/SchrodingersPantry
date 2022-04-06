@@ -61,14 +61,14 @@ authRouter.get('/user', (req, res) => {
   //should search all models and send back a user object
 
   if (req.cookies.googleId) {
-    console.log('cookie found')
+    // console.log('cookie found')
     User.findAll({
       where: {
         id: req.cookies.googleId,
       },
     })
       .then((user) => {
-        console.log('auth 71', user)
+        // console.log('auth 71', user)
         res.status(200);
         res.send(user);
       })
@@ -82,7 +82,7 @@ authRouter.get('/user', (req, res) => {
 authRouter.post('/account', (req, res) => {
   //const { id } = req.params;
   const user = req.body;
-  console.log(user, 83);
+  // console.log(user, 'auth 85');
  
   let userDetails = user;
 
@@ -151,6 +151,7 @@ authRouter.post('/account', (req, res) => {
                   Bookmark.findAll({
                     include: [{
                       model: User,
+                      required: true,
                       through: {
                         where: {
                           userId: user.id,

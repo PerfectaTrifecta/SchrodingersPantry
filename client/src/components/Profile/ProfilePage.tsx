@@ -229,7 +229,7 @@ const ProfilePage: React.FC<Props> = ({
           maxWidth: '600px',
           width: '90%',
           backgroundColor: theme.palette.primary.light,
-          color: theme.palette.primary.contrastText,
+          // color: theme.palette.primary.contrastText,
           padding: '1rem',
           margin: '1rem 0',
           boxShadow: `-2px 2px 0.25rem rgba(25, 25, 25, 0.1), 2px -2px 0.15rem ${theme.palette.primary.dark}`,
@@ -260,16 +260,38 @@ const ProfilePage: React.FC<Props> = ({
           style={{
             display: 'flex',
             flexDirection: 'column',
+            color: theme.palette.primary.contrastText,
           }}
         />
 
         <CardContent>
-          <Typography variant='subtitle1'>About Me: </Typography>
-          <Typography variant='body2'>{aboutMeDisplay}</Typography>
-          <Typography variant='subtitle1'>Dietary Preference: </Typography>
-          <Typography variant='body2'>{dietDisplay}</Typography>
-          <Typography variant='subtitle1'>Food Allergies: </Typography>
-          <Typography variant='body2'>{allergyDisplay}</Typography>
+          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            About Me:{' '}
+          </Typography>
+          <Typography
+            variant='body2'
+            color={theme.palette.primary.contrastText}
+          >
+            {aboutMeDisplay}
+          </Typography>
+          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            Dietary Preference:{' '}
+          </Typography>
+          <Typography
+            variant='body2'
+            color={theme.palette.primary.contrastText}
+          >
+            {dietDisplay}
+          </Typography>
+          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            Food Allergies:{' '}
+          </Typography>
+          <Typography
+            variant='body2'
+            color={theme.palette.primary.contrastText}
+          >
+            {allergyDisplay}
+          </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <ExpandMore
@@ -283,7 +305,7 @@ const ProfilePage: React.FC<Props> = ({
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit About Me
               <IconButton
                 aria-label='edit'
@@ -307,7 +329,7 @@ const ProfilePage: React.FC<Props> = ({
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit Dietary Preference
               <IconButton
                 aria-label='edit'
@@ -331,7 +353,7 @@ const ProfilePage: React.FC<Props> = ({
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit Food Allergies
               <IconButton
                 aria-label='edit'
@@ -349,13 +371,14 @@ const ProfilePage: React.FC<Props> = ({
                   rows={3}
                   defaultValue={allergyField}
                   onChange={handleAllergyChange}
+                  sx={{ color: theme.palette.primary.contrastText }}
                 />
                 <Button size='small' color='primary' onClick={submitAllergies}>
                   Update
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color='text.secondary'>
+            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
               Edit Profile Pic
               <IconButton
                 aria-label='edit'

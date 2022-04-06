@@ -32,9 +32,10 @@ rssGet.post('/bookmarks', (req, res) => {
 
   Bookmark.findOrCreate({ where: { title }, defaults: { title, link, creator, relTime, img: randomImg } })
     .then(bookmark => {
-    
+      // console.log(bookmark[0].dataValues.id, 'rssRoute 35');
+      const bookmarkId = bookmark[0].dataValues.id;
 
-      User_Bookmark.create( {bookmarkId: bookmark.id, userId})
+      User_Bookmark.create( {bookmarkId, userId})
         .then(() => {
       
           res.sendStatus(201);

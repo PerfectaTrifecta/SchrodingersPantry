@@ -140,7 +140,9 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
     //if there is a user, run the post request
     if (loggedIn) {
       //update the BookmarkList that shows on the profile page
-      const id = bookmarkList[bookmarkList.length - 1].id + 1;
+      const id = bookmarkList.length
+        ? bookmarkList[bookmarkList.length - 1].id + 1
+        : 1;
 
       setBookmarkList(
         bookmarkList.concat([

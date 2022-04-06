@@ -30,7 +30,7 @@ const User = sql.define('users', {
   image: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: 'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1645633651/o7h83ewat5aaicqukmtu.png',
+    defaultValue: 'https://res.cloudinary.com/schrodinger-s-pantry/image/upload/v1649210858/eftem6mzfrhgcnpbevuk.png',
   },
   theme: {
     type: DataTypes.STRING,
