@@ -79,15 +79,19 @@ const UserContextProvider = ({ children }: Props) => {
 
   const getUser = () => {
     if (loggedIn === false) {
-      console.log(user, 'context 82');
+      // console.log(user, 'context 82');
 
       axios
         .get('/auth/user')
         .then(({ data }) => {
-          console.log(data, 'context 69');
+          // console.log(data, 'context 87');
           setUser(data[0]);
           setProfileImage(data[0].image);
           setLoggedIn(true);
+        })
+        .then(() => {
+          // console.log(user, 'context 93');
+          userAccount();
         })
         .catch((err) => console.error('error context 73', err));
     }
@@ -101,7 +105,7 @@ const UserContextProvider = ({ children }: Props) => {
         .post(`/auth/account`, user)
         .then(({ data }) => {
           setUser(data);
-          console.log(data, 'userContext 84');
+          // console.log(data, 'userContext 108');
         })
         .catch((err) => {
           console.error(err, ' response from User context post request');
