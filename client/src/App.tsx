@@ -66,6 +66,7 @@ const App: React.FC = (): JSX.Element => {
 
   const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
   const [bookmarkList, setBookmarkList] = useState<Bookmarks[]>(bookmarks);
+  const [marked, setMarked] = useState<boolean>(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -99,7 +100,11 @@ const App: React.FC = (): JSX.Element => {
   return (
     <ThemeProvider theme={chosenTheme}>
       <div
-        style={{ backgroundColor: chosenTheme.palette.primary.main, margin: 0 }}
+        style={{
+          backgroundColor: chosenTheme.palette.primary.main,
+          margin: 0,
+          minHeight: '100vh',
+        }}
       >
         {getUser()}
         {loading ? (
@@ -114,7 +119,7 @@ const App: React.FC = (): JSX.Element => {
             <ClimbingBoxLoader
               loading={loading}
               size={30}
-              color={chosenTheme.palette.primary.dark}
+              color={chosenTheme.palette.primary.contrastText}
             />
           </div>
         ) : (
@@ -132,6 +137,8 @@ const App: React.FC = (): JSX.Element => {
                 <RSSFeed
                   bookmarkList={bookmarkList}
                   setBookmarkList={setBookmarkList}
+                  marked={marked}
+                  setMarked={setMarked}
                 />
               </Route>
               <Route path='/profile'>

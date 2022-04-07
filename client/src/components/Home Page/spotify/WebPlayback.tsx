@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useTheme from '@mui/material/styles/useTheme';
 
 interface WebProps {
   token: string;
@@ -16,6 +17,8 @@ const WebPlayback: React.FC<WebProps> = (props): JSX.Element => {
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
+
+  const theme = useTheme();
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -61,13 +64,14 @@ const WebPlayback: React.FC<WebProps> = (props): JSX.Element => {
     <>
       <div className='container'>
         <div className='main-wrapper'>
-          <img
-            src={current_track.album.images[0].url}
-            className='now-playing__cover'
-            alt=''
-            height='200px'
-            width='200px'
-          />
+          {current_track.album.images[0].url ? (
+            <img
+              src={current_track.album.images[0].url}
+              className='now-playing__cover'
+              alt=''
+            />
+          ) : null}
+
           <div className='now-playing__side'>
             <div className='now-playing__name'>{current_track.name}</div>
 
@@ -79,6 +83,11 @@ const WebPlayback: React.FC<WebProps> = (props): JSX.Element => {
               onClick={() => {
                 player && player.previousTrack();
               }}
+              style={{
+                backgroundColor: theme.palette.primary.dark,
+                color: theme.palette.secondary.main,
+                borderRadius: '5px 0 0 5px',
+              }}
             >
               &lt;&lt;
             </button>
@@ -88,6 +97,10 @@ const WebPlayback: React.FC<WebProps> = (props): JSX.Element => {
               onClick={() => {
                 player.togglePlay();
               }}
+              style={{
+                backgroundColor: theme.palette.primary.dark,
+                color: theme.palette.secondary.main,
+              }}
             >
               {is_paused ? 'PLAY' : 'PAUSE'}
             </button>
@@ -96,6 +109,11 @@ const WebPlayback: React.FC<WebProps> = (props): JSX.Element => {
               className='btn-spotify'
               onClick={() => {
                 player.nextTrack();
+              }}
+              style={{
+                backgroundColor: theme.palette.primary.dark,
+                color: theme.palette.secondary.main,
+                borderRadius: '0 5px 5px 0',
               }}
             >
               &gt;&gt;

@@ -269,6 +269,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                         style={{ color: theme.palette.secondary.main }}
                       />
                     }
+                    style={{ color: theme.palette.secondary.main }}
                   />
                 }
                 label='Light'
@@ -283,6 +284,7 @@ const PulloutMenu: React.FC<Props> = ({ changeTheme }) => {
                         style={{ color: theme.palette.secondary.main }}
                       />
                     }
+                    style={{ color: theme.palette.secondary.main }}
                   />
                 }
                 label='Dark'

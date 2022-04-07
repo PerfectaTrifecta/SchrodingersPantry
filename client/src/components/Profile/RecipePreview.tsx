@@ -68,7 +68,10 @@ const RecipePreview: React.FC<PreviewProps> = ({ id, title }) => {
           }}
           style={{ textDecoration: 'none' }}
         >
-          <Button size='small' color='primary'>
+          <Button
+            size='small'
+            style={{ color: theme.palette.primary.contrastText }}
+          >
             Go To Recipe
           </Button>
         </Link>
