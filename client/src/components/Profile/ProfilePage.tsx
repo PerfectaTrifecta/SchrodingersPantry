@@ -264,40 +264,25 @@ const ProfilePage: React.FC<Props> = ({
           }}
         />
 
-        <CardContent>
-          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+        <CardContent style={{ color: theme.palette.primary.contrastText }}>
+          <Typography variant='subtitle1' fontWeight='bold'>
             About Me:{' '}
           </Typography>
-          <Typography
-            variant='body2'
-            color={theme.palette.primary.contrastText}
-          >
-            {aboutMeDisplay}
-          </Typography>
-          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+          <Typography variant='body2'>{aboutMeDisplay}</Typography>
+          <Typography variant='subtitle1' fontWeight='bold'>
             Dietary Preference:{' '}
           </Typography>
-          <Typography
-            variant='body2'
-            color={theme.palette.primary.contrastText}
-          >
-            {dietDisplay}
-          </Typography>
-          <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+          <Typography variant='body2'>{dietDisplay}</Typography>
+          <Typography variant='subtitle1' fontWeight='bold'>
             Food Allergies:{' '}
           </Typography>
-          <Typography
-            variant='body2'
-            color={theme.palette.primary.contrastText}
-          >
-            {allergyDisplay}
-          </Typography>
+          <Typography variant='body2'>{allergyDisplay}</Typography>
         </CardContent>
         <CardActions disableSpacing>
           <Typography
             variant='subtitle2'
-            color={theme.palette.primary.dark}
-            sx={{ marginLeft: '430px' }}
+            color={theme.palette.primary.contrastText}
+            sx={{ marginLeft: '435px' }}
           >
             Edit Profile
           </Typography>
@@ -306,13 +291,17 @@ const ProfilePage: React.FC<Props> = ({
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label='show more'
+            sx={{ color: theme.palette.primary.contrastText }}
           >
             <ExpandMoreIcon />
           </ExpandMore>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
-            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            <Typography
+              variant='subtitle1'
+              color={theme.palette.primary.contrastText}
+            >
               Edit About Me
               <IconButton
                 aria-label='edit'
@@ -330,13 +319,26 @@ const ProfilePage: React.FC<Props> = ({
                   rows={5}
                   defaultValue={aboutMeField}
                   onChange={handleBioChange}
+                  sx={{
+                    '& .MuiOutlinedInput-input': {
+                      color: theme.palette.primary.contrastText,
+                    },
+                  }}
                 />
-                <Button size='small' color='primary' onClick={submitBio}>
+                <Button
+                  variant='outlined'
+                  size='small'
+                  onClick={submitBio}
+                  style={{ color: theme.palette.primary.contrastText }}
+                >
                   Update
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            <Typography
+              variant='subtitle1'
+              color={theme.palette.primary.contrastText}
+            >
               Edit Dietary Preference
               <IconButton
                 aria-label='edit'
@@ -354,13 +356,26 @@ const ProfilePage: React.FC<Props> = ({
                   rows={1}
                   defaultValue={dietField}
                   onChange={handleDietChange}
+                  sx={{
+                    '& .MuiOutlinedInput-input': {
+                      color: theme.palette.primary.contrastText,
+                    },
+                  }}
                 />
-                <Button size='small' color='primary' onClick={submitDiet}>
+                <Button
+                  variant='outlined'
+                  size='small'
+                  onClick={submitDiet}
+                  style={{ color: theme.palette.primary.contrastText }}
+                >
                   Update
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            <Typography
+              variant='subtitle1'
+              color={theme.palette.primary.contrastText}
+            >
               Edit Food Allergies
               <IconButton
                 aria-label='edit'
@@ -378,14 +393,26 @@ const ProfilePage: React.FC<Props> = ({
                   rows={3}
                   defaultValue={allergyField}
                   onChange={handleAllergyChange}
-                  sx={{ color: theme.palette.primary.contrastText }}
+                  sx={{
+                    '& .MuiOutlinedInput-input': {
+                      color: theme.palette.primary.contrastText,
+                    },
+                  }}
                 />
-                <Button size='small' color='primary' onClick={submitAllergies}>
+                <Button
+                  variant='outlined'
+                  size='small'
+                  onClick={submitAllergies}
+                  style={{ color: theme.palette.primary.contrastText }}
+                >
                   Update
                 </Button>
               </>
             ) : null}
-            <Typography variant='subtitle1' color={theme.palette.primary.dark}>
+            <Typography
+              variant='subtitle1'
+              color={theme.palette.primary.contrastText}
+            >
               Edit Profile Pic
               <IconButton
                 aria-label='edit'
@@ -405,8 +432,14 @@ const ProfilePage: React.FC<Props> = ({
                   }}
                 />
                 <Button
+                  variant='outlined'
+                  size='small'
                   onClick={() => {
                     handleUpload(image);
+                  }}
+                  style={{
+                    color: theme.palette.primary.contrastText,
+                    marginRight: '300px',
                   }}
                 >
                   {' '}
@@ -425,6 +458,7 @@ const ProfilePage: React.FC<Props> = ({
           justifyContent: 'center',
           width: '100%',
           color: theme.palette.primary.contrastText,
+          fontWeight: 'bold',
         }}
       >
         MY RECIPES
@@ -471,6 +505,7 @@ const ProfilePage: React.FC<Props> = ({
           alignItems: 'center',
           justifyContent: 'center',
           color: theme.palette.primary.contrastText,
+          fontWeight: 'bold',
         }}
       >
         BOOKMARKS

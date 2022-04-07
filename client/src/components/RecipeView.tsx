@@ -244,12 +244,14 @@ const RecipeView: React.FC = () => {
               placeholder='Tasted this dish before?'
               multiline
               maxRows={4}
-              inputProps={{
-                maxLength: 120,
-                color: theme.palette.primary.contrastText,
-              }}
+              inputProps={{ maxLength: 120 }}
               value={rawComment}
               onChange={handleCommentChange}
+              sx={{
+                '& .MuiOutlinedInput-input': {
+                  color: theme.palette.primary.contrastText,
+                },
+              }}
             />
             <Button
               variant='outlined'
@@ -337,9 +339,9 @@ const RecipeView: React.FC = () => {
           <TextToSpeech instructions={instructions} />
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label='add to favorites'>
+          {/* <IconButton aria-label='add to favorites'>
             <FavoriteIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             onClick={handleExpandClick}
             aria-expanded={expanded}
@@ -361,6 +363,11 @@ const RecipeView: React.FC = () => {
               onChange={handleCommentChange}
               onKeyPress={(e) => {
                 e.key === 'Enter' && submitComment();
+              }}
+              sx={{
+                '& .MuiOutlinedInput-input': {
+                  color: theme.palette.primary.contrastText,
+                },
               }}
             />
             <Button
