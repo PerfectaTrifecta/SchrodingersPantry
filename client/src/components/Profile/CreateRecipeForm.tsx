@@ -128,6 +128,11 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
                   height: '12vh',
                   // margin: '30px'
                 }}
+                sx={{
+                  '& .MuiInput-input': {
+                    color: theme.palette.primary.contrastText,
+                  },
+                }}
               />
               <TextField
                 id='outlined-multiline-static'
@@ -141,6 +146,11 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
                   height: '20vh',
                   // margin: '30px'
                 }}
+                sx={{
+                  '& .MuiOutlinedInput-input': {
+                    color: theme.palette.primary.contrastText,
+                  },
+                }}
               />
               <TextField
                 id='outlined-multiline-static'
@@ -153,6 +163,11 @@ const CreateRecipeForm: React.FC<Props> = ({ recipeList, setRecipeList }) => {
                   width: 300,
                   height: '20vh',
                   // margin: '30px'
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-input': {
+                    color: theme.palette.primary.contrastText,
+                  },
                 }}
               />
               {/* <WidgetLoader />
