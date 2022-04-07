@@ -393,6 +393,7 @@ body {
 .slider-title {
   text-align: center;
   font-family: 'Nunito', sans-serif;
+  font-size: 35pt;
 }
 
 #story {
@@ -404,7 +405,7 @@ body {
   margin-left: 15%;
   margin-right: 15%;
   box-shadow: 2px 2px rgb(43, 25, 20);
-  max-width: 500px;
+  width: 500px;
   height: 50%;
 }
 
@@ -439,6 +440,12 @@ body {
   margin-bottom: 4px;
   margin-top: 10px;
 }
+#rssMap {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
 
 #titleDiv {
   text-align: center;
@@ -470,4 +477,15 @@ body {
 #button-google {
   text-decoration: 'none';
   margin-left: 15px;
+}
+
+.now-playing__cover {
+  height: 200px;
+  width: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.now-playing__side {
+  margin-left: 10px;
 }

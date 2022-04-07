@@ -99,7 +99,11 @@ const App: React.FC = (): JSX.Element => {
   return (
     <ThemeProvider theme={chosenTheme}>
       <div
-        style={{ backgroundColor: chosenTheme.palette.primary.main, margin: 0 }}
+        style={{
+          backgroundColor: chosenTheme.palette.primary.main,
+          margin: 0,
+          minHeight: '100vh',
+        }}
       >
         {getUser()}
         {loading ? (
