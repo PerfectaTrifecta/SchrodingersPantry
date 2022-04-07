@@ -119,7 +119,7 @@ const App: React.FC = (): JSX.Element => {
             <ClimbingBoxLoader
               loading={loading}
               size={30}
-              color={chosenTheme.palette.primary.dark}
+              color={chosenTheme.palette.primary.contrastText}
             />
           </div>
         ) : (
