@@ -62,8 +62,9 @@ const RecipeView: React.FC = () => {
   const { idMeal } = useParams<{ idMeal: string }>();
   //Parsing the meal id from the URI.
   const [mealRecipe, setMealRecipe] = useState<RecipeProps[]>([]); //recipe
-  const [mealUserRecipe, setMealUserRecipe] =
-    useState<UserRecipeProps[] | null>(null); //user-created recipe
+  const [mealUserRecipe, setMealUserRecipe] = useState<
+    UserRecipeProps[] | null
+  >(null); //user-created recipe
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string[]>([]);
   // const [mealId, setMealId] = useState<string>('');
@@ -225,7 +226,7 @@ const RecipeView: React.FC = () => {
           </p>
         </CardContent>
         <CardActions>
-          <Favorite recipeId={idMeal} />
+          {/* <Favorite recipeId={idMeal} /> */}
           <IconButton
             onClick={handleExpandClick}
             aria-expanded={expanded}
