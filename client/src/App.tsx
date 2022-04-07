@@ -66,6 +66,7 @@ const App: React.FC = (): JSX.Element => {
 
   const [recipeList, setRecipeList] = useState<MyRecipeTypes[]>(recipes);
   const [bookmarkList, setBookmarkList] = useState<Bookmarks[]>(bookmarks);
+  const [marked, setMarked] = useState<boolean>(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -136,6 +137,8 @@ const App: React.FC = (): JSX.Element => {
                 <RSSFeed
                   bookmarkList={bookmarkList}
                   setBookmarkList={setBookmarkList}
+                  marked={marked}
+                  setMarked={setMarked}
                 />
               </Route>
               <Route path='/profile'>

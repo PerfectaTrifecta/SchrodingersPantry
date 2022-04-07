@@ -21,9 +21,16 @@ interface Bookmarks {
 interface Props {
   bookmarkList: Bookmarks[];
   setBookmarkList: React.Dispatch<React.SetStateAction<Bookmarks[]>>;
+  marked: boolean;
+  setMarked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
+const RSSFeed: React.FC<Props> = ({
+  bookmarkList,
+  setBookmarkList,
+  marked,
+  setMarked,
+}) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [stories, setStories] = useState<RSSData[]>([]);
   const [eater, setEaterFeed] = useState<RSSData[]>([]);
@@ -33,7 +40,7 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
   const [outletTitle, setOutletTitle] = useState<string>('Eater');
   // const [bookmark, setBookmark] = useState<boolean>(false);
 
-  const { user, loggedIn } = useContext(UserContext);
+  const { user, loggedIn, userAccount } = useContext(UserContext);
   const theme = useTheme();
 
   const randomClipArtArray: string[] = [
@@ -161,7 +168,10 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
           link,
           randomImg,
         })
-        .then(() => console.log('bookmark posted! rss134'))
+        .then(() => {
+          userAccount();
+          console.log('bookmark posted! rss134');
+        })
         .catch((err) => console.error(err, 'rss 127'));
     } else {
       setShowMessage(true);
@@ -214,7 +224,9 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
           ))}
         </Tabs>
       </AppBar>
-      <h1 id='titleDiv'>{outletTitle}</h1>
+      <h1 id='titleDiv' style={{ color: theme.palette.primary.contrastText }}>
+        {outletTitle}
+      </h1>
       <div id='rssMap'>
         {stories.map((story) => {
           // setBookmark(false);
@@ -253,20 +265,36 @@ const RSSFeed: React.FC<Props> = ({ bookmarkList, setBookmarkList }) => {
                   <h6 id='rssTime'>{relTime}</h6>
                 </div>
               </a>
-              <BookmarkAddIcon
-                className='addIcon'
-                onClick={() => {
-                  toggleBookmark();
-
-                  handleBookmarkClick({
-                    title,
-                    creator,
-                    relTime,
-                    link,
-                    randomImg: randomClipArtArray[randomImg],
-                  });
-                }}
-              />
+              {bookmarkList.some((obj) => obj.title === title) ? (
+                <BookmarkAddIcon
+                  className='addIcon'
+                  style={{ color: 'green' }}
+                  onClick={() => {
+                    toggleBookmark();
+                    handleBookmarkClick({
+                      title,
+                      creator,
+                      relTime,
+                      link,
+                      randomImg: randomClipArtArray[randomImg],
+                    });
+                  }}
+                />
+              ) : (
+                <BookmarkAddIcon
+                  className='addIcon'
+                  onClick={() => {
+                    toggleBookmark();
+                    handleBookmarkClick({
+                      title,
+                      creator,
+                      relTime,
+                      link,
+                      randomImg: randomClipArtArray[randomImg],
+                    });
+                  }}
+                />
+              )}
               {showMessage ? 'Sign in to save to bookmarks' : null}
             </div>
           );

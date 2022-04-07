@@ -225,7 +225,7 @@ const RecipeView: React.FC = () => {
           </p>
         </CardContent>
         <CardActions>
-          <Favorite recipeId={idMeal} />
+          {/* <Favorite recipeId={idMeal} /> */}
           <IconButton
             onClick={handleExpandClick}
             aria-expanded={expanded}
@@ -338,9 +338,9 @@ const RecipeView: React.FC = () => {
           <TextToSpeech instructions={instructions} />
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label='add to favorites'>
+          {/* <IconButton aria-label='add to favorites'>
             <FavoriteIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             onClick={handleExpandClick}
             aria-expanded={expanded}
