@@ -91,6 +91,11 @@ const Search: React.FC = () => {
             borderColor: theme.palette.primary.dark,
             borderRadius: '5px',
           }}
+          sx={{
+            '& .MuiOutlinedInput-input': {
+              color: theme.palette.primary.contrastText,
+            },
+          }}
         />
       </Stack>
       {meals.length ? (

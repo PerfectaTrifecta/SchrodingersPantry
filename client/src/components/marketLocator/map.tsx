@@ -134,6 +134,11 @@ const Map: React.FC<MapProps> = ({
               color: theme.palette.primary.contrastText,
               borderRadius: '5px',
             }}
+            sx={{
+              '& .MuiOutlinedInput-input': {
+                color: theme.palette.primary.contrastText,
+              },
+            }}
           />
           <Button
             style={{ color: theme.palette.primary.contrastText }}
