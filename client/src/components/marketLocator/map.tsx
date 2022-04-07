@@ -59,7 +59,7 @@ const Map: React.FC<MapProps> = ({
     const markets: any = [];
     axios
       .get(
-        `http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`
+        `https://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`
       )
       .then(({ data }) => {
         const top3 = data.results.slice(0, 3);
@@ -67,7 +67,7 @@ const Map: React.FC<MapProps> = ({
         for (let i = 0; i < top3.length; i++) {
           return axios
             .get(
-              `http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`
+              `https://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=${top3[i].id}`
             )
             .then((response) => {
               markets.push(response.data.marketdetails);
